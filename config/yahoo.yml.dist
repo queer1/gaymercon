@@ -1,0 +1,9 @@
+# make a project, get an api key at: http://developer.yahoo.com/maps/rest/V1/geocode.html
+development:
+  app_id: myappid
+
+test:
+  app_id: myappid
+
+production:
+  app_id: myappid

@@ -1,0 +1,12 @@
+# make an app, get a key here: https://developers.facebook.com/apps
+development:
+  key: 1234567890
+  secret: secrettoken
+  
+test:
+  key: 1234567890
+  secret: secrettoken
+
+production:
+  key: 1234567890
+  secret: secrettoken

@@ -1,0 +1,19 @@
+development:
+  sessions:
+    default:
+      database: gaymerconnect
+      hosts:
+        - localhost:27017
+test:
+  sessions:
+    default:
+      database: gaymerconnect
+      hosts:
+        - localhost:27017
+
+production:
+  sessions:
+    default:
+      database: gaymerconnect
+      hosts:
+        - localhost:27017
