@@ -1,0 +1,300 @@
+/* Landscape phones and down */
+@media (max-width: 480px) { 
+  /* CSS Document */
+  iframe
+  {
+    float: left;
+    clear: both;
+    margin-bottom: 10px;
+  }
+
+  img
+  {
+    border: none;
+  }
+
+  body, html
+  {
+    height: 100%;
+    width: 100%;
+  }
+
+  /* WHAT THE FUCK BOBBY
+  div 
+  {
+    position:relatve;
+    display:block;
+    float:left;
+  }
+  */
+
+  p
+  {
+    padding-bottom:10px;  
+  }
+
+  h1, h2, h3, h4, nav a, button
+  {
+    font-family: 'Silkscreen', Silkscreen, helvetica, verdana, arial, sans-serif;
+  }
+
+  h1, h2, h3, h4
+  {
+    color: #000000;
+    padding-bottom:10px;
+  }
+
+  h1
+  {
+    font-size: 18px;
+  }
+
+  h2
+  {
+    font-size: 14px;
+  }
+
+  h3
+  {
+    font-size: 14px;
+  }
+
+  h4
+  {
+    font-size: 12px;
+  }
+
+  input, textarea
+  {
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    float: left;
+    clear: both;
+  }
+
+  .standard-text-input
+  {
+    width: 90%px;
+  }
+
+  .wide-textarea
+  {
+    width: 90%px;
+    height: 131px;
+  }
+
+  .small-text-input
+  {
+    width: 90%;
+  }
+
+  button, .button, header nav a
+  {
+    background-image:url(<%= asset_path "button-bg-left.png" %>), url(<%= asset_path "button-bg-right.png" %>);
+    background-position: left top, right top;
+    background-repeat: no-repeat;
+    color: #ffffff;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    padding: 8px 20px;
+    clear: both;
+    float: left;
+  }
+
+  .button, header nav a
+  {
+    display:block;
+    position:relative;
+    float:left;
+    padding: 8px 20px !important;
+
+  }
+
+  .button-red
+  {
+    background-color: #E10000;
+    background-image: none;
+    font-size: 10px;
+  }
+
+  header nav
+  {
+    margin: 20px 0;
+  }
+
+  header nav a
+  {
+    background-color: #00B7FF;
+    width: 80%;
+    clear: both;
+    margin-bottom: 10px;
+    text-align: center;
+
+  }
+
+  header nav a[title="blog"]
+  {
+    display: none;
+    visibility: collapse;
+  }
+
+  header nav a:hover, header nav a.active-link
+  {
+    color: #0075a3;
+  }
+  
+  #info-links li a { background: none; color: #00B7FF; }
+
+  .social-icons
+  {
+    margin-bottom: 20px;
+    float: left;
+    clear: both;
+  }
+
+  .social-icon
+  {
+    width: 24px;
+    height: 20px;
+    float: left;
+    margin-left: 10px;
+    background-repeat: no-repeat;
+    background-position: left top;
+  }
+
+  .social-icon.fb
+  {
+    background-image: url(<%= asset_path "social-icon-fb.png" %>);
+  }
+
+  .social-icon.twitter
+  {
+    background-image: url(<%= asset_path "social-icon-twitter.png" %>);
+  }
+
+  input, textarea
+  {
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+  }
+
+  .standard-text-input
+  {
+    width: 90%;
+  }
+
+  .wide-textarea
+  {
+    width: 90%;
+    height: 131px;
+  }
+
+  .small-text-input
+  {
+    width: 180px;
+  }
+
+  #content
+  {
+    position: relative;
+    display:block;
+    float:left;
+    width: 100%;
+    background-color: #FFFFFF;
+    overflow: hidden;
+    padding: 4px;
+  }
+
+  #content-wrapper
+  {
+    padding: 0;
+    width: 100%;
+  }
+
+  .body-content
+  {
+    width: 100%;
+    float: left;
+    clear: both;
+    margin-bottom: 20px;
+  }
+
+  .column
+  {
+    width: 100%;
+    float: left;
+    margin:0 20px 20px 0;
+    clear: both;
+  }
+
+  .feature-content
+  {
+    width: 100%;
+    height: 130px;
+    float: left;
+    background:url(<%= asset_path "gaymercon-feature-bg.png" %>) center center; 
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin-bottom: 20px;
+  }
+
+  .feature-content-copy
+  {
+    margin: 20px 4px;
+    float: left;
+  }
+
+  .feature-content-copy h1, .feature-content-copy h3, .feature-content-copy .button
+  {
+    float: left;
+    clear: both;
+  }
+
+  .feature-content-copy h1, .feature-content-copy h3
+  {
+    padding: 3px;
+    background-color: #FFFFFF;
+  }
+
+  .feature-content-copy h3
+  {
+    margin-top: -5px;
+  }
+
+  .feature-content-copy .button
+  {
+    margin-top: 15px;
+  }
+
+  .tweet .tweet_list li span.tweet_time a
+  {
+    font-family: 'Silkscreen', Silkscreen, helvetica, verdana, arial, sans-serif;
+    color: #000000;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+  }
+
+  .tweet .tweet_list li span.tweet_text a
+  {
+    color: #00B7FF;
+  }
+
+  .tweet .tweet_list li
+  {
+    margin-bottom: 15px;
+  }
+
+  footer
+  {
+    width: 100%;
+    float: left;
+    margin-bottom: 20px;
+  }
+}

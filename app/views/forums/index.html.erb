@@ -1,0 +1,27 @@
+<h1>GaymerCon Forums</h1>
+<% @threads.each do |thread| %>
+  <div class="thread">
+    <div class="thread-user">
+      <%= image_tag thread.user.avatar, width: 75, height: 75 %><br />
+    </div>
+    <div class="thread-info">
+      <h3><%= link_to thread.title, forum_path(thread) %></h3>
+      <% if current_user %>
+        <% unread = thread.replies_since(current_user.last_sign_in_at) %>
+        <% if unread > 0 %>
+          <div class="forum-unread"><%= image_tag "balloon--plus.png" %> <%= unread %> new <%= unread > 1 ? 'messages' : 'message' %>!</div>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="thread-byline">
+      <p>Created on: <%= thread.created_at.strftime("%m %d, %Y at %I:%M%P") %> by <%= link_to thread.user.name, user_path(thread.user) %></p>
+    </div>
+  </div>
+<% end %>
+
+<% if current_user.present? %>
+  <div class="buttons">
+    <%= link_to "New Thread", new_forum_path, :class => "button button-blue" %>
+    <%= link_to "Mark all read", forums_path(mark_all_read: true), :class => "button button-blue" %>
+  </div>
+<% end %>

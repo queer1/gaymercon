@@ -1,0 +1,34 @@
+<h2>Sign up</h2>
+
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <div><%= f.label :name %><br />
+  <%= f.text_field :name %></div>
+  
+  <div>
+    <%= f.label :job_id, "Select a Job:" %><br />
+    <div class="job-select">
+      <% @jobs.each do |job| %>
+        <div class="job-card" data-job-id="<%= job.id %>">
+          <%= image_tag job.icon_path, :id => "job-image-#{job.id}", :class => "job-image" %><br />
+          <%= job.name %>
+          <%= f.radio_button :job_id, job.id, :class => "job-button" %>
+        </div>
+      <% end %>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+  </div>
+  <br />
+
+  <div><%= f.label :email %><br />
+  <%= f.email_field :email %></div>
+
+  <div><%= f.label :password %><br />
+  <%= f.password_field :password %></div>
+
+  <div><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %></div>
+
+  <div><%= f.submit "Sign up" %></div>
+<% end %>
+
+<%= render "devise/shared/links" %>

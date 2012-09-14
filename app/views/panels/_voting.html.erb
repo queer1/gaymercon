@@ -1,0 +1,10 @@
+<% panel = voting %>
+<% if current_user.present? %>
+  <div class="panel-voting">
+    <% vote = panel.vote(current_user) %>
+    <% upvoted = (vote.present? && vote.value > 0) ? "upvote_green.png" : "upvote_gray.png" %>
+    <% downvoted = (vote.present? && vote.value < 0) ? "downvote_red.png" : "downvote_gray.png" %>
+    <%= link_to image_tag(upvoted, alt: "Upvote"), panel_upvote_path(panel), :title => "Upvote", :class => "upvote" %> <br />
+    <%= link_to image_tag(downvoted, alt: "Downvote"), panel_downvote_path(panel), :title => "Downvote", :class => "downvote" %>
+  </div>
+<% end %>

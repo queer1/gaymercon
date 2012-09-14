@@ -1,0 +1,40 @@
+<h1>Users</h1>
+<%= form_tag(halo_path("users"), :method => "get") do %> 
+  <%= label_tag(:q, "Search for:") %> 
+  <%= text_field_tag(:q) %> 
+  <%= submit_tag("Search") %> 
+<% end %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Role</th>
+    <th>New Role</th>
+    <th>Award XP</th>
+    <th>Hammer</th>
+  </tr>
+  <%= render :partial => "user", :collection => @users %>
+</table>
+
+<%= will_paginate @users %>
+
+<h3>Create New User</h3>
+
+<%= form_for(@user, :url => halo_path("add_user")) do |f| %>
+  <div><%= f.label :name %><br />
+  <%= f.text_field :name %></div>
+  
+  <div><%= f.label :email %><br />
+  <%= f.email_field :email %></div>
+
+  <div><%= f.label :password %><br />
+  <%= f.password_field :password %></div>
+
+  <div><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %></div>
+
+  <div><%= f.submit "Add User", :class => "button button-blue" %></div>
+<% end %>
+
+<%= link_to "<< Back", halo_path %>

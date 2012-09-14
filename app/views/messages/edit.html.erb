@@ -1,0 +1,7 @@
+<h1>Edit Your Message</h1>
+
+<small><em>Please note, <%= @message.to_user.name %> may have already seen your message. Might be better to just send a new one!</em></small>
+
+<%= render :partial => "form" %>
+
+<%= link_to "<< Back", outbox_messages_path %>

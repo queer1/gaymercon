@@ -1,0 +1,29 @@
+<% Rails.logger.debug "domain: " + request.domain.inspect %>
+
+<div class="hero-unit">
+  <h1>Gaymer Connect</h1>
+  <p>We are building a way for you to find cool people to play games and hang out with. You could look by games or interests you have in common, to build real friendship and community.</p>
+  <p><%= link_to "Learn More &raquo;".html_safe, page_path('notify'), :class => "btn btn-primary btn-large" %></p>
+</div>
+
+<!-- Example row of columns -->
+<div class="row">
+  <div class="span4">
+    <h2>Connect</h2>
+     <p>Connect with your fellow Gaymers. See who's out there that also likes Jet Set Radio and Fez. Track down someone to play your favorite giant robot simulator with. Find other arcade aficionados.</p>
+    <p><%= link_to "Do it &raquo;".html_safe, page_path('notify'), :class => "btn "%></p>
+  </div>
+  <div class="span4">
+    <h2>Reach Out</h2>
+     <p>Broadcast yourself to the community and let people know where the cool kids are at. Tell everyone they should go buy your favorite fighting game, and get off the couch for some dancing. </p>
+    <p><%= link_to "Go For it &raquo;".html_safe, page_path('notify'), :class => "btn "%></p>
+ </div>
+  <div class="span4">
+    <h2>Engage</h2>
+    <p>Get some actual gayming done, or go somewhere with someone you hardly know. We're here to foster connections that result in real things, not just a poke every now and then.</p>
+    <p><%= link_to "Get in &raquo;".html_safe, page_path('notify'), :class => "btn "%></p>
+  </div>
+</div>
+
+<hr>
+

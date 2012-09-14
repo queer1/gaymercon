@@ -1,0 +1,41 @@
+<div class="user-profile">
+  <h1><%= @user.name %></h1>
+  <div class="profile-left">
+    <%= image_tag @user.avatar %><br />
+    <small>Location:<br /> <%= @user.location || "Unknown" %><br />
+    Member since <%= @user.created_at.strftime("%b %-d, %Y" ) %></small>
+    <br />
+    <br />
+    <h4>Lvl <%= @user.level %> <%= @user.job.try(:name) %></h4>
+    <div id="level-bar" data-progress="<%= @user.progress %>"></div>
+    
+    <table class="stat-sidebar">
+      <tr><td>Strength</td><td><%= @user.strength %></td></tr>
+      <tr class="highlight"><td>Agility</td><td><%= @user.agility %></td></tr>
+      <tr><td>Vitality</td><td><%= @user.vitality %></td></tr>
+      <tr class="highlight"><td>Mind</td><td><%= @user.mind %></td></tr>
+    </table>
+    
+    <div id="stat-radar" data-str="<%= @user.strength %>" data-agi="<%= @user.agility %>" data-vit="<%= @user.vitality %>" data-mnd="<%= @user.mind %>"></div>
+  </div>
+  <div class="profile-main">
+    <h4><%= link_to "Send a Message", new_message_path(to_user_id: @user.id ) %></h4>
+    <% if @common %>
+      <h3>Games You Both Play</h3>
+      <ul class="games-list">
+        <% @common.each do |game| %>
+          <li><%= game %></li>
+        <% end %>
+      </ul>
+    <% end %>
+    
+    <h3>Games</h3>
+    <ul class="games-list">
+      <% @user.games.each do |game| %>
+        <li><%= game %></li>
+      <% end %>
+    </ul>
+    
+  </div>
+</div>
+<%= link_to "<< Back", :back %>

@@ -1,0 +1,25 @@
+<div class="posts-container">
+  
+  <%= link_to "<< Back to Forums", forums_path %>
+  <br /><br />
+  
+  <h1><%= @thread.title %></h1>
+
+  <%= will_paginate @posts %>
+
+  <div class="posts">
+    <%= render partial: "post", collection: @posts %>
+  </div>
+  
+  <%= will_paginate @posts %>
+  
+  <% if current_user.present? %>
+    <h3>Reply</h3>
+    <%= form_tag forum_posts_path(@thread), method: 'post' do %>
+      <%= text_area_tag :message, "", rows: 10, cols: 75 %>
+
+      <br />
+      <%= submit_tag "Post!", :class => "button button-blue" %>
+    <% end %>
+  <% end %>
+</div>

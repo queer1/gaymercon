@@ -1,0 +1,11 @@
+<%= form_for(['admin', @job], html: {multipart: true}) do |f| %>
+  <%= f.label :name %><br />
+  <%= f.text_field :name %><br />
+  
+  <%= f.label :icon %><br />
+  <small><em>100x100 or smaller to avoid resizing, please</em></small><br />
+  <%= file_field_tag :icon_file %><br />
+  <%= @job.icon ? image_tag(@job.icon_path) : '' %><br />
+  
+  <%= f.submit "Save", :class => "button button-blue" %>
+<% end %>

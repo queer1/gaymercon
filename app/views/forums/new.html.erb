@@ -1,0 +1,16 @@
+<h1>New Thread</h1>
+<%= form_tag forums_path, :method => 'post', :class => "post-form" do %>
+  <label>Title</label>
+  <br />
+  <%= text_field_tag :title, "", :size => 100, :class => "post-edit"  %>
+  
+  <br />
+  <br />
+  
+  <label>Post</label>
+  <br />
+  <%= text_area_tag :message, "", rows: 10, cols: 75 %>
+  
+  <br />
+  <%= submit_tag "Post!", :class => "button button-blue" %>
+<% end %>

@@ -1,0 +1,13 @@
+<h1>Registrations</h1>
+<table>
+  <tr>
+    <th>Email</th>
+    <th>City</th>
+    <th>Age</th>
+  </tr>
+  <%= render partial: "registration", collection: @gaymers %>
+</table>
+
+<%= will_paginate @gaymers %>
+
+<%= link_to "<< Back", halo_path %>

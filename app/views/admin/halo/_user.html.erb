@@ -1,0 +1,22 @@
+<% colors = {"admin" => "green", "mod" => "blue", "banned" => "red", "user" => nil}%>
+<% color = colors[user.role] %>
+<tr class="<%= cycle('', 'highlight') %>">
+  <td><%= link_to user.name, halo_path("edit_user", user.id) %></td>
+  <td><%= user.email %></td>
+  <td><span <%= color.present? ? "style='color: #{color};'" : '' %>><%= user.role %></span></td>
+  <td>
+    <%= form_tag halo_path("role", user.id), method: "post" do %>
+      <%= select_tag :role, options_for_select(["user", "banned", "mod", "admin"]) %>
+      <%= submit_tag "Save" %>
+    <% end %>
+  </td>
+  <td>
+    <%= form_tag halo_path("award_xp", user.id), method: "post" do %>
+      <%= text_field_tag :xp, '',  placeholder: "xp to award" %>
+      <%= submit_tag "Save" %>
+    <% end %>
+  </td>
+  <td>
+    <%= button_to "Ban", halo_path("role", user.id, role: 'banned') %>
+  </td>
+</tr>

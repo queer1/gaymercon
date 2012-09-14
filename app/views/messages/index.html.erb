@@ -1,0 +1,7 @@
+<h1>Inbox <small class="title-link"><%= link_to "Outbox", outbox_messages_path %></small></h1>
+<ul class="message-list">
+  <%= render :partial => "message", :collection => @messages %>
+  <% if @messages.empty? %>
+    <li>You have no new messages!</li>
+  <% end %>
+</ul>

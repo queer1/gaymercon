@@ -1,0 +1,40 @@
+// # Place all the behaviors and hooks related to the matching controller here.
+// # All this logic will automatically be available in application.js.
+// # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+$(function(){
+  
+  $("#level-bar").progressbar({ value: $("#level-bar").data('progress') });
+  
+  if($("#stat-radar").length == 0) return;
+  require(["<%= asset_path 'SimpleRadarChart.js' %>"], function(){
+    var radius = 65;
+    var str, agi, vit, mnd;
+    str = $("#stat-radar").data('str');
+    agi = $("#stat-radar").data('agi');
+    vit = $("#stat-radar").data('vit');
+    mnd = $("#stat-radar").data('mnd');
+    var max = Math.max.apply(null, [str, agi, vit, mnd]);
+    var stats = [];
+    $.each([str, agi, vit, mnd], function(){ stats.push((this / max) * radius) });
+    var radar = new SimpleRadarChart({
+      containerId: 'stat-radar',
+      width: 200,
+      height: 200,
+      radius: radius,
+      nameColor: '#666',
+      lineColor: '#ff3399',
+      lineCap: 'round',
+      lineWidth: 2,
+      backLineColor: '#ccc',
+      backLineWidth: 1,
+      vertexRadius: 1,
+      maxValue: 20,
+      referCount: 4,
+      descArr: ['Strength', 'Agility', 'Vitality', 'Mind'],
+      nameArr: ['str', 'agi', 'vit', 'mnd'],
+      valueArr: stats
+    });
+
+    radar.render();
+  });
+});

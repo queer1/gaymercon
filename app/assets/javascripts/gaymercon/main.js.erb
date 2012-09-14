@@ -1,0 +1,26 @@
+$(document).ready(function(){
+  
+  require(["<%= asset_path "libs/twitter.js" %>", 
+           "<%= asset_path "libs/gplus.js" %>",
+           "<%= asset_path "libs/fb.js" %>", 
+           "<%= asset_path "jquery.tweet.js" %>"], function(util){
+             $('.tweet').tweet({
+               avatar_size: 32,
+               count: 3,
+               fetch: 20,
+               filter: function(t){ return ! /^@\w+/.test(t.tweet_raw_text); },
+               username: "gaymercon"
+             });
+           });
+  
+  elem = $('<input type="hidden" name="antispam" value="gaymercon" />')
+  $('#email').after(elem)
+  
+  $("head").append("<link href='http://fonts.googleapis.com/css?family=VT323|Press+Start+2P' rel='stylesheet' type='text/css'>");
+  
+  $("#info-links").hover(function(){
+    $("ul", this).show();
+  }, function(){
+    $("ul", this).hide();
+  })
+})

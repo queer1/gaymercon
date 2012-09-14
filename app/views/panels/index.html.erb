@@ -1,0 +1,44 @@
+<h1>Panels</h1>
+
+<div class="panels">
+  <% unless params[:page].present? && params[:page] > 1 %>
+    <% if @popular.present? %>
+      <div class="panels-popular">
+        <h3>Popular</h3>
+        <ul>
+          <% @popular.each do |panel| %>
+            <li><%= render :partial => "panel", :object => panel %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <% if @new.present? %>
+      <div class="panels-new">
+        <h3>New</h3>
+        <ul>
+          <% @new.each do |panel| %>
+            <li><%= render :partial => "panel", :object => panel %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
+  
+  <% if @all.present? %>
+    <div class="panels-all">
+      <h3>All Panels</h3>
+      <ul>
+        <% @all.each do |panel| %>
+          <li><%= render :partial => "panel", :object => panel %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
+
+<% if current_user.present? %>
+  <div class="new-panel-button">
+    <%= link_to "Start Your Own", new_panel_path, :class => "button button-blue" %>
+  </div>
+<% end %>

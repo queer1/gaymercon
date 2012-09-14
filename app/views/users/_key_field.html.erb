@@ -1,0 +1,7 @@
+<% key = key_field.to_s %>
+<% relevance = relevance.to_s %>
+<% field_name = "#{relevance}[#{key}]"%>
+<label class="checkbox key-field" for="<%= field_name %>">
+  <input type="checkbox" name="<%= field_name %>" id="<%= field_name %>" <%= resource.send(relevance).try(:include?, key) ? 'checked="true"' : ''%> />
+  <%= key.humanize %>
+</label>

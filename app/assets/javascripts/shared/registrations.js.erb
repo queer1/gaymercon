@@ -1,0 +1,114 @@
+$(function(){
+  
+  $('.job-button').remove();
+  var job_id = $(".selected-job").data('job-id');
+  $('.job-select').after("<input type='hidden' id='user_job_id' name='user[job_id]' value='" + job_id + "' />")
+  $('.job-card').on("click", function(){
+    $('.job-card').removeClass("selected-job");
+    $(this).addClass("selected-job");
+    var job_id = $(this).data('job-id');
+    $("#user_job_id").val(job_id);
+  });
+  
+  $('.nav-tabs li').on("click", function(){
+    $('.nav-tabs li').removeClass('active');
+    $(this).addClass('active')
+    $(".edit-form").hide();
+    var fs = $(this).find('a').first().attr("href");
+    $(fs).show();
+    return false;
+  });
+  
+  $(".edit-form").hide();
+  var initial_tab = $(".nav-tabs .active a").first().attr("href");
+  $(initial_tab).show();
+  
+  $('#new_games').on("keypress", function(e) {
+                  /* ENTER PRESSED*/
+                  if (e.which == 13) {
+                      e.preventDefault();
+                      var tf = $(this)[0];
+                      var post_data = {};
+                      post_data[$(tf).data('relevance')] = $(tf).val();
+                      
+                      $.post('/users/add_tags', post_data, function(data, status, xhr){
+                              var field_name = data['relevance'] + '[' + data['tag'] + ']';
+                              var html = $('<label class="checkbox key-field" for="' + field_name + '"><input type="checkbox" name="' + field_name + '" id="' + field_name + '" checked="true" />' + data['tag'] + '</label>');
+                              $(tf).before(html);
+                              $(tf).val('');
+                          });
+                      
+                      return false;
+                  }
+              });
+              
+              
+  $('.get-location').click(function(e){
+    e.preventDefault();
+    $.get('/users/get_location', {}, function(data, status, xhr){
+      if(data["location"])
+        $('#user_location').val(data["location"]);
+    });
+    return false;
+  });
+  
+  // Initial stat setup
+  if($(".initial-stat").length > 0){
+    $('.initial-stat').draggable({revert: true});
+    $('.stat-drop').droppable({tolerance: "touch",
+    drop: function(e, ui){
+      stat = ui.draggable;
+      $(this).parent().find('input').val(stat.data('stat'));
+      $(this).removeClass('stat-drop');
+      $(this).html(stat.data("stat"));
+      stat.html('');
+    }});
+
+    $("#stat-reset").on("click", function(){
+      $('.initial-stat').each(function(idx, elem){
+        $(this).html($(this).data('stat'));
+      });
+      $('.stat div').addClass('stat-drop');
+      $('.stat div').html('');
+      $('.stat input').val('1');
+      return false;
+    });
+  }
+  
+  // Stat increases
+  
+  if($(".stat-points-remaining").length > 0){
+    $(".stats").on("click", ".add-stat", function(e){
+      e.preventDefault;
+      var free = parseInt($('.stat-points-remaining').html());
+      if(!free > 0) return false;
+      var stat = $(this).data('stat');
+      var cur = parseInt($(".stat ." + stat).html());
+      cur += 1;
+      $(".stat ." + stat).html(cur);
+      $("#user_" + stat).val(cur);
+      free -= 1;
+      if(free <= 0){
+        $(".add-stat").hide();
+        $(".points-message").hide();
+        $(".points-complete-message").show();
+      }else {
+        $(".stat-points-remaining").html(free);
+      }
+      return false;
+    });
+    
+    $("#stat-reset").on("click", function(){
+      $('.stat').each(function(idx, elem){
+        var div = $(this).find('div').first();
+        div.html(div.data('initial'));
+        $(this).find('input').val(div.data('initial'));
+      });
+      $(".add-stat").show();
+      $(".points-message").show();
+      $(".points-complete-message").hide();
+      $('.stat-points-remaining').html($('.stat-points-remaining').data('remaining'));
+      return false;
+    });
+  }
+});

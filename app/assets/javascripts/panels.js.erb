@@ -1,0 +1,48 @@
+// Place all the behaviors and hooks related to the matching controller here.
+// All this logic will automatically be available in application.js.
+// You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+$(function(){
+  $('.upvote').on('click', function(e){
+    var upvote_img = $(this).find('img');
+    var downvote_img = $(this).parent().find('.downvote img').first();
+    $.post($(this).attr('href'), function(data){
+      if(data.success){
+        upvote_img.attr("src", "<%= image_path "upvote_green.png" %>")
+        downvote_img.attr("src", "<%= image_path "downvote_gray.png" %>")
+      }else{
+        $('header').after("<div class='error'>" + data.error + "</div>");
+      }
+    });
+    return false;
+  });
+  
+  $('.downvote').on('click', function(e){
+    var downvote_img = $(this).find('img');
+    var upvote_img = $(this).parent().find('.upvote img').first();
+    $.post($(this).attr('href'), function(data){
+      if(data.success){
+        upvote_img.attr("src", "<%= image_path "upvote_gray.png" %>")
+        downvote_img.attr("src", "<%= image_path "downvote_red.png" %>")
+      }else{
+        $('header').after("<div class='error'>" + data.error + "</div>");
+      }
+    });
+    return false;
+  });
+  
+  require(["<%= asset_path 'jquery.bbcode.js' %>"], function(){
+    $("#panel-content").bbcode();
+  });
+  
+  if($("#kind_other").val() != $("#panel_kind").val() && $("#kind_other").val() != ""){
+    $("#panel_kind").val("Other");
+    $("#kind_other").show();
+  }
+  
+  $("#panel_kind").on("change", function(){
+    if($(this).val() == "Other")
+      $("#kind_other").show();
+    else
+      $("#kind_other").hide();
+  });
+});

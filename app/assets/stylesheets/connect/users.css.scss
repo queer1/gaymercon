@@ -1,0 +1,11 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.job-card { float: left; width: 150px; padding-top: 25px; padding-bottom: 25px; text-align: center; borer-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
+.job-card * { cursor: pointer; }
+.selected-job { background: #AAD7FF; }
+.field_with_errors label { color: red; }
+.card{ border: 1px solid black; float: left; margin: 2em; min-height: 150px; min-width: 150px; padding: 0.5em; text-align: center;}
+.card .avatar { }
+.key-field { float: left; width: 25%; margin-bottom: 15px; }
+#new_games { clear: both; }

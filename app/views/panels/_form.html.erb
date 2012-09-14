@@ -1,0 +1,22 @@
+<div class="admin-message">
+  <small>Got something too awesome to happen in a side room? Helicopter drops, ziplines, or a full-scale show? Email us at <%= mail_to "site@gaymercon.org" %> and we can make special arrangements!</small>
+</div>
+
+<%= form_for @panel do |f| %>
+  <%= f.label :title %>
+  <br />
+  <%= f.text_field :title, :placeholder => "Title" %>
+  <br />
+  <%= f.label :kind, "Type of event" %>
+  <br />
+  <% kinds = ["Panel", "Workshop", "Meet & Greet", "Q&A", "Board / Card / Tabletop Game", "Other"] %>
+  <%= f.select :kind, options_for_select(kinds, @panel.kind) %>
+  <%= text_field_tag :kind_other, @panel.kind, :class => "hidden", :placeholder => "Enter your own event type!" %>
+  <br />
+  <%= f.label :description %>
+  <br />
+  <small><em>Tip: to get the best response, make a short video and include it via the YouTube tag!</em></small><br />
+  <%= f.text_area :description, :placeholder => "Describe your panel in detail.", :id => "panel-content" %>
+  <br />
+  <%= submit_tag "Save", :class => "button button-blue" %>
+<% end %>

@@ -1,0 +1,32 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.title-link { font-size: 55%; }
+.job-card { float: left; width: 150px; padding-top: 25px; padding-bottom: 25px; text-align: center; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; cursor: pointer; }
+.job-card * { cursor: pointer; }
+.selected-job { background: #AAD7FF; }
+.field_with_errors label { color: red; }
+.nav-tabs { margin: 2em 0 2em 0; }
+.nav-tabs a { font: 18px silkscreen, helvetica, sans-serif; color: black; }
+.nav-tabs li { float: left; padding: 10px; }
+.nav-tabs .active { border: 1px solid black; border-radius: 5px; }
+fieldset { clear: both; padding-top: 2em;  }
+.submit { margin-top: 2em; }
+.key-field { display: block; float: left; width: 30%; vertical-align: middle; }
+#error_explanation { color: #b94a48; background: #f2dede; border: darken(#e2cece, 3%); padding: 1em; width: 50%; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
+#error_explanation h2 { font-size: 14px; }
+#error_explanation li { margin-top: .5em; }
+.get-location { padding: 12px 12px 7px 12px; vertical-align: middle; border: 1px solid black; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;}
+
+.profile-left { width: 230px; float: left; text-align: center; font-size: 85%; }
+.profile-main { margin-left: 245px; }
+.games-list { padding-bottom: 100px; }
+.games-list li { float: left; width: 30%; }
+
+.stat-drop { padding: 1em; border: 1px solid black; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; }
+.stat-table tr { margin-top: .5em; margin-bottom: .5em;}
+.stat-sidebar { margin-left: auto; margin-right: auto;}
+.add-stat { padding: .5em .75em .5em .75em; border: 1px solid black; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; cursor: pointer; }
+
+
+#level-bar { width: 175px; height: 1em; margin-left: 2em; }

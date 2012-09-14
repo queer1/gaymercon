@@ -1,0 +1,34 @@
+<% controls = current_user.present? && (current_user.mod? || post.user == current_user) %>
+<div class="post">
+  <div class="post-user">
+    <%= image_tag post.user.avatar %><br />
+    <h4><%= link_to post.user.name, user_path(post.user) %></h4>
+    <span class="post-member">Member since: <br /><%= post.user.created_at.strftime("%b %-d, %Y") %></span>
+  </div>
+  <% if controls %>
+    <div class="edit-post">
+      <%= form_for post, html: {:class => "post-form" } do |f| %>
+        <%= f.text_area :message, :rows => 10, :cols => 75, :class => "edit-post-message" %>
+
+        <br />
+        <%= submit_tag "Save Changes", :class => "button button-blue" %>
+        <button class="button button-gray cancel-edit-post">Cancel</button>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="post-message">
+    <p><%= post.message.bbcode_to_html.html_safe if post.message.present? %></p>
+  </div>
+  <p class="post-byline">Posted by <%= link_to post.user.name, user_path(post.user) %> 
+                    on <%= post.created_at.strftime("%b %-d, %Y" ) %>
+                    
+                    <% unless post.created_at == post.updated_at %>
+                      | edited on <%= post.updated_at.strftime("%b %-d, %Y" ) %>
+                    <% end %>
+                    
+                    <% if controls %>
+                      | <%= link_to "Edit", edit_forum_post_path(post.forum_thread, post), :class => "edit-post-button" %>
+                      | <%= link_to "Delete", forum_post_path(post.forum_thread, post), :method => "delete", :confirm => "Are you sure?" %>
+                    <% end %>
+                  </p>
+</div>

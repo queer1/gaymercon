@@ -1,0 +1,26 @@
+$(function(){
+  require(["<%= asset_path 'libs/jquery.bbcode.js' %>"], function(){
+    $("#message").bbcode();
+    $(".edit-post-message").bbcode();
+
+    $('.edit-post-button').on("click", function(e){
+      e.preventDefault();
+      var post = $(this).parents('.post').first();
+      var edit = post.children('.edit-post').first();
+      var msg = post.children('.post-message').first();
+      edit.show();
+      msg.hide();
+      return false;
+    });
+
+    $('.cancel-edit-post').on("click", function(e){
+      e.preventDefault();
+      var post = $(this).parents('.post').first();
+      var edit = post.children('.edit-post').first();
+      var msg = post.children('.post-message').first();
+      edit.hide();
+      msg.show();
+      return false;
+    });
+  })
+});

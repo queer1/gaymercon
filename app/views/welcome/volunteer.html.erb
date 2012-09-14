@@ -1,0 +1,13 @@
+<div class="body-content">
+  
+  <%= render :partial => "links" %>
+  
+  <h1>Volunteer for GaymerCon</h1>
+  <h2>Join our party</h2>
+  <form action="<%= welcome_path(:action => 'volunteer') %>" method="post">
+    <input class="standard-text-input" type="text" placeholder="Email" id="email" name="email" />
+    <input type="hidden" name="subject" value="Volunteering for GaymerCon" />
+    <textarea class="wide-textarea" name="message" placeholder="Message"></textarea>
+    <input type="submit" value="Submit" class="button button-blue" />
+  </form>
+</div>

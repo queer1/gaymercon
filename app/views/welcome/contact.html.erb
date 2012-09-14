@@ -1,0 +1,14 @@
+<div class="body-content">
+  
+  <%= render :partial => "links" %>
+  
+  <h1>Contact Us</h1>
+    <p>We're always looking to chat! Drop us a tweet <a href="https://twitter.com/GaymerCon">@GaymerCon</a> or message us on <a href="https://www.facebook.com/GaymerCon">Facebook</a></p>
+    <h2>Have a specific idea, thought, concern or suggestion? Please fill out the form below and we'd love to chat!</h2>
+    <form action="<%= welcome_path(:action => "contact") %>" method="post">
+      <input class="standard-text-input" type="text" placeholder="Email" id="email" name="email" />
+      <input class="standard-text-input" type="text" placeholder="Subject" name="subject" />
+      <textarea class="wide-textarea" name="message" placeholder="Message"></textarea>
+      <input type="submit" value="Submit" class="button button-blue" />
+    </form>
+</div>

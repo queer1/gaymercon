@@ -1,0 +1,22 @@
+<% controls = current_user.present? && (panel.user == current_user || current_user.admin?) %>
+<div class="panel <%= panel.confirmed ? 'confirmed' : '' %>">
+  <%= render :partial => 'voting', :object => panel %>
+  <div class="panel-summary">
+    <h4><%= link_to panel.title, panel_path(panel) %></h4>
+    <p class="panel-kind">
+      <%= panel.kind %> 
+      <% if panel.confirmed %>
+        <span class="panel-confirmed">Confirmed!</span>
+      <% end %>
+    </p>
+    <p class="panel-byline">
+      Created by <%= link_to (panel.user.name || "Nameless User"), user_path(panel.user) %> 
+      on <%= panel.created_at.strftime("%b %-d, %Y" ) %>
+      <% if controls %>
+        <br />
+        <%= link_to "Edit", edit_panel_path(panel) %>
+        | <%= link_to "Delete", panel_path(panel), method: "delete", confirm: "Are you sure?" %>
+      <% end %>
+    </p>
+  </div>
+</div>

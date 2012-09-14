@@ -1,0 +1,33 @@
+<div class="feature-content">
+  <div class="feature-content-copy">
+      <h1>GAYMERCON</h1>
+      <h3>AUG 3-4 2013 San Francisco, Ca</h3>
+      <a href="about" class="button button-red" >Learn More</a>
+    </div>
+</div>
+<div class="column">
+  <h4>About The Event</h4>
+    <div class="about-video-wide">
+      <iframe width="327" height="184" src="http://www.youtube.com/embed/6g9wqEkBkRw" frameborder="0" allowfullscreen></iframe>
+      <a href="about" class="button button-blue">Learn More</a>
+    </div>
+</div>
+<div class="column">
+  <h4>@GaymerCon</h4>
+  <div class="tweet" style="display: inline-block; ">
+  </div>
+</div>
+<div class="column no-margin-right">
+  <% if false %>
+  <h4>Register</h4>
+    <p>Registration will open after our Kickstarter launches, but stay in the loop!</p>
+    <form action="<%= welcome_path(:action => "index") %>" method="post">
+      <input class="standard-text-input" type="text" placeholder="Email" id="email" name="email" />
+        <input class="standard-text-input" type="text" placeholder="City" name="city" />
+        <input class="small-text-input" type="text" placeholder="Age" name="age" />
+        <input type="submit" value="Submit" class="button button-blue" />
+    </form>
+  <% end %>
+  <h4>Kickstarter</h4>
+  <iframe frameborder="0" height="380" src="http://www.kickstarter.com/projects/gaymercon/gaymercon-everybody-games/widget/card.html" width="220">Kickstarter!</iframe>
+</div>
