@@ -2,7 +2,7 @@ require "bundler/capistrano"
 require 'fileutils'
 
 set :application, "gaymercon"
-set :repository,  "git@gibson.gaymercon.org:gaymercon"
+set :repository,  "git@github.com:agius/gaymercon.git"
 
 set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
@@ -45,6 +45,11 @@ namespace :deploy do
   task :symlink do
     # for capistrano-unicorn -- kill path is hard-coded to look for pid here :(
     run "mkdir -p #{deploy_to}/tmp/pids && ln -s #{deploy_to}/tmp  #{release_path}/tmp"
+    run "cp -r #{deploy_to}/config/* #{release_path}/config"
+  end
+  
+  task :restart do
+    unicorn.restart
   end
 end
 
