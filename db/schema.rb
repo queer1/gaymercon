@@ -11,7 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120825214406) do
+ActiveRecord::Schema.define(:version => 20120916142418) do
+
+  create_table "con_registrations", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "admin_id"
+    t.string   "code"
+    t.string   "source"
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "city"
+    t.string   "province"
+    t.string   "country"
+    t.string   "postal"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.integer  "stripe_payment_id"
+    t.integer  "registration_level_id"
+    t.string   "email"
+    t.string   "name"
+  end
+
+  add_index "con_registrations", ["code"], :name => "index_con_registrations_on_code", :unique => true
 
   create_table "forum_posts", :force => true do |t|
     t.integer  "user_id"
@@ -88,6 +109,26 @@ ActiveRecord::Schema.define(:version => 20120825214406) do
     t.boolean  "confirmed"
   end
 
+  create_table "registration_levels", :force => true do |t|
+    t.integer  "con_id"
+    t.string   "name"
+    t.integer  "price_usd"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "stripe_payments", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "token"
+    t.string   "stripe_id"
+    t.float    "amount"
+    t.boolean  "paid"
+    t.boolean  "refunded"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "tags", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
@@ -136,6 +177,8 @@ ActiveRecord::Schema.define(:version => 20120825214406) do
     t.integer  "vitality",               :default => 1
     t.integer  "mind",                   :default => 1
     t.integer  "luck",                   :default => 1
+    t.boolean  "disable_emails"
+    t.boolean  "disable_pm_emails"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true

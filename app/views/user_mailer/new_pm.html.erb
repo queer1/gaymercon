@@ -1,0 +1,5 @@
+<h1><%= @title %></h1>
+<p><strong><%= link_to @pm.from_user.name, user_url(@pm.from_user, :only_path => false) %> says</strong>:</p>
+<p><blockquote>"<%= @pm.content.bbcode_to_html %>"</blockquote></p>
+<p><%= link_to "Send a reply", message_url(@pm, :only_path => false) %> | <%= link_to "View your inbox", messages_url(:only_path => false) %></p>
+<p>Remember, be nice! If someone is giving you trouble, don't respond, just forward this email to <%= mail_to "admin@gaymercon.org" %></p>

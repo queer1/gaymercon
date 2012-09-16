@@ -1,5 +1,11 @@
 <h2>Sign in</h2>
 
+<div class="social-signin facebook-signin">
+  <%= link_to "Sign in with <b>Facebook</b>".html_safe, omniauth_authorize_path(resource_name, "facebook"), :class => "btn-auth btn-facebook large" %><br />
+</div>
+
+<h2>Or...</h2>
+
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <div><%= f.label :email %><br />
   <%= f.email_field :email %></div>

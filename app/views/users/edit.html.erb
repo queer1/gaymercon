@@ -132,6 +132,20 @@
     <h3>Settings</h3>
     <div><%= f.label :email %><br />
     <%= f.email_field :email %></div>
+    
+    <div>
+      <label for="user_disable_emails">
+        <%= f.check_box :disable_emails %>
+        Never send me any emails
+      </label>
+    </div>
+    
+    <div>
+      <label for="user_disable_pm_emails">
+        <%= f.check_box :disable_pm_emails %>
+        Do not email me about new private messages
+      </label>
+    </div>
 
     <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
     <%= f.password_field :password, :autocomplete => "off" %></div>

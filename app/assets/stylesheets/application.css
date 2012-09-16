@@ -11,6 +11,7 @@
  *= require_self
  *= require gaymercon/reset.css
  *= require jquery.bbcode.css
+ *= require auth-buttons.css
  *= require gaymercon/style.css
  *= require gaymercon/media-screen.css
  *= require gaymercon/media-mobile.css

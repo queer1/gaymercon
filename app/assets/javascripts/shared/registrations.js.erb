@@ -111,4 +111,7 @@ $(function(){
       return false;
     });
   }
+  
+  if(typeof($.QueryString['tab']) && $.QueryString['tab'] != "")
+    $(".nav-tabs a[href='#" + $.QueryString['tab'] + "']").click();
 });

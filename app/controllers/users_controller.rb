@@ -92,4 +92,12 @@ class UsersController < Devise::RegistrationsController
     def setup_jobs
       @jobs = Job.all
     end
+    
+    def after_sign_up_path_for(resource)
+      edit_user_registration_path
+    end
+    
+    def after_update_path_for(resource)
+      edit_user_registration_path(:tab => "settings")
+    end
 end

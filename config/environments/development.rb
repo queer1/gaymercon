@@ -14,8 +14,12 @@ Gc2::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { :host => 'localhost:3000'}
+  EMAIL = YAML.load(File.read(Rails.root.join("config", "email.yml")))[Rails.env]
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = EMAIL['default_url_options'].symbolize_keys
+  config.action_mailer.smtp_settings = EMAIL['smtp'].symbolize_keys
+  config.action_mailer.delivery_method = EMAIL['mode'].to_sym
+  config.action_mailer.asset_host = EMAIL['asset_host']
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
