@@ -14,7 +14,7 @@
 </ul>
 
 <% update_path = @form_path ? @form_path : update_profile_path %>
-<%= form_for(resource, :as => resource_name, :url => update_path, :html => { :method => :put, :id => "character", :class => "edit-form" }) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => update_path, :html => { :method => :put, :id => "character", :class => "edit-form tab-pane" }) do |f| %>
   <%= devise_error_messages! %>
   
   <fieldset>
@@ -125,7 +125,7 @@
   
 <% end %>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :id => "settings" , :class => "edit-form"}) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :id => "settings" , :class => "edit-form tab-pane"}) do |f| %>
   <%= devise_error_messages! %>
   
   <fieldset>

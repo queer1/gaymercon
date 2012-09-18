@@ -6,11 +6,6 @@
 .job-card * { cursor: pointer; }
 .selected-job { background: #AAD7FF; }
 .field_with_errors label { color: red; }
-.nav-tabs { margin: 2em 0 2em 0; }
-.nav-tabs a { font: 18px silkscreen, helvetica, sans-serif; color: black; }
-.nav-tabs li { float: left; padding: 10px; }
-.nav-tabs .active { border: 1px solid black; border-radius: 5px; }
-fieldset { clear: both; padding-top: 2em;  }
 .submit { margin-top: 2em; }
 .key-field { display: block; float: left; width: 30%; vertical-align: middle; }
 #error_explanation { color: #b94a48; background: #f2dede; border: darken(#e2cece, 3%); padding: 1em; width: 50%; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; clear: both; }

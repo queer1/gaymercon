@@ -11,7 +11,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120916142418) do
+ActiveRecord::Schema.define(:version => 20120917042743) do
+
+  create_table "badges", :force => true do |t|
+    t.string   "code"
+    t.integer  "user_id"
+    t.integer  "admin_id"
+    t.string   "explain"
+    t.string   "level"
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "city"
+    t.string   "province"
+    t.string   "country"
+    t.string   "postal"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "badges", ["code"], :name => "index_badges_on_code", :unique => true
 
   create_table "con_registrations", :force => true do |t|
     t.integer  "user_id"

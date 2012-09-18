@@ -1,0 +1,9 @@
+<h1>Badges</h1>
+
+<table>
+  <tr><th>Code</th><th>Level</th><th>Edit</th><th>Delete</th></tr>
+  <%= render :partial => "badge", :collection => @badges %>
+</table>
+
+<%= link_to "New Badge", new_admin_badge_path, :class => "button button-blue" %>
+<%= link_to "Mass create", mass_new_admin_badges_path, :class => "button button-blue" %>

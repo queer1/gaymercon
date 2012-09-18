@@ -10,15 +10,6 @@ $(function(){
     $("#user_job_id").val(job_id);
   });
   
-  $('.nav-tabs li').on("click", function(){
-    $('.nav-tabs li').removeClass('active');
-    $(this).addClass('active')
-    $(".edit-form").hide();
-    var fs = $(this).find('a').first().attr("href");
-    $(fs).show();
-    return false;
-  });
-  
   $(".edit-form").hide();
   var initial_tab = $(".nav-tabs .active a").first().attr("href");
   $(initial_tab).show();

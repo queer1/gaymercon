@@ -47,10 +47,17 @@
     font-size: 18px;
   }
 
-  input, textarea, select
+  input, textarea
   {
     padding: 10px;
     margin-bottom: 32px;
+    margin-right: 10px;
+    font: 16px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  }
+  
+  select 
+  { 
+    margin-bottom: 1em;
     margin-right: 10px;
     font: 16px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   }
@@ -229,6 +236,11 @@
   }
   
   .nav-links li{ float: left; margin-right: 20px; }
+  .nav-tabs { margin: 2em 0 2em 0; }
+  .nav-tabs a { font: 18px silkscreen, helvetica, sans-serif; color: black; }
+  .nav-tabs li { float: left; padding: 10px; }
+  .nav-tabs .active { border: 1px solid black; border-radius: 5px; }
+  .tab-pane { clear: both; margin-top: 6em; }
 
   header nav a:hover, header nav a.active-link, .subnav a:hover, .subnav .active-link
   {
@@ -344,6 +356,14 @@
     margin: 20px 0 60px 0;
     float: left;
   }
+  
+  .form-vertical { display: block; }
+  .form-vertical label, .form-vertical select { display: block; }
+  .form-vertical input, .form-vertical textarea { display: block; margin-bottom: 2em; }
+  .form-vertical select { padding: none; }
+  .form-vertical input[type=submit] { margin-top: 1.5em; }
+  .explain { display: block; clear: both; width: 300px; font-size: 90%; font-style: italic; }
+  .form-vertical .explain { margin-bottom: 1em; }
 
   .body-content button
   {

@@ -55,6 +55,7 @@
           <li><%= link_to "Forums", forums_path %></li>
           <li><%= link_to "Panels", panels_path %></li>
           <% if current_user %>
+            <li><%= link_to "Con Badge", new_badge_path %></li>
             <li><%= link_to "Account", edit_registration_path(current_user) %></li>
             <% if current_user.unread_message_count > 0 %>
               <li class="new-messages">

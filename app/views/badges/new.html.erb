@@ -1,0 +1,23 @@
+<h2>Register For GaymerCon 2013</h2>
+
+<ul class="nav-tabs">
+  <li class="active"><a href="#code">Enter Code</a></li>
+  <li><a href="#purchase">Buy a Badge</a></li>
+</ul>
+
+<div id="code" class="tab-pane">
+  <h3>Enter Your Registration Code</h3>
+  <%= form_tag register_badges_path, :method => "get", :class => "form-vertical" do %>
+    <%= label_tag :code %>
+    <%= text_field_tag :code %>
+    <div class="explain">
+      Sorry, up, up, down, down, left, right, left, right, b, a, start doesn't get you 30 free registrations.
+    </div>
+    
+    <%= submit_tag "Enter", :class => "button button-blue", :name => "" %>
+  <% end %>
+</div>
+
+<div id="purchase" class="tab-pane">
+  <h3>Sorry, badges are not available for purchase right now.</h3>
+</div>

@@ -3,3 +3,4 @@ require File.expand_path('../application', __FILE__)
 
 # Initialize the rails application
 Gc2::Application.initialize!
+require Rails.root.join("lib", "core_ext")

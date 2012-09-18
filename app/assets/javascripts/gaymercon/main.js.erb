@@ -23,4 +23,16 @@ $(document).ready(function(){
   }, function(){
     $("ul", this).hide();
   })
+  
+  if($('.nav-tabs').length > 0){
+    $('.nav-tabs').on("click", "li", function(){
+      var fs = $(this).find('a').first().attr("href");
+      $('.nav-tabs li').removeClass('active');
+      $(this).addClass('active')
+      $.each($('.nav-tabs a'), function(){ $($(this).attr('href')).hide(); });
+      $(".edit-form").hide();
+      $(fs).show();
+      return false;
+    });
+  }
 })

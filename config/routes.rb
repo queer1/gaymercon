@@ -28,10 +28,19 @@ Gc2::Application.routes.draw do
       post "/upvote", to: "panels#upvote", as: "upvote"
       post "/downvote", to: "panels#downvote", as: "downvote"
     end
+    
+    resources :badges do
+      get "register", on: :collection
+      post "register", on: :collection
+    end
   end
   
   namespace :admin do
     resources :jobs
+    resources :badges do
+      get "mass_new", to: "badges#mass_new", on: :collection
+      post "mass_create", to: "badges#mass_create", on: :collection
+    end
     match "/" => "admin/halo#index"
   end
   

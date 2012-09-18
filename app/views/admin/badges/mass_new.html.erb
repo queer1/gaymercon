@@ -1,0 +1,17 @@
+<h1>Make lots 'o badges</h1>
+
+<%= form_tag mass_create_admin_badges_path, :method => "post", :class => "form-vertical" do %>
+  <%= label_tag :number %>
+  <%= text_field_tag :number %>
+  
+  <%= label_tag :level %>
+  <%= select_tag :level, options_for_select(Badge.levels.collect{|k,v| [k.to_s.titleize, k]}) %>
+  
+  <%= label_tag :explain %>
+  <%= text_field_tag :explain %>
+  <div class="explain">
+    Explain why you're making this badge, like "Kickstarter" or "Facebook giveaway." Only admins can see this.
+  </div>
+  
+  <%= submit_tag "Create", :class => "button button-blue" %>
+<% end %>

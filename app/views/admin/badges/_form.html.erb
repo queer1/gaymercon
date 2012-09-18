@@ -1,0 +1,18 @@
+<% badge = form %>
+<% badge ||= @badge %>
+
+<%= form_for ["admin", @badge], :html => {:class => "form-vertical"} do |f| %>
+  <%= f.label :code %>
+  <%= f.text_field :code %>
+  
+  <%= f.label :level %>
+  <%= f.select :level, options_for_select(Badge.levels.collect{|k,v| [k.to_s.titleize, k]}, badge.level) %>
+  
+  <%= f.label :explain %>
+  <%= f.text_field :explain %>
+  <div class="explain">
+    Explain why you're making this badge, like "Kickstarter" or "Facebook giveaway." Only admins can see this.
+  </div>
+  
+  <%= f.submit "Save", :class => "button button-blue" %>
+<% end %>

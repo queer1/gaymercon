@@ -23,6 +23,9 @@ class User < ActiveRecord::Base
   has_many :messages, foreign_key: 'to_user_id', class_name: "Message"
   has_many :sent_messages, foreign_key: 'from_user_id', class_name: "Message"
   has_many :alerts, class_name: "UserAlert"
+  has_many :admin_badges, foreign_key: "admin_id", class_name: "Badge"
+  
+  has_one :badge
   
   belongs_to :job
   

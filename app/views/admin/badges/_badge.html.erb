@@ -1,0 +1,6 @@
+<tr>
+  <td><%= badge.code %></td>
+  <td><%= badge.level.humanize %></td>
+  <td><%= link_to "Edit", edit_admin_badge_path(badge) %></td>
+  <td><%= link_to "Delete", admin_badge_path(badge), :method => "delete", :confirm => "Are you sure?" %></td>
+</tr>
