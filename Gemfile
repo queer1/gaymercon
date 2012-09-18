@@ -21,6 +21,7 @@ gem 'httparty'
 gem "fb_graph"
 gem "geoip-c", :require => 'geoip'
 gem "will_paginate"
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
 
 # Gems used only for assets and not required

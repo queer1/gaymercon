@@ -18,16 +18,11 @@
   </div>
 </div>
 <div class="column no-margin-right">
-  <% if false %>
-  <h4>Register</h4>
-    <p>Registration will open after our Kickstarter launches, but stay in the loop!</p>
-    <form action="<%= welcome_path(:action => "index") %>" method="post">
-      <input class="standard-text-input" type="text" placeholder="Email" id="email" name="email" />
-        <input class="standard-text-input" type="text" placeholder="City" name="city" />
-        <input class="small-text-input" type="text" placeholder="Age" name="age" />
-        <input type="submit" value="Submit" class="button button-blue" />
-    </form>
-  <% end %>
-  <h4>Kickstarter</h4>
-  <iframe frameborder="0" height="380" src="http://www.kickstarter.com/projects/gaymercon/gaymercon-everybody-games/widget/card.html" width="220">Kickstarter!</iframe>
+  <h4>Donate</h4>
+  <div class="donate-pitch explain">
+    We raised a bunch of money via <%= link_to "our Kickstarter", "http://www.kickstarter.com/projects/gaymercon/gaymercon-everybody-games" %>, but we know some of you found out too late. Well, there's still time! If you just want to donate, no buy a badge or attend the con or anything, please click the button below!
+  </div>
+  <div class="action">
+    <%= link_to "Donate", welcome_path("donate"), :class => "button button-blue donate-button" %>
+  </div>
 </div>

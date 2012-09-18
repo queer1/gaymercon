@@ -1,0 +1,11 @@
+development:
+  secret: 12345
+  publishable: 12345
+
+test:
+  secret: 12345
+  publishable: 12345
+
+production:
+  secret: 12345
+  publishable: 12345

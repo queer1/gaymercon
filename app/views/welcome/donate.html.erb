@@ -1,0 +1,48 @@
+<% content_for :javascripts do %>
+  <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+  <script type="text/javascript">
+    Stripe.setPublishableKey('<%= STRIPE['publishable'] %>');
+  </script>
+<% end %>
+
+<h1>Donate to GaymerCon</h1>
+<p class="payment-explain"><em><strong>Notice:</strong> Do not use this form to purchase a badge, stickers, or anything else from GaymerCon. This is for donations only! Also, we are not a registered 501c(3) organization, so you don't get to write donations to us off your taxes. Sorry.</em></p>
+<form action="<%= welcome_path("donate") %>" method="POST" id="payment-form">
+    <div class="form-row">
+      <label>Card Number</label>
+      <input type="text" size="20" autocomplete="off" class="card-number" placeholder="1234 5674 9123 4567" />
+    </div>
+    
+    <div class="form-row">
+      <label>CVC</label>
+      <input type="text" size="4" autocomplete="off" class="card-cvc" placeholder="123" />
+    </div>
+
+    <div class="form-row">
+      <label>Expiration (MM/YYYY)</label>
+      <input type="text" size="2" class="card-expiry-month"  placeholder="08" />
+      <span> / </span>
+      <input type="text" size="4" class="card-expiry-year" placeholder="2014" />
+    </div>
+    
+    <div class="form-row">
+      <label>Amount</label>
+      <select name="amount" id="payment-amount">
+        <option value="500">$5.00</option>
+        <option value="1000">$10.00</option>
+        <option value="2500">$25.00</option>
+        <option value="5000">$50.00</option>
+        <option value="10000">$100.00</option>
+        <option value="50000">$500.00</option>
+        <option value="100000">$1000.00</option>
+        <option value="other">other</option>
+      </select>
+      <span class="amount-other">$</span>
+      <input type="text" name="amount_other" class="amount-other" placeholder="67.41" />
+      <div class="expalin amount-other">
+        $1 or more, please
+      </div>
+    </div>
+
+    <input type="submit" value="Donate" class="button button-blue" />
+</form>

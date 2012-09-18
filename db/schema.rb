@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120917042743) do
+ActiveRecord::Schema.define(:version => 20120918141622) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -30,27 +30,6 @@ ActiveRecord::Schema.define(:version => 20120917042743) do
   end
 
   add_index "badges", ["code"], :name => "index_badges_on_code", :unique => true
-
-  create_table "con_registrations", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "admin_id"
-    t.string   "code"
-    t.string   "source"
-    t.string   "address_1"
-    t.string   "address_2"
-    t.string   "city"
-    t.string   "province"
-    t.string   "country"
-    t.string   "postal"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
-    t.integer  "stripe_payment_id"
-    t.integer  "registration_level_id"
-    t.string   "email"
-    t.string   "name"
-  end
-
-  add_index "con_registrations", ["code"], :name => "index_con_registrations_on_code", :unique => true
 
   create_table "forum_posts", :force => true do |t|
     t.integer  "user_id"
@@ -127,24 +106,16 @@ ActiveRecord::Schema.define(:version => 20120917042743) do
     t.boolean  "confirmed"
   end
 
-  create_table "registration_levels", :force => true do |t|
-    t.integer  "con_id"
-    t.string   "name"
-    t.integer  "price_usd"
-    t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
   create_table "stripe_payments", :force => true do |t|
     t.integer  "user_id"
+    t.integer  "amount"
     t.string   "token"
+    t.string   "description"
     t.string   "stripe_id"
-    t.float    "amount"
     t.boolean  "paid"
     t.boolean  "refunded"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "tags", :force => true do |t|
