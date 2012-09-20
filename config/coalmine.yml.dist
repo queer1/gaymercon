@@ -1,0 +1,8 @@
+development:
+  signature: '12345'
+
+test:
+  signature: '12345'
+
+production:
+  signature: '12345'

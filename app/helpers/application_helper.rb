@@ -40,4 +40,26 @@ module ApplicationHelper
     alert_text.html_safe
   end
   
+  # improved version of https://gist.github.com/1160287
+  def wrap(str, opts = {})
+    opts = opts.with_indifferent_access
+    max_len = opts[:max_length] || 20
+    seperator = opts[:seperator] || "<wbr>"
+    return str unless str.length > max_len
+    ret = ""
+    begin
+      idx = str.index(seperator)
+      if idx.nil? || idx > max_len
+        ret += str[0..max_len]
+        str = str[(max_len + 1)..-1]
+      else
+        ret += str[0..idx]
+        str = str[(idx + 1)..-1]
+      end
+      ret << seperator
+    end while str.present?
+
+    ret.html_safe
+  end
+  
 end

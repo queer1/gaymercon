@@ -3,7 +3,7 @@
   <%= link_to "<< Back to Forums", forums_path %>
   <br /><br />
   
-  <h1><%= @thread.title %></h1>
+  <h1><%= wrap(@thread.title, max_length: 21) %></h1>
 
   <%= will_paginate @posts %>
 

@@ -28,14 +28,6 @@ class UsersController < Devise::RegistrationsController
     @users ||= User.order("id DESC").page(params[:page])
   end
   
-  def new
-    if Rails.env == "production"
-      flash[:notice] = "Sorry, we're still in closed beta"
-      redirect_to root_path and return
-    end
-    super
-  end
-  
   def edit
     user_games = resource.games || []
     @games = (["Rock Band", "Smash Bros", "Tekken", "Street Fighter", "Starcraft", "Armored Core", "IIDX", "DDR"] + user_games).compact.uniq
@@ -56,7 +48,7 @@ class UsersController < Devise::RegistrationsController
     end
     
     current_user.graffitis.destroy_all
-    games = params[:games].keys
+    games = params[:games].present? ? params[:games].keys : []
     games << params[:new_games]
     games.each do |game|
       next if game == ''
@@ -70,7 +62,7 @@ class UsersController < Devise::RegistrationsController
   def show
     @user = User.find_by_id(params[:id])
     redirect_to root_path, error: "Sorry, couldn't find that user." and return unless @user.present?
-    @common = @user.games & current_user.games if current_user.present?
+    @common = @user.games & current_user.games if current_user.present? && @user != current_user
   end
   
   def add_tags

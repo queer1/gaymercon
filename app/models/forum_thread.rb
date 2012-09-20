@@ -3,6 +3,7 @@ class ForumThread < ActiveRecord::Base
   has_many :forum_posts
   
   before_destroy :destroy_posts
+  validates_length_of :title, maximum: 50
   
   def destroy_posts
     self.posts.destroy_all

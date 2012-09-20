@@ -2,7 +2,7 @@
 <%= form_tag forums_path, :method => 'post', :class => "post-form" do %>
   <label>Title</label>
   <br />
-  <%= text_field_tag :title, "", :size => 100, :class => "post-edit"  %>
+  <%= text_field_tag :title, "", :size => 50, :maxlength => 50, :class => "post-edit"  %>
   
   <br />
   <br />

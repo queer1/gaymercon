@@ -7,20 +7,22 @@ gem 'rails', '3.2.2'
 
 gem 'capistrano'
 gem 'capistrano-unicorn'
+gem 'coalmine'
 
 gem "mongoid", "~> 3.0.0"
-
 gem 'mysql2'
+
 gem 'devise'
-gem 'high_voltage'
-gem 'bb-ruby'
-gem 'pony'
-gem 'rmagick', :require => "RMagick"
 gem 'omniauth-facebook'
+gem 'high_voltage'
+gem "will_paginate"
+gem 'bb-ruby', :git => "https://github.com/agius/bb-ruby"
+gem 'pony'
+gem 'hominid' # mailchimp
+gem 'rmagick', :require => "RMagick"
 gem 'httparty'
 gem "fb_graph"
 gem "geoip-c", :require => 'geoip'
-gem "will_paginate"
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
 

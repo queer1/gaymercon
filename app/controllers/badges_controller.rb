@@ -13,7 +13,7 @@ class BadgesController < ApplicationController
   end
   
   def new
-    redirect_to edit_badge_path if current_user.badge.present?
+    redirect_to edit_badge_path(current_user.badge) if current_user.badge.present?
     @badge = Badge.new
   end
   

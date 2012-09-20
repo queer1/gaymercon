@@ -24,7 +24,7 @@ $(function(){
       }, function(status, response){
         var form = $("#payment-form");
         if (response.error) {
-          $("#payment-form").before("<div class='alert'>" + response.error.message + "</div>")
+          $("#payment-form").before("<div class='error'>" + response.error.message + "</div>")
           $(".submit-button").removeAttr("disabled");
         } else {
           var token = response['id'];

@@ -2,6 +2,8 @@ class Panel < ActiveRecord::Base
   belongs_to :user
   has_many :panel_votes
   
+  after_save :grant_xp
+  
   # reddit algorithm, as stolen from here: 
   # http://www.seomoz.org/blog/reddit-stumbleupon-delicious-and-hacker-news-algorithms-exposed
   def compute_score
@@ -16,5 +18,11 @@ class Panel < ActiveRecord::Base
   
   def vote(user_id)
     self.panel_votes.where(user_id: user_id).first
+  end
+  
+  def grant_xp
+    return if self.class.where("user_id = ?", self.user_id).count > 1
+    self.user.xp += 100
+    self.user.save
   end
 end

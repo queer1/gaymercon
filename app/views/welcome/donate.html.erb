@@ -5,9 +5,34 @@
   </script>
 <% end %>
 
-<h1>Donate to GaymerCon</h1>
-<p class="payment-explain"><em><strong>Notice:</strong> Do not use this form to purchase a badge, stickers, or anything else from GaymerCon. This is for donations only! Also, we are not a registered 501c(3) organization, so you don't get to write donations to us off your taxes. Sorry.</em></p>
+<div class="donate-header">
+  <h1>Donate!</h1>
+  <p>Here at the GaymerCon Boss Castle, we are working hard to build a flourishing community for people to interact with one another and coordinate events, meetups, and gaming! The money donated here will be used to help build the site, the community, and the convention, and to ensure the best all around experience for all of our users.</p>
+</div>
+
 <form action="<%= welcome_path("donate") %>" method="POST" id="payment-form">
+    
+    <div class="form-row">
+      <label>Name (optional)</label>
+      <input type="text" name="name" placeholder="Cliff Bleszinski" 
+      <%= current_user.present? ? "value='#{current_user.name}'" : '' %>
+      />
+    </div>
+    
+    <div class="form-row">
+      <label>Email (optional)</label>
+      <input type="text" name="email" placeholder="cliff@epicgames.com"
+      <%= current_user.present? ? "value='#{current_user.email}'" : '' %>
+       />
+    </div>
+    
+    <div class="form-row">
+      <label>
+        <input type="checkbox" name="subscribe" checked="checked" />
+        Join our mailing list
+      </label>
+    </div>
+    
     <div class="form-row">
       <label>Card Number</label>
       <input type="text" size="20" autocomplete="off" class="card-number" placeholder="1234 5674 9123 4567" />
@@ -45,4 +70,9 @@
     </div>
 
     <input type="submit" value="Donate" class="button button-blue" />
+    
+    <div class="explain">
+      As of this time GaymerCon is not a registered 501c(3) organization, so donations will not be tax-deductible.
+    </div>
+    
 </form>

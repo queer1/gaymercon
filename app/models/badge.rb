@@ -3,6 +3,7 @@ class Badge < ActiveRecord::Base
   belongs_to :user
   belongs_to :admin, :class_name => "User"
   validates_uniqueness_of :code
+  before_save :grant_xp
   
   LEVELS = {
     coin_entered: "General Access",
@@ -24,6 +25,12 @@ class Badge < ActiveRecord::Base
   
   def description
     LEVELS[self.level]
+  end
+  
+  def grant_xp
+    return unless self.user_id_changed? && self.user_id_was == nil && self.user.present?
+    self.user.xp += 1000
+    self.user.save
   end
   
 end

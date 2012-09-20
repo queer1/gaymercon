@@ -19,22 +19,36 @@
     <div id="stat-radar" data-str="<%= @user.strength %>" data-agi="<%= @user.agility %>" data-vit="<%= @user.vitality %>" data-mnd="<%= @user.mind %>"></div>
   </div>
   <div class="profile-main">
-    <h4><%= link_to "Send a Message", new_message_path(to_user_id: @user.id ) %></h4>
+    <div class="profile-row">
+      <h4><%= link_to "Send a Message", new_message_path(to_user_id: @user.id ) %></h4>
+    </div>
+    
+    <% if @user.badge.present? %>
+      <div class="profile-row">
+        <h3>Con Attendee</h3>
+        <h4>Level: <%= @user.badge.level.titleize %></h4>
+      </div>
+    <% end %>
+    
     <% if @common %>
-      <h3>Games You Both Play</h3>
+      <div class="profile-row">
+        <h3>Games You Both Play</h3>
+        <ul class="games-list">
+          <% @common.each do |game| %>
+            <li><%= game %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <div class="profile-row">
+      <h3>Games</h3>
       <ul class="games-list">
-        <% @common.each do |game| %>
+        <% @user.games.each do |game| %>
           <li><%= game %></li>
         <% end %>
       </ul>
-    <% end %>
-    
-    <h3>Games</h3>
-    <ul class="games-list">
-      <% @user.games.each do |game| %>
-        <li><%= game %></li>
-      <% end %>
-    </ul>
+    </div>
     
   </div>
 </div>

@@ -55,7 +55,8 @@ class WelcomeController < ApplicationController
       email = current_user.present? ? current_user.email : "anonymous user"
       # amount has to be in cents
       amount = params[:amount]
-      amount = (params[:amount_other].to_f * 100).to_i if amount == "other" && params[:amount_other]
+      amount = (params[:amount_other].to_f * 100) if amount == "other" && params[:amount_other]
+      amount = amount.to_i
       return "Please enter a valid amount." unless amount.is_a?(Integer) && amount > 100
       return "Sorry, couldn't process your card. Please try again, and make sure javascript is enabled." unless params[:token].present?
       charge = Stripe::Charge.create(
@@ -65,10 +66,14 @@ class WelcomeController < ApplicationController
         :description => "Donation from #{email}"
       )
       return "Oops, there was a problem: #{charge.message}" if charge.is_a?(Stripe::StripeError)
+      donator = Donator.donate({current_user: current_user, amount: amount}.merge(params))
+      
       sp = { amount: amount, token: params[:token], description: "Donation from #{email}", stripe_id: charge.id, paid: charge.paid }
       sp[:user_id] = current_user.id if current_user.present?
+      sp[:donator_id] = donator.id
       payment = StripePayment.create(sp)
       flash.now[:notice] = "Thanks for donating! GaymerCon loves you!"
+      
       payment
     end
 end

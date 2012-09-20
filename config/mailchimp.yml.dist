@@ -1,0 +1,11 @@
+development:
+  key: '12345'
+  donators_list: '12345'
+
+test:
+  key: '12345'
+  donators_list: '12345'
+  
+production:
+  key: '12345'
+  donators_list: '12345'
