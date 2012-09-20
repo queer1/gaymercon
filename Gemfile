@@ -16,7 +16,7 @@ gem 'devise'
 gem 'omniauth-facebook'
 gem 'high_voltage'
 gem "will_paginate"
-gem 'bb-ruby', :git => "https://github.com/agius/bb-ruby"
+gem 'bb-ruby'
 gem 'pony'
 gem 'hominid' # mailchimp
 gem 'rmagick', :require => "RMagick"
