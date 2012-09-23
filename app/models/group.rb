@@ -1,4 +1,5 @@
 class Group < ActiveRecord::Base
+  include Locatable
   KINDS = ["game", "location", "interest"]
   belongs_to :moderator, :class_name => "User"
   has_many :posts, :class_name => "GroupPost"
@@ -13,5 +14,9 @@ class Group < ActiveRecord::Base
   
   def latest_posts(num = 10)
     posts.order("updated_at desc").limit(10).all
+  end
+  
+  def editor?(user)
+    self.moderator_id == user.id || user.mod?
   end
 end

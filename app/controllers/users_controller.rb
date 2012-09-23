@@ -35,7 +35,7 @@ class UsersController < Devise::RegistrationsController
   end
   
   def update_profile
-    fields = [:name, :job_id, :location]
+    fields = [:name, :job_id]
     stats = [:strength, :agility, :vitality, :mind]
     fields += stats if current_user.free_skill_points > 0 || stats.all?{|s| current_user.send(s) == 1}
     Rails.logger.debug "fields: #{fields.inspect}"
@@ -44,7 +44,7 @@ class UsersController < Devise::RegistrationsController
     if current_user.update_attributes(profile)
       flash[:notice] = "Profile updated!"
     else
-      flash[:error] = "Couldn't update your profile: #{current_user.errors.full_messages.join("<br />").html_safe}"
+      flash[:error] = "Couldn't update your profile: #{current_user.all_errors}"
     end
     
     current_user.graffitis.destroy_all
@@ -55,6 +55,8 @@ class UsersController < Devise::RegistrationsController
       tag = Tag.where(name: game).first_or_create
       graffiti = Graffiti.where(user_id: current_user.id, tag_id: tag.id, kind: "games").first_or_create
     end
+    
+    current_user.place = params[:user][:place]
     
     redirect_to edit_user_registration_path(current_user)
   end
@@ -72,12 +74,6 @@ class UsersController < Devise::RegistrationsController
       graffiti = Graffiti.where(user_id: current_user.id, tag_id: tag.id, kind: "games").first_or_create
     end
     render :json => {:relevance => tags.keys.first, :tag => tags.values.first}
-  end
-  
-  def get_location
-    result = Geoip.lookup(request.remote_ip)
-    response = result.present? ? {:location => "#{result[:city]}, #{result[:country_code]}"} : {}
-    render :json => response
   end
   
   private

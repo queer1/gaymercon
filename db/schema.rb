@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120923071205) do
+ActiveRecord::Schema.define(:version => 20120923113658) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -204,7 +204,6 @@ ActiveRecord::Schema.define(:version => 20120923071205) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.string   "location"
     t.string   "role",                   :default => "user"
     t.integer  "job_id"
     t.string   "provider"

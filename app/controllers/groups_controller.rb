@@ -8,6 +8,11 @@ class GroupsController < ApplicationController
   end
   
   def show
+    if @group.kind == "location"
+      @nearby_users = @group.nearby_users
+      @nearby_users = @nearby_users.where("id != ?", current_user.id) if current_user
+      @nearby_users = @nearby_users.to_a.shuffle.take(10)
+    end
   end
   
   def new
@@ -19,6 +24,7 @@ class GroupsController < ApplicationController
     parms[:moderator_id] = current_user.id
     @group = Group.create(parms)
     if @group.valid?
+      @group.place = params[:group][:place]
       redirect_to edit_group_path(@group), notice: "Group created!"
     else
       flash.now[:alert] = "Sorry, there was a problem: #{@group.all_errors}"
@@ -33,6 +39,7 @@ class GroupsController < ApplicationController
     parms = params[:group].slice(:name, :type, :description, :kind, :header, :site_name, :site_link)
     @group.update_attributes(parms)
     if @group.valid?
+      @group.place = params[:group][:place]
       redirect_to edit_group_path(@group), notice: "Group updated!"
     else
       flash.now[:alert] = "Sorry, there was a problem: #{@group.all_errors}"
@@ -47,8 +54,7 @@ class GroupsController < ApplicationController
   
   private
     def find_group
-      id = params[:group_id] || params[:id]
-      @group = Group.find_by_id(id)
+      @group = Group.find_by_id(params[:id])
       redirect_to groups_path, alert: "Sorry, couldn't find that group" unless @group.present?
     end
     

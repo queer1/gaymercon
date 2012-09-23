@@ -32,16 +32,6 @@ $(function(){
                       return false;
                   }
               });
-              
-              
-  $('.get-location').click(function(e){
-    e.preventDefault();
-    $.get('/users/get_location', {}, function(data, status, xhr){
-      if(data["location"])
-        $('#user_location').val(data["location"]);
-    });
-    return false;
-  });
   
   // Initial stat setup
   if($(".initial-stat").length > 0){

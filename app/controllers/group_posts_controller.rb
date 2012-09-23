@@ -2,7 +2,7 @@ class GroupPostsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show]
   before_filter :find_group
   before_filter :find_post, except: [:index, :new, :create]
-  before_filter :authenticate_post, except: [:index, :new, :create]
+  before_filter :authenticate_post, except: [:index, :show, :new, :create]
   
   def index
     @posts = @group.posts.page(params[:page])
@@ -17,11 +17,12 @@ class GroupPostsController < ApplicationController
   end
   
   def create
-    parms = params[:group_post].slice(:kind, :title, :content, :image, :start_time, :end_time)
+    parms = params[:group_post]
     parms[:user_id] = current_user.id
     parms[:group_id] = @group.id
     @post = GroupPost.create(parms)
     if @post.valid?
+      @post.place = params[:group_post][:place] if @post.kind == "location" && params[:group_post][:place].present?
       redirect_to group_post_path(@group, @post), notice: "Post created!"
     else
       flash.now[:alert] = "Oops, there was a problem: #{@post.all_errors}"
@@ -33,9 +34,12 @@ class GroupPostsController < ApplicationController
   end
   
   def update
-    parms = params[:group_post].slice(:kind, :title, :content, :image, :start_time, :end_time)
+    parms = params[:group_post]
+    parms[:user_id] = @post.user_id
+    parms[:group_id] = @post.group_id
     @post.update_attributes(parms)
     if @post.valid?
+      @post.place = params[:group_post][:place] if @post.kind == "location" && params[:group_post][:place].present?
       redirect_to group_post_path(@group, @post), notice: "Post saved!"
     else
       flash.now[:alert] = "Oops, there was a problem: #{@post.all_errors}"

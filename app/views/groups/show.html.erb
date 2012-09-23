@@ -1,23 +1,44 @@
 <%= render :partial => "header" %>
 
+<% if @group.kind == "location" && @nearby_users.present? %>
+  <div class="nearby-users">
+    <h4>Nearby Users</h4>
+    <%= render :partial => "users/card", :collection => @nearby_users %>
+  </div>
+<% end %>
+
 <div class="group-body">
   <h5>Type: <%= @group.kind.titleize %></h5>
+  
+  <% if @group.kind == "location" %>
+    <br /><h5>Location: <%= @group.place %></h5>
+  <% end %>
+  
   <div class="group-description">
     <%= @group.description.bbcode_to_html.html_safe %>
   </div>
   
-  <h6>Web site: <%= link_to (@group.site_name || @group.site_link), @group.site_link %></h6>
-</div>
-
-<div class="group-posts">
-  <h3>Latest Posts</h3>
-  
-  <%= render :partial => "group_posts/post", :collection => @group.latest_posts %>
-  
-  <% if @group.posts.count > 10 %>
-    <%= link_to "#{@group.posts.count - 10} more posts", group_post %>
+  <% if @group.site_link.present? %>
+    <h6>Web site: <%= link_to (@group.site_name || @group.site_link), @group.site_link %></h6>
   <% end %>
 </div>
+
+<% if @group.posts.count > 0 %>
+  <div class="group-posts">
+    <h3>Latest Posts</h3>
+  
+    <%= render :partial => "group_posts/post", :collection => @group.latest_posts %>
+  
+    <% if @group.posts.count > 10 %>
+      <%= link_to "#{@group.posts.count - 10} more posts", group_post %>
+    <% end %>
+  </div>
+<% end %>
+
 <div class="actions">
   <%= link_to "New Post", new_group_post_path(@group), :class => "button button-blue" %>
+  <% if current_user && @group.editor?(current_user) %>
+    <%= link_to "Edit", edit_group_path(@group), :class => "button button-blue" %>
+    <%= link_to "Destroy", group_path(@group), :method => "delete", :class => "button button-blue", :confirm => "Are you sure? This cannot be undone." %>
+  <% end %>
 </div>

@@ -50,6 +50,13 @@ class WelcomeController < ApplicationController
     end
   end
   
+  def get_location
+    render :json => {:location => "San Francisco, CA"} and return if Rails.env == "development"
+    result = Geoip.lookup(request.remote_ip)
+    response = result.present? ? {:location => "#{result[:city]}, #{result[:country_code]}"} : {}
+    render :json => response
+  end
+  
   private
     def stripe_donate
       email = current_user.present? ? current_user.email : "anonymous user"

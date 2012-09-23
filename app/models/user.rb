@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include Locatable
+  
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -10,7 +12,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
   attr_accessible :provider, :uid, :fb_token, :fb_expires # omniauth
   attr_accessible :disable_emails, :disable_pm_emails
-  attr_accessible :name, :job_id, :location
+  attr_accessible :name, :job_id
   attr_accessible :strength, :agility, :vitality, :mind, :xp
   attr_accessor :leveled_up
   
@@ -31,7 +33,6 @@ class User < ActiveRecord::Base
   
   validate :check_skills
   
-  before_save :set_coords
   before_save :level_up
   
   def avatar
@@ -99,6 +100,10 @@ class User < ActiveRecord::Base
     self.tags.where("tags.id IN (?)", tag_ids).all.collect(&:name)
   end
   
+  def games_in_common(other_user)
+    self.games & other_user.games
+  end
+  
   def check_skills
     stats = [strength, agility, vitality, mind]
     return true if stats.all?{|s| s == 1 }
@@ -107,26 +112,6 @@ class User < ActiveRecord::Base
       errors.add(stat, "can't be below minimum of 7") if self.send(stat) < 7
       errors.add(stat, "went down. Contact us about a re-spec ;)") if self.send("#{stat}_changed?".to_sym) && self.send(stat) < self.send("#{stat}_was".to_sym)
     end
-  end
-  
-  # Location shenanigans
-  def set_coords
-    self.place.coords = PlaceFinder.coords(self.location) if self.location.present? && self.location_changed?
-    self.place.save
-    true
-  end
-  
-  def place
-    return @place if @place.present?
-    @place = Location.find_or_create_by(user_id: self.id)
-  end
-  
-  def coords
-    self.place.coords
-  end
-
-  def distance_from(point_arr)
-    Geocalc.distance_between(self.coords, point_arr)
   end
   
   # Omniauth

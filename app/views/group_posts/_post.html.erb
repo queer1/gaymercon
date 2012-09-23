@@ -28,6 +28,10 @@
       <%= post.content.bbcode_to_html.html_safe %>
     </div>
     
+    <div class="group-post-location">
+      <strong>Place:</strong> <%= post.place %>
+    </div>
+    
     <div class="group-post-event-time">
       <strong>Start:</strong> <%= post.start_time.strftime("%b %-d, %Y -- %l:%M%P") %><br />
       <strong>End:</strong> <%= post.end_time.strftime("%b %-d, %Y -- %l:%M%P") %><br />
@@ -58,5 +62,19 @@
       | <%= link_to "Edit", edit_group_post_path(post) %> | 
       <%= link_to "Delete", group_post_path(post), :method => "delete", :confirm => "Are you sure? This cannot be undone." %>
     <% end %>
+    
+    <% if post.kind == "event" && current_user && !post.replied?(current_user) && current_user.id != post.user_id %>
+      | <%= link_to "I'm coming", group_post_comments_path(post.group_id, post.id, :group_comment => {:content => "In"}), :method => "post" %>
+      | <%= link_to "Nope", group_post_comments_path(post.group_id, post.id, :group_comment => {:content => "Sorry, can't make it"}), :method => "post" %>
+    <% end %>
   </div>
+  
+  <div class="spacer clearfix">&nbsp;</div>
+  <% nearby = post.get_nearby_users %>
+  <% if nearby.present? %>
+    <div class="nearby-users">
+      <h4>Nearby Users</h4>
+      <%= render :partial => "users/card", :collection => nearby %>
+    </div>
+  <% end %>
 </div>

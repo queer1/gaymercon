@@ -17,10 +17,22 @@ class PlaceFinder
     return nil unless results.code == 200
     info = results.parsed_response
     return nil unless info.is_a?(Hash)
+    
+    Rails.logger.debug "PlaceFinder coords:\n#{info.inspect}"
     info = info.with_indifferent_access
-    lat = info.dig('ResultSet', 'Results').try(:[], 0).try(:[], 'latitude').try(:to_f)
-    lng = info.dig('ResultSet', 'Results').try(:[], 0).try(:[], 'longitude').try(:to_f)
-    return nil unless lat.present? && lng.present?
+    
+    result_set = info['ResultSet']
+    return unless result_set.present?
+    
+    results = result_set['Results']
+    return unless results.present?
+    
+    result = results[0]
+    return unless result.present?
+    
+    lat = result['latitude'].to_f
+    lng = result['longitude'].to_f
+    return unless lat.present? && lng.present?
     Rails.logger.debug "Found location [#{lat}, #{lng}]"
     [lat, lng]
   rescue Exception => e

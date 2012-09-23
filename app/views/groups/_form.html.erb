@@ -14,7 +14,13 @@
   <%= f.text_field :name, :placeholder => "Neverwinter Nights DMs" %>
   
   <%= f.label :kind, "Type:" %>
-  <%= f.select :kind, options_for_select(Group.kinds, group.kind) %>
+  <%= f.select :kind, options_for_select(Group.kinds.collect{|k| [k.titleize, k]}, group.kind) %>
+  
+  <div class="location <%= group.kind == 'location' ? '' : 'hidden' %>">
+    <%= f.label :place %>
+    <%= link_to image_tag("geolocation.png"), "#", :class => "get-location" %>
+    <%= f.text_field :place, :placeholder => "123 Awesome St, San Francisco CA", :class => 'place' %>
+  </div>
   
   <%= f.label :description %>
   <%= f.text_area :description, :size => "35x3" %>

@@ -51,6 +51,12 @@
   <%= form_for post do |f| %>
     <%= f.hidden_field :kind, :value => "event" %>
     
+    <div class="location">
+      <%= f.label :place %><br />
+      <%= link_to image_tag("geolocation.png"), "#", :class => "get-location" %>
+      <%= f.text_field :place, :placeholder => "123 Awesome St, San Francisco CA", :class => 'place' %>
+    </div>
+    
     <div class="form-row">
       <%= f.label :title %><br />
       <%= f.text_field :title %>

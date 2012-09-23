@@ -22,8 +22,11 @@
     <div><%= f.label :name %><br />
     <%= f.text_field :name %></div>
     
-    <div><%= f.label :location %><br />
-    <%= f.text_field :location %><%= link_to image_tag("geolocation.png"), "#", :class => "get-location" %></div>
+    <div class="location">
+      <%= f.label :place %><br />
+      <%= link_to image_tag("geolocation.png"), "#", :class => "get-location" %>
+      <%= f.text_field :place, :placeholder => "123 Awesome St, San Francisco CA", :class => 'place' %>
+    </div>
     
     <div>
       <%= f.label :job_id, "Select a Job:" %><br />
