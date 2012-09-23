@@ -17,4 +17,5 @@
 //= require jquery-ui-1.8.23.custom.min.js
 //= require jquery.query_string.js
 //= require require.js
+//= require jquery.bbcode.js
 //= require gaymercon/main.js

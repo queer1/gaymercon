@@ -1,0 +1,29 @@
+<% group = form || @group %>
+<%= form_for group, :html => {:class => "form-vertical"} do |f| %>
+  <% if group.header.present? %>
+    <%= image_tag group.header.url(:large) %>
+  <% end %>
+  
+  <%= f.label :header, "Header Image" %>
+  <%= f.file_field :header %>
+  <div class="explain">
+    Image will be cropped to 1000x381
+  </div>
+
+  <%= f.label :name %>
+  <%= f.text_field :name, :placeholder => "Neverwinter Nights DMs" %>
+  
+  <%= f.label :kind, "Type:" %>
+  <%= f.select :kind, options_for_select(Group.kinds, group.kind) %>
+  
+  <%= f.label :description %>
+  <%= f.text_area :description, :size => "35x3" %>
+  
+  <%= f.label :site_name, "Web site name:" %>
+  <%= f.text_field :site_name, :placeholder => "Official Neverwinter DMs Site" %>
+  
+  <%= f.label :site_link, "Web site link:" %>
+  <%= f.text_field :site_link, :placeholer => "http://www.neverwinterdms.com" %>
+  
+  <%= f.submit "Save", :class => "button button-blue" %>
+<% end %>

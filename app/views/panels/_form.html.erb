@@ -16,7 +16,7 @@
   <%= f.label :description %>
   <br />
   <small><em>Tip: to get the best response, make a short video and include it via the YouTube tag!</em></small><br />
-  <%= f.text_area :description, :placeholder => "Describe your panel in detail.", :id => "panel-content" %>
+  <%= f.text_area :description, :placeholder => "Describe your panel in detail.", :id => "panel-content", :class => "bbcode" %>
   <br />
   <%= submit_tag "Save", :class => "button button-blue" %>
 <% end %>

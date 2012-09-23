@@ -9,18 +9,15 @@
 .thread-byline { margin: 10px 0; font: italic 85% "Lucida Sans Unicode", "Lucida Grande", sans-serif; }
 
 .post { min-height: 200px; background: image-url("gradient-gray.png") top left repeat-x; border: 1px solid gray; padding: 0 0 1em 2em; width: 95%; margin-top: 1em; font: 16px "Lucida Sans Unicode", "Lucida Grande", sans-serif; }
-.post, .bbcode-preview { border: 1px solid gray; padding: 0 0 1.5em 2em; width: 95%; margin-top: 1em; font: 16px "Lucida Sans Unicode", "Lucida Grande", sans-serif; }
+.post { border: 1px solid gray; padding: 0 0 1.5em 2em; width: 95%; margin-top: 1em; font: 16px "Lucida Sans Unicode", "Lucida Grande", sans-serif; }
 .posts { margin-top: 2em; margin-bottom: 2em; }
-.bbcode-textarea, .post-form input, .post-form textarea, .post-form label { font: 16px "Lucida Sans Unicode", "Lucida Grande", sans-serif; }
-.bbcode-preview { width: 94%; border: none; }
+.post-form input, .post-form textarea, .post-form label { font: 16px "Lucida Sans Unicode", "Lucida Grande", sans-serif; }
 .edit-post { display: none; }
 .post-user { width: 125px; float: left; padding: 1.5em 0; }
 .post-member, .thread-member { font-size: 65%; font-style: italic; }
 .post-message { margin-left: 125px; padding: 2em 0 0 1em; overflow-x: auto;}
 .post-byline { margin: 10px 0 0 125px; padding-left: 14px; font: italic 85% "Lucida Sans Unicode", "Lucida Grande", sans-serif; }
 
-.bbcode-textarea { width: 65%; }
-.bbcode-toolbar { width: 64.8%; }
 form #title { width: 62.5%; }
 
 .forum-unread { color: #e93502; font: 14px 'Silkscreen', Silkscreen, helvetica, verdana, arial, sans-serif; }

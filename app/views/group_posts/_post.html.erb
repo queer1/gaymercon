@@ -1,0 +1,62 @@
+<% post ||= @post %>
+
+<div class="group-post">
+  <h3><%= post.kind == "link" ? "#{post.user.name}'s link" : post.title %></h3>
+  <div class="group-post-user">
+    <%= link_to image_tag(post.user.avatar), user_path(post.user) %>
+    <h4><%= link_to post.user.name, user_path(post.user) %></h4>
+    <h4>Lvl <%= post.user.level %> <br /> <%= post.user.job.try(:name) %></h4>
+    <div class="level-bar" data-progress="<%= post.user.progress %>"></div>
+  </div>
+  
+  <% case post.kind %>
+  <% when 'discussion' %>
+    <div class="group-post-body">
+      <%= post.content.bbcode_to_html.html_safe %>
+    </div>
+  <% when 'link' %>
+    <% link_text = post.title.present? ? post.title : "#{post.user.name}'s link" %>
+    <h5><%= link_to link_text, post.url %></h5>
+  <% when 'image' %>
+    <%= link_to image_tag(post.image.url(:medium)), post.image.url %>
+  <% when 'intro' %>
+    <div class="group-post-body">
+      <%= post.content.bbcode_to_html.html_safe %>
+    </div>
+  <% when 'event' %>
+    <div class="group-post-body">
+      <%= post.content.bbcode_to_html.html_safe %>
+    </div>
+    
+    <div class="group-post-event-time">
+      <strong>Start:</strong> <%= post.start_time.strftime("%b %-d, %Y -- %l:%M%P") %><br />
+      <strong>End:</strong> <%= post.end_time.strftime("%b %-d, %Y -- %l:%M%P") %><br />
+    </div>
+  <% else %>
+    <div class="group-post-body">
+      <%= post.content.bbcode_to_html.html_safe %>
+    </div>
+  <% end %>
+  
+  <div class="byline">
+    Posted at:
+    <%= post.created_at.strftime(TIME_FORMAT)%>
+    <% unless post.created_at == post.updated_at %>
+      // Edited at
+      <%= post.updated_at.strftime(TIME_FORMAT) %>
+    <% end %>
+  </div>
+  
+  <div class="group-post-links">
+    <% if post.comments.present? %>
+      <%= link_to "#{post.comments.count} #{post.comments.count > 1 ? 'replies' : 'reply'}", group_post_path(post.group_id, post.id) %>
+    <% else %>
+      <%= link_to "Reply", group_post_path(post.group_id, post.id) %>
+    <% end %>
+    
+    <% if current_user && post.editor?(current_user) %>
+      | <%= link_to "Edit", edit_group_post_path(post) %> | 
+      <%= link_to "Delete", group_post_path(post), :method => "delete", :confirm => "Are you sure? This cannot be undone." %>
+    <% end %>
+  </div>
+</div>

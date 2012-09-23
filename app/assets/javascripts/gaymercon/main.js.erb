@@ -35,4 +35,15 @@ $(document).ready(function(){
       return false;
     });
   }
+  
+  $.each($(".level-bar"), function(){
+    $(this).progressbar({ value: $(this).data('progress') });
+  });
+  $("textarea.bbcode").bbcode();
+  $("a.toggle").on("click", function(e){
+    e.preventDefault();
+    var target = $(this).attr('href')
+    $(target).slideToggle('fast');
+    return false;
+  })
 })

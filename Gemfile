@@ -19,6 +19,7 @@ gem "will_paginate"
 gem 'bb-ruby'
 gem 'pony'
 gem 'hominid' # mailchimp
+gem "paperclip"
 gem 'rmagick', :require => "RMagick"
 gem 'httparty'
 gem "fb_graph"

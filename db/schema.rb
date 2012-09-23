@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120920031536) do
+ActiveRecord::Schema.define(:version => 20120923071205) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -76,6 +76,45 @@ ActiveRecord::Schema.define(:version => 20120920031536) do
   add_index "graffitis", ["kind"], :name => "index_graffitis_on_kind"
   add_index "graffitis", ["tag_id"], :name => "index_graffitis_on_tag_id"
   add_index "graffitis", ["user_id"], :name => "index_graffitis_on_user_id"
+
+  create_table "group_comments", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "group_post_id"
+    t.text     "content"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "group_posts", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.string   "kind"
+    t.string   "title"
+    t.string   "content"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  create_table "groups", :force => true do |t|
+    t.string   "name"
+    t.string   "kind"
+    t.text     "description"
+    t.string   "site_name"
+    t.string   "site_link"
+    t.string   "header_file_name"
+    t.string   "header_content_type"
+    t.integer  "header_file_size"
+    t.datetime "header_updated_at"
+    t.integer  "moderator_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
 
   create_table "jobs", :force => true do |t|
     t.string   "name"

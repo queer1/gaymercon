@@ -3,8 +3,6 @@
 // # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $(function(){
   
-  $("#level-bar").progressbar({ value: $("#level-bar").data('progress') });
-  
   if($("#stat-radar").length == 0) return;
   require(["<%= asset_path 'SimpleRadarChart.js' %>"], function(){
     var radius = 65;

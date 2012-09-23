@@ -1,0 +1,90 @@
+<% post = form || @post %>
+
+<ul class="nav-tabs">
+  <% active = post.kind || "discussion" %>
+  <% GroupPost.kinds.each do |kind| %>
+    <li <%= kind == active ? "class='active'" : "" %>><%= link_to kind.titleize, "##{kind}" %></li>
+  <% end %>
+</ul>
+<div class="tab-pane <%= active == 'intro' ? '' : 'hidden' %>" id="intro">
+  <%= form_for post, :html => {:class => "form-vertical"} do |f| %>
+    <%= f.hidden_field :kind, :value => "intro" %>
+  
+    <%= f.label :title %>
+    <%= f.text_field :title, :value => "Hello from #{current_user.name}", :disabled => "disabled" %>
+  
+    <%= f.label :content, "Message" %>
+    <%= f.text_area :content, :size => "50x5", :class => "bbcode" %>
+    
+    <%= f.submit "Post", :class => "button button-blue", :name => "" %>
+  <% end %>
+</div>
+
+<div class="tab-pane <%= active == 'link' ? '' : 'hidden' %>" id="link">
+  <%= form_for post, :html => {:class => "form-vertical"} do |f| %>
+    <%= f.hidden_field :kind, :value => "link" %>
+  
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  
+    <%= f.label :content, "URL" %>
+    <%= f.text_field :content, :placeholder => "http://www.masseffectisgay.com" %>
+    
+    <%= f.submit "Post", :class => "button button-blue", :name => "" %>
+  <% end %>
+</div>
+
+<div class="tab-pane <%= active == 'image' ? '' : 'hidden' %>" id="image">
+  <%= form_for post, :html => {:class => "form-vertical"} do |f| %>
+    <%= f.hidden_field :kind, :value => "image" %>
+  
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  
+    <%= f.file_field :image %>
+    
+    <%= f.submit "Post", :class => "button button-blue", :name => "" %>
+  <% end %>
+</div>
+
+<div class="tab-pane <%= active == 'event' ? '' : 'hidden' %>" id="event">
+  <%= form_for post do |f| %>
+    <%= f.hidden_field :kind, :value => "event" %>
+    
+    <div class="form-row">
+      <%= f.label :title %><br />
+      <%= f.text_field :title %>
+    </div>
+  
+    <div class="form-row">
+      <%= f.label :content, "Description" %><br />
+      <%= f.text_area :content, :size => "50x5", :class => "bbcode" %>
+    </div>
+    
+    <div class="form-row">
+      <%= f.label :start_time %><br />
+      <%= f.datetime_select :start_time %>
+    </div>
+    
+    <div class="form-row">
+      <%= f.label :end_time %><br />
+      <%= f.datetime_select :end_time %>
+    </div>
+    
+    <%= f.submit "Post", :class => "button button-blue", :name => "" %>
+  <% end %>
+</div>
+
+<div class="tab-pane <%= active == 'discussion' ? '' : 'hidden' %>" id="discussion">
+  <%= form_for post, :html => {:class => "form-vertical"} do |f| %>
+    <%= f.hidden_field :kind, :value => "discussion" %>
+  
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  
+    <%= f.label :content, "Message" %>
+    <%= f.text_area :content, :size => "50x5", :class => "bbcode" %>
+    
+    <%= f.submit "Post", :class => "button button-blue", :name => "" %>
+  <% end %>
+</div>

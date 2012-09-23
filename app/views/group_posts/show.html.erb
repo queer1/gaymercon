@@ -1,0 +1,10 @@
+<%= render :partial => "groups/header" %>
+
+<%= render :partial => "post" %>
+
+<% if @post.comments.present? %>
+  <h3>Replies</h3>
+  <%= render :partial => "group_comments/comment", :collection => @post.comments %>
+<% end %>
+
+<%= render :partial => "group_comments/form" %>

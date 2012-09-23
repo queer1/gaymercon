@@ -10,6 +10,12 @@ Gc2::Application.routes.draw do
     get 'outbox', :on => :collection
   end
   
+  resources :groups do
+    resources :posts, :controller => "group_posts" do
+      resources :comments, :controller => "group_comments"
+    end
+  end
+  
   devise_for :users, controllers: { registrations: "users", :omniauth_callbacks => "users/omniauth_callbacks" }
   
   devise_scope :user do

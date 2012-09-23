@@ -1,0 +1,23 @@
+<%= render :partial => "header" %>
+
+<div class="group-body">
+  <h5>Type: <%= @group.kind.titleize %></h5>
+  <div class="group-description">
+    <%= @group.description.bbcode_to_html.html_safe %>
+  </div>
+  
+  <h6>Web site: <%= link_to (@group.site_name || @group.site_link), @group.site_link %></h6>
+</div>
+
+<div class="group-posts">
+  <h3>Latest Posts</h3>
+  
+  <%= render :partial => "group_posts/post", :collection => @group.latest_posts %>
+  
+  <% if @group.posts.count > 10 %>
+    <%= link_to "#{@group.posts.count - 10} more posts", group_post %>
+  <% end %>
+</div>
+<div class="actions">
+  <%= link_to "New Post", new_group_post_path(@group), :class => "button button-blue" %>
+</div>

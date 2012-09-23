@@ -51,6 +51,7 @@ GEM
       capistrano
     coalmine (0.5.3)
       jsonbuilder
+    cocaine (0.3.1)
     columnize (0.3.6)
     commonjs (0.2.6)
     debugger (1.2.0)
@@ -138,6 +139,12 @@ GEM
       omniauth (~> 1.0)
     origin (1.0.6)
     orm_adapter (0.4.0)
+    paperclip (3.2.0)
+      activemodel (>= 3.0.0)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      cocaine (>= 0.0.2)
+      mime-types
     polyglot (0.3.3)
     pony (1.4)
       mail (> 2.0)
@@ -225,6 +232,7 @@ DEPENDENCIES
   mongoid (~> 3.0.0)
   mysql2
   omniauth-facebook
+  paperclip
   pony
   rails (= 3.2.2)
   rmagick

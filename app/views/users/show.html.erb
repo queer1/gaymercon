@@ -7,7 +7,7 @@
     <br />
     <br />
     <h4>Lvl <%= @user.level %> <%= @user.job.try(:name) %></h4>
-    <div id="level-bar" data-progress="<%= @user.progress %>"></div>
+    <div class="level-bar" data-progress="<%= @user.progress %>"></div>
     
     <table class="stat-sidebar">
       <tr><td>Strength</td><td><%= @user.strength %></td></tr>

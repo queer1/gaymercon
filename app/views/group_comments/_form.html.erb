@@ -1,0 +1,12 @@
+<% comment = form || @comment %>
+<% post = comment.post %>
+<% group = comment.group %>
+<% path = comment.persisted? ? group_post_comment_path(group.id, post.id, comment.id) : group_post_comments_path(group.id, post.id) %>
+
+<%= form_for comment, :url => path, :html => {:class => "form-vertical"} do |f| %>
+  <%= f.label :comment, "Reply" %>
+  <%= f.text_area :content, :size => "50x5", :class => "bbcode" %>
+  
+  <% button = comment.persisted? ? "Edit" : "Post" %>
+  <%= f.submit button, :class => "button button-blue", :name => "" %>
+<% end %>

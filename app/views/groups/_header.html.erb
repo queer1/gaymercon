@@ -1,0 +1,9 @@
+<h1>Group</h1>
+<% if @group.header.present? %>
+  <div class="group-header group-header-image" style="background: url(<%= @group.header.url(:large) %>) top left no-repeat;">
+    <div class="spacer">&nbsp;</div>
+<% else %>
+  <div class="group-header">
+<% end %>
+  <h3><%= link_to @group.name, group_path(@group.id) %></h3>
+</div>

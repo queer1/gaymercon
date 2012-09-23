@@ -1,0 +1,8 @@
+<h1>Groups</h1>
+<ul>
+  <% @groups.each do |group| %>
+    <li><%= link_to group.name, group_path(group) %></li>
+  <% end %>
+</ul>
+
+<%= link_to "Start Your Own", new_group_path, :class => "button button-blue" %>
