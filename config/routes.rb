@@ -1,11 +1,5 @@
 Gc2::Application.routes.draw do
   
-  resources :forums do
-    resources :posts
-  end
-  match "forums/page/:page"=> 'forums#index', as: "threads_page"
-  match "forums/:id/:page"=> 'forums#show', as: "thread_page"
-  
   resources :messages do
     get 'outbox', :on => :collection
   end
