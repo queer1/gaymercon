@@ -9,7 +9,7 @@ class GroupPost < ActiveRecord::Base
   KINDS = ["discussion", "link", "image", "intro", "event"]
   validates_inclusion_of :kind, :in => KINDS, :message => "is not valid."
   
-  has_attached_file :header, :styles => { :medium => "570x580>", :thumb => "150x150>" }
+  has_attached_file :image, :styles => { :medium => "570x580>", :thumb => "150x150>" }
   
   def self.kinds
     KINDS
