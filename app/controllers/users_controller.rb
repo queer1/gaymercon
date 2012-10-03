@@ -34,7 +34,6 @@ class UsersController < Devise::RegistrationsController
       flash[:error] = "Couldn't update your profile: #{current_user.all_errors}"
     end
     
-    current_user.graffitis.destroy_all
     games = params[:games].present? ? params[:games].keys : []
     games << params[:new_games]
     current_user.games = games
