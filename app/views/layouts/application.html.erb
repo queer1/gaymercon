@@ -49,8 +49,8 @@
               <li><%= link_to "About", welcome_path("about") %></li>
               <li><%= link_to "Contact", welcome_path("contact") %></li>
               <li><%= link_to "Volunteer", welcome_path("volunteer") %></li>
-              <li><%= link_to "Blog", "http://blog.gaymercon.org" %></li>
               <li><%= link_to "Donate", welcome_path("donate") %></li>
+              <li><%= link_to "Blog", "http://blog.gaymercon.org" %></li>
             </ul>
           </li>
           <% connect = params[:controller] == "users" && params[:action] == 'connect' ? 'active-link' : '' %>
@@ -87,6 +87,7 @@
         </ul>
       </nav>
       <div class="social-icons">
+        <a class="social-icon blog" href="http://blog.gaymercon.org"></a>
         <a class="social-icon fb" href="https://www.facebook.com/GaymerCon"></a>
         <a class="social-icon twitter" href="https://twitter.com/GaymerCon"></a>
       </div>

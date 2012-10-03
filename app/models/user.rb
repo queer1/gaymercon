@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :provider, :uid, :fb_token, :fb_expires # omniauth
+  attr_accessible :provider, :uid, :fb_token, :fb_expires, :tw_token, :tw_expires # omniauth
   attr_accessible :disable_emails, :disable_pm_emails
   attr_accessible :name, :job_id
   attr_accessible :strength, :agility, :vitality, :mind, :xp
@@ -139,6 +139,7 @@ class User < ActiveRecord::Base
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     user ||= User.where(:email => auth.info.email).first
+    user ||= User.where(:name => auth.extra.raw_info.name).first
     if user.present?
       user.update_attributes( provider: auth.provider, 
         uid: auth.uid, 
@@ -157,11 +158,36 @@ class User < ActiveRecord::Base
                            )
     end
 
-    pull games from facebook
+    # pull games from facebook
     fb_user = FbGraph::User.me(user.fb_token)
     likes = fb_user.likes.select {|l| l.category == 'Games/toys' }
     likes.collect!(&:name)
     user.add_games(likes)
+    user.save
+    user
+  end
+  
+  def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    user ||= User.where(:name => auth.extra.raw_info.name).first
+    if user.present?
+      user.update_attributes( provider: auth.provider, 
+        uid: auth.uid, 
+        tw_token: auth.credentials.token, 
+        tw_expires: Time.at(auth.credentials.expires_at) 
+      )
+    else
+      user = User.create(name:auth.extra.raw_info.name,
+                           provider:auth.provider,
+                           uid:auth.uid,
+                           tw_token: auth.credentials.token, 
+                           tw_expires: Time.at(auth.credentials.expires_at.to_i),
+                           email:"#{auth.extra.raw_info.screen_name}@twitter.com",
+                           password:Devise.friendly_token[0,20],
+                           job_id: 1
+                           )
+    end
+
     user.save
     user
   end

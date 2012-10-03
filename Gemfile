@@ -14,6 +14,7 @@ gem 'mysql2'
 
 gem 'devise'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 gem 'high_voltage'
 gem "will_paginate"
 gem 'bb-ruby'

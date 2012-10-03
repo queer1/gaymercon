@@ -2,7 +2,6 @@ class UsersController < Devise::RegistrationsController
   
   before_filter :setup_jobs, :only => [:new, :create, :edit, :update]
   before_filter :authenticate_user!, only: [:index, :edit, :update, :delete, :add_tags]
-  before_filter :beta, only: [:new, :create]
   
   def index
     @coords = current_user.coords if current_user.present?

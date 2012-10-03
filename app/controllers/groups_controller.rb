@@ -7,13 +7,18 @@ class GroupsController < ApplicationController
     if current_user.present?
       @coords = current_user.location.coords || Geoip.lookup(request.remote_ip)
       @nearby_groups = current_user.nearby_groups.to_a
+      @nearby_groups = Group.nearby(@coords).all unless @nearby_groups.present?
       @your_groups = current_user.groups.order("updated_at desc").all
-      @groups = Group.where("id NOT IN (?)", @your_groups.collect(&:id)).order("updated_at desc").page(params[:page])
+      
+      gids = @nearby_groups.collect(&:id) + @your_groups.collect(&:id)
+      @groups = Group.where("id NOT IN (?)", gids).order("updated_at desc").page(params[:page]).all
     else
       @coords = Geoip.lookup(request.remote_ip)
       @nearby_groups = Group.nearby(@coords).all
       @your_groups = nil
-      @groups = Group.order("updated_at desc").page(params[:page])
+      
+      gids = @nearby_groups.collect(&:id)
+      @groups = Group.where("id NOT IN (?)", gids).order("updated_at desc").page(params[:page])
     end
   end
   
@@ -28,7 +33,7 @@ class GroupsController < ApplicationController
       @nearby_users = @nearby_users.to_a.shuffle.take(10)
     end
     
-    if @group.kind == "game"
+    if @group.kind == "game" && @group.game.present? && @group.game_key.present?
       @game_groups = Group.where(game_key: @group.game_key).all - [@group]
     end
     

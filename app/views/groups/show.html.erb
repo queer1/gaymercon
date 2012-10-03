@@ -29,14 +29,13 @@
   <% if current_user %>
     <div class="actions">
       <% if @group.member?(current_user) %>
-        <%= link_to "Leave", leave_group_path(@group), :method => "post", :class => "button button-blue" %>
+        <%= link_to "Leave", leave_group_path(@group), :method => "post", :class => "button button-orange" %>
       <% else %>
         <%= link_to "Join", join_group_path(@group), :method => "post", :class => "button button-blue" %>
       <% end %>
-      <%= link_to "New Post", new_group_post_path(@group), :class => "button button-blue" %>
       <% if @group.editor?(current_user) %>
-        <%= link_to "Edit", edit_group_path(@group), :class => "button button-blue" %>
-        <%= link_to "Destroy", group_path(@group), :method => "delete", :class => "button button-blue", :confirm => "Are you sure? This cannot be undone." %>
+        <%= link_to "Edit", edit_group_path(@group), :class => "button button-orange" %>
+        <%= link_to "Destroy", group_path(@group), :method => "delete", :class => "button button-orange", :confirm => "Are you sure? This cannot be undone." %>
       <% end %>
     </div>
   <% end %>
@@ -47,6 +46,7 @@
     <h3>Latest Posts</h3>
 
     <ul class="nav nav-tabs">
+      <li><%= link_to "New Post", new_group_post_path(@group), :class => "button button-blue" %></li>
       <li class="<%= @post_kind.present? ? '' : 'active' %>"><%= link_to "All", group_path(@group) %></li>
       <% GroupPost.kinds.each do |kind| %>
         <li class="<%= @post_kind == kind ? 'active' : '' %>"><%= link_to kind.pluralize.capitalize, group_discussions_path(@group, kind) %></li>

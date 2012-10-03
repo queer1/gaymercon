@@ -1,0 +1,7 @@
+development:
+  key: 12345
+  secret: 12345
+
+production:
+  key: 12345
+  secret: 12345

@@ -74,6 +74,7 @@ class PanelsController < ApplicationController
     def setup_panel
       @panel = Panel.find_by_id(params[:id])
       @panel ||= Panel.find_by_id(params[:panel_id])
+      redirect_to panels_path, alert: "Sorry, couldn't find that panel" unless @panel
     end
     
     def authenticate_panel

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121002022651) do
+ActiveRecord::Schema.define(:version => 20121003192043) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -226,6 +226,8 @@ ActiveRecord::Schema.define(:version => 20121002022651) do
     t.integer  "luck",                   :default => 1
     t.boolean  "disable_emails"
     t.boolean  "disable_pm_emails"
+    t.string   "tw_token"
+    t.time     "tw_expires"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true

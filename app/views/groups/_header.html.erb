@@ -1,21 +1,21 @@
 <% group = header || @group %>
 <% if group.header.present? %>
-  <div class="group-header group-header-image" style="background: url(<%= group.header.url(:large) %>) top left no-repeat;">
+  <div class="group-header group-header-image" style="background: url('<%= group.header.url(:large) %>') top left no-repeat;">
     <div class="spacer">&nbsp;</div>
 <% elsif group.kind == 'game' %>
-  <div class="group-header group-header-image" style="background: url(<%= asset_path('default_group_game.png') %>) top left no-repeat;">
+  <div class="group-header group-header-image" style="background: url('<%= asset_path('default_group_game.png') %>') top left no-repeat;">
     <div class="spacer">&nbsp;</div>
 <% elsif group.kind == 'location' %>
-  <div class="group-header group-header-image" style="background: url(<%= asset_path('default_group_location.png') %>) top left no-repeat;">
+  <div class="group-header group-header-image" style="background: url('<%= asset_path('default_group_location.png') %>') top left no-repeat;">
     <div class="spacer">&nbsp;</div>
 <% elsif group.kind == 'interest' %>
-  <div class="group-header group-header-image" style="background: url(<%= asset_path('default_group_interest.png') %>) top left no-repeat;">
+  <div class="group-header group-header-image" style="background: url('<%= asset_path('default_group_interest.png') %>') top left no-repeat;">
     <div class="spacer">&nbsp;</div>
 <% elsif group.kind == 'guild' %>
-  <div class="group-header group-header-image" style="background: url(<%= asset_path('default_group_guild.png') %>) top left no-repeat;">
+  <div class="group-header group-header-image" style="background: url('<%= asset_path('default_group_guild.png') %>') top left no-repeat;">
     <div class="spacer">&nbsp;</div>
 <% elsif group.kind == 'official' %>
-  <div class="group-header group-header-image" style="background: url(<%= asset_path('default_group_official.png') %>) top left no-repeat;">
+  <div class="group-header group-header-image" style="background: url('<%= asset_path('default_group_official.png') %>') top left no-repeat;">
     <div class="spacer">&nbsp;</div>
 <% else %>
   <div class="group-header">

@@ -20,7 +20,7 @@
   </div>
   <div class="profile-main">
     <div class="profile-row">
-      <h4><%= link_to "Send a Message", new_message_path(to_user_id: @user.id ) %></h4>
+      <%= link_to "Send a Message", new_message_path(to_user_id: @user.id ), :class => "button button-blue" %>
     </div>
     
     <% if @user.badge.present? %>

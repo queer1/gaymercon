@@ -7,7 +7,7 @@
 .selected-job { background: #AAD7FF; }
 .field_with_errors label { color: red; }
 .submit { margin-top: 2em; }
-.key-field { display: block; float: left; width: 30%; vertical-align: middle; }
+.key-field { display: block; float: left; width: 30%; vertical-align: middle; font-family: 'Silkscreen', Silkscreen, helvetica, verdana, arial, sans-serif; color: #333; }
 #error_explanation { color: #b94a48; background: #f2dede; border: darken(#e2cece, 3%); padding: 1em; width: 50%; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; clear: both; }
 #error_explanation h2 { font-size: 14px; }
 #error_explanation li { margin-top: .5em; }

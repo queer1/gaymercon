@@ -4,6 +4,10 @@
   <%= link_to "Sign up with <b>Facebook</b>".html_safe, omniauth_authorize_path(resource_name, "facebook"), :class => "btn-auth btn-facebook large" %><br />
 </div>
 
+<div class="social-signin twitter-signin">
+  <%= link_to "Sign up with <b>Twitter</b>".html_safe, omniauth_authorize_path(resource_name, "twitter"), :class => "btn-auth btn-twitter large" %><br />
+</div>
+
 <h2>Or...</h2>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
