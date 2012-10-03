@@ -6,7 +6,6 @@
     
     <% origin = current_user.coords || @coords %>
     <% if origin.present? && user.coords.present? %>
-      <% Rails.logger.debug "origin: #{origin.inspect} coords: #{user.coords.inspect}"%>
       <%= number_with_precision(Geocalc.distance_between(origin, user.coords), precision: 2) %> miles away
     <% else %>
       <% gic = user.respond_to?(:coplays) ? user.coplays : user.games_in_common(current_user).count %>
