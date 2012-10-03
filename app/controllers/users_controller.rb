@@ -67,12 +67,12 @@ class UsersController < Devise::RegistrationsController
       @coords = current_user.location.coords if current_user.location
       @coords ||= Geoip.lookup(request.remote_ip)
       
-      @nearby_users = current_user.nearby_users.all if current_user.location
-      @nearby_users ||= User.nearby(@coords).all
+      @nearby_users = current_user.nearby_users.to_a if current_user.location
+      @nearby_users ||= User.nearby(@coords).to_a
       @nearby_users -= (@users + [current_user])
       
-      @nearby_groups = current_user.nearby_groups.all if current_user.location
-      @nearby_groups ||= Group.nearby(@coords).all
+      @nearby_groups = current_user.nearby_groups.to_a if current_user.location
+      @nearby_groups ||= Group.nearby(@coords).to_a
       @nearby_groups -= @groups
     else
       @coords = Geoip.lookup(request.remote_ip)
