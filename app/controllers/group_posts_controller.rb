@@ -22,7 +22,7 @@ class GroupPostsController < ApplicationController
     parms[:group_id] = @group.id
     @post = GroupPost.create(parms)
     if @post.valid?
-      @post.place = params[:group_post][:place] if @post.kind == "location" && params[:group_post][:place].present?
+      @post.place = params[:group_post][:place] if @post.kind == "location" || @post.kind == "event" && params[:group_post][:place].present?
       redirect_to group_post_path(@group.id, @post), notice: "Post created!"
     else
       flash.now[:alert] = "Oops, there was a problem: #{@post.all_errors}"
