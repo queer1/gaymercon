@@ -57,9 +57,17 @@
   
     <%= will_paginate @posts %>
   </div>
+<% else %>
+  <div class="group-posts">
+    <h3>Latest Posts</h3>
+    <div class="explain">Nothing here yet! Make a post now, before it was cool!</div>
+    <div class="clearfix">&nbsp;</div>
+    <%= link_to "New Post", new_group_post_path(@group), :class => "button button-blue" %>
+    <div class="clearfix">&nbsp;</div>
+  </div>
 <% end %>
 
-<% if @game_groups %>
+<% if @game_groups.present? %>
   <div class="game-groups">
     <h3>Other Groups for <%= @group.game %></h3>
     <%= render :partial => 'header', :collection => @game_groups %>
