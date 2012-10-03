@@ -69,6 +69,8 @@ GEM
       warden (~> 1.2.1)
     erubis (2.7.0)
     eventmachine (1.0.0)
+    exception_notification (2.6.1)
+      actionmailer (>= 3.0.4)
     execjs (1.4.0)
       multi_json (~> 1.0)
     faraday (0.8.1)
@@ -235,6 +237,7 @@ DEPENDENCIES
   coalmine
   debugger
   devise
+  exception_notification
   fb_graph
   geoip-c
   high_voltage

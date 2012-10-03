@@ -81,7 +81,7 @@
               <li><%= link_to image_tag("gear.png", alt: "Admin"), halo_path("index"), title: "Admin" %></li>
             <% end %>
           <% else %>
-            <% unless Rails.env == "production" %><%= link_to "Sign Up", signup_path %><% end %>
+            <li><%= link_to "Sign Up", signup_path %></li>
             <li><%= link_to "Log In", login_path %></li>
           <% end %>
         </ul>
