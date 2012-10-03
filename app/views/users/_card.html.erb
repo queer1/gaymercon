@@ -1,11 +1,20 @@
 <% user = card || @user %>
 <div class="user-card">
   <%= link_to image_tag(user.avatar), user_path(user) %><br />
-  <%= link_to user.name, user_path(user) %><br />
+  <%= link_to (user.name || "Player"), user_path(user) %><br />
   <% if current_user && user != current_user %>
-    <%= user.games_in_common(current_user).count %> Games in Common
+    
+    <% origin = current_user.coords || @coords %>
+    <% if origin.present? && user.coords.present? %>
+      <% Rails.logger.debug "origin: #{origin.inspect} coords: #{user.coords.inspect}"%>
+      <%= number_with_precision(Geocalc.distance_between(origin, user.coords), precision: 2) %> miles away
+    <% else %>
+      <% gic = user.respond_to?(:coplays) ? user.coplays : user.games_in_common(current_user).count %>
+      <%= gic > 0 ? "#{gic} Games in Common" : "Level #{user.level}<br />#{user.job.try(:name) || 'Gaymer'}".html_safe %>
+    <% end %>
+    
   <% else %>
     Level <%= user.level %><br />
-    <%= user.job.name %>
+    <%= user.job.try(:name) || 'Gaymer' %>
   <% end %>
 </div>

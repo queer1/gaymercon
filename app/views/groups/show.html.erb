@@ -10,35 +10,58 @@
 <div class="group-body">
   <h5>Type: <%= @group.kind.titleize %></h5>
   
-  <% if @group.kind == "location" %>
+  <% if @group.place.present? %>
     <br /><h5>Location: <%= @group.place %></h5>
   <% end %>
   
+  <% if @group.game.present? && @group.kind != "game" %>
+    <br /><h5>Game: <%= link_to @group.game, group_path(@group.game_group) %>
+  <% end %>
+  
   <div class="group-description">
-    <%= @group.description.bbcode_to_html.html_safe %>
+    <%= (@group.description || "").bbcode_to_html.html_safe %>
   </div>
   
   <% if @group.site_link.present? %>
     <h6>Web site: <%= link_to (@group.site_name || @group.site_link), @group.site_link %></h6>
+  <% end %>
+  
+  <% if current_user %>
+    <div class="actions">
+      <% if @group.member?(current_user) %>
+        <%= link_to "Leave", leave_group_path(@group), :method => "post", :class => "button button-blue" %>
+      <% else %>
+        <%= link_to "Join", join_group_path(@group), :method => "post", :class => "button button-blue" %>
+      <% end %>
+      <%= link_to "New Post", new_group_post_path(@group), :class => "button button-blue" %>
+      <% if @group.editor?(current_user) %>
+        <%= link_to "Edit", edit_group_path(@group), :class => "button button-blue" %>
+        <%= link_to "Destroy", group_path(@group), :method => "delete", :class => "button button-blue", :confirm => "Are you sure? This cannot be undone." %>
+      <% end %>
+    </div>
   <% end %>
 </div>
 
 <% if @group.posts.count > 0 %>
   <div class="group-posts">
     <h3>Latest Posts</h3>
+
+    <ul class="nav nav-tabs">
+      <li class="<%= @post_kind.present? ? '' : 'active' %>"><%= link_to "All", group_path(@group) %></li>
+      <% GroupPost.kinds.each do |kind| %>
+        <li class="<%= @post_kind == kind ? 'active' : '' %>"><%= link_to kind.pluralize.capitalize, group_discussions_path(@group, kind) %></li>
+      <% end %>
+    </ul>
+
+    <%= render :partial => "group_posts/post", :collection => @posts %>
   
-    <%= render :partial => "group_posts/post", :collection => @group.latest_posts %>
-  
-    <% if @group.posts.count > 10 %>
-      <%= link_to "#{@group.posts.count - 10} more posts", group_post %>
-    <% end %>
+    <%= will_paginate @posts %>
   </div>
 <% end %>
 
-<div class="actions">
-  <%= link_to "New Post", new_group_post_path(@group), :class => "button button-blue" %>
-  <% if current_user && @group.editor?(current_user) %>
-    <%= link_to "Edit", edit_group_path(@group), :class => "button button-blue" %>
-    <%= link_to "Destroy", group_path(@group), :method => "delete", :class => "button button-blue", :confirm => "Are you sure? This cannot be undone." %>
-  <% end %>
-</div>
+<% if @game_groups %>
+  <div class="game-groups">
+    <h3>Other Groups for <%= @group.game %></h3>
+    <%= render :partial => 'header', :collection => @game_groups %>
+  </div>
+<% end %>

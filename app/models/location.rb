@@ -19,7 +19,7 @@ class Location
   end
   
   def nearby(max_miles_away = 50, item_class = "user")
-    return [] if self.coords == [199.9, 199.9]
+    return [] if self.coords.nil? || self.coords == [199.9, 199.9]
     self.class.nearby(self.coords, max_miles_away, item_class)
   end
   

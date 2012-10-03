@@ -249,10 +249,8 @@
     color: #00B7FF;
   }
   
-  #info-links ul { position: absolute; }
-  #info-links ul { width: 125px; text-align: center; border: 1px solid gray; background: white; padding: 1em; left: 295px;  }
-  #info-links li { display: block; }
-
+  .links-menu ul { position: absolute; width: 125px; text-align: center; border: 1px solid gray; background: white; padding: 1em; }
+  .links-menu li { display: block; }
   .error, .notice, .info { font: 24px silkscreen, helvetica, sans-serif; padding: .5em; margin: .5em 0 .5em 0; clear: both; }
 
   .social-icons
@@ -467,13 +465,17 @@
   .actions { clear: both; margin-top: 2em; min-height: 37px; }
   .level-bar { width: 65%; height: 10px !important; margin-left: auto; margin-right: auto; }
   
-  .group-header { clear: both;}
-  .group-header-image { width: 1000px; height: 381px; } 
-  .group-header-image h3 { background: white; padding: 10px; margin-left: 25px; margin-top: 140px; display: inline-block; width: auto;}
+  .group-header { clear: both; width: 1000px; height: 191px; background: url(<%= asset_path 'noisy_grid.png' %>) top left repeat; border: 1px solid black; margin-bottom: 10px; }
+  .group-header-image { }
+  .group-header-info { background: white; padding: 10px; margin-left: 25px; margin-top: 50px; display: inline-block; width: auto;}
+  .group-header-info ul { }
+  .group-header-info li { display: inline; margin-right: 10px; border-bottom: 1px dashed #ccc; padding: 5px; font-family: 'Silkscreen', Silkscreen, helvetica, verdana, arial, sans-serif; }
+  
   .group-body { margin: 2em; }
   .group-body h5 { font-size: 24px; }
   .group-body .group-description { font-style: italic; margin-top: 1.5em; margin-bottom: 1.5em;}
   .group-body h6 { font-size: 18px; }
+  .group-posts .nav { padding-bottom: 1.5em; }
   
   .bbcode-textarea { width: 65%; }
   .bbcode-toolbar { width: 64.8%; }
@@ -491,5 +493,5 @@
   .group-post-event-time { margin: 12px 0 12px 0; }
   
   /* users */
-  .user-card { width: 150px; min-height: 150px; border: 1px solid black; border-radius: 5px; text-align: center; display: inline-block; padding-top: 12px; padding-bottom: 12px; }
+  .user-card { width: 150px; min-height: 150px; border: 1px solid black; border-radius: 5px; text-align: center; display: inline-block; padding-top: 12px; padding-bottom: 12px; margin: 1em; }
 }

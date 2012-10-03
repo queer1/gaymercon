@@ -55,6 +55,7 @@ gem 'capistrano'
 
 # To use debugger
 group :development do
+  gem "thin"
   gem "debugger"
 end
 

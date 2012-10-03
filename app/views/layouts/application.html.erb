@@ -43,7 +43,7 @@
       <nav>
         <ul class="nav-links">
         <% info = params[:controller] == "welcome" && params[:action] != 'index' ? 'active-link' : '' %>
-          <li id="info-links">
+          <li id="info-links" class="links-menu">
             <%= link_to "Info", welcome_path("about"), :class => info, :id => "info-link" %>
             <ul style="display:none; ">
               <li><%= link_to "About", welcome_path("about") %></li>
@@ -53,7 +53,15 @@
               <li><%= link_to "Donate", welcome_path("donate") %></li>
             </ul>
           </li>
-          <li><%= link_to "Connect", groups_path %></li>
+          <% connect = params[:controller] == "users" && params[:action] == 'connect' ? 'active-link' : '' %>
+          <li id="connect-links" class="links-menu">
+            <%= link_to "Connect", connect_path, :class => connect, :id => "connect-link" %>
+            <ul style="display:none; ">
+              <li><%= link_to "Forums", forums_groups_path %></li>
+              <li><%= link_to "Groups", groups_path %></li>
+              <li><%= link_to "Users", users_path %></li>
+            </ul>
+          </li>
           <li><%= link_to "Panels", panels_path %></li>
           <% if current_user %>
             <li><%= link_to "Con Badge", new_badge_path %></li>

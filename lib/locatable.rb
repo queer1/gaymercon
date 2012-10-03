@@ -30,6 +30,7 @@ module Locatable
   end
   
   def coords
+    return nil if location.coords == [199.9, 199.9]
     location.coords
   end
   

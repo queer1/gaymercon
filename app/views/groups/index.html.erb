@@ -1,8 +1,16 @@
+<% if @nearby_groups.present? %>
+  <h1>Nearby Groups</h1>
+  <%= render :partial => "header", :collection => @nearby_groups %>
+<% end %>
+
+<% if @your_groups.present? %>
+  <h1>Your Groups</h1>
+  <%= render :partial => "header", :collection => @your_groups %>
+<% end %>
+
 <h1>Groups</h1>
-<ul>
-  <% @groups.each do |group| %>
-    <li><%= link_to group.name, group_path(group) %></li>
-  <% end %>
-</ul>
+<%= render :partial => "header", :collection => @groups %>
+
+<div class="clearfix">&nbsp;</div>
 
 <%= link_to "Start Your Own", new_group_path, :class => "button button-blue" %>

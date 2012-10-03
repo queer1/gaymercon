@@ -5,27 +5,14 @@ class UsersController < Devise::RegistrationsController
   before_filter :beta, only: [:new, :create]
   
   def index
-    unless Rails.env != "production" || current_user
-      redirect_to :root, :notice => "Sorry, we're not ready yet. Please sign up to our mailing list to be notified. Thanks!" and return
-    end
+    @coords = current_user.coords if current_user.present?
+    @coords ||= Geoip.lookup(request.remote_ip)
+    @nearby_users = User.nearby(@coords)
+    @nearby_users -= [current_user] if current_user.present?
     
-    unless params[:sort] && params[:sort] != "location"
-      if current_user && current_user.coords && current_user.coords != [199.9, 199.9]
-        @coords = current_user.coords
-      else
-        remote_ip = request.remote_ip
-        remote_ip = "24.6.151.215" if remote_ip == "127.0.0.1"
-        coords = Geoip.lookup(remote_ip)
-        @coords = [coords[:latitude], coords[:longitude]] if coords[:latitude].present? && coords[:longitude].present?
-      end
-    end
-
-    if @coords
-      max_distance = params[:max_distance].try(:to_i) || 50
-      @users = Location.nearby_users(@coords, max_distance).page(params[:page])
-      @users = nil if @users.count == 0
-    end
-    @users ||= User.order("id DESC").page(params[:page])
+    @users = current_user.coplayers if current_user
+    @users -= [current_user] if current_user.present?
+    @users = User.order("id desc").page(params[:page]) unless @users.present?
   end
   
   def edit
@@ -50,12 +37,7 @@ class UsersController < Devise::RegistrationsController
     current_user.graffitis.destroy_all
     games = params[:games].present? ? params[:games].keys : []
     games << params[:new_games]
-    games.each do |game|
-      next if game == ''
-      tag = Tag.where(name: game).first_or_create
-      graffiti = Graffiti.where(user_id: current_user.id, tag_id: tag.id, kind: "games").first_or_create
-    end
-    
+    current_user.games = games
     current_user.place = params[:user][:place]
     
     redirect_to edit_user_registration_path(current_user)
@@ -68,12 +50,38 @@ class UsersController < Devise::RegistrationsController
   end
   
   def add_tags
-    tags = params.slice(:genres, :scenes, :games)
-    tags.each do |relevance, key|
-      tag = Tag.where(name: key).first_or_create
-      graffiti = Graffiti.where(user_id: current_user.id, tag_id: tag.id, kind: "games").first_or_create
+    if params[:games].is_a?(String)
+      current_user.add_game(params[:games])
+      render :json => {:relevance => 'games', :tag => params[:games]}
+    elsif params[:games].is_a?(Hash)
+      current_user.add_games(params[:games])
+      render :json => {:relevance => 'games', :tag => params[:games].values.first}
     end
-    render :json => {:relevance => tags.keys.first, :tag => tags.values.first}
+  end
+  
+  def connect
+    if current_user.present?
+      @users = current_user.coplayers
+      @users = @users = User.where("id != ?", current_user.id).order("id desc").limit(10).all unless @users.present?
+      @groups = current_user.groups
+      
+      @coords = current_user.location.coords if current_user.location
+      @coords ||= Geoip.lookup(request.remote_ip)
+      
+      @nearby_users = current_user.nearby_users.all if current_user.location
+      @nearby_users ||= User.nearby(@coords).all
+      @nearby_users -= (@users + [current_user])
+      
+      @nearby_groups = current_user.nearby_groups.all if current_user.location
+      @nearby_groups ||= Group.nearby(@coords).all
+      @nearby_groups -= @groups
+    else
+      @coords = Geoip.lookup(request.remote_ip)
+      @nearby_users = User.nearby(@coords)
+      @nearby_groups = Group.nearby(@coords)
+      @users = User.order("id desc").limit(10).all
+      @groups = Group.order("updated_at desc").limit(10).all
+    end
   end
   
   private

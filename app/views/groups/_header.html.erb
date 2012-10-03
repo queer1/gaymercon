@@ -1,9 +1,43 @@
-<h1>Group</h1>
-<% if @group.header.present? %>
-  <div class="group-header group-header-image" style="background: url(<%= @group.header.url(:large) %>) top left no-repeat;">
+<% group = header || @group %>
+<% if group.header.present? %>
+  <div class="group-header group-header-image" style="background: url(<%= group.header.url(:large) %>) top left no-repeat;">
+    <div class="spacer">&nbsp;</div>
+<% elsif group.kind == 'game' %>
+  <div class="group-header group-header-image" style="background: url(<%= asset_path('default_group_game.png') %>) top left no-repeat;">
+    <div class="spacer">&nbsp;</div>
+<% elsif group.kind == 'location' %>
+  <div class="group-header group-header-image" style="background: url(<%= asset_path('default_group_location.png') %>) top left no-repeat;">
+    <div class="spacer">&nbsp;</div>
+<% elsif group.kind == 'interest' %>
+  <div class="group-header group-header-image" style="background: url(<%= asset_path('default_group_interest.png') %>) top left no-repeat;">
+    <div class="spacer">&nbsp;</div>
+<% elsif group.kind == 'guild' %>
+  <div class="group-header group-header-image" style="background: url(<%= asset_path('default_group_guild.png') %>) top left no-repeat;">
+    <div class="spacer">&nbsp;</div>
+<% elsif group.kind == 'official' %>
+  <div class="group-header group-header-image" style="background: url(<%= asset_path('default_group_official.png') %>) top left no-repeat;">
     <div class="spacer">&nbsp;</div>
 <% else %>
   <div class="group-header">
 <% end %>
-  <h3><%= link_to @group.name, group_path(@group.id) %></h3>
+  
+  <div class="group-header-info">
+    <h3><%= link_to group.name, group_path(group.id) %></h3>
+    <ul>
+      <% users_count = group.users.count %>
+      <% if users_count > 0 %>
+        <li><%= users_count %> <%= users_count > 1 ? "users" : "user" %></li>
+      <% end %>
+      
+      <% if group.place.present? %>
+        <li><%= group.place %></li>
+      <% end %>
+      
+      <% post_count = group.posts.count %>
+      <% if post_count > 0 %>
+        <li><%= "#{post_count}" %> <%= post_count > 1 ? "posts" : "post" %></li>
+      <% end %>
+    </ul>
+  </div>
+  
 </div>

@@ -24,6 +24,12 @@ $(document).ready(function(){
     $("ul", this).hide();
   })
   
+  $("#connect-links").hover(function(){
+    $("ul", this).show();
+  }, function(){
+    $("ul", this).hide();
+  })
+  
   if($('.nav-tabs').length > 0){
     $('.nav-tabs').on("click", "li", function(){
       var fs = $(this).find('a').first().attr("href");

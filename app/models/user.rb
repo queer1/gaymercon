@@ -26,6 +26,8 @@ class User < ActiveRecord::Base
   has_many :sent_messages, foreign_key: 'from_user_id', class_name: "Message"
   has_many :alerts, class_name: "UserAlert"
   has_many :admin_badges, foreign_key: "admin_id", class_name: "Badge"
+  has_many :memberships
+  has_many :groups, :through => :memberships
   
   has_one :badge
   
@@ -36,7 +38,7 @@ class User < ActiveRecord::Base
   before_save :level_up
   
   def avatar
-    self.job_id ? self.job.icon_path : "default_user.png"
+    self.job.present? ? self.job.icon_path : "default_user.png"
   end
   
   def admin?
@@ -80,29 +82,47 @@ class User < ActiveRecord::Base
   end
   
   # Tag shenanigans
-  def add_tag(kind, tag)
-    tag = Tag.where(name: tag).first_or_create if tag.is_a?(String) || tag.is_a?(Symbol)
-    kind = kind.to_s
-    g = Graffiti.where(kind: kind, tag_id: tag.id, user_id: self.id).first
-    g ||= self.graffitis.create(kind: kind, tag_id: tag.id)
-    g.persisted? && tag.persisted?
-  end
-  
-  def remove_tag(kind, tag)
-    tag = Tag.where(name: tag).first_or_create if tag.is_a?(String) || tag.is_a?(Symbol)
-    kind = kind.to_s
-    g = Graffiti.where(kind: kind, tag_id: tag.id, user_id: self.id).first
-    g.destroy if g.present?
+  def games=(games = [])
+    gids = self.groups.where(kind: 'game').collect(&:id)
+    Membership.where(user_id: self.id, group_id: gids).destroy_all
+    add_games(games)
   end
   
   def games
-    tag_ids = self.graffitis.where("kind = 'games'").all.collect(&:tag_id)
-    self.tags.where("tags.id IN (?)", tag_ids).all.collect(&:name)
+    self.groups.where(kind: 'game').collect(&:game)
+  end
+  
+  def add_games(games)
+    games.each { |game| add_game(game) }
+  end
+  
+  def add_game(game)
+    return unless game.present?
+    group = Group.where(game_key: game.to_url).first
+    group ||= Group.create(name: game, game: game, game_key: game.to_url, kind: 'game', moderator_id: self.id)
+    Membership.where(user_id: self.id, group_id: group.id).first_or_create
+    group
+  end
+  
+  def coplayers
+    gids = self.groups.where(kind: 'game').select("groups.id").collect(&:id)
+    User.find_by_sql(<<-SQL
+      SELECT u.*, COUNT(*) as coplays
+      FROM memberships m
+      LEFT JOIN users u ON u.id = m.user_id
+      WHERE m.group_id IN (#{gids.join(',')})
+      AND m.user_id != #{self.id}
+      GROUP BY m.user_id
+      HAVING coplays > 0
+    SQL
+    )
   end
   
   def games_in_common(other_user)
     self.games & other_user.games
   end
+  
+  # Skillz methodz
   
   def check_skills
     stats = [strength, agility, vitality, mind]
@@ -136,10 +156,11 @@ class User < ActiveRecord::Base
                            )
     end
 
-    # pull games from facebook
-    # fb_user = FbGraph::User.me(user.fb_token)
-    #     likes = fb_user.likes.select {|l| l.category == 'Games/toys' }
-    #     likes.each {|l| user.games << l.name }
+    pull games from facebook
+    fb_user = FbGraph::User.me(user.fb_token)
+    likes = fb_user.likes.select {|l| l.category == 'Games/toys' }
+    likes.collect!(&:name)
+    user.add_games(likes)
     user.save
     user
   end

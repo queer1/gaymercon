@@ -1,25 +1,33 @@
 <% group = form || @group %>
 <%= form_for group, :html => {:class => "form-vertical"} do |f| %>
-  <% if group.header.present? %>
-    <%= image_tag group.header.url(:large) %>
-  <% end %>
-  
-  <%= f.label :header, "Header Image" %>
-  <%= f.file_field :header %>
-  <div class="explain">
-    Image will be cropped to 1000x381
-  </div>
 
   <%= f.label :name %>
   <%= f.text_field :name, :placeholder => "Neverwinter Nights DMs" %>
   
   <%= f.label :kind, "Type:" %>
-  <%= f.select :kind, options_for_select(Group.kinds.collect{|k| [k.titleize, k]}, group.kind) %>
+  <% kinds = Group.kinds %>
+  <% kinds -= ['official'] unless current_user.admin? %>
+  <%= f.select :kind, options_for_select(kinds.collect{|k| [k.titleize, k]}, group.kind) %>
+
+  <% if group.header.present? %>
+    <%= image_tag group.header.url(:large) %>
+  <% end %>
+  
+  <div class="game <%= (group.kind == 'guild' || group.kind == 'game' || !group.kind.present?) ? '' : 'hidden' %>">
+    <%= f.label :game %>
+    <%= f.text_field :game, :placeholder => "Mass Effect 3" %>
+  </div>
   
   <div class="location <%= group.kind == 'location' ? '' : 'hidden' %>">
     <%= f.label :place %>
     <%= link_to image_tag("geolocation.png"), "#", :class => "get-location" %>
     <%= f.text_field :place, :placeholder => "123 Awesome St, San Francisco CA", :class => 'place' %>
+  </div>
+  
+  <%= f.label :header, "Header Image" %>
+  <%= f.file_field :header %>
+  <div class="explain">
+    Image will be cropped to 1000x191
   </div>
   
   <%= f.label :description %>
