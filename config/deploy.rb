@@ -68,7 +68,7 @@ end
 
 before 'deploy:update', 'sudo_ls'
 # before 'deploy:finalize_update', 'deploy_assets'
-after "deploy:update_code", "deploy:build_missing_paperclip_styles"
+#after "deploy:update_code", "deploy:build_missing_paperclip_styles"
 after 'deploy:finalize_update', 'deploy:symlink'
 
 # If you are using Passenger mod_rails uncomment this:

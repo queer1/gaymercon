@@ -1,12 +1,12 @@
 class GroupsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_filter :authenticate_user!, except: [:index, :show, :forums]
   before_filter :find_group, only: [:show, :edit, :update, :destroy, :join, :leave]
   before_filter :authenticate_owner, only: [:edit, :update, :destroy]
   
   def index
     if current_user.present?
       @coords = current_user.location.coords || Geoip.lookup(request.remote_ip)
-      @nearby_groups = current_user.nearby_groups.all
+      @nearby_groups = current_user.nearby_groups.to_a
       @your_groups = current_user.groups.order("updated_at desc").all
       @groups = Group.where("id NOT IN (?)", @your_groups.collect(&:id)).order("updated_at desc").page(params[:page])
     else

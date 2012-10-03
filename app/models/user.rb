@@ -106,6 +106,7 @@ class User < ActiveRecord::Base
   
   def coplayers
     gids = self.groups.where(kind: 'game').select("groups.id").collect(&:id)
+    return [] unless gids.present?
     User.find_by_sql(<<-SQL
       SELECT u.*, COUNT(*) as coplays
       FROM memberships m
