@@ -84,6 +84,10 @@ class User < ActiveRecord::Base
   end
   
   # Tag shenanigans
+  def game_groups
+    self.groups.where(kind: "game").all
+  end
+  
   def games=(games = [])
     gids = self.groups.where(kind: 'game').collect(&:id)
     Membership.where(user_id: self.id, group_id: gids).destroy_all

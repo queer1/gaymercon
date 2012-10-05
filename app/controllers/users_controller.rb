@@ -68,7 +68,7 @@ class UsersController < Devise::RegistrationsController
   def show
     @user = User.find_by_id(params[:id])
     redirect_to root_path, error: "Sorry, couldn't find that user." and return unless @user.present?
-    @common = @user.games & current_user.games if current_user.present? && @user != current_user
+    @common = @user.game_groups & current_user.game_groups if current_user.present? && @user != current_user
   end
   
   def add_tags

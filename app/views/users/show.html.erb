@@ -35,18 +35,18 @@
         <h3>Games You Both Play</h3>
         <ul class="games-list">
           <% @common.each do |game| %>
-            <li><%= game %></li>
+            <li><%= link_to game.game.titleize, group_path(game) %></li>
           <% end %>
         </ul>
       </div>
     <% end %>
     
-    <% if @user.games.present? %>
+    <% if @user.game_groups.present? %>
       <div class="profile-row">
         <h3>Games</h3>
         <ul class="games-list">
-          <% @user.games.each do |game| %>
-            <li><%= game %></li>
+          <% @user.game_groups.each do |game| %>
+            <li><%= link_to game.game.titleize, group_path(game) %></li>
           <% end %>
         </ul>
       </div>
