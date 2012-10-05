@@ -10,6 +10,12 @@
     <strong>Badge Info:</strong> <%= @badge.description %>
   </div>
   
+  <%= f.label :name, "Name" %>
+  <%= f.text_field :name, :placeholder => "GLaDOS" %>
+  <div class="explain">
+    We will be checking your picture ID at the door - this name <strong>has</strong> to match!
+  </div>
+  
   <%= f.label :address_1, "Address Line 1" %>
   <%= f.text_field :address_1, :placeholder => "457 Rainbow Road" %>
   

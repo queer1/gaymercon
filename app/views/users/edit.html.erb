@@ -28,8 +28,8 @@
       <%= f.text_field :place, :placeholder => "San Francisco, CA", :class => 'place' %>
     </div>
     
-    <div>
-      <%= f.label :job_id, "Select a Job:" %><br />
+    <div class="jobs" id="jobs-column">
+      <h3>Select a Job</h3>
       <div class="job-select">
         <% @jobs.each do |job| %>
           <div class="job-card <%= job.id == resource.job_id ? 'selected-job' : '' %>" data-job-id="<%= job.id %>">
@@ -39,13 +39,11 @@
           </div>
         <% end %>
       </div>
-      <div class="clearfix">&nbsp;</div>
     </div>
-    <br />
     
     <% stat_setup = [resource.strength, resource.agility, resource.vitality, resource.mind].all?{|s| s == 1} %>
     <% free_points = resource.free_skill_points > 0 %>
-    <div class="stats">
+    <div class="stats" id="stats-column">
       <h3>Stats</h3>
       <% if stat_setup %>
         <small><em>Drag and drop any number to any attribute to pick your stats!</em></small>
@@ -113,7 +111,7 @@
       <% end %>
     </div>
     
-    <br />
+    <div class="clearfix">&nbsp;</div>
     
     <div class="control-group">
       <h3>Games</h3>
@@ -121,6 +119,12 @@
         <%= render :partial => 'users/key_field', :collection => @games, :locals => {:form => f, :resource => resource, :relevance => :games} %>
         <%= text_field_tag :new_games, '', :placeholder => "New Game", :'data-relevance' => 'games' %>
       </div>
+    </div>
+    
+    <div class="nicknames">
+      <h3>Gamer IDs</h3>
+      <%= render :partial => "network", :collection => @nicknames %>
+      <%= link_to '+ More', '#', :id => "more-nicknames" %>
     </div>
   </fieldset>
   

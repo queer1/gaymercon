@@ -55,6 +55,21 @@
         <h3><%= @user.name %> hasn't added any games yet! <%= link_to "send them a message", new_message_path(to_user_id: @user.id ) %> and suggest a few!</h3>
       </div>
     <% end %>
+    
+    <% if @user.nicknames.present? %>
+      <div class="profile-row">
+        <h3>Gamer IDs</h3>
+        <table>
+          <tr><th>Network</th><th>Handle</th></tr>
+          <% @user.nicknames.each do |nickname| %>
+            <tr class="<%= cycle('', 'highlight') %>">
+              <td class="left"><strong><%= nickname.network.upcase %></strong></td>
+              <td class="left"><%= nickname.name %></td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    <% end %>
   </div>
 </div>
 <%= link_to "<< Back", :back %>

@@ -41,4 +41,27 @@ $(function(){
     else
       $("#kind_other").hide();
   });
+  
+  $("#moar-panelists").on("click", function(e){
+    e.preventDefault();
+    var form = $(".panelist-form:last").clone();
+    form.find("input").val("");
+    form.hide();
+    $("#panelists").append(form);
+    form.slideDown();
+    return false;
+  });
+  
+  $("#panelists").on("click", ".remove-panelist", function(e){
+    e.preventDefault();
+    var form = $(e.target).parents(".panelist-form");
+    if($(".panelist-form").length > 1){
+      form.fadeOut('fast', function(e){ $(this).remove(); });
+    }else{
+      var newform = form.clone();
+      newform.find("input").val("");
+      form.replaceWith(newform);
+    }
+    return false;
+  });
 });

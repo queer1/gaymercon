@@ -108,6 +108,7 @@ module LevelCalculator
     end
   
     def level(xp)
+      return 99 if xp > 1963274
       prev = 1
       levels.each {|level, required| return prev if xp < required; prev = level }
     end

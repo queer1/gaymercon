@@ -21,10 +21,10 @@ class BadgesController < ApplicationController
   end
   
   def update
-    parms = params[:badge].slice(:address_1, :address_2, :city, :province, :country, :postal)
+    parms = params[:badge].slice(:name, :address_1, :address_2, :city, :province, :country, :postal)
     @badge.update_attributes(parms)
     if @badge.valid?
-      redirect_to edit_bagdes_path, notice: "Badge updated!"
+      redirect_to edit_badge_path(@badge), notice: "Badge updated!"
     else
       flash.now[:alert] = "There was a problem: #{@badge.all_errors}"
       render :edit
@@ -43,7 +43,7 @@ class BadgesController < ApplicationController
     redirect_to new_badge_path, alert: "Sorry, that badge is already taken" and return if @badge.user_id.present?
     
     if request.post?
-      parms = params[:badge].slice(:address_1, :address_2, :city, :province, :country, :postal)
+      parms = params[:badge].slice(:name, :address_1, :address_2, :city, :province, :country, :postal)
       parms[:user_id] = current_user.id
       @badge.update_attributes(parms)
       if @badge.valid?

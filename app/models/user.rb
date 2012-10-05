@@ -28,12 +28,14 @@ class User < ActiveRecord::Base
   has_many :admin_badges, foreign_key: "admin_id", class_name: "Badge"
   has_many :memberships
   has_many :groups, :through => :memberships
+  has_many :nicknames
   
   has_one :badge
   
   belongs_to :job
   
   validate :check_skills
+  validate :check_job
   
   before_save :level_up
   
@@ -123,7 +125,7 @@ class User < ActiveRecord::Base
     self.games & other_user.games
   end
   
-  # Skillz methodz
+  # Validationz
   
   def check_skills
     stats = [strength, agility, vitality, mind]
@@ -133,6 +135,11 @@ class User < ActiveRecord::Base
       errors.add(stat, "can't be below minimum of 7") if self.send(stat) < 7
       errors.add(stat, "went down. Contact us about a re-spec ;)") if self.send("#{stat}_changed?".to_sym) && self.send(stat) < self.send("#{stat}_was".to_sym)
     end
+  end
+  
+  def check_job
+    return true if Job.for_user(self).include?(self.job)
+    errors.add(:base, "Please pick one of the available jobs.")
   end
   
   # Omniauth

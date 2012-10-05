@@ -1,8 +1,12 @@
 class Panel < ActiveRecord::Base
   belongs_to :user
   has_many :panel_votes
-  
+  has_many :panelists
+
   after_save :grant_xp
+  
+  validates_presence_of :title
+  validates_presence_of :description
   
   # reddit algorithm, as stolen from here: 
   # http://www.seomoz.org/blog/reddit-stumbleupon-delicious-and-hacker-news-algorithms-exposed

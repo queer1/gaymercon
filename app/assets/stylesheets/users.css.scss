@@ -2,6 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .title-link { font-size: 55%; }
+.character-col { float: left; width: 45%;}
+#jobs-column { float: left; width: 610px;}
+#stats-column { float: left; width: 270px; }
 .job-card { float: left; width: 150px; padding-top: 25px; padding-bottom: 25px; text-align: center; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; cursor: pointer; }
 .job-card * { cursor: pointer; }
 .selected-job { background: #AAD7FF; }
@@ -24,3 +27,7 @@
 .add-stat { padding: .5em .75em .5em .75em; border: 1px solid black; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; cursor: pointer; }
 
 .profile-row { display: block; margin-bottom: 1.5em; }
+
+.nickname-remove { color: black; padding: 8px 11px; border: 1px solid black; border-radius: 3px; cursor: pointer; }
+.nickname-remove:hover { color: black; }
+.nickname-network { }

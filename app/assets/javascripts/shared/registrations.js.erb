@@ -14,6 +14,44 @@ $(function(){
   var initial_tab = $(".nav-tabs .active a").first().attr("href");
   $(initial_tab).show();
   
+  $("#more-nicknames").on("click", function(e){
+    console.log("moar nix");
+    e.preventDefault();
+    var nick_form = $(".nicknames .form-row:last");
+    var new_nick = nick_form.clone();
+    new_nick.find("input[type='text']").val("");
+    new_nick.find("option:first").attr("selected", "selected");
+    nick_form.after(new_nick);
+    
+    return false;
+  });
+  
+  $(".nicknames").on("change", "select", function(e){
+    console.log("nick change");
+    var sel = $(e.target);
+    if(sel.val() == "other")
+      sel.siblings(".nickname-network-other").fadeIn();
+    else
+      sel.siblings(".nickname-network-other").hide();
+  });
+  
+  $(".nicknames").on("click", ".nickname-remove", function(e){
+    e.preventDefault();
+    console.log("nick remove");
+    if($(".nickname-form").length > 1){
+      $(this).parents(".nickname-form").fadeOut('fast', function(e){ $(this).remove(); });
+    }else{
+      console.log("IS THIS HAPPENING")
+      var form = $(this).parents(".nickname-form");
+      var new_nick = form.clone();
+      new_nick.find("input").val("");
+      new_nick.find(".nickname-network-other").hide();
+      new_nick.find("option:first").attr("selected", "selected");
+      form.replaceWith(new_nick);
+    }
+    return false;
+  });
+  
   $('#new_games').on("keypress", function(e) {
                   /* ENTER PRESSED*/
                   if (e.which == 13) {

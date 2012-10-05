@@ -4,19 +4,33 @@ class UsersController < Devise::RegistrationsController
   before_filter :authenticate_user!, only: [:index, :edit, :update, :delete, :add_tags]
   
   def index
-    @coords = current_user.coords if current_user.present?
-    @coords ||= Geoip.lookup(request.remote_ip)
-    @nearby_users = User.nearby(@coords)
-    @nearby_users -= [current_user] if current_user.present?
-    
-    @users = current_user.coplayers if current_user
-    @users -= [current_user] if current_user.present?
-    @users = User.order("id desc").page(params[:page]) unless @users.present?
+    if params[:tab] == "nearby"
+      @tab = "nearby"
+      @coords = current_user.coords if current_user.present?
+      @coords ||= Geoip.lookup(request.remote_ip)
+      @users = User.nearby(@coords)
+      @users -= [current_user] if current_user.present?
+      @users = @users.paginate(page: params[:page])
+    elsif params[:network].present?
+      @tab = "network"
+      @network = params[:network]
+      if @network == "other"
+        @network = "Other Networks"
+        @users = Nickname.where("network NOT IN (?)", Nickname.networks).includes(:user).order("created_at desc").page(params[:page]) if params[:network].present?
+      else
+        @users = Nickname.where(network: params[:network]).includes(:user).order("created_at desc").page(params[:page]) if params[:network].present?
+      end
+    else
+      @tab = "cool"
+      @users ||= (current_user.coplayers - [current_user]).paginate(page: params[:page])
+      @users = User.order("id desc").page(params[:page]) unless @users.present?
+    end
   end
   
   def edit
     user_games = resource.games || []
     @games = (["Rock Band", "Smash Bros", "Tekken", "Street Fighter", "Starcraft", "Armored Core", "IIDX", "DDR"] + user_games).compact.uniq
+    @nicknames = resource.nicknames + [Nickname.new(user_id: current_user.id)]
     super
   end
   
@@ -24,7 +38,6 @@ class UsersController < Devise::RegistrationsController
     fields = [:name, :job_id]
     stats = [:strength, :agility, :vitality, :mind]
     fields += stats if current_user.free_skill_points > 0 || stats.all?{|s| current_user.send(s) == 1}
-    Rails.logger.debug "fields: #{fields.inspect}"
     profile = params[:user].slice(*fields)
     
     if current_user.update_attributes(profile)
@@ -38,7 +51,18 @@ class UsersController < Devise::RegistrationsController
     current_user.games = games
     current_user.place = params[:user][:place]
     
-    redirect_to edit_user_registration_path(current_user)
+    current_user.nicknames.destroy_all
+    nicknames = params[:nicknames]
+    nicknames = [] unless nicknames.present?
+    params[:nicknames].each do |nickname|
+      network = nickname["network"] == "other" ? nickname["network_other"] : nickname["network"]
+      next unless nickname["name"].present? && network.present?
+      n = Nickname.where(user_id: current_user.id, network: network).first_or_initialize
+      n.name = nickname["name"]
+      n.save
+    end
+    
+    redirect_to edit_user_registration_path
   end
   
   def show
@@ -84,7 +108,8 @@ class UsersController < Devise::RegistrationsController
   
   private
     def setup_jobs
-      @jobs = Job.all
+      @jobs = Job.for_user(current_user) if current_user.present?
+      @jobs ||= Job.new_jobs
     end
     
     def after_sign_up_path_for(resource)

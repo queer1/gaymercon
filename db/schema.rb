@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121003192043) do
+ActiveRecord::Schema.define(:version => 20121005012040) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20121003192043) do
     t.string   "postal"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "name"
   end
 
   add_index "badges", ["code"], :name => "index_badges_on_code", :unique => true
@@ -121,8 +122,9 @@ ActiveRecord::Schema.define(:version => 20121003192043) do
   create_table "jobs", :force => true do |t|
     t.string   "name"
     t.string   "icon"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "level_requirement"
   end
 
   create_table "memberships", :force => true do |t|
@@ -144,10 +146,33 @@ ActiveRecord::Schema.define(:version => 20121003192043) do
   add_index "messages", ["from_user_id"], :name => "index_messages_on_from_user_id"
   add_index "messages", ["to_user_id"], :name => "index_messages_on_to_user_id"
 
+  create_table "nicknames", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "network"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "panel_votes", :force => true do |t|
     t.integer  "user_id"
     t.integer  "panel_id"
     t.integer  "value"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "panelists", :force => true do |t|
+    t.string   "panel_id"
+    t.string   "name"
+    t.string   "email"
+    t.string   "phone"
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "city"
+    t.string   "province"
+    t.string   "country"
+    t.integer  "age"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

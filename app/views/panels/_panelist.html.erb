@@ -1,0 +1,27 @@
+<% pan = panelist || @panelist %>
+<%= fields_for 'panel[panelists][]', pan do |p| %>
+  <div class="form-tight panelist-form">
+    <h4>Panelist <a href='#' class="remove-panelist">&times;</a></h4>
+    <%= p.label :name %><br />
+    <%= p.text_field :name, :placeholder => "Handsome Jack" %>
+    <br />
+    <%= p.label :email %><br />
+    <%= p.email_field :email, :placeholder => "jack@hyperion.com" %>
+    <br />
+    <%= p.label :phone, "Phone Number" %><br />
+    <%= p.text_field :phone, :placeholder => "+1 (999) 555-5555 "%>
+    <br />
+    <%= p.label :address_1, "Address" %><br />
+    <%= p.text_field :address_1, :placeholder => "Address Line 1" %><br />
+    <%= p.text_field :address_2, :placeholder => "Address Line 2" %><br />
+    <%= p.text_field :city, :placeholder => "City", :style => "width: 259px;" %>
+    <%= p.text_field :province, :placeholder => "State / Province", :style => "width: 36px;" %><br />
+    <%= p.text_field :country, :placeholder => "Country" %>
+    <br />
+    <%= p.label :age %><br />
+    <%= p.text_field :age, :placeholder => "18+", :style => "width: 36px" %>
+    <div class="explain" style="display: inline-block;">
+      You <strong>must</strong> be over 18 by Aug 3, 2013 to be a panelist or to attend GaymerCon.
+    </div>
+  </div>
+<% end %>
