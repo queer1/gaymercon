@@ -50,7 +50,7 @@ class Admin::BadgesController < AdminController
   
   def mass_create
     num = params[:number].to_i
-    badge_params = { :level => params[:level], :explain => params[:explain], :admin_id => current_user.id }
+    badge_params = { :level => params[:badge_level], :explain => params[:explain], :admin_id => current_user.id }
     num.times do
       badge_params[:code] = SecureRandom.hex(4)
       Badge.create(badge_params)
