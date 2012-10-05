@@ -7,11 +7,13 @@ class Badge < ActiveRecord::Base
   
   LEVELS = {
     coin_entered: "General Access",
-    boss_mode: "General Access + VIP party & VIP brunch",
+    boss_mode: "General Access + Fri night VIP party",
+    boss_brunch: "General Access + Fri night VIP party + VIP brunch on Sunday",
+    boss_lunch: "General Access + Fri night VIP party + VIP lunch on Sunday + VIP brunch on Sunday",
     artist: "General Access + table in Artist's Alley",
     exhibitor: "General Access + table in Exhibitor Hall",
-    cheat_code: "General Access + instant front-of-line",
-    backstage: "All Access",
+    cheat_code: "General Access + Fri night VIP party + VIP lunch + VIP brunch + instant front-of-line at all events",
+    backstage: "General Access + Fri night VIP party + VIP lunch + VIP brunch + backstage passes to Gaymer Concert",
     press: "All Access",
     special: "Industry / Special Guest pass: All Access",
     staff: "Staff"

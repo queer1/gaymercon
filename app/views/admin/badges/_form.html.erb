@@ -7,6 +7,11 @@
   
   <%= f.label :level %>
   <%= f.select :level, options_for_select(Badge.levels.collect{|k,v| [k.to_s.titleize, k]}, badge.level) %>
+  <% Badge.levels.each do |k,v| %>
+    <div class="explain hidden badge-info" id="badge_info_<%= k %>">
+      <strong>Badge Info:</strong> <%= v %>
+    </div>
+  <% end %>
   
   <%= f.label :explain %>
   <%= f.text_field :explain %>
