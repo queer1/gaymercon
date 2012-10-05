@@ -22,7 +22,7 @@ class UsersController < Devise::RegistrationsController
       end
     else
       @tab = "cool"
-      @users ||= (current_user.coplayers - [current_user]).paginate(page: params[:page])
+      @users ||= (current_user.coplayers - [current_user]).paginate(page: params[:page]) if current_user.present?
       @users = User.order("id desc").page(params[:page]) unless @users.present?
     end
   end
