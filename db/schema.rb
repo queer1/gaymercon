@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121005012040) do
+ActiveRecord::Schema.define(:version => 20121005225358) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20121005012040) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "name"
+    t.integer  "age"
   end
 
   add_index "badges", ["code"], :name => "index_badges_on_code", :unique => true

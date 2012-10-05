@@ -21,7 +21,7 @@ class BadgesController < ApplicationController
   end
   
   def update
-    parms = params[:badge].slice(:name, :address_1, :address_2, :city, :province, :country, :postal)
+    parms = params[:badge].slice(:name, :age, :address_1, :address_2, :city, :province, :country, :postal)
     @badge.update_attributes(parms)
     if @badge.valid?
       redirect_to edit_badge_path(@badge), notice: "Badge updated!"
