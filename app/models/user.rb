@@ -125,7 +125,7 @@ class User < ActiveRecord::Base
       GROUP BY m.user_id
       HAVING coplays > 0
     SQL
-    )
+    ).reject{|u| u.id.nil? }
   end
   
   def games_in_common(other_user)

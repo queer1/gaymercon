@@ -84,7 +84,7 @@ class UsersController < Devise::RegistrationsController
   def connect
     if current_user.present?
       @users = current_user.coplayers
-      @users = @users = User.where("id != ?", current_user.id).order("id desc").limit(10).all unless @users.present?
+      @users = User.where("id != ?", current_user.id).order("id desc").limit(10).all unless @users.present?
       @groups = current_user.groups
       
       @coords = current_user.location.coords if current_user.location
