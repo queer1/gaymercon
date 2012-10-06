@@ -35,7 +35,6 @@ class User < ActiveRecord::Base
   belongs_to :job
   
   validate :check_skills
-  validate :check_job
   
   before_save :level_up
   
@@ -142,7 +141,7 @@ class User < ActiveRecord::Base
   end
   
   def check_job
-    return true if Job.for_user(self).include?(self.job)
+    return true if !self.job_id.present? || Job.for_user(self).include?(self.job)
     errors.add(:base, "Please pick one of the available jobs.")
   end
   
