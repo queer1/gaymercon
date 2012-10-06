@@ -7,7 +7,6 @@ gem 'rails', '3.2.2'
 
 gem 'capistrano'
 gem 'capistrano-unicorn'
-gem 'coalmine'
 
 gem "mongoid", "~> 3.0.0"
 gem 'mysql2'

@@ -34,7 +34,7 @@ class Group < ActiveRecord::Base
   
   def game_unique
     return unless self.kind == "game"
-    if Group.where(game_key: self.game_key, kind: "game").exists?
+    if Group.where("game_key = ? and kind = 'game' and id != ?", self.game_key, self.id).exists?
       errors[:base] << "There is already a group for that game. Is your group a guild?"
     end
   end
