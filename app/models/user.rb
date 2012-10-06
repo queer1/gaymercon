@@ -154,14 +154,14 @@ class User < ActiveRecord::Base
       user.update_attributes( provider: auth.provider, 
         uid: auth.uid, 
         fb_token: auth.credentials.token, 
-        fb_expires: Time.at(auth.credentials.expires_at) 
+        fb_expires: Time.at(auth.credentials.expires_at.to_i) 
       )
     else
       user = User.create(name:auth.extra.raw_info.name,
                            provider:auth.provider,
                            uid:auth.uid,
                            fb_token: auth.credentials.token, 
-                           fb_expires: Time.at(auth.credentials.expires_at),
+                           fb_expires: Time.at(auth.credentials.expires_at.to_i),
                            email:auth.info.email,
                            password:Devise.friendly_token[0,20],
                            job_id: 1
@@ -184,7 +184,7 @@ class User < ActiveRecord::Base
       user.update_attributes( provider: auth.provider, 
         uid: auth.uid, 
         tw_token: auth.credentials.token, 
-        tw_expires: Time.at(auth.credentials.expires_at) 
+        tw_expires: Time.at(auth.credentials.expires_at.to_i) 
       )
     else
       user = User.create(name:auth.extra.raw_info.name,
