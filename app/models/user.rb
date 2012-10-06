@@ -38,8 +38,12 @@ class User < ActiveRecord::Base
   
   before_save :level_up
   
+  # blegh. debugged on production
   def avatar
-    self.job.present? ? self.job.icon_path : "default_user.png"
+    return "default_user.png" unless self.job_id.present?
+    the_job = Job.where(id: self.job_id)
+    return "default_user.png" unless the_job.present?
+    the_job.icon_path
   end
   
   def admin?
