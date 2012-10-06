@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
   # blegh. debugged on production
   def avatar
     return "default_user.png" unless self.job_id.present?
-    the_job = Job.where(id: self.job_id)
+    the_job = Job.where(id: self.job_id).first
     return "default_user.png" unless the_job.present?
     the_job.icon_path
   end
