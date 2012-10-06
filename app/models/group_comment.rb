@@ -23,6 +23,6 @@ class GroupComment < ActiveRecord::Base
   end
   
   def editor?(user)
-    user.id == user_id || user.id == self.group.moderator_id || user.moderator? || user.admin?
+    self.user.id == user_id || user.id == self.group.moderator_id || user.mod?
   end
 end
