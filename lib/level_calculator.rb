@@ -107,13 +107,13 @@ module LevelCalculator
       LEVELS
     end
   
-    def level(xp)
-      return 99 if xp > 1963274
+    def level(xp = 0)
+      return 99 if xp.to_i > 1963274
       prev = 1
-      levels.each {|level, required| return prev if xp < required; prev = level }
+      levels.each {|level, required| return prev if xp.to_i < required; prev = level }
     end
   
-    def progress(xp)
+    def progress(xp = 0)
       xp = xp.to_i
       lvl = level(xp)
       diff = LEVELS[lvl+1] - LEVELS[lvl]
