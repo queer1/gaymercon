@@ -114,6 +114,7 @@ module LevelCalculator
     end
   
     def progress(xp)
+      xp = xp.to_i
       lvl = level(xp)
       diff = LEVELS[lvl+1] - LEVELS[lvl]
       percent = (xp - LEVELS[lvl]) / 100.0
