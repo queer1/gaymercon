@@ -23,6 +23,9 @@ class GroupComment < ActiveRecord::Base
   end
   
   def editor?(user)
-    self.user.id == user_id || user.id == self.group.moderator_id || user.mod?
+    return true if user.try(:mod?)
+    return false unless user.id.present?
+    return false unless self.user_id.present?
+    user_id == self.group.try(:moderator_id)) || self.user_id == user.id
   end
 end

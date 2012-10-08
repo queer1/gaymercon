@@ -54,7 +54,7 @@ class UsersController < Devise::RegistrationsController
     current_user.nicknames.destroy_all
     nicknames = params[:nicknames]
     nicknames = [] unless nicknames.present?
-    params[:nicknames].each do |nickname|
+    nicknames.each do |nickname|
       network = nickname["network"] == "other" ? nickname["network_other"] : nickname["network"]
       next unless nickname["name"].present? && network.present?
       n = Nickname.where(user_id: current_user.id, network: network).first_or_initialize
