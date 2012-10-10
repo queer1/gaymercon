@@ -9,6 +9,8 @@ Gc2::Application.routes.draw do
       resources :comments, :controller => "group_comments"
     end
     get :forums, :on => :collection
+    get :events, :on => :collection
+    get :users, :on => :member
     post :join, :on => :member
     post :leave, :on => :member
   end

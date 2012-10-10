@@ -6,6 +6,9 @@ class GroupPost < ActiveRecord::Base
   belongs_to :group
   has_many :comments, :class_name => "GroupComment"
   
+  validates_presence_of :group_id
+  validates_presence_of :user_id
+  
   KINDS = ["discussion", "link", "image", "intro", "event"]
   validates_inclusion_of :kind, :in => KINDS, :message => "is not valid."
   

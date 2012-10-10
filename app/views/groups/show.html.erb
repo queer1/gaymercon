@@ -67,6 +67,16 @@
   </div>
 <% end %>
 
+<% if @users.present? %>
+  <div class="members">
+    <h3>Members</h3>
+    <%= render :partial => "users/card", :collection => @users %>
+    <% if @group.users.count > @users.count %>
+      <h4><%= link_to "View All", users_group_path(@group) %></h4>
+    <% end %>
+  </div>
+<% end %>
+
 <% if @game_groups.present? %>
   <div class="game-groups">
     <h3>Other Groups for <%= @group.game %></h3>

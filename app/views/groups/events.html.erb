@@ -1,0 +1,7 @@
+<% if @nearby_events.present? %>
+  <h1>Nearby Events</h1>
+  <%= render :partial => "group_posts/post", :collection => @nearby_events %>
+<% end %>
+
+<h1>All Events</h1>
+<%= render :partial => "group_posts/post", :collection => @events %>

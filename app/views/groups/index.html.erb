@@ -1,14 +1,25 @@
 <%= link_to "Start Your Own", new_group_path, :class => "button button-blue" %>
 <div class="clearfix">&nbsp;</div>
 
-<% if @your_groups.present? %>
-  <h1>Your Groups</h1>
-  <%= render :partial => "header", :collection => @your_groups %>
-<% end %>
+<ul class="nav nav-tabs">
+  <li class="<%= @kind.present? ? '' : 'active' %>"><%= link_to "All", groups_path %></li>
+  <% (Group.kinds - ["official"]).each do |kind| %>
+    <li class="<%= @kind == kind ? 'active' : '' %>"><%= link_to kind.pluralize.capitalize, groups_path(:kind => kind) %></li>
+  <% end %>
+</ul>
 
-<% if @nearby_groups.present? %>
-  <h1>Nearby Groups</h1>
-  <%= render :partial => "header", :collection => @nearby_groups %>
+<div class="clearfix">&nbsp;</div>
+
+<% if @page.to_i < 2 %>
+  <% if @your_groups.present? %>
+    <h1>Your Groups</h1>
+    <%= render :partial => "header", :collection => @your_groups %>
+  <% end %>
+
+  <% if @nearby_groups.present? %>
+    <h1>Nearby Groups</h1>
+    <%= render :partial => "header", :collection => @nearby_groups %>
+  <% end %>
 <% end %>
 
 <h1>Groups</h1>

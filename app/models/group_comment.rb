@@ -2,6 +2,9 @@ class GroupComment < ActiveRecord::Base
   belongs_to :group_post
   belongs_to :user
   
+  validates_presence_of :group_post_id
+  validates_presence_of :user_id
+  
   def post
     self.group_post
   end

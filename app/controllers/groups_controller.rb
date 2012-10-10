@@ -1,10 +1,17 @@
 class GroupsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show, :forums]
-  before_filter :find_group, only: [:show, :edit, :update, :destroy, :join, :leave]
+  before_filter :find_group, only: [:show, :edit, :update, :destroy, :join, :leave, :users]
   before_filter :authenticate_owner, only: [:edit, :update, :destroy]
   
   def index
-    if current_user.present?
+    @kind = params[:kind]
+    @page = params[:page] || 1
+    
+    if params[:kind].present?
+      @groups = Group.where(kind: @kind).order("updated_at desc").page(@page)
+    elsif params[:page].present?
+      @groups = Group.where("id NOT IN (?)", gids).order("updated_at desc").page(params[:page])
+    elsif current_user.present?
       @coords = current_user.location.coords || Geoip.lookup(request.remote_ip)
       @nearby_groups = current_user.nearby_groups.to_a
       @nearby_groups = Group.nearby(@coords).all unless @nearby_groups.present?
@@ -14,9 +21,10 @@ class GroupsController < ApplicationController
       @groups = Group.where("id NOT IN (?)", gids).order("updated_at desc").page(params[:page]).all
     else
       @coords = Geoip.lookup(request.remote_ip)
-      @nearby_groups = Group.nearby(@coords).all
+      @nearby_groups = @coords.present? ? Group.nearby(@coords).all : nil
       @your_groups = nil
       
+      @page = params[:page] || 1
       gids = @nearby_groups.collect(&:id)
       @groups = Group.where("id NOT IN (?)", gids).order("updated_at desc").page(params[:page])
     end
@@ -24,6 +32,13 @@ class GroupsController < ApplicationController
   
   def forums
     @groups = Group.forums
+  end
+  
+  def events
+    @coords = current_user.location.coords if current_user.present?
+    @coords ||= Geoip.lookup(request.remote_ip)
+    @nearby_events = current_user.nearby_group_posts.to_a
+    @events = GroupPost.where(kind: "event").page(params[:page])
   end
   
   def show
@@ -40,6 +55,12 @@ class GroupsController < ApplicationController
     @post_kind = params[:post_kind]
     @posts = @group.posts.where(kind: @post_kind).page(params[:page]) if @post_kind.present?
     @posts ||= @group.posts.page(params[:page])
+    
+    @users = @group.users.shuffle.take(10)
+  end
+  
+  def users
+    @users = @group.users.page(params[:page])
   end
   
   def new
