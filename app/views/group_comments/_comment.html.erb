@@ -1,7 +1,7 @@
 <% editor = current_user && comment.editor?(current_user) %>
 <div class="group-comment">
   <div class="group-comment-user">
-    <% if user.present? %>
+    <% if comment.user.present? %>
       <%= link_to image_tag(comment.user.avatar), user_path(comment.user) %>
       <h4><%= link_to comment.user.name, user_path(comment.user) %></h4>
       <h4>Lvl <%= comment.user.level %> <br /> <%= comment.user.job.try(:name) %></h4>
