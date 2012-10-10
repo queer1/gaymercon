@@ -1,7 +1,10 @@
 <% post ||= @post %>
 
 <div class="group-post">
-  <h3><%= post.kind == "link" ? "#{post.user.name}'s link" : post.title %></h3>
+  <% title = post.kind == "link" ? "#{post.user.name}'s link" : post.title %>
+  <% title = "Untitled" unless title.present? %>
+  <% path = post.kind == "link" ? post.url : group_post_path(post.group_id, post.id) %>
+  <h3><%= link_to title, path %></h3>
   <div class="group-post-user">
     <%= link_to image_tag(post.user.avatar), user_path(post.user) %>
     <h4><%= link_to post.user.name, user_path(post.user) %></h4>
@@ -68,13 +71,4 @@
       | <%= link_to "Nope", group_post_comments_path(post.group_id, post.id, :group_comment => {:content => "Sorry, can't make it"}), :method => "post" %>
     <% end %>
   </div>
-  
-  <div class="spacer clearfix">&nbsp;</div>
-  <% nearby = post.get_nearby_users %>
-  <% if nearby.present? %>
-    <div class="nearby-users">
-      <h4>Nearby Users</h4>
-      <%= render :partial => "users/card", :collection => nearby %>
-    </div>
-  <% end %>
 </div>

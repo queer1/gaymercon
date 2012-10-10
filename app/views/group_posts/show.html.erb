@@ -2,6 +2,15 @@
 
 <%= render :partial => "post" %>
 
+<div class="spacer clearfix">&nbsp;</div>
+<% nearby = @post.get_nearby_users %>
+<% if nearby.present? %>
+  <div class="nearby-users">
+    <h4>Nearby Users</h4>
+    <%= render :partial => "users/card", :collection => nearby %>
+  </div>
+<% end %>
+
 <% if @post.comments.present? %>
   <h3>Replies</h3>
   <%= render :partial => "group_comments/comment", :collection => @post.comments %>
