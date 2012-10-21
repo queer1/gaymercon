@@ -5,3 +5,9 @@
   <li><h3><%= link_to "Jobs", admin_jobs_path %></h3></li>
   <li><h3><%= link_to "Con Badges", admin_badges_path %></h3></li>
 </ul>
+<br />
+<br />
+<h3>Stats</h3>
+<table id="admin-stats">
+  <tr><td>Total Users</td><td class="danger"><%= User.count %></td></tr>
+</table>
