@@ -52,9 +52,11 @@ class GroupsController < ApplicationController
       @game_groups = Group.where(game_key: @group.game_key).all - [@group]
     end
     
+    Notification::GroupNotification.clear(@group, current_user) if current_user.present?
+    
     @post_kind = params[:post_kind]
-    @posts = @group.posts.where(kind: @post_kind).page(params[:page]) if @post_kind.present?
-    @posts ||= @group.posts.page(params[:page])
+    @posts = @group.posts.where(kind: @post_kind).order("updated_at desc").page(params[:page]) if @post_kind.present?
+    @posts ||= @group.posts.order("updated_at desc").page(params[:page])
     
     @users = @group.users.shuffle.take(10)
   end

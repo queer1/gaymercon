@@ -25,6 +25,7 @@ Gc2::Application.routes.draw do
     get '/logout', to: "devise/sessions#destroy", as: 'logout'
     get '/connect', to: "users#connect", as: 'connect'
     get "/users/get_location", to: "users#get_location", as: 'get_location'
+    get "users/notifications", to: "users#notifications", as: 'notifications'
     post "/users/add_tags", to: "users#add_tags", as: 'add_tags'
     put "/users/update_profile", to: "users#update_profile", as: "update_profile"
     match "users/:id" => "users#show", as: "user"

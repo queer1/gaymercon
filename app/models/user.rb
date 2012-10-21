@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
   def add_game(game)
     return unless game.present?
     group = Group.where(game_key: game.to_url).first
-    group ||= Group.create(name: game, game: game, game_key: game.to_url, kind: 'game', moderator_id: self.id)
+    group ||= Group.create(name: game, game: game, game_key: game.to_url, kind: 'game')
     Membership.where(user_id: self.id, group_id: group.id).first_or_create
     group
   end
@@ -130,6 +130,11 @@ class User < ActiveRecord::Base
   
   def games_in_common(other_user)
     self.games & other_user.games
+  end
+  
+  # Notifications
+  def notifications
+    Notification.where(user_id: self.id).desc(:updated_at)
   end
   
   # Validationz

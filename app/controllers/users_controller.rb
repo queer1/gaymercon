@@ -106,6 +106,10 @@ class UsersController < Devise::RegistrationsController
     end
   end
   
+  def notifications
+    @notifications = current_user.notifications
+  end
+  
   private
     def setup_jobs
       @jobs = Job.for_user(current_user) if current_user.present?

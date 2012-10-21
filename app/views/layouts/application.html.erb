@@ -70,16 +70,32 @@
           <% if current_user %>
             
             <li><%= link_to "Account", edit_registration_path(current_user) %></li>
+            
             <% if current_user.unread_message_count > 0 %>
               <li class="new-messages">
                 <a href="<%= messages_path %>" title="Messages">
                   <%= image_tag "mail.png", alt: "Messages" %>
-                  <span class="new-message-count">(<%= current_user.unread_message_count %>)</span>
+                  <span class="new-message-count"><%= current_user.unread_message_count %></span>
                 </a>
               </li>
             <% else%>
               <li><%= link_to image_tag("mail.png", alt: "Messages"), messages_path, title: "Messages" %></li>
             <% end %>
+            
+            <% notification_count = Notification.unread_count(current_user) %>
+            <% Rails.logger.debug "Notification count: #{notification_count}" %>
+            <% if notification_count > 0 %>
+              <li class="new-notifications">
+                <a href="<%= notifications_path %>" title="Notifications">
+                  <%= image_tag "globe.png", alt: "Notifications" %>
+                  <span class="new-notifications-count"><%= notification_count %></span>
+                </a>
+              </li>
+            <% else%>
+              <li><%= link_to image_tag("globe.png", alt: "Notifications"), notifications_path, title: "Notifications" %></li>
+            <% end %>
+            
+            
             <li><%= link_to image_tag("control-power.png", alt: "Log Out"), logout_path, title: "Log Out" %></li>
             <% if current_user.admin? %>
               <li><%= link_to image_tag("gear.png", alt: "Admin"), halo_path("index"), title: "Admin" %></li>
@@ -125,7 +141,7 @@
           <a href="https://plus.google.com/113440831277664859026" rel="publisher">Find us on Google+</a>
         </li>
       </ul>
-    <p>© GaymerCon 2012</p>
+    <p>© GaymerCon 2012 | <%= link_to "Credits", welcome_path("credits") %></p>
     </footer>
   </div>
 </div>

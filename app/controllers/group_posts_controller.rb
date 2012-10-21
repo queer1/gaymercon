@@ -9,6 +9,7 @@ class GroupPostsController < ApplicationController
   end
   
   def show
+    Notification::ThreadNotification.clear(@post, current_user) if current_user.present?
     @comment = GroupComment.new(group_post: @post)
   end
   

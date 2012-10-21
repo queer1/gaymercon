@@ -5,6 +5,9 @@ class GroupComment < ActiveRecord::Base
   validates_presence_of :group_post_id
   validates_presence_of :user_id
   
+  after_create :grant_xp
+  after_create :notify
+  
   def post
     self.group_post
   end
@@ -30,5 +33,17 @@ class GroupComment < ActiveRecord::Base
     return false unless user.id.present?
     return false unless self.user_id.present?
     user_id == self.group.try(:moderator_id) || self.user_id == user.id
+  end
+  
+  def grant_xp
+    return unless
+    u = self.user
+    u.update_attributes(xp: u.xp + 10)
+  end
+  
+  def notify
+    self.group.users.each do |user|
+      Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id).add_to_set(:comment_ids, self.id) unless user.id == self.user_id
+    end
   end
 end
