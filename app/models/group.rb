@@ -11,7 +11,9 @@ class Group < ActiveRecord::Base
   before_validation :set_game_key
   validates_inclusion_of :kind, :in => KINDS, :message => "is not a valid group type."
   validate :game_unique
-  
+
+  scope :for_kind, lambda { |kind| where(kind: kind) }
+
   def self.kinds
     KINDS
   end
