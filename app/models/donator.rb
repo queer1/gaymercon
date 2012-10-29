@@ -1,5 +1,7 @@
 class Donator < ActiveRecord::Base
   
+  belongs_to :user
+  
   has_many :stripe_payments
   after_create :grant_xp
   
@@ -16,11 +18,17 @@ class Donator < ActiveRecord::Base
     if opts[:subscribe]
       donator.subscribed = true
       list_id = MAILCHIMP_CONFIG['donators_list']
+      retry_times = 0
       begin
         MAILCHIMP.list_subscribe(list_id, donator.email, {'FNAME' => donator.name}, 'html', false, true, true, false)
+      rescue EOFError => eof
+        retry_times += 1
+        retry unless retry_times > 1
+        Coalmine.notify(eof, options: opts)
+        Rails.logger.error("#{eof.inspect}\n#{eof.message}\n\nbacktrace:\n#{eof.backtrace.join("\n")}")
       rescue Exception => e
         Coalmine.notify(e, options: opts)
-        Rails.logger.error(e.message + "\n\nbacktrace:\n#{e.backtrace.join("\n")}")
+        Rails.logger.error("#{e.inspect}\n#{e.message}\n\nbacktrace:\n#{e.backtrace.join("\n")}")
       end
     end
     donator.save
