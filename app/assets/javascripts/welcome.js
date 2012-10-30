@@ -15,6 +15,8 @@ $(function(){
       
       // disable the submit button to prevent repeated clicks
       $('.submit-button').attr("disabled", "disabled");
+      $('.submit-button').removeClass("button-blue")
+      $('.submit-button').addClass("button-gray");
 
       Stripe.createToken({
           number: $('.card-number').val(),
@@ -26,6 +28,8 @@ $(function(){
         if (response.error) {
           $("#payment-form").before("<div class='error'>" + response.error.message + "</div>")
           $(".submit-button").removeAttr("disabled");
+          $('.submit-button').addClass("button-blue")
+          $('.submit-button').removeClass("button-gray");
         } else {
           var token = response['id'];
           form.append("<input type='hidden' name='token' id='stripe-token' value='" + token + "'/>");

@@ -44,6 +44,8 @@ class WelcomeController < ApplicationController
   end
   
   def donate
+    redirect_to protocol: "https" and return if request.get? and !request.ssl? and Rails.env == "production"
+    
     if request.post?
       result = stripe_donate
       flash.now[:alert] = result if result.is_a?(String)

@@ -8,9 +8,14 @@ class UsersController < Devise::RegistrationsController
       @tab = "nearby"
       @coords = current_user.coords if current_user.present?
       @coords ||= Geoip.lookup(request.remote_ip)
-      @users = User.nearby(@coords)
-      @users -= [current_user] if current_user.present?
-      @users = @users.paginate(page: params[:page])
+      if @coords.present?
+        @users = User.nearby(@coords)
+        @users -= [current_user] if current_user.present?
+        @users = @users.paginate(page: params[:page])
+      else
+        flash.now[:alert] = "Sorry, we couldn't find your location."
+        @users = [].paginate(page: 1)
+      end
     elsif params[:network].present?
       @tab = "network"
       @network = params[:network]
