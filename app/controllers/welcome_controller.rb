@@ -44,7 +44,7 @@ class WelcomeController < ApplicationController
   end
   
   def donate
-    redirect_to request.url.gsub(/^http(?!s)/, 'https') if Rails.env == "production" && !request.ssl? && request.get?
+    redirect_to request.url.gsub(/^http(?!s)/, 'https') if Rails.env == "production" && !request.url =~ /^http(?!s)/ && request.get?
     
     if request.post?
       result = stripe_donate
