@@ -44,9 +44,6 @@ class WelcomeController < ApplicationController
   end
   
   def donate
-    Rails.logger.info "request url: #{request.url} matches? #{request.url =~ /^http(?!s)/}"
-    redirect_to request.url.gsub(/^http(?!s)/, 'https') and return if Rails.env == "production" && request.url =~ /^http(?!s)/ && request.get?
-    
     if request.post?
       result = stripe_donate
       flash.now[:alert] = result if result.is_a?(String)
