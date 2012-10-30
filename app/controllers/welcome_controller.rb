@@ -44,7 +44,7 @@ class WelcomeController < ApplicationController
   end
   
   def donate
-    redirect_to protocol: "https" and return if request.get? and !request.ssl? and Rails.env == "production"
+    redirect_to "https://" + request.host + request.request_uri if Rails.env == "production" && !request.ssl? && request.get?
     
     if request.post?
       result = stripe_donate
