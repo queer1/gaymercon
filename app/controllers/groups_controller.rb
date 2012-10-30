@@ -26,7 +26,7 @@ class GroupsController < ApplicationController
       @your_groups = nil
       
       @page = params[:page] || 1
-      gids = @nearby_groups.collect(&:id)
+      gids = @nearby_groups.present? ? @nearby_groups.collect(&:id) : -1
       @groups = Group.where("id NOT IN (?)", gids).order("updated_at desc").page(params[:page])
     end
   end
