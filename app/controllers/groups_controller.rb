@@ -10,7 +10,7 @@ class GroupsController < ApplicationController
     if params[:kind].present?
       @groups = Group.where(kind: @kind).order("updated_at desc").page(@page)
     elsif params[:page].present?
-      gids = current_user.groups.select(:id).all.collect(&:id)
+      gids = current_user.present? ? current_user.groups.select(:id).all.collect(&:id) : [-1]
       @groups = Group.where("id NOT IN (?)", gids).order("updated_at desc").page(params[:page])
     elsif current_user.present?
       @coords = current_user.location.coords || Geoip.lookup(request.remote_ip)
