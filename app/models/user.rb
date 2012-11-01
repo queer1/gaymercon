@@ -173,7 +173,8 @@ class User < ActiveRecord::Base
                            fb_expires: Time.at(auth.credentials.expires_at.to_i),
                            email:auth.info.email,
                            password:Devise.friendly_token[0,20],
-                           job_id: 1
+                           job_id: 1,
+                           xp: 1000
                            )
     end
 
@@ -203,7 +204,8 @@ class User < ActiveRecord::Base
                            tw_expires: Time.at(auth.credentials.expires_at.to_i),
                            email:"#{auth.extra.raw_info.screen_name}@twitter.com",
                            password:Devise.friendly_token[0,20],
-                           job_id: 1
+                           job_id: 1,
+                           xp: 1000
                            )
     end
 
