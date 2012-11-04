@@ -5,30 +5,23 @@ class GroupsController < ApplicationController
   
   def index
     @kind = params[:kind]
-    @page = params[:page] || 1
-    
-    if params[:kind].present?
-      @groups = Group.where(kind: @kind).order("updated_at desc").page(@page)
-    elsif params[:page].present?
-      gids = current_user.present? ? current_user.groups.select(:id).all.collect(&:id) : [-1]
-      @groups = Group.where("id NOT IN (?)", gids).order("updated_at desc").page(params[:page])
-    elsif current_user.present?
-      @coords = current_user.location.coords || Geoip.lookup(request.remote_ip)
-      @nearby_groups = current_user.nearby_groups.to_a
-      @nearby_groups = Group.nearby(@coords).all unless @nearby_groups.present?
-      @your_groups = current_user.groups.order("updated_at desc").all
-      
-      gids = @nearby_groups.collect(&:id) + @your_groups.collect(&:id)
-      @groups = Group.where("id NOT IN (?)", gids).order("updated_at desc").page(params[:page]).all
-    else
-      @coords = Geoip.lookup(request.remote_ip)
-      @nearby_groups = @coords.present? ? Group.nearby(@coords).all : []
-      @your_groups = nil
-      
-      @page = params[:page] || 1
-      gids = @nearby_groups.present? ? @nearby_groups.collect(&:id) : -1
-      @groups = Group.where("id NOT IN (?)", gids).order("updated_at desc").page(params[:page])
+    @page = params.fetch(:page, 1).to_i
+
+    if @page == 1
+      if current_user.present?
+        @your_groups = current_user.groups.order("updated_at desc").all
+        @coords = current_user.location.coords
+        @nearby_groups = current_user.nearby_groups.to_a
+      end
+      @coords ||= Geoip.lookup(request.remote_ip)
+      @nearby_groups ||= Group.nearby(@coords).all
     end
+    excluded = (@your_groups.to_a + @nearby_groups.to_a).collect(&:id)
+
+    @groups = Group.scoped
+    @groups = @groups.for_kind(@kind) if @kind.present?
+    @groups = @groups.where('id NOT IN(?)', excluded) unless excluded.empty?
+    @groups = @groups.order('updated_at DESC').page(@page)
   end
   
   def forums

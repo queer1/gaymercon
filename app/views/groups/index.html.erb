@@ -10,16 +10,14 @@
 
 <div class="clearfix">&nbsp;</div>
 
-<% if @page.to_i < 2 %>
-  <% if @your_groups.present? %>
-    <h1>Your Groups</h1>
-    <%= render :partial => "header", :collection => @your_groups %>
-  <% end %>
+<% if @your_groups.present? %>
+  <h1>Your Groups</h1>
+  <%= render :partial => "header", :collection => @your_groups %>
+<% end %>
 
-  <% if @nearby_groups.present? %>
-    <h1>Nearby Groups</h1>
-    <%= render :partial => "header", :collection => @nearby_groups %>
-  <% end %>
+<% if @nearby_groups.present? %>
+  <h1>Nearby Groups</h1>
+  <%= render :partial => "header", :collection => @nearby_groups %>
 <% end %>
 
 <h1>Groups</h1>
