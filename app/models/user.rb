@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
   
   validate :check_skills
   
-  before_save :level_up
+  after_save :level_up
   before_destroy :cleanup
   
   # blegh. debugged on production

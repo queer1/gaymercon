@@ -14,6 +14,9 @@ class WelcomeController < ApplicationController
   def about
   end
   
+  def location
+  end
+  
   def contact
     if params[:email].present? && params[:antispam]
       message = "New Message from #{params[:email]}\n\n#{params[:message]}"
