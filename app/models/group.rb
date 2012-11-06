@@ -9,6 +9,8 @@ class Group < ActiveRecord::Base
   has_attached_file :header, :styles => { :large => "1000x191#" }
   
   before_validation :set_game_key
+  before_destroy :cleanup
+  
   validates_inclusion_of :kind, :in => KINDS, :message => "is not a valid group type."
   validate :game_unique
 
@@ -49,5 +51,11 @@ class Group < ActiveRecord::Base
   def self.forums
     forum_groups = ["GaymerCon", "The Site", "General Chat"]
     forum_groups.collect {|fg| Group.where(name: fg, kind: 'official').first_or_create }
+  end
+  
+  def cleanup
+    self.posts.destroy_all
+    self.memberships.destroy_all
+    GroupNotifications.where(group_id: self.id).destroy
   end
 end

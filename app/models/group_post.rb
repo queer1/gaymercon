@@ -5,8 +5,11 @@ class GroupPost < ActiveRecord::Base
   belongs_to :user
   belongs_to :group
   has_many :comments, :class_name => "GroupComment"
+  
   after_create :grant_xp
   after_create :notify
+  
+  before_destroy :cleanup
   
   validates_presence_of :group_id
   validates_presence_of :user_id
@@ -48,5 +51,10 @@ class GroupPost < ActiveRecord::Base
     self.group.users.each do |user|
       Notification::GroupNotification.find_or_create_by(:read => false, :user_id => user.id, :group_id => self.group.id).add_to_set(:post_ids, self.id) unless user.id == self.user_id
     end
+  end
+  
+  def cleanup
+    self.comments.destroy_all
+    ThreadNotification.where(thread_id: self.id).destroy
   end
 end

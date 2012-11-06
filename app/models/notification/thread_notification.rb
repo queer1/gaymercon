@@ -22,7 +22,7 @@ class Notification::ThreadNotification < Notification
   def message
     c = self.count
     noun = c > 1 ? "replies" : "reply"
-    "#{c} new #{noun} to \"#{self.thread.title}\""
+    "#{c} new #{noun} to \"#{self.thread.try(:title)}\""
   end
   
   def count

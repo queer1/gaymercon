@@ -37,6 +37,7 @@ class User < ActiveRecord::Base
   validate :check_skills
   
   before_save :level_up
+  before_destroy :cleanup
   
   # blegh. debugged on production
   def avatar
@@ -152,6 +153,15 @@ class User < ActiveRecord::Base
   def check_job
     return true if !self.job_id.present? || Job.for_user(self).include?(self.job)
     errors.add(:base, "Please pick one of the available jobs.")
+  end
+  
+  def cleanup
+    # leave groups, comments, etc, so content doesn't suddenly disappear because a user quit
+    Notification.where(user_id: self.id).destroy
+    self.location.destroy
+    self.memberships.destroy_all
+    self.nicknames.destroy_all
+    self.alerts.destroy_all
   end
   
   # Omniauth
