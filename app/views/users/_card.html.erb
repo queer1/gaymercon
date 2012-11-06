@@ -7,7 +7,7 @@
     
       <% origin = current_user.coords || @coords %>
       <% if origin.present? && user.coords.present? %>
-        <%= number_with_precision(Geocalc.distance_between(origin, user.coords), precision: 2) %> miles away
+        <%= format_distance(Geocalc.distance_between(origin, user.coords)) %>
       <% else %>
         <% gic = user.respond_to?(:coplays) ? user.coplays : user.games_in_common(current_user).count %>
         <%= gic > 0 ? "#{gic} Games in Common" : "Level #{user.level}<br />#{user.job.try(:name) || 'Gaymer'}".html_safe %>

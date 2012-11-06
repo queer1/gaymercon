@@ -44,9 +44,10 @@
         <ul class="nav-links">
         <% info = params[:controller] == "welcome" && params[:action] != 'index' ? 'active-link' : '' %>
           <li id="info-links" class="links-menu">
-            <%= link_to "GaymerCon", welcome_path("about"), :class => info, :id => "info-link" %>
+            <a href="<%= welcome_path("about") %>" class="<%= info %>" id="info-link">Con Info<%= image_tag "icons/down-arrow.png", width: 10, height: 10 %></a>
             <ul style="display:none; ">
               <li><%= link_to "About", welcome_path("about") %></li>
+              <li><%= link_to "Location", welcome_path("location") %></li>
               <li><%= link_to "Contact", welcome_path("contact") %></li>
               <li><%= link_to "Volunteer", welcome_path("volunteer") %></li>
               <li><%= link_to "Donate", welcome_path("donate") %></li>
@@ -59,7 +60,8 @@
           </li>
           <% connect = params[:controller] == "users" && params[:action] == 'connect' ? 'active-link' : '' %>
           <li id="connect-links" class="links-menu">
-            <%= link_to "GaymerConnect", connect_path, :class => connect, :id => "connect-link" %> <small class="beta">BETA!</small>
+            <a href="<%= connect_path %>" class="<%= connect %>" id="connect-link">GaymerConnect<%= image_tag "icons/down-arrow.png", width: 10, height: 10 %></a>
+            <small class="beta">BETA!</small>
             <ul style="display:none; ">
               <li><%= link_to "Forums", forums_groups_path %></li>
               <li><%= link_to "Groups", groups_path %></li>
