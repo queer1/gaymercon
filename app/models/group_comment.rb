@@ -8,6 +8,8 @@ class GroupComment < ActiveRecord::Base
   after_create :grant_xp
   after_create :notify
   
+  before_destroy :delete_notifications
+  
   def post
     self.group_post
   end

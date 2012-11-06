@@ -15,7 +15,7 @@ class WelcomeController < ApplicationController
   end
   
   def contact
-    if params[:email] && params[:antispam]
+    if params[:email].present? && params[:antispam]
       message = "New Message from #{params[:email]}\n\n#{params[:message]}"
       Pony.mail({
         :to => 'site@gaymercon.org',
@@ -28,7 +28,7 @@ class WelcomeController < ApplicationController
   end
   
   def volunteer
-    if params[:email] && params[:antispam]
+    if params[:email].present? && params[:antispam]
       message = "#{params[:email]} wants to volunteer!\n\n#{params[:message]}"
       Pony.mail({
         :to => 'site@gaymercon.org',
