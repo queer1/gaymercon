@@ -30,7 +30,7 @@ class Notification::ThreadNotification < Notification
   end
   
   def link
-    group_post_path(self.thread.group_id, thread_id)
+    self.thread.present? ? group_post_path(self.thread.group_id, thread_id) : "/"
   end
   
 end
