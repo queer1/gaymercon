@@ -1,6 +1,10 @@
 class User < ActiveRecord::Base
   include Locatable
   
+  # user.coords = user's coordinates
+  # user.place = string location for user
+  # user.location = Mongoid doc with location coords and query methods
+  
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable

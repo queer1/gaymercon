@@ -63,7 +63,7 @@ module ApplicationHelper
   end
   
   def format_distance(dist)
-    return "way far away" if dist > 300
+    return nil if dist > 300
     return "walking distance" if dist < 2
     return "#{dist.to_i} miles away"
   end
