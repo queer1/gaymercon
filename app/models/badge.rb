@@ -8,15 +8,14 @@ class Badge < ActiveRecord::Base
   LEVELS = {
     coin_entered: "General Access",
     boss_mode: "General Access + Fri night VIP party",
-    boss_brunch: "General Access + Fri night VIP party + VIP brunch on Sunday",
-    boss_lunch: "General Access + Fri night VIP party + VIP lunch on Sunday + VIP brunch on Sunday",
-    artist: "General Access + table in Artist's Alley",
-    exhibitor: "General Access + table in Exhibitor Hall",
-    cheat_code: "General Access + Fri night VIP party + VIP lunch + VIP brunch + instant front-of-line at all events",
-    backstage: "General Access + Fri night VIP party + VIP lunch + VIP brunch + backstage passes to Gaymer Concert",
+    artist_ga: "General Access + table in Artist's Alley",
+    artist_boss: "Boss Mode + table in Artist's Alley",
+    exhibitor: "Boss Mode + VIP Party + table in Exhibitor Hall",
+    cheat_code: "Boss Mode + VIP party + instant front-of-line at all events",
+    backstage: "Boss Mode + VIP party + backstage passes to Gaymer Concert",
     press: "All Access",
     special: "Industry / Special Guest pass: All Access",
-    staff: "Staff"
+    staff: "All Access"
   }.with_indifferent_access
   
   validates_inclusion_of :level, :in => LEVELS.keys
