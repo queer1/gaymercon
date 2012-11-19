@@ -1,0 +1,25 @@
+<h1>Panels</h1>
+<table>
+  <tr><th>Name</th><th>Votes</th><th>Panelists</th><th>Confirm?</th><th>Edit</th><th>Destroy</th></tr>
+  <% @panels.each do |panel| %>
+    <tr>
+      <td><%= link_to panel.title, admin_panel_path(panel) %></td>
+      <td><%= panel.votes %></td>
+      <td><%= panel.panelists.count %></td>
+      <td>
+        <% if panel.confirmed %>
+          <%= link_to "De-confirm", halo_path(:action => "deconfirm_panel", :id => panel.id), :confirm => "Are you sure?" %>
+        <% else %>
+          <%= link_to "Confirm", halo_path(:action => "confirm_panel", :id => panel.id) %>
+        <% end %>
+      </td>
+      <td><%= link_to "Edit", edit_admin_panel_path(panel) %></td>
+      <td><%= link_to "Destroy", admin_panel_path(panel), :method => "delete", :confirm => "Are you sure?", :class => 'danger' %></td>
+    </tr>
+  <% end %>
+</table>
+<%= will_paginate @panels %>
+
+<div class="actions">
+  <%= link_to "New Panel", new_admin_panel_path, :class => "button button-blue" %>
+</div>

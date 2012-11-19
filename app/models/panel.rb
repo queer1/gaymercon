@@ -4,6 +4,7 @@ class Panel < ActiveRecord::Base
   has_many :panelists
 
   after_save :grant_xp
+  before_destroy :cleanup
   
   validates_presence_of :title
   validates_presence_of :description
@@ -28,5 +29,10 @@ class Panel < ActiveRecord::Base
     return if self.class.where("user_id = ?", self.user_id).count > 1
     self.user.xp += 100
     self.user.save
+  end
+  
+  def cleanup
+    self.panel_votes.destroy_all
+    self.panelists.destroy_all
   end
 end
