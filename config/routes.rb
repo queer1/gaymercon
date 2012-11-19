@@ -46,6 +46,7 @@ Gc2::Application.routes.draw do
   
   namespace :admin do
     resources :jobs
+    resources :panels
     resources :badges do
       get "mass_new", to: "badges#mass_new", on: :collection
       post "mass_create", to: "badges#mass_create", on: :collection
