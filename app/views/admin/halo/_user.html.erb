@@ -3,20 +3,18 @@
 <tr class="<%= cycle('', 'highlight') %>">
   <td><%= link_to user.name, halo_path("edit_user", user.id) %></td>
   <td><%= user.email %></td>
-  <td><span <%= color.present? ? "style='color: #{color};'" : '' %>><%= user.role %></span></td>
   <td>
-    <%= form_tag halo_path("role", user.id), method: "post" do %>
-      <%= select_tag :role, options_for_select(["user", "banned", "mod", "admin"]) %>
-      <%= submit_tag "Save" %>
+    <%= form_tag halo_path("role", user.id), method: "post", :class => "user-role" do %>
+      <%= select_tag :role, options_for_select(["user", "banned", "mod", "admin"], user.role) %>
     <% end %>
   </td>
   <td>
-    <%= form_tag halo_path("award_xp", user.id), method: "post" do %>
-      <%= text_field_tag :xp, '',  placeholder: "xp to award" %>
-      <%= submit_tag "Save" %>
+    <%= form_tag halo_path("award_xp", user.id), method: "post", :class => "user-xp" do %>
+      <%= text_field_tag :xp, '',  placeholder: "xp to award", :size => 12 %>
+      <%= submit_tag "Award" %>
     <% end %>
   </td>
   <td>
-    <%= button_to "Ban", halo_path("role", user.id, role: 'banned') %>
+    <%= link_to "Ban", halo_path("role", user.id, role: 'banned'), :class => "danger", :confirm => "Are you sure?" %>
   </td>
 </tr>

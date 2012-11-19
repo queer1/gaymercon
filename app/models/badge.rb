@@ -20,6 +20,10 @@ class Badge < ActiveRecord::Base
   
   validates_inclusion_of :level, :in => LEVELS.keys
   
+  def self.redeemed_count
+    self.where("user_id IS NOT NULL").count
+  end
+  
   def self.levels
     LEVELS
   end

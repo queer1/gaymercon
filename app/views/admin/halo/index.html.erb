@@ -1,13 +1,12 @@
 <h1>Welcome to the Xander Zone</h1>
-<ul>
-  <li><h3><%= link_to "Registrations", halo_path("registrations") %></h3></li>
-  <li><h3><%= link_to "Users", halo_path("users") %></h3></li>
-  <li><h3><%= link_to "Jobs", admin_jobs_path %></h3></li>
-  <li><h3><%= link_to "Con Badges", admin_badges_path %></h3></li>
-</ul>
-<br />
-<br />
 <h3>Stats</h3>
 <table id="admin-stats">
+  <tr><td>Con Registrations</td><td class="danger"><%= Badge.redeemed_count %></td></tr>
   <tr><td>Total Users</td><td class="danger"><%= User.count %></td></tr>
+  <tr><td>Messages Sent</td><td><%= Message.count %></td></tr>
+  <tr><td>Groups</td><td><%= Group.count %></td></tr>
+  <tr><td>Group / Forum Posts</td><td><%= GroupPost.count %></td></tr>
+  <tr><td>Avg # groups per user</td><td><%= number_with_precision((Membership.count / User.count).to_f, :precision => 2) %></td></tr>
+  <tr><td>Panels</td><td><%= Panel.count %></td></tr>
+  <tr><td>Avg panel votes / user</td><td><%= number_with_precision((PanelVote.count / User.count).to_f, :precision => 2) %></td></tr>
 </table>

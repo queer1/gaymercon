@@ -100,7 +100,16 @@
             
             <li><%= link_to image_tag("control-power.png", alt: "Log Out"), logout_path, title: "Log Out" %></li>
             <% if current_user.admin? %>
-              <li><%= link_to image_tag("gear.png", alt: "Admin"), halo_path("index"), title: "Admin" %></li>
+              <li id="admin-links" class="links-menu">
+                <%= link_to image_tag("gear.png", alt: "Admin"), halo_path("index"), title: "Admin" %>
+                <ul style="display:none; ">
+                  <li><%= link_to "Mail List", halo_path("registrations") %></li>
+                  <li><%= link_to "Users", halo_path("users") %></li>
+                  <li><%= link_to "Jobs", admin_jobs_path %></li>
+                  <li><%= link_to "Badges", admin_badges_path %></li>
+                  <li><%= link_to "Panels", admin_panels_path %></li>
+                </ul>
+              </li>
             <% end %>
           <% else %>
             <li><%= link_to "Sign Up", signup_path %></li>
