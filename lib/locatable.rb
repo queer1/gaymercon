@@ -49,6 +49,7 @@ module Locatable
   
   module ClassMethods
     def nearby(coords, max_miles_away = 50)
+      Rails.logger.info "Finding nearby #{self.name.underscore} : #{coords.inspect}"
       Location.nearby(coords, max_miles_away, self.name.underscore)
     end
     
