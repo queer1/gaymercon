@@ -19,17 +19,14 @@ $(document).ready(function(){
   
   $("head").append("<link href='http://fonts.googleapis.com/css?family=VT323|Press+Start+2P' rel='stylesheet' type='text/css'>");
   
-  $("#info-links").hover(function(){
-    $("ul", this).show();
-  }, function(){
-    $("ul", this).hide();
-  })
-  
-  $("#connect-links").hover(function(){
-    $("ul", this).show();
-  }, function(){
-    $("ul", this).hide();
-  })
+  $.each(["#info-links", "#connect-links", "#admin-links"], function(index, div){
+    console.log(div);
+    $(div).hover(function(){
+      $("ul", this).show();
+    }, function(){
+      $("ul", this).hide();
+    });
+  });
   
   if($('.nav-tabs').length > 0){
     $('.nav-tabs').on("click", "li", function(){
