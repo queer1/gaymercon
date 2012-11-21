@@ -1,0 +1,8 @@
+development:
+  code: "UA-12345678-1"
+
+test:
+  code: "UA-fakefake-1"
+
+production:
+  code: "UA-12345678-1"

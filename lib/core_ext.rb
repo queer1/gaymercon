@@ -9,3 +9,10 @@ class String
     self.downcase.gsub(/\W/, '-').gsub(/-+/, '-').gsub(/^-+|-+$/, '')
   end
 end
+
+module Rails
+  def self.load_conf(file)
+    YAML.load(File.read(Rails.root.join("config", file)))[Rails.env].with_indifferent_access
+  end
+end
+
