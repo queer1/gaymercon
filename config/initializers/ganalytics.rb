@@ -1,0 +1,1 @@
+GANALYTICS = Rails.load_conf("ganalytics.yml")

@@ -9,6 +9,9 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+path = File.expand_path(File.join(File.dirname(__FILE__), "../", "lib", "core_ext.rb"))
+require path if File.exists?(path)
+
 module Gc2
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
