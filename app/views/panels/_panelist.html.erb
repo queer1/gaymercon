@@ -1,5 +1,6 @@
 <% pan = panelist || @panelist %>
-<%= fields_for 'panel[panelists][]', pan do |p| %>
+<% id = pan.try(:id) || "new_panelist" %>
+<%= fields_for "panel[panelists][#{id}]", pan do |p| %>
   <div class="form-tight panelist-form">
     <h4>Panelist <a href='#' class="remove-panelist">&times;</a></h4>
     <%= p.label :name %><br />

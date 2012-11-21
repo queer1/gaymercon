@@ -18,4 +18,11 @@ class UserMailer < ActionMailer::Base
     headers[:delivery_method] = :test if @user.disable_emails || @user.disable_pm_emails
     mail(headers)
   end
+  
+  def new_donation(donation)
+    @title = "Thanks for your donation!"
+    @donation = donation
+    headers = {:to => donation.email, :subject => @title}
+    mail(headers)
+  end
 end

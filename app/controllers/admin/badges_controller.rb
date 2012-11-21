@@ -31,7 +31,7 @@ class Admin::BadgesController < AdminController
   def update
     parms = params[:badge]
     parms[:admin_id] = current_user.id
-    @badge = Badge.update_attributes(parms)
+    @badge.update_attributes(parms)
     if @badge.valid?
       redirect_to edit_admin_badge_path(@badge), notice: "Badge saved!"
     else
