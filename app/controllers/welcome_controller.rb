@@ -62,13 +62,13 @@ class WelcomeController < ApplicationController
   
   private
     def stripe_donate
-      email = current_user.present? ? current_user.email : "anonymous user"
-      return "Please enter your name and a valid email" unless email.present? && params[:name].present?
+      email = current_user.present? ? current_user.email : params[:email]
+      return "Please enter your name and a valid email" unless email.present? && email =~ /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i && params[:name].present?
       # amount has to be in cents
       amount = params[:amount]
       amount = (params[:amount_other].to_f * 100) if amount == "other" && params[:amount_other]
       amount = amount.to_i
-      return "Please enter a valid amount." unless amount.is_a?(Integer) && amount > 100
+      return "Please enter a valid amount." unless amount.is_a?(Integer) && amount > 99
       return "Sorry, couldn't process your card. Please try again, and make sure javascript is enabled." unless params[:token].present?
       charge = Stripe::Charge.create(
         :amount => amount,
