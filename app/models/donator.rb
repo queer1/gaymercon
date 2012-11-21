@@ -4,6 +4,7 @@ class Donator < ActiveRecord::Base
   
   has_many :stripe_payments
   after_create :grant_xp
+  after_create :send_email
   
   def self.donate(opts = {})
     opts = opts.with_indifferent_access
@@ -15,6 +16,7 @@ class Donator < ActiveRecord::Base
     donator.email = opts[:email] if opts[:email]
     donator.name = opts[:name] if opts[:name]
     donator.amount = opts[:amount]
+    donator.notes = opts[:notes]
     if opts[:subscribe]
       donator.subscribed = true
       list_id = MAILCHIMP_CONFIG['donators_list']
@@ -35,9 +37,22 @@ class Donator < ActiveRecord::Base
     donator
   end
   
+  def amount_in_dollars
+    (self.amount.to_f / 100)
+  end
+  
   def grant_xp
     return unless self.user.present?
     self.user.xp += self.amount
     self.user.save
+  end
+  
+  def send_email
+    UserMailer.new_donation(self).deliver
+    Pony.mail(to: "donations@gaymercon.org",
+              from: self.email,
+              subject: "New donation from #{self.name}",
+              body: "#{self.name} donated $#{self.amount_in_dollars.round(2)}. Check it out at http://www.gaymercon.org/admin/donations\n\n#{self.notes}"
+              )
   end
 end

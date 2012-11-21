@@ -1,0 +1,25 @@
+<h1>Donation From <%= @donator.name %></h1>
+<dl>
+  <dt>Name</dt>
+  <dd><% if @donator.user.present? %>
+      <%= link_to @donator.user.name, halo_path(action: "edit_user", id: @donator.user_id) %>
+    <% else %>
+      <%= @donator.name %>
+    <% end %>
+    </dd>
+  
+  <dt>Email</dt>
+  <dd><%= mail_to @donator.email %></dd>
+  
+  <dt>Subscribed?</dt>
+  <dd><%= @donator.subscribed ? "Yes" : "No" %></dd>
+  
+  <dt>Amount</dt>
+  <dd><%= number_to_currency(@donator.amount_in_dollars) %></dd>
+  
+  <dt>Date</dt>
+  <dd><%= @donator.created_at.strftime("%b %-d, %Y") %></dd>
+  
+  <dt>Notes</dt>
+  <dd><%= @donator.notes %></dd>
+</dl>

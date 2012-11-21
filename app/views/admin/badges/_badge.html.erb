@@ -1,6 +1,7 @@
 <tr>
-  <td><%= badge.code %></td>
+  <td><%= link_to badge.code, admin_badge_path(badge) %></td>
   <td><%= badge.level.humanize %></td>
+  <td><%= badge.user_id.present? ? "<span style='color:green'>Redeemed</span>".html_safe : "Not Yet" %></td>
   <td><%= link_to "Edit", edit_admin_badge_path(badge) %></td>
   <td><%= link_to "Delete", admin_badge_path(badge), :method => "delete", :confirm => "Are you sure?" %></td>
 </tr>

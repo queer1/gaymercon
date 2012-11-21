@@ -1,0 +1,19 @@
+<h1>Donators</h1>
+<table>
+  <tr><th>Name</th><th>Email</th><th>Amount</th><th>Date</th><th>Details</th></tr>
+  <% @donators.each do |donator| %>
+    <tr>
+      <td>
+        <% if donator.user.present? %>
+          <%= link_to halo_path(:aciton => "edit_user", :id => donator.user_id) %>
+        <% else %>
+          <%= donator.name %>
+        <% end %>
+      </td>
+      <td><%= mail_to donator.email %></td>
+      <td><%= number_to_currency(donator.amount_in_dollars) %></td>
+      <td><%= donator.created_at.strftime("%b %-d, %Y") %></td>
+      <td><%= link_to "Details", admin_donator_path(donator) %></td>
+    </tr>
+  <% end %>
+</table>

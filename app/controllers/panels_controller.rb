@@ -39,7 +39,11 @@ class PanelsController < ApplicationController
     kind = params[:panel][:kind] == "Other" ? params[:kind_other] : params[:panel][:kind]
     @panel.update_attributes(title: params[:panel]["title"], kind: kind, description: params[:panel]["description"])
     @panel.panelists.destroy_all
-    @panelists = params[:panel][:panelists].collect {|p| Panelist.create(p.merge(panel_id: @panel.id)) }
+    @panelists = []
+    params[:panel][:panelists].each do |k,p| 
+      next if p.all? {|k,v| v.empty? }
+      @panelists << Panelist.create(p.merge(panel_id: @panel.id))
+    end
     if @panel.persisted?
       redirect_to edit_panel_path(@panel), notice: "Panel successfully updated!"
     else

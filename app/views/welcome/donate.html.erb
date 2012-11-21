@@ -13,16 +13,16 @@
 <form action="<%= welcome_path("donate") %>" method="POST" id="payment-form">
     
     <div class="form-row">
-      <label>Name (optional)</label>
+      <label>Name <small class="danger">*required</small></label>
       <input type="text" name="name" placeholder="Cliff Bleszinski" 
-      <%= current_user.present? ? "value='#{current_user.name}'" : '' %>
+      value='<%= current_user.present? ? "#{current_user.name}" : params[:name].to_s %>'
       />
     </div>
     
     <div class="form-row">
-      <label>Email (optional)</label>
+      <label>Email <small class="danger">*required</small></label>
       <input type="text" name="email" placeholder="cliff@epicgames.com"
-      <%= current_user.present? ? "value='#{current_user.email}'" : '' %>
+      value='<%= current_user.present? ? "#{current_user.email}" : params[:email].to_s %>'
        />
     </div>
     
@@ -31,6 +31,11 @@
         <input type="checkbox" name="subscribe" checked="checked" />
         Join our mailing list
       </label>
+    </div>
+    
+    <div class="form-row">
+      <label>Notes / Feedback For us</label>
+      <textarea name="notes" rows="4" cols="30" placeholder="I miss working for Epic Games, but you guys are really epic!"><%= params[:notes].to_s %></textarea>
     </div>
     
     <div class="form-row">
@@ -55,7 +60,7 @@
       <select name="amount" id="payment-amount">
         <option value="500">$5.00</option>
         <option value="1000">$10.00</option>
-        <option value="2500">$25.00</option>
+        <option value="2500" selected="selected">$25.00</option>
         <option value="5000">$50.00</option>
         <option value="10000">$100.00</option>
         <option value="50000">$500.00</option>
