@@ -52,7 +52,7 @@ class Donator < ActiveRecord::Base
     Pony.mail(to: "donations@gaymercon.org",
               from: self.email,
               subject: "New donation from #{self.name}",
-              body: "#{self.name} donated $#{self.amount_in_dollars.round(2)}. Check it out at http://www.gaymercon.org/admin/donations\n\n#{self.notes}"
+              body: "#{self.name} donated $#{self.amount_in_dollars.round(2)}. Check it out at http://www.gaymercon.org/admin/donators\n\nNotes:\n\n#{self.notes}"
               )
   end
 end
