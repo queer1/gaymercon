@@ -77,7 +77,7 @@ class WelcomeController < ApplicationController
         :description => "Donation from #{email}"
       )
       return "Oops, there was a problem: #{charge.message}" if charge.is_a?(Stripe::StripeError)
-      donator = Donator.donate({current_user: current_user, amount: amount}.merge(params))
+      donator = Donator.donate(params.merge({current_user: current_user, amount: amount, email: email}))
       
       sp = { amount: amount, token: params[:token], description: "Donation from #{email}", stripe_id: charge.id, paid: charge.paid }
       sp[:user_id] = current_user.id if current_user.present?
