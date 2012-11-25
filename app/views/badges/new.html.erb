@@ -1,20 +1,22 @@
 <div id="purchase">
   <% if current_user.present? && current_user.admin? %>
-    <h3>Or... Buy a Badge!</h3>
-    <%= form_tag purchase_badges_path, :method => "get", :class => "form-vertical", :id => "purchase-form" do %>
-        <div class="form-row">
-          <%= label_tag :level %>
-          <%= select_tag :badge_level, options_for_select(Badge.purchasable_levels.collect{|k,v| ["#{k.to_s.titleize} (#{number_to_currency(Badge.price(k).to_f / 100)})", k]}) %>
-          <% Badge.purchasable_levels.each do |k,v| %>
-            <div class="explain hidden badge-info" id="badge_info_<%= k %>">
-              <strong>Badge Info:</strong> <%= v %>
-            </div>
-          <% end %>
-        </div>
-        <input type="submit" value="Purchase" class="button button-blue" />
+    <% if Badge.purchasable_levels.present? %>
+      <h3>Or... Buy a Badge!</h3>
+      <%= form_tag purchase_badges_path, :method => "get", :class => "form-vertical", :id => "purchase-form" do %>
+          <div class="form-row">
+            <%= label_tag :level %>
+            <%= select_tag :badge_level, options_for_select(Badge.purchasable_levels.collect{|k,v| ["#{k.to_s.titleize} (#{number_to_currency(Badge.price(k).to_f / 100)})", k]}) %>
+            <% Badge.purchasable_levels.each do |k,v| %>
+              <div class="explain hidden badge-info" id="badge_info_<%= k %>">
+                <strong>Badge Info:</strong> <%= v %>
+              </div>
+            <% end %>
+          </div>
+          <input type="submit" value="Purchase" class="button button-blue" />
+      <% end %>
+    <% else %>
+      <h4>Sorry, badges are not available for purchase right now</h4>
     <% end %>
-  <% else %>
-    <h3>Sorry, badges are not available for purchase right now</h3>
   <% end %>
 </div>
 
