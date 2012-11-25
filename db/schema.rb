@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121125162713) do
+ActiveRecord::Schema.define(:version => 20121125213758) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -27,15 +27,15 @@ ActiveRecord::Schema.define(:version => 20121125162713) do
     t.string   "postal"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "name"
     t.integer  "age"
     t.integer  "price"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "badges", ["code"], :name => "index_badges_on_code", :unique => true
 
   create_table "donators", :force => true do |t|
-    t.string   "name"
     t.string   "email"
     t.boolean  "subscribed"
     t.integer  "amount"
@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(:version => 20121125162713) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "notes"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   create_table "forum_posts", :force => true do |t|
