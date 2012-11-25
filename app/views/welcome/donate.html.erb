@@ -13,9 +13,14 @@
 <form action="<%= welcome_path("donate") %>" method="POST" id="payment-form">
     
     <div class="form-row">
-      <label>Name <small class="danger">*required</small></label>
-      <input type="text" name="name" placeholder="Cliff Bleszinski" 
-      value='<%= current_user.present? ? "#{current_user.name}" : params[:name].to_s %>'
+      <label>First and Last Name <small class="danger">*required</small></label>
+      <input type="text" name="first_name" placeholder="Cliff" 
+      value='<%= current_user.present? ? "#{current_user.name.split(' ').first}" : params[:first_name].to_s %>'
+      size="10"
+      />
+      <input type="text" name="last_name" placeholder="Blezinski" 
+      value='<%= current_user.present? ? "#{current_user.name.split(' ').last}" : params[:last_name].to_s %>'
+      size="10"
       />
     </div>
     
@@ -34,7 +39,7 @@
     </div>
     
     <div class="form-row">
-      <label>Notes / Feedback For us</label>
+      <label>Reason for Donating <small class="danger">*required</small></label>
       <textarea name="notes" rows="4" cols="30" placeholder="I miss working for Epic Games, but you guys are really epic!"><%= params[:notes].to_s %></textarea>
     </div>
     
