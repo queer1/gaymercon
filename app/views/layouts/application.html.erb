@@ -30,133 +30,137 @@
   
   <%= csrf_meta_tags %>
 </head>
-<body class="<%= params[:action] %>">
+<body>
 
 <div id="fb-root"></div>
 
-<div id="bg-left"></div>
-<div id="bg-right"></div>
-<div id="content">
-  <div id="content-wrapper">
-    <header>
-      <%= link_to image_tag('gaymercon-logo.png', id: "logo-image", alt: "gaymercon"), root_path %>
-      <nav>
-        <ul class="nav-links">
-        <% info = params[:controller] == "welcome" && params[:action] != 'index' ? 'active-link' : '' %>
-          <li id="info-links" class="links-menu">
-            <a href="<%= welcome_path("about") %>" class="<%= info %>" id="info-link">Con Info<%= image_tag "icons/down-arrow.png", width: 10, height: 10 %></a>
-            <ul style="display:none; ">
-              <li><%= link_to "About", welcome_path("about") %></li>
-              <li><%= link_to "Location", welcome_path("location") %></li>
-              <li><%= link_to "Contact", welcome_path("contact") %></li>
-              <li><%= link_to "Volunteer", welcome_path("volunteer") %></li>
-              <li><%= link_to "Donate", welcome_path("donate") %></li>
-              <li><%= link_to "Panels", panels_path %></li>
-              <% if current_user.present? %>
-                <li><%= link_to "My Badge", new_badge_path %></li>
-              <% end %>
-              <li><%= link_to "Blog", "http://blog.gaymercon.org" %></li>
-            </ul>
+<div id="leftmenu" class="span3">
+  <%= link_to image_tag('gaymercon-logo.png', id: "logo-image", alt: "gaymercon"), root_path %>
+  <nav>
+    <ul class="nav nav-list">
+      <li class="nav-header">Convention Info</li>
+      <li><%= link_to "About", welcome_path("about") %></li>
+      <li><%= link_to "Location", welcome_path("location") %></li>
+      <li><%= link_to "Contact", welcome_path("contact") %></li>
+      <li><%= link_to "Volunteer", welcome_path("volunteer") %></li>
+      <li><%= link_to "Donate", welcome_path("donate") %></li>
+      <li><%= link_to "Panels", panels_path %></li>
+      <% if current_user.present? %>
+        
+      <% else %>
+        <li><%= link_to "Con Badge", new_badge_path %></li>
+      <% end %>
+      <li><%= link_to "Blog", "http://blog.gaymercon.org" %></li>
+      
+      <li class="nav-header">GaymerConnect</li>
+      <li><%= link_to "Forums", forums_groups_path %></li>
+      <li><%= link_to "Groups", groups_path %></li>
+      <li><%= link_to "Events", events_groups_path %></li>
+      <li><%= link_to "Users", users_path %></li>
+      
+      <li class="nav-header">GaymerProfile</li>
+
+      <% if current_user %>
+        
+        <li><a href="<%= edit_registration_path(current_user) %>"> Account</a></li>
+        <li><a href="<%= new_badge_path %>"> Convention Pass</a></li>
+        <% if current_user.unread_message_count > 0 %>
+          <li class="new-messages">
+            <a href="<%= messages_path %>" title="Messages">
+              Messages
+              <span class="badge badge-success"><%= current_user.unread_message_count %></span>
+            </a>
           </li>
-          <% connect = params[:controller] == "users" && params[:action] == 'connect' ? 'active-link' : '' %>
-          <li id="connect-links" class="links-menu">
-            <a href="<%= connect_path %>" class="<%= connect %>" id="connect-link">GaymerConnect<%= image_tag "icons/down-arrow.png", width: 10, height: 10 %></a>
-            <small class="beta">BETA!</small>
-            <ul style="display:none; ">
-              <li><%= link_to "Forums", forums_groups_path %></li>
-              <li><%= link_to "Groups", groups_path %></li>
-              <li><%= link_to "Events", events_groups_path %></li>
-              <li><%= link_to "Users", users_path %></li>
-            </ul>
+        <% else%>
+          <li>
+            <a href="<%= messages_path %>">
+              Messages
+              
+            </a>
           </li>
-          <% if current_user %>
-            
-            <li><%= link_to "Account", edit_registration_path(current_user) %></li>
-            
-            <% if current_user.unread_message_count > 0 %>
-              <li class="new-messages">
-                <a href="<%= messages_path %>" title="Messages">
-                  <%= image_tag "mail.png", alt: "Messages" %>
-                  <span class="new-message-count"><%= current_user.unread_message_count %></span>
-                </a>
-              </li>
-            <% else%>
-              <li><%= link_to image_tag("mail.png", alt: "Messages"), messages_path, title: "Messages" %></li>
-            <% end %>
-            
-            <% notification_count = Notification.unread_count(current_user) %>
-            <% Rails.logger.debug "Notification count: #{notification_count}" %>
-            <% if notification_count > 0 %>
-              <li class="new-notifications">
-                <a href="<%= notifications_path %>" title="Notifications">
-                  <%= image_tag "globe.png", alt: "Notifications" %>
-                  <span class="new-notifications-count"><%= notification_count %></span>
-                </a>
-              </li>
-            <% else%>
-              <li><%= link_to image_tag("globe.png", alt: "Notifications"), notifications_path, title: "Notifications" %></li>
-            <% end %>
-            
-            
-            <li><%= link_to image_tag("control-power.png", alt: "Log Out"), logout_path, title: "Log Out" %></li>
-            <% if current_user.admin? %>
-              <li id="admin-links" class="links-menu">
-                <%= link_to image_tag("gear.png", alt: "Admin"), halo_path("index"), title: "Admin" %>
-                <ul style="display:none; ">
-                  <li><%= link_to "Badges", admin_badges_path %></li>
-                  <li><%= link_to "Donators", admin_donators_path %></li>
-                  <li><%= link_to "Users", halo_path("users") %></li>
-                  <li><%= link_to "Jobs", admin_jobs_path %></li>
-                  <li><%= link_to "Badges", admin_badges_path %></li>
-                  <li><%= link_to "Panels", admin_panels_path %></li>
-                  <li><%= link_to "Mail List", halo_path("registrations") %></li>
-                </ul>
-              </li>
-            <% end %>
-          <% else %>
-            <li><%= link_to "Sign Up", signup_path %></li>
-            <li><%= link_to "Log In", login_path %></li>
-          <% end %>
-        </ul>
-      </nav>
-      <div class="social-icons">
-        <a class="social-icon blog" href="http://blog.gaymercon.org"></a>
-        <a class="social-icon fb" href="https://www.facebook.com/GaymerCon"></a>
-        <a class="social-icon twitter" href="https://twitter.com/GaymerCon"></a>
-      </div>
-    </header>
-
-    <% if flash[:notice] %>
-      <div class="notice"><%= flash[:notice] %></div>
-    <% end %>
-    
-    <% if flash[:error] %>
-      <div class="error"><%= flash[:error] %></div>
-    <% end %>
-    
-    <% if flash[:alert] %>
-      <div class="error"><%= flash[:alert] %></div>
-    <% end %>
-    
-    <%= current_user.present? ? user_alerts : '' %>
-
-    <%= yield %>
-
-    <footer>
-      <ul class="social">
-        <li class="twitter">
-          <iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/follow_button.1340179658.html#_=1340503512136&amp;id=twitter-widget-0&amp;lang=en&amp;screen_name=gaymercon&amp;show_count=true&amp;show_screen_name=false&amp;size=m" class="twitter-follow-button" style="width: 160px; height: 20px; " title="Twitter Follow Button"></iframe>
+        <% end %>
+        
+        <% notification_count = Notification.unread_count(current_user) %>
+        <% if notification_count > 0 %>
+          <li class="new-notifications">
+            <a href="<%= notifications_path %>" title="Notifications">
+              Notifications
+              <span class="badge badge-success"><%= notification_count %></span>
+            </a>
+          </li>
+        <% else%>
+            <li>
+              <a href="<%= messages_path %>">
+                Notifications
+              </a>
+            </li>
+        <% end %>
+        
+        
+        <li>
+          <a href="<%= logout_path %>">
+            Log Out
+          </a>
         </li>
-        <li class="facebook">
-          <div class="fb-like" data-href="https://www.facebook.com/GaymerCon" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
-        </li>
-        <li class="gplus" style="display:none">
-          <a href="https://plus.google.com/113440831277664859026" rel="publisher">Find us on Google+</a>
-        </li>
-      </ul>
-    <p>© GaymerCon 2012 | <%= link_to "Credits", welcome_path("credits") %></p>
-    </footer>
+        
+        <% if current_user.admin? %>
+          <li class="nav-header">Admin</li>
+          <li><%= link_to "Badges", admin_badges_path %></li>
+          <li><%= link_to "Donators", admin_donators_path %></li>
+          <li><%= link_to "Users", halo_path("users") %></li>
+          <li><%= link_to "Jobs", admin_jobs_path %></li>
+          <li><%= link_to "Badges", admin_badges_path %></li>
+          <li><%= link_to "Panels", admin_panels_path %></li>
+          <li><%= link_to "Mail List", halo_path("registrations") %></li>
+        <% end %>
+      <% else %>
+        <li><%= link_to "Sign Up", signup_path %></li>
+        <li><%= link_to "Log In", login_path %></li>
+      <% end %>
+    </ul>
+  </nav>
+  <div class="social-icons">
+    <a class="social-icon blog" href="http://blog.gaymercon.org"></a>
+    <a class="social-icon fb" href="https://www.facebook.com/GaymerCon"></a>
+    <a class="social-icon twitter" href="https://twitter.com/GaymerCon"></a>
   </div>
 </div>
-  </body>
+
+<div class="container">
+
+  <% if flash[:notice] %>
+    <div class="alert alert-success"><%= flash[:notice] %></div>
+  <% end %>
+  
+  <% if flash[:error] %>
+    <div class="alert alert-error"><%= flash[:error] %></div>
+  <% end %>
+  
+  <% if flash[:alert] %>
+    <div class="alert alert-error"><%= flash[:alert] %></div>
+  <% end %>
+  
+  <%= current_user.present? ? user_alerts : '' %>
+
+  <%= yield %>
+
+  <footer>
+    <ul class="nav nav-pills">
+      <li>
+        <iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/follow_button.1340179658.html#_=1340503512136&amp;id=twitter-widget-0&amp;lang=en&amp;screen_name=gaymercon&amp;show_count=true&amp;show_screen_name=false&amp;size=m" class="twitter-follow-button" style="width: 160px; height: 20px; " title="Twitter Follow Button"></iframe>
+      </li>
+      <li>
+        <div class="fb-like" data-href="https://www.facebook.com/GaymerCon" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
+      </li>
+      <% if false %>
+        <li class="gplus" class="hide">
+          <a href="https://plus.google.com/113440831277664859026" rel="publisher">Find us on Google+</a>
+        </li>
+      <% end %>
+    </ul>
+  <p>&copy; GaymerCon 2012 | <%= link_to "Credits", welcome_path("credits") %></p>
+  </footer>
+</div>
+
+</body>
 </html>
