@@ -2,8 +2,10 @@ class Badge < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :admin, :class_name => "User"
-  validates_uniqueness_of :code
+  has_one :stripe_payment
+  validate :price_or_code
   before_save :grant_xp
+  scope :purchasable, where("price IS NOT NULL and user_id IS NULL")
   
   LEVELS = {
     coin_entered: "General Access",
@@ -26,6 +28,38 @@ class Badge < ActiveRecord::Base
   
   def self.levels
     LEVELS
+  end
+  
+  def self.purchasable_levels
+    lvls = self.where("price IS NOT NULL and user_id IS NULL").select("level").group("level").collect(&:level)
+    LEVELS.slice(*lvls)
+  end
+  
+  def self.find_for_purchase(level)
+    excluded = REDIS.zrangebyscore("badge_reserve", "(#{Time.now.to_i}", "+inf")
+    excluded = [-1] unless excluded.present?
+    self.purchasable.where("id NOT IN (?)", excluded).order("price asc").first
+  end
+  
+  def self.price(level)
+    self.purchasable.where("level = ?", level).order("price asc").first.try(:price)
+  end
+  
+  def price_or_code
+    return true if price.present?
+    errors.add(:code, "is already in use") if Badge.where("id != ? and code = ?", (self.id || -1), self.code).exists?
+  end
+  
+  def purchasable?
+    price.present? && user_id.nil?
+  end
+  
+  def reserve
+    REDIS.zadd("badge_reserve", (Time.now + 15.minutes).to_i, self.id)
+  end
+  
+  def price_in_dollars
+    price.to_f / 100
   end
   
   def description

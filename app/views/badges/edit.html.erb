@@ -1,8 +1,10 @@
 <h1>Update Your Info</h1>
 
 <%= form_for @badge, :html => {:class => "form-vertical" } do |f| %>
-  <%= f.label :code %>
-  <%= f.text_field :code, :disabled => true %>
+  <% if @badge.code.present? %>
+    <%= f.label :code %>
+    <%= f.text_field :code, :disabled => true %>
+  <% end %>
   
   <%= f.label :level %>
   <%= f.select :level, options_for_select([[@badge.level.to_s.titleize, @badge.level]]), :disabled => true %>

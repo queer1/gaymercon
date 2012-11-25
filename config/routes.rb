@@ -41,6 +41,8 @@ Gc2::Application.routes.draw do
     resources :badges do
       get "register", on: :collection
       post "register", on: :collection
+      get "purchase", on: :collection
+      post "buy", on: :collection
     end
   end
   

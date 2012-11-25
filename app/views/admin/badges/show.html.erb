@@ -2,7 +2,10 @@
 
 <dl>
   <dt>Code</dt>
-  <dd><%= @badge.code %></dd>
+  <dd><%= @badge.code ? @badge.code : "N/A" %></dd>
+  
+  <dt>Price</dt>
+  <dd><%= @badge.price ? number_to_currency(@badge.price_in_dollars) : "N/A" %></dd>
   
   <dt>Level</dt>
   <dd><%= @badge.level.humanize %></dd>
