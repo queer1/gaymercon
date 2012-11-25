@@ -1,5 +1,7 @@
 <tr>
-  <td><%= link_to badge.code, admin_badge_path(badge) %></td>
+  <td><%= link_to (badge.code || "N/A"), admin_badge_path(badge) %></td>
+  <% price = badge.price ? number_to_currency(badge.price_in_dollars) : "N/A" %>
+  <td><%= link_to price, admin_badge_path(badge) %></td>
   <td><%= badge.level.humanize %></td>
   <td><%= badge.user_id.present? ? "<span style='color:green'>Redeemed</span>".html_safe : "Not Yet" %></td>
   <td><%= link_to "Edit", edit_admin_badge_path(badge) %></td>

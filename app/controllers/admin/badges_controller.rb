@@ -16,6 +16,12 @@ class Admin::BadgesController < AdminController
   def create
     parms = params[:badge]
     parms[:admin_id] = current_user.id
+    if params[:redeem] == "purchase"
+      parms[:code] = nil
+      parms[:price] = (parms[:price].to_f * 100).to_i
+    else
+      parms[:price] = nil
+    end
     @badge = Badge.create(parms)
     if @badge.valid?
       redirect_to edit_admin_badge_path(@badge), notice: "Badge saved!"
@@ -31,6 +37,12 @@ class Admin::BadgesController < AdminController
   def update
     parms = params[:badge]
     parms[:admin_id] = current_user.id
+    if params[:redeem] == "purchase"
+      parms[:code] = nil
+      parms[:price] = (parms[:price].to_f * 100).to_i
+    else
+      parms[:price] = nil
+    end
     @badge.update_attributes(parms)
     if @badge.valid?
       redirect_to edit_admin_badge_path(@badge), notice: "Badge saved!"
@@ -52,7 +64,13 @@ class Admin::BadgesController < AdminController
     num = params[:number].to_i
     badge_params = { :level => params[:badge_level], :explain => params[:explain], :admin_id => current_user.id }
     num.times do
-      badge_params[:code] = SecureRandom.hex(4)
+      if params[:redeem] == "code"
+        badge_params[:code] = SecureRandom.hex(4)
+        badge_params[:price] = nil
+      else
+        badge_params[:code] = nil
+        badge_params[:price] = (params[:price].to_f * 100).to_i
+      end
       Badge.create(badge_params)
     end
     redirect_to admin_badges_path, notice: "Badges created"

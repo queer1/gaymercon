@@ -2,8 +2,22 @@
 <% badge ||= @badge %>
 
 <%= form_for ["admin", @badge], :html => {:class => "form-vertical"} do |f| %>
-  <%= f.label :code %>
-  <%= f.text_field :code %>
+  <p>How does a gaymer get this badge?</p>
+  <% redeem = badge.persisted? ? (badge.price.present? ? "purchase" : "code") : "code" %>
+  <select id="redeem" name="redeem">
+    <option value="code" <%= redeem == "code" ? "selected='selected'" : "" %>>Enter a code</option>
+    <option value="purchase" <%= redeem == "purchase" ? "selected='selected'" : "" %>>Purchase on gaymercon.org</option>
+  </select>
+  
+  <div id="code" class="<%= redeem == "code" ? "" : "hidden" %>">
+    <%= f.label :code %>
+    <%= f.text_field :code, :placeholder => "gaymers-are-awesome" %>
+  </div>
+  
+  <div id="purchase" class="<%= redeem == "purchase" ? "" : "hidden" %>">
+    <%= f.label :price %>
+    <%= f.text_field :price, :value => badge.price_in_dollars, :placeholder => "45.75" %>
+  </div>
   
   <%= f.label :level %>
   <%= f.select :level, options_for_select(Badge.levels.collect{|k,v| [k.to_s.titleize, k]}, badge.level) %>

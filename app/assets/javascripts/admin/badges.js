@@ -9,4 +9,10 @@ $(function(){
   
   $(".badge-info").hide();
   $("#badge_info_" + $("#badge_level").val()).show();
+  $("#redeem").on("change", function(){
+    var div = $(this).val();
+    $("#code").hide();
+    $("#purchase").hide();
+    $("#" + div).show();
+  });
 });

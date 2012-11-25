@@ -10,6 +10,7 @@ gem 'capistrano-unicorn'
 
 gem "mongoid", "~> 3.0.0"
 gem 'mysql2'
+gem "redis"
 
 gem 'devise'
 gem 'omniauth-facebook'
@@ -26,7 +27,6 @@ gem "fb_graph"
 gem "geoip-c", :require => 'geoip'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 gem "coalmine"
-
 
 # Gems used only for assets and not required
 # in production environments by default.

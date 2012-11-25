@@ -1,23 +1,32 @@
-<h2>Register For GaymerCon 2013</h2>
+<div id="purchase">
+  <% if current_user.present? && current_user.admin? %>
+    <h3>Or... Buy a Badge!</h3>
+    <%= form_tag purchase_badges_path, :method => "get", :class => "form-vertical", :id => "purchase-form" do %>
+        <div class="form-row">
+          <%= label_tag :level %>
+          <%= select_tag :badge_level, options_for_select(Badge.purchasable_levels.collect{|k,v| ["#{k.to_s.titleize} (#{number_to_currency(Badge.price(k).to_f / 100)})", k]}) %>
+          <% Badge.purchasable_levels.each do |k,v| %>
+            <div class="explain hidden badge-info" id="badge_info_<%= k %>">
+              <strong>Badge Info:</strong> <%= v %>
+            </div>
+          <% end %>
+        </div>
+        <input type="submit" value="Purchase" class="button button-blue" />
+    <% end %>
+  <% else %>
+    <h3>Sorry, badges are not available for purchase right now</h3>
+  <% end %>
+</div>
 
-<ul class="nav-tabs">
-  <li class="active"><a href="#code">Enter Code</a></li>
-  <li><a href="#purchase">Buy a Badge</a></li>
-</ul>
-
-<div id="code" class="tab-pane">
-  <h3>Enter Your Registration Code</h3>
+<div id="code">
+  <h3>Enter A Code</h3>
   <%= form_tag register_badges_path, :method => "get", :class => "form-vertical" do %>
     <%= label_tag :code %>
     <%= text_field_tag :code %>
-    <div class="explain">
+    <div id="code-explain">
       Sorry, up, up, down, down, left, right, left, right, b, a, start doesn't get you 30 free registrations.
     </div>
     
     <%= submit_tag "Enter", :class => "button button-blue", :name => "" %>
   <% end %>
-</div>
-
-<div id="purchase" class="tab-pane">
-  <h3>Sorry, badges are not available for purchase right now.</h3>
 </div>

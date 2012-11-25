@@ -4,6 +4,17 @@
   <%= label_tag :number %>
   <%= text_field_tag :number %>
   
+  <p>How do gaymers get these badges?</p>
+  <select id="redeem" name="redeem">
+    <option value="code" selected="selected">Enter a code</option>
+    <option value="purchase">Purchase on gaymercon.org</option>
+  </select>
+  
+  <div id="purchase" class="hidden">
+    <%= label_tag :price %>
+    <%= text_field_tag :price, '', :placeholder => "45.75" %>
+  </div>
+  
   <%= label_tag :badge_level %>
   <%= select_tag :badge_level, options_for_select(Badge.levels.collect{|k,v| [k.to_s.titleize, k]}) %>
   <% Badge.levels.each do |k,v| %>

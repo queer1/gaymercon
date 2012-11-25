@@ -2,10 +2,14 @@
 
 <div>Badges redeemed: <span class="danger"><%= Badge.redeemed_count %></span> / <%= Badge.count %></div>
 
+<div class="actions">
+  <%= link_to "New Badge", new_admin_badge_path, :class => "button button-blue" %>
+  <%= link_to "Mass create", mass_new_admin_badges_path, :class => "button button-blue" %>
+</div>
+
 <table>
-  <tr><th>Code</th><th>Level</th><th>Redeemed?</th><th>Edit</th><th>Delete</th></tr>
+  <tr><th>Code</th><th>Price</th><th>Level</th><th>Redeemed?</th><th>Edit</th><th>Delete</th></tr>
   <%= render :partial => "badge", :collection => @badges %>
 </table>
 
-<%= link_to "New Badge", new_admin_badge_path, :class => "button button-blue" %>
-<%= link_to "Mass create", mass_new_admin_badges_path, :class => "button button-blue" %>
+<%= will_paginate(@badges) %>
