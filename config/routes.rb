@@ -32,18 +32,16 @@ Gc2::Application.routes.draw do
     match "users" => "users#index", as: "users"
   end
   
-  constraints HostGaymerconConstraint.new do
-    resources :panels do
-      post "/upvote", to: "panels#upvote", as: "upvote"
-      post "/downvote", to: "panels#downvote", as: "downvote"
-    end
-    
-    resources :badges do
-      get "register", on: :collection
-      post "register", on: :collection
-      get "purchase", on: :collection
-      post "buy", on: :collection
-    end
+  resources :panels do
+    post "/upvote", to: "panels#upvote", as: "upvote"
+    post "/downvote", to: "panels#downvote", as: "downvote"
+  end
+  
+  resources :badges do
+    get "register", on: :collection
+    post "register", on: :collection
+    get "purchase", on: :collection
+    post "buy", on: :collection
   end
   
   namespace :admin do
@@ -55,13 +53,6 @@ Gc2::Application.routes.draw do
       post "mass_create", to: "badges#mass_create", on: :collection
     end
     match "/" => "admin/halo#index"
-  end
-  
-  constraints HostGaymerconnectConstraint.new do
-    root :to => 'pages#show', :id => "index"
-    devise_scope :user do
-      post "/users/add_tags", to: "profiles#add_tags", as: 'add_tags'
-    end
   end
 
   match "/admin/:action(/:id)" => "admin/halo", as: "halo"

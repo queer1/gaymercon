@@ -1,9 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  layout :select_layout
   before_filter :banned?
-  before_filter :setup_site
-  include LayoutSelector
   
   private
   def admin_only!
@@ -17,11 +14,6 @@ class ApplicationController < ActionController::Base
       flash[:error] = "Your account has been suspended."
       root_path
     end
-  end
-  
-  def setup_site
-    @site = "gaymercon"
-    @site = "gaymerconnect" if HostGaymerconnectConstraint.new.matches?(request)
   end
   
   def beta

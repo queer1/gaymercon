@@ -1,28 +1,25 @@
-<div class="feature-content">
-  <div class="feature-content-copy">
+<div class="row">
+  <div class="hero-unit">
       <h1>GAYMERCON</h1>
       <h3>AUG 3-4 2013 San Francisco, Ca</h3>
-      <%= link_to "About", welcome_path("about"), :class => "button button-red" %>
-    </div>
-</div>
-<div class="column">
-  <h4>About The Event</h4>
-    <div class="about-video-wide">
-      <iframe width="327" height="184" src="http://www.youtube.com/embed/6g9wqEkBkRw" frameborder="0" allowfullscreen></iframe>
-      <%= link_to "About", welcome_path("about"), :class => "button button-blue" %>
-    </div>
-</div>
-<div class="column">
-  <h4>@GaymerCon</h4>
-  <div class="tweet" style="display: inline-block; ">
+      <%= link_to "About", welcome_path("about"), :class => "btn btn-primary btn-large" %>
   </div>
 </div>
-<div class="column no-margin-right">
-  <h4>Donate</h4>
-  <div class="donate-pitch explain">
+
+<div class="row">
+  <div class="span4">
+    <h4>About The Event</h4>
+    <iframe width="327" height="184" src="http://www.youtube.com/embed/6g9wqEkBkRw" frameborder="0" allowfullscreen></iframe>
+    <%= link_to "About", welcome_path("about"), :class => "btn btn-primary" %>
+  </div>
+  <div class="span4">
+    <h4>@GaymerCon</h4>
+    <div class="tweet" style="display: inline-block; ">
+    </div>
+  </div>
+  <div class="span4">
+    <h4>Donate</h4>
     <h4>Already got a badge? Can't make it to the con? Just want to say thanks?</h4>
-  </div>
-  <div class="action">
-    <%= link_to "Donate to GaymerCon", welcome_path("donate"), :class => "button button-blue donate-button" %>
+    <%= link_to "Donate to GaymerCon", welcome_path("donate"), :class => "btn btn-primary btn-large" %>
   </div>
 </div>

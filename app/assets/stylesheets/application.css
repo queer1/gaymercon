@@ -9,11 +9,11 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require gaymercon/reset.css
- *= require jquery.bbcode.css
- *= require auth-buttons.css
- *= require gaymercon/style.css
- *= require gaymercon/media-screen.css
- *= require gaymercon/media-mobile.css
- *= require jquery.ui.redmond.theme.css
+ *= require jquery.bbcode
+ *= require auth-buttons
+ *= require jquery.ui.redmond.theme
+ *= require cerulean
+ *= require bootstrap-responsive.min
+ *= require gaymercon-screen
+ *= require gaymercon-mobile
 */
