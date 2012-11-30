@@ -1,14 +1,18 @@
-<div class="body-content">
-  
-  <%= render :partial => "links" %>
-  
-  <h1>Contact Us</h1>
+<%= render :partial => "links" %>
+<div class="row-fluid">
+  <div class="span8">
+    <h1>Contact Us</h1>
     <p>We're always looking to chat! Drop us a tweet <a href="https://twitter.com/GaymerCon">@GaymerCon</a> or message us on <a href="https://www.facebook.com/GaymerCon">Facebook</a></p>
-    <h2>Have a specific idea, thought, concern or suggestion? Please fill out the form below and we'd love to chat!</h2>
-    <form action="<%= welcome_path(:action => "contact") %>" method="post">
-      <input class="standard-text-input" type="text" placeholder="Email" id="email" name="email" />
-      <input class="standard-text-input" type="text" placeholder="Subject" name="subject" />
-      <textarea class="wide-textarea" name="message" placeholder="Message"></textarea>
-      <input type="submit" value="Submit" class="button button-blue" />
+    <p>Have a specific idea, thought, concern or suggestion? Please fill out the form below and we'd love to chat!</p>
+  </div>
+</div>
+<div class="row">
+  <div class="span6">
+    <form action="<%= welcome_path(:action => "contact") %>" method="post" class="well">
+      <input type="text" class="span5" placeholder="Email" id="email" name="email" />
+      <input type="text" class="span5" placeholder="Subject" name="subject" />
+      <textarea name="message" class="span5" rows="6" placeholder="Message"></textarea><br />
+      <input type="submit" value="Submit" class="btn btn-primary" />
     </form>
+  </div>
 </div>

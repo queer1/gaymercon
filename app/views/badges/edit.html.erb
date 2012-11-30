@@ -12,17 +12,18 @@
     <strong>Badge Info:</strong> <%= @badge.description %>
   </div>
   
-  <%= f.label :name, "Name" %>
-  <%= f.text_field :name, :placeholder => "GLaDOS" %>
-  <div class="explain">
+  <%= f.label :first_name, "Full Name" %>
+  <%= f.text_field :first_name, :placeholder => "Chell" %>
+  <%= f.text_field :last_name, :placeholder => "Portal" %>
+  <span class="help-block">
     We will be checking your picture ID at the door - this name <strong>has</strong> to match!
-  </div>
+  </span>
   
   <%= f.label :age, "Age (on Aug 2, 2013)" %>
   <%= f.text_field :age, :placeholder => "18" %>
-  <div class="explain">
+  <span class="help-block">
     You must be 18 by Aug 2, 2013 to attend GaymerCon
-  </div>
+  </span>
   
   <%= f.label :address_1, "Address Line 1" %>
   <%= f.text_field :address_1, :placeholder => "457 Rainbow Road" %>
@@ -41,7 +42,8 @@
   
   <%= f.label :postal, "Zip / Postal Code" %>
   <%= f.text_field :postal, :placeholder => "02908" %>
+  <br />
   
-  <%= f.submit "Save", :class => "button button-blue" %>
+  <%= f.submit "Save", :class => "btn" %>
 <% end %>
 

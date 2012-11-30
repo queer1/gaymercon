@@ -1,41 +1,41 @@
-<div class="admin-message">
-  <small>Got something too awesome to happen in a side room? Helicopter drops, ziplines, or a full-scale show? Email us at <%= mail_to "site@gaymercon.org" %> and we can make special arrangements!</small>
+<div class="row-fluid">
+  <div class="span8">
+    Got something too awesome to happen in a side room? Helicopter drops, ziplines, or a full-scale show? Email us at <%= mail_to "site@gaymercon.org" %> and we can make special arrangements!
+  </div>
 </div>
 
-<%= form_for @panel do |f| %>
-  <h3>Public Info</h3>
-  <div class="form-row">
-    <%= f.label :title %>
-    <br />
-    <%= f.text_field :title, :placeholder => "Title" %>
-  </div>
+<div class="row-fluid">
+  <div class="span9">
+    <%= form_for @panel do |f| %>
+      <div class="row-fluid">
+        <h3>Public Info</h3>
+        <%= f.label :title %>
+        <%= f.text_field :title, :placeholder => "Title" %>
 
-  <div class="form-row">
-    <%= f.label :kind, "Type of event" %>
-    <br />
-    <% kinds = ["Panel", "Workshop", "Meet & Greet", "Q&A", "Board / Card / Tabletop Game", "Other"] %>
-    <%= f.select :kind, options_for_select(kinds, @panel.kind) %>
-    <%= text_field_tag :kind_other, @panel.kind, :class => "hidden", :placeholder => "Enter your own event type!" %>
-  </div>
+        <%= f.label :kind, "Type of event" %>
+        <% kinds = ["Panel", "Workshop", "Meet & Greet", "Q&A", "Board / Card / Tabletop Game", "Other"] %>
+        <%= f.select :kind, options_for_select(kinds, @panel.kind) %>
+        <%= text_field_tag :kind_other, @panel.kind, :class => "hidden", :placeholder => "Enter your own event type!" %>
 
-  <div class="form-row">
-    <%= f.label :description %><br />
-    <small><em><strong>GamePro ProTip:</strong> to get the best response, make a short video and include it via the YouTube tag!</em></small><br />
-    <%= f.text_area :description, :placeholder => "Describe your panel in detail.", :id => "panel-content", :class => "bbcode" %>
-  </div>
+        <%= f.label :description %>
+        <small><em><strong>GamePro ProTip:</strong> to get the best response, make a short video and include it via the YouTube tag!</em></small>
+        <%= f.text_area :description, :placeholder => "Describe your panel in detail.", :id => "panel-content", :class => "bbcode" %>
   
-  <h3>Private Info</h3>
-  <div class="explain"> Only admins will see this stuff, but we need as much info as possible before we confirm your panel!</div>
+        <h3>Private Info</h3>
+        <span class="help-block">Only admins will see this stuff, but we need as much info as possible before we confirm your panel!</span>
   
-  <div id="panelists">
-    <%= render :partial => "panels/panelist", :collection => @panelists %>
-  </div>
+        <div id="panelists">
+          <%= render :partial => "panels/panelist", :collection => @panelists %>
+        </div>
   
-  <div class="actions">
-    <%= link_to "+ Moar Panelists", '#', :id => "moar-panelists" %>
+        <div class="actions">
+          <%= link_to "+ Moar Panelists", '#', :id => "moar-panelists", :class => "btn" %>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <br /><br />
+        <%= submit_tag "Save", :class => "btn btn-primary btn-large" %>
+      </div>
+    <% end %>
   </div>
-  
-  <div class="actions">
-    <%= submit_tag "Save", :class => "button button-blue" %>
-  </div>
-<% end %>
+</div>

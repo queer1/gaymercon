@@ -21,10 +21,6 @@ $(document).ready(function(){
   
   $("head").append("<link href='http://fonts.googleapis.com/css?family=VT323|Press+Start+2P' rel='stylesheet' type='text/css'>");
   
-  $.each($(".level-bar"), function(){
-    $(this).progressbar({ value: $(this).data('progress') });
-  });
-  
   $("textarea.bbcode").bbcode();
   
   $("a.toggle").on("click", function(e){

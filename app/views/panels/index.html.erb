@@ -1,44 +1,45 @@
-<h1>Panels</h1>
+<div class="row-fluid">
+  <div class="span8">
+    <h1>Panels</h1>
+  </div>
+</div>
 
-<div class="panels">
+<div class="row-fluid">
   <% unless params[:page].present? && params[:page] > 1 %>
     <% if @popular.present? %>
-      <div class="panels-popular">
+      <div class="span4">
         <h3>Popular</h3>
-        <ul>
-          <% @popular.each do |panel| %>
-            <li><%= render :partial => "panel", :object => panel %></li>
-          <% end %>
-        </ul>
+        <% @popular.each do |panel| %>
+          <%= render :partial => "panel", :object => panel %>
+        <% end %>
       </div>
     <% end %>
     
     <% if @new.present? %>
-      <div class="panels-new">
+      <div class="span4">
         <h3>New</h3>
-        <ul>
           <% @new.each do |panel| %>
-            <li><%= render :partial => "panel", :object => panel %></li>
+            <%= render :partial => "panel", :object => panel %>
           <% end %>
-        </ul>
       </div>
     <% end %>
   <% end %>
-  
+</div>
+<div class="row-fluid">
   <% if @all.present? %>
-    <div class="panels-all">
+    <div class="span8">
       <h3>All Panels</h3>
-      <ul>
         <% @all.each do |panel| %>
-          <li><%= render :partial => "panel", :object => panel %></li>
+          <%= render :partial => "panel", :object => panel %>
         <% end %>
-      </ul>
     </div>
   <% end %>
 </div>
 
-<% if current_user.present? %>
-  <div class="new-panel-button">
-    <%= link_to "Start Your Own", new_panel_path, :class => "button button-blue" %>
-  </div>
-<% end %>
+<div class="row-fluid">
+  <% if current_user.present? %>
+    <div class="span4">
+      <%= link_to "Start Your Own", new_panel_path, :class => "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

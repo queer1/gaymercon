@@ -5,69 +5,65 @@
   </script>
 <% end %>
 
-<h1>Buy a Badge</h1>
-<%= form_for @badge,:url => buy_badges_path, :method => "post", :html => {:id => "payment-form", :class => "form-vertical"} do |f| %>
-  <%= f.hidden_field :id %>
-  
-  <%= f.label :level %>
-  <%= f.select :level, options_for_select([[@badge.level.to_s.titleize, @badge.level]]), :disabled => true %>
-  <div class="explain">
-    <strong>Badge Info:</strong> <%= @badge.description %>
-  </div>
-  
-  <%= f.label :name, "Name" %>
-  <%= f.text_field :name, :placeholder => "GLaDOS" %>
-  <div class="explain">
-    We will be checking your picture ID at the door - this name <strong>has</strong> to match!
-  </div>
-  
-  <%= f.label :age, "Age (on Aug 2, 2013)" %>
-  <%= f.text_field :age, :placeholder => "18" %>
-  <div class="explain">
-    You must be 18 by Aug 2, 2013 to attend GaymerCon
-  </div>
-  
-  <%= f.label :address_1, "Address Line 1" %>
-  <%= f.text_field :address_1, :placeholder => "457 Rainbow Road" %>
-  
-  <%= f.label :address_2, "Address Line 2" %>
-  <%= f.text_field :address_2, :placeholder => "Apt 69" %>
-  
-  <%= f.label :city %>
-  <%= f.text_field :city, :placeholder => "Providence" %>
-  
-  <%= f.label :province, "State / Province" %>
-  <%= f.text_field :province, :placeholder => "RI" %>
-  
-  <%= f.label :country %>
-  <%= f.text_field :country, :placeholder => "USA" %>
-  
-  <%= f.label :postal, "Zip / Postal Code" %>
-  <%= f.text_field :postal, :placeholder => "02908" %>
-  
-  <h4>Price</h4>
-  <% amount = number_to_currency(@badge.price_in_dollars) %>
-  <p><%= amount %></p>
-  
-  <div class="form-row" id="card-number-row">
-    <label>Card Number</label>
-    <input type="text" size="20" autocomplete="off" class="card-number" placeholder="1234 5674 9123 4567" />
-  </div>
-  
-  <div class="form-row">
-    <label>CVC</label>
-    <input type="text" size="4" autocomplete="off" class="card-cvc" placeholder="123" />
-  </div>
+<div class="row-fluid">
+  <div class="span8">
+    <h1>Buy a Badge</h1>
+    <%= form_for @badge,:url => buy_badges_path, :method => "post", :html => {:id => "payment-form", :class => "form-vertical"} do |f| %>
+      <%= f.hidden_field :id %>
 
-  <div class="form-row">
-    <label>Expiration (MM/YYYY)</label>
-    <input type="text" size="2" class="card-expiry-month"  placeholder="08" />
-    <span> / </span>
-    <input type="text" size="4" class="card-expiry-year" placeholder="2014" />
-  </div>
+      <%= f.label :level %>
+      <%= f.select :level, options_for_select([[@badge.level.to_s.titleize, @badge.level]]), :disabled => true %>
+      <span class="help-block">
+        <strong>Badge Info:</strong> <%= @badge.description %>
+      </span>
+
+      <%= f.label :first_name, "Full Name" %>
+      <%= f.text_field :first_name, :placeholder => "Chell" %>
+      <%= f.text_field :last_name, :placeholder => "Portal" %>
+      <span class="help-block">
+        We will be checking your picture ID at the door - this name <strong>has</strong> to match!
+      </span>
+
+      <%= f.label :age, "Age (on Aug 2, 2013)" %>
+      <%= f.text_field :age, :placeholder => "18" %>
+      <span class="help-block">
+        You must be 18 by Aug 2, 2013 to attend GaymerCon
+      </span>
   
-  <div class="actions">
-    <%= f.submit "Purchase for #{amount}", :class => "button button-blue submit-button" %>
-  </div>
+      <%= f.label :address_1, "Address Line 1" %>
+      <%= f.text_field :address_1, :placeholder => "457 Rainbow Road" %>
   
-<% end %>
+      <%= f.label :address_2, "Address Line 2" %>
+      <%= f.text_field :address_2, :placeholder => "Apt 69" %>
+  
+      <%= f.label :city %>
+      <%= f.text_field :city, :placeholder => "Providence" %>
+  
+      <%= f.label :province, "State / Province" %>
+      <%= f.text_field :province, :placeholder => "RI" %>
+  
+      <%= f.label :country %>
+      <%= f.text_field :country, :placeholder => "USA" %>
+  
+      <%= f.label :postal, "Zip / Postal Code" %>
+      <%= f.text_field :postal, :placeholder => "02908" %>
+  
+      <h4>Price</h4>
+      <% amount = number_to_currency(@badge.price_in_dollars) %>
+      <p><%= amount %></p>
+  
+      <label>Card Number</label>
+      <input type="text" size="20" autocomplete="off" class="card-number" placeholder="1234 5674 9123 4567" />
+
+      <label>CVC</label>
+      <input type="text" size="4" autocomplete="off" class="card-cvc" placeholder="123" />
+
+      <label>Expiration (MM/YYYY)</label>
+      <input type="text" size="2" class="card-expiry-month"  placeholder="08" />
+      <span> / </span>
+      <input type="text" size="4" class="card-expiry-year" placeholder="2014" />
+      <br />
+      <%= f.submit "Purchase for #{amount}", :class => "btn btn-primary submit-button" %>
+    <% end %>
+  </div>
+</div>
