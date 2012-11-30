@@ -21,7 +21,7 @@ class BadgesController < ApplicationController
   end
   
   def update
-    parms = params[:badge].slice(:name, :age, :address_1, :address_2, :city, :province, :country, :postal)
+    parms = params[:badge].slice(:first_name, :last_name, :age, :address_1, :address_2, :city, :province, :country, :postal)
     @badge.update_attributes(parms)
     if @badge.valid?
       redirect_to edit_badge_path(@badge), notice: "Badge updated!"
@@ -57,9 +57,10 @@ class BadgesController < ApplicationController
     @badge = Badge.find_by_id(params[:badge]["id"])
     redirect_to purchase_badges_path, alert: "Sorry, the badge you were going to buy got taken :(" and return unless @badge.present? && @badge.purchasable?
     
-    badge_params = params[:badge].slice("first_name", "last_name", "age", "address_1", "address_2", "city", "province", "country", "postal")
+    fields = ["first_name", "last_name", "age", "address_1", "city", "province", "country", "postal"]
+    badge_params = params[:badge].slice(*(fields + ["address_2"]))
     @badge.assign_attributes(badge_params)
-    unless ["first_name", "last_name", "age", "address_1", "city", "province", "country", "postal"].all?{|f| @badge.send(f).present? }
+    unless fields.all?{|f| @badge.send(f).present? }
       flash.now[:alert] = "Please fill out all the badge info."
       render :purchase and return
     end
@@ -76,10 +77,12 @@ class BadgesController < ApplicationController
     redirect_to new_badge_path, alert: "Sorry, that badge is already taken" and return if @badge.user_id.present?
     
     if request.post?
-      parms = params[:badge].slice(:name, :address_1, :address_2, :city, :province, :country, :postal)
+      fields = ["first_name", "last_name", "age", "address_1", "city", "province", "country", "postal"]
+      parms = params[:badge].slice(*(fields + ["address_2"]))
       parms[:user_id] = current_user.id
       @badge.update_attributes(parms)
-      if @badge.valid?
+      
+      if @badge.valid? && fields.all?{|f| @badge.send(f).present? }
         redirect_to edit_badge_path(@badge), notice: "You're now registered for GaymerCon 2013!" and return
       else
         flash.now[:alert] = "Oops, there was a problem: #{@badge.all_errors}"
