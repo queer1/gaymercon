@@ -63,7 +63,8 @@ class WelcomeController < ApplicationController
   private
     def stripe_donate
       email = current_user.present? ? current_user.email : params[:email]
-      return "Please enter your name and a valid email" unless email.present? && email =~ /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i && params[:name].present?
+      return "Please enter your name and a valid email" unless email.present? && email =~ /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i && params[:first_name].present? && params[:last_name].present?
+      return "Please tell us why you're donating" unless params[:notes].present?
       # amount has to be in cents
       amount = params[:amount]
       amount = (params[:amount_other].to_f * 100) if amount == "other" && params[:amount_other]

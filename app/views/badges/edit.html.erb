@@ -12,12 +12,14 @@
     <strong>Badge Info:</strong> <%= @badge.description %>
   </div>
   
-  <%= f.label :first_name, "Full Name" %>
-  <%= f.text_field :first_name, :placeholder => "Chell" %>
-  <%= f.text_field :last_name, :placeholder => "Portal" %>
-  <span class="help-block">
-    We will be checking your picture ID at the door - this name <strong>has</strong> to match!
-  </span>
+  <%= f.label :first_name, "Name" %>
+  <div class="form-row">
+    <%= f.text_field :first_name, :size => 10, :placeholder => "Master" %>
+    <%= f.text_field :last_name, :size => 10, :placeholder => "Chief" %>
+  </div>
+  <div class="explain">
+    We will be checking your picture ID at the door - first and last name <strong>must</strong> match!
+  </div>
   
   <%= f.label :age, "Age (on Aug 2, 2013)" %>
   <%= f.text_field :age, :placeholder => "18" %>

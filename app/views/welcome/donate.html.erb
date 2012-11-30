@@ -15,41 +15,31 @@
   <div class="span8 offset1">
     <form action="<%= welcome_path("donate") %>" method="POST" id="payment-form">
     
-          <label>Name <small class="danger">*required</small></label>
-          <input type="text" name="name" placeholder="Cliff Bleszinski" 
-          value='<%= current_user.present? ? "#{current_user.name}" : params[:name].to_s %>'
-          />
-    
+          <label>First and Last Name <small class="danger">*required</small></label>
+          <input type="text" name="first_name" placeholder="Cliff" value='<%= current_user.present? ? "#{current_user.name.split(' ').first}" : params[:first_name].to_s %>' size="10" />
+          <input type="text" name="last_name" placeholder="Blezinski" value='<%= current_user.present? ? "#{current_user.name.split(' ').last}" : params[:last_name].to_s %>' size="10" />
         
           <label>Email <small class="danger">*required</small></label>
-          <input type="text" name="email" placeholder="cliff@epicgames.com"
-          value='<%= current_user.present? ? "#{current_user.email}" : params[:email].to_s %>'
-           />
-    
+          <input type="text" name="email" placeholder="cliff@epicgames.com" value='<%= current_user.present? ? "#{current_user.email}" : params[:email].to_s %>' />
         
           <label>
             <input type="checkbox" name="subscribe" checked="checked" />
             Join our mailing list
           </label>
-    
         
-          <label>Notes / Feedback For us</label>
+          <label>Reason for Donating <small class="danger">*required</small></label>
           <textarea name="notes" rows="4" placeholder="I miss working for Epic Games, but you guys are really epic!"><%= params[:notes].to_s %></textarea>
-    
         
           <label>Card Number</label>
           <input type="text" size="20" autocomplete="off" class="card-number" placeholder="1234 5674 9123 4567" />
-    
         
           <label>CVC</label>
           <input type="text" size="4" autocomplete="off" class="card-cvc" placeholder="123" />
-
         
           <label>Expiration (MM/YYYY)</label>
           <input type="text" size="2" class="card-expiry-month"  placeholder="08" />
           <span> / </span>
           <input type="text" size="4" class="card-expiry-year" placeholder="2014" />
-    
         
           <label>Amount</label>
           <select name="amount" id="payment-amount">
