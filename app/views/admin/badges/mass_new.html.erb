@@ -10,7 +10,7 @@
     <option value="purchase">Purchase on gaymercon.org</option>
   </select>
   
-  <div id="purchase" class="hidden">
+  <div id="purchase" class="hide">
     <%= label_tag :price %>
     <%= text_field_tag :price, '', :placeholder => "45.75" %>
   </div>
@@ -18,16 +18,16 @@
   <%= label_tag :badge_level %>
   <%= select_tag :badge_level, options_for_select(Badge.levels.collect{|k,v| [k.to_s.titleize, k]}) %>
   <% Badge.levels.each do |k,v| %>
-    <div class="explain hidden badge-info" id="badge_info_<%= k %>">
+    <span class="help-block hide con-badge-info" id="badge_info_<%= k %>">
       <strong>Badge Info:</strong> <%= v %>
-    </div>
+    </span>
   <% end %>
   
   <%= label_tag :explain %>
   <%= text_field_tag :explain %>
-  <div class="explain">
+  <span class="help-block">
     Explain why you're making this badge, like "Kickstarter" or "Facebook giveaway." Only admins can see this.
-  </div>
+  </span>
   
-  <%= submit_tag "Create", :class => "button button-blue" %>
+  <%= submit_tag "Create", :class => "btn" %>
 <% end %>

@@ -3,11 +3,11 @@
 $(function(){
   $("#badge_level").on("change", function(e){
     var sel = $(e.target);
-    $(".badge-info").hide();
+    $(".con-badge-info").hide();
     $("#badge_info_" + sel.val()).show();
   });
   
-  $(".badge-info").hide();
+  $(".con-badge-info").hide();
   $("#badge_info_" + $("#badge_level").val()).show();
   $("#redeem").on("change", function(){
     var div = $(this).val();

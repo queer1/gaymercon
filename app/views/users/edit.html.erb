@@ -8,167 +8,169 @@
 
 <h2><%= @user.name %> <small class="title-link"><%= link_to "View Profile", user_path(resource) %></small></h2>
 
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#character">Character</a></li>
-  <li><a href="#settings">Settings</a></li>
-</ul>
-
-<% update_path = @form_path ? @form_path : update_profile_path %>
-<%= form_for(resource, :as => resource_name, :url => update_path, :html => { :method => :put, :id => "character", :class => "edit-form tab-pane" }) do |f| %>
-  <%= devise_error_messages! %>
-  
-  <fieldset>
-    <h3>Character</h3>
-    <div><%= f.label :name %><br />
-    <%= f.text_field :name %></div>
-    
-    <div class="location">
-      <%= f.label :place %><br />
-      <%= link_to image_tag("geolocation.png"), "#", :class => "get-location" %>
-      <%= f.text_field :place, :placeholder => "San Francisco, CA", :class => 'place' %>
+  <div class="tabbable">
+    <div class="row-fluid">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#character" data-toggle="tab">Character</a></li>
+        <li><a href="#settings" data-toggle="tab">Settings</a></li>
+      </ul>
     </div>
-    
-    <div class="jobs" id="jobs-column">
-      <h3>Select a Job</h3>
-      <div class="job-select">
-        <% @jobs.each do |job| %>
-          <div class="job-card <%= job.id == resource.job_id ? 'selected-job' : '' %>" data-job-id="<%= job.id %>">
-            <%= image_tag job.icon_path, :id => "job-image-#{job.id}", :class => "job-image" %><br />
-            <%= job.name %>
-            <%= f.radio_button :job_id, job.id, :class => "job-button" %>
+
+    <div class="tab-content row-fluid">
+      <div class="tab-pane active" id="character">
+        <% update_path = @form_path ? @form_path : update_profile_path %>
+        <%= form_for(resource, :as => resource_name, :url => update_path, :html => { :method => :put, :class => "edit-form" }) do |f| %>
+          <%= devise_error_messages! %>
+
+          <div class="row-fluid">
+            <h3>Character</h3>
+            <%= f.label :name %>
+            <%= f.text_field :name %>
+
+            <%= f.label :place %>
+            <%= link_to image_tag("geolocation.png"), "#", :class => "get-location" %>
+            <%= f.text_field :place, :placeholder => "San Francisco, CA", :class => 'place' %>
           </div>
+          <div class="row-fluid">
+            <div class="span6">
+              <h3>Select a Job</h3>
+              <div class="job-select">
+                <% @jobs.each do |job| %>
+                  <div class="job-card <%= job.id == resource.job_id ? 'selected-job' : '' %> span1" data-job-id="<%= job.id %>">
+                    <%= image_tag job.icon_path, :id => "job-image-#{job.id}", :class => "job-image" %><br />
+                    <%= job.name %>
+                    <%= f.radio_button :job_id, job.id, :class => "job-button" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+    
+            <% stat_setup = [resource.strength, resource.agility, resource.vitality, resource.mind].all?{|s| s == 1} %>
+            <% free_points = resource.free_skill_points > 0 %>
+            <div class="stats span6">
+              <h3>Stats</h3>
+              <% if stat_setup %>
+                <small><em>Drag and drop any number to any attribute to pick your stats!</em></small>
+              <% elsif free_points %>
+                <h4 class="points-message">
+                  Points Remaining:
+                  <span class="stat-points-remaining" data-remaining="<%= resource.free_skill_points %>"><%= resource.free_skill_points %></span>
+                </h4>
+                <h4 class="points-complete-message hidden">
+                  Points assigned. Hit 'update!'
+                </h4>
+              <% end %>
+              <table class="stat-table">
+                <tr>
+                  <td>Strength</td>
+                  <td class="stat">
+                    <div class="<%= stat_setup ? 'stat-drop' : 'strength' %>" data-initial="<%= resource.strength %>"><%= stat_setup ? '' : resource.strength %></div>
+                    <%= f.hidden_field :strength %>
+                  </td>
+                  <% if stat_setup %>
+                    <td><div class="initial-stat" data-stat="16">16</div></td>
+                  <% elsif free_points %>
+                    <td><div class="add-stat" data-stat="strength">+</div></td>
+                  <% end %>
+                </tr>
+                <tr class="highlight">
+                  <td>Agility</td>
+                  <td class="stat">
+                    <div class="<%= stat_setup ? 'stat-drop' : 'agility' %>" data-initial="<%= resource.agility %>"><%= stat_setup ? '' : resource.agility %></div>
+                    <%= f.hidden_field :agility %>
+                  </td>
+                  <% if stat_setup %>
+                    <td><div class="initial-stat" data-stat="13">13</div></td>
+                  <% elsif free_points %>
+                    <td><div class="add-stat" data-stat="agility">+</div></td>
+                  <% end %>
+                </tr>
+                <tr>
+                  <td>Vitality</td>
+                  <td class="stat">
+                    <div class="<%= stat_setup ? 'stat-drop' : 'vitality' %>" data-initial="<%= resource.vitality %>"><%= stat_setup ? '' : resource.vitality %></div>
+                    <%= f.hidden_field :vitality %>
+                  </td>
+                  <% if stat_setup %>
+                    <td><div class="initial-stat" data-stat="10">10</div></td>
+                  <% elsif free_points %>
+                    <td><div class="add-stat" data-stat="vitality">+</div></td>
+                  <% end %>
+                </tr>
+                <tr class="highlight">
+                  <td>Mind</td>
+                  <td class="stat">
+                    <div class="<%= stat_setup ? 'stat-drop' : 'mind' %>" data-initial="<%= resource.mind %>"><%= stat_setup ? '' : resource.mind %></div>
+                    <%= f.hidden_field :mind %>
+                  </td>
+                  <% if stat_setup %>
+                    <td><div class="initial-stat" data-stat="7">7</div></td>
+                  <% elsif free_points %>
+                    <td><div class="add-stat" data-stat="mind">+</div></td>
+                  <% end %>
+                </tr>
+              </table>
+              <% if stat_setup || free_points %>
+                <%= link_to "Reset", '#', id: "stat-reset" %>
+              <% end %>
+            </div>
+          </div>
+          <div class="row-fluid">
+            <h3>Games</h3>
+              <%= render :partial => 'users/key_field', :collection => @games, :locals => {:form => f, :resource => resource, :relevance => :games} %>
+              <%= text_field_tag :new_games, '', :placeholder => "New Game", :'data-relevance' => 'games' %>
+          </div>
+
+          <div class="row-fluid">
+            <h3>Gamer IDs</h3>
+            <%= render :partial => "users/network", :collection => @nicknames %>
+            <%= link_to '+ More', '#', :id => "more-nicknames" %>
+          </div>
+
+          <%= f.submit "Update", :class => "btn" %>
+
+        <% end %>
+      </div>
+      <div class="tab-pane" id="settings">
+        <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => "edit-form"}) do |f| %>
+          <%= devise_error_messages! %>
+  
+            <h3>Settings</h3>
+            <div><%= f.label :email %><br />
+            <%= f.email_field :email %></div>
+    
+            <div>
+              <label for="user_disable_emails">
+                <%= f.check_box :disable_emails %>
+                Never send me any emails
+              </label>
+            </div>
+    
+            <div>
+              <label for="user_disable_pm_emails">
+                <%= f.check_box :disable_pm_emails %>
+                Do not email me about new private messages
+              </label>
+            </div>
+
+            <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+            <%= f.password_field :password, :autocomplete => "off" %></div>
+
+            <div><%= f.label :password_confirmation %><br />
+            <%= f.password_field :password_confirmation %></div>
+
+            <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+            <%= f.password_field :current_password %></div>
+
+          <br />
+          <%= f.submit "Update", :class => "btn" %>
+  
+          <h3>Cancel my account</h3>
+
+          <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>
         <% end %>
       </div>
     </div>
-    
-    <% stat_setup = [resource.strength, resource.agility, resource.vitality, resource.mind].all?{|s| s == 1} %>
-    <% free_points = resource.free_skill_points > 0 %>
-    <div class="stats" id="stats-column">
-      <h3>Stats</h3>
-      <% if stat_setup %>
-        <small><em>Drag and drop any number to any attribute to pick your stats!</em></small>
-      <% elsif free_points %>
-        <h4 class="points-message">
-          Points Remaining:
-          <span class="stat-points-remaining" data-remaining="<%= resource.free_skill_points %>"><%= resource.free_skill_points %></span>
-        </h4>
-        <h4 class="points-complete-message hidden">
-          Points assigned. Hit 'update!'
-        </h4>
-      <% end %>
-      <table class="stat-table">
-        <tr>
-          <td>Strength</td>
-          <td class="stat">
-            <div class="<%= stat_setup ? 'stat-drop' : 'strength' %>" data-initial="<%= resource.strength %>"><%= stat_setup ? '' : resource.strength %></div>
-            <%= f.hidden_field :strength %>
-          </td>
-          <% if stat_setup %>
-            <td><div class="initial-stat" data-stat="16">16</div></td>
-          <% elsif free_points %>
-            <td><div class="add-stat" data-stat="strength">+</div></td>
-          <% end %>
-        </tr>
-        <tr class="highlight">
-          <td>Agility</td>
-          <td class="stat">
-            <div class="<%= stat_setup ? 'stat-drop' : 'agility' %>" data-initial="<%= resource.agility %>"><%= stat_setup ? '' : resource.agility %></div>
-            <%= f.hidden_field :agility %>
-          </td>
-          <% if stat_setup %>
-            <td><div class="initial-stat" data-stat="13">13</div></td>
-          <% elsif free_points %>
-            <td><div class="add-stat" data-stat="agility">+</div></td>
-          <% end %>
-        </tr>
-        <tr>
-          <td>Vitality</td>
-          <td class="stat">
-            <div class="<%= stat_setup ? 'stat-drop' : 'vitality' %>" data-initial="<%= resource.vitality %>"><%= stat_setup ? '' : resource.vitality %></div>
-            <%= f.hidden_field :vitality %>
-          </td>
-          <% if stat_setup %>
-            <td><div class="initial-stat" data-stat="10">10</div></td>
-          <% elsif free_points %>
-            <td><div class="add-stat" data-stat="vitality">+</div></td>
-          <% end %>
-        </tr>
-        <tr class="highlight">
-          <td>Mind</td>
-          <td class="stat">
-            <div class="<%= stat_setup ? 'stat-drop' : 'mind' %>" data-initial="<%= resource.mind %>"><%= stat_setup ? '' : resource.mind %></div>
-            <%= f.hidden_field :mind %>
-          </td>
-          <% if stat_setup %>
-            <td><div class="initial-stat" data-stat="7">7</div></td>
-          <% elsif free_points %>
-            <td><div class="add-stat" data-stat="mind">+</div></td>
-          <% end %>
-        </tr>
-      </table>
-      <% if stat_setup || free_points %>
-        <%= link_to "Reset", '#', id: "stat-reset" %>
-      <% end %>
-    </div>
-    
-    <div class="clearfix">&nbsp;</div>
-    
-    <div class="control-group">
-      <h3>Games</h3>
-      <div>
-        <%= render :partial => 'users/key_field', :collection => @games, :locals => {:form => f, :resource => resource, :relevance => :games} %>
-        <%= text_field_tag :new_games, '', :placeholder => "New Game", :'data-relevance' => 'games' %>
-      </div>
-    </div>
-    
-    <div class="nicknames">
-      <h3>Gamer IDs</h3>
-      <%= render :partial => "users/network", :collection => @nicknames %>
-      <%= link_to '+ More', '#', :id => "more-nicknames" %>
-    </div>
-  </fieldset>
-  
-  <div class="submit"><%= f.submit "Update", :class => "button button-blue btn" %></div>
-  
-<% end %>
-
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :id => "settings" , :class => "edit-form tab-pane"}) do |f| %>
-  <%= devise_error_messages! %>
-  
-  <fieldset>
-    <h3>Settings</h3>
-    <div><%= f.label :email %><br />
-    <%= f.email_field :email %></div>
-    
-    <div>
-      <label for="user_disable_emails">
-        <%= f.check_box :disable_emails %>
-        Never send me any emails
-      </label>
-    </div>
-    
-    <div>
-      <label for="user_disable_pm_emails">
-        <%= f.check_box :disable_pm_emails %>
-        Do not email me about new private messages
-      </label>
-    </div>
-
-    <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, :autocomplete => "off" %></div>
-
-    <div><%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation %></div>
-
-    <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password %></div>
-  </fieldset>
-
-  <div class="submit"><%= f.submit "Update", :class => "button button-blue btn" %></div>
-  
-  <h3>Cancel my account</h3>
-
-  <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>
-<% end %>
-
+  </div>
+</div>
 <%= link_to "Back", :back %>

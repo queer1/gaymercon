@@ -4,80 +4,76 @@
     Stripe.setPublishableKey('<%= STRIPE['publishable'] %>');
   </script>
 <% end %>
-
-<div class="donate-header">
-  <h1>Donate!</h1>
-  <p>Here at the GaymerCon Boss Castle, we are working hard to build a flourishing community for people to interact with one another and coordinate events, meetups, and gaming! The money donated here will be used to help build the site, the community, and the convention, and to ensure the best all around experience for all of our users.</p>
+<%= render :partial => "links" %>
+<div class="row-fluid">
+  <div class="span8">
+    <h1>Donate!</h1>
+    <p>Here at the GaymerCon Boss Castle, we are working hard to build a flourishing community for people to interact with one another and coordinate events, meetups, and gaming! The money donated here will be used to help build the site, the community, and the convention, and to ensure the best all around experience for all of our users.</p>
+  </div>
 </div>
+<div class="row-fluid">
+  <div class="span8 offset1">
+    <form action="<%= welcome_path("donate") %>" method="POST" id="payment-form">
+    
+          <label>Name <small class="danger">*required</small></label>
+          <input type="text" name="name" placeholder="Cliff Bleszinski" 
+          value='<%= current_user.present? ? "#{current_user.name}" : params[:name].to_s %>'
+          />
+    
+        
+          <label>Email <small class="danger">*required</small></label>
+          <input type="text" name="email" placeholder="cliff@epicgames.com"
+          value='<%= current_user.present? ? "#{current_user.email}" : params[:email].to_s %>'
+           />
+    
+        
+          <label>
+            <input type="checkbox" name="subscribe" checked="checked" />
+            Join our mailing list
+          </label>
+    
+        
+          <label>Notes / Feedback For us</label>
+          <textarea name="notes" rows="4" placeholder="I miss working for Epic Games, but you guys are really epic!"><%= params[:notes].to_s %></textarea>
+    
+        
+          <label>Card Number</label>
+          <input type="text" size="20" autocomplete="off" class="card-number" placeholder="1234 5674 9123 4567" />
+    
+        
+          <label>CVC</label>
+          <input type="text" size="4" autocomplete="off" class="card-cvc" placeholder="123" />
 
-<form action="<%= welcome_path("donate") %>" method="POST" id="payment-form">
+        
+          <label>Expiration (MM/YYYY)</label>
+          <input type="text" size="2" class="card-expiry-month"  placeholder="08" />
+          <span> / </span>
+          <input type="text" size="4" class="card-expiry-year" placeholder="2014" />
     
-    <div class="form-row">
-      <label>Name <small class="danger">*required</small></label>
-      <input type="text" name="name" placeholder="Cliff Bleszinski" 
-      value='<%= current_user.present? ? "#{current_user.name}" : params[:name].to_s %>'
-      />
-    </div>
+        
+          <label>Amount</label>
+          <select name="amount" id="payment-amount">
+            <option value="500">$5.00</option>
+            <option value="1000">$10.00</option>
+            <option value="2500" selected="selected">$25.00</option>
+            <option value="5000">$50.00</option>
+            <option value="10000">$100.00</option>
+            <option value="50000">$500.00</option>
+            <option value="100000">$1000.00</option>
+            <option value="other">other</option>
+          </select>
+          <span class="amount-other">$</span>
+          <input type="text" name="amount_other" class="amount-other" placeholder="67.41" />
+          <div class="amount-other">
+            $1 or more, please
+          </div>
+          <br />
+          <input type="submit" value="Donate" class="btn btn-primary btn-large" />
     
-    <div class="form-row">
-      <label>Email <small class="danger">*required</small></label>
-      <input type="text" name="email" placeholder="cliff@epicgames.com"
-      value='<%= current_user.present? ? "#{current_user.email}" : params[:email].to_s %>'
-       />
-    </div>
+          <span class="help=block">
+            As of this time GaymerCon is not a registered 501c(3) organization, so donations will not be tax-deductible.
+          </span>
     
-    <div class="form-row">
-      <label>
-        <input type="checkbox" name="subscribe" checked="checked" />
-        Join our mailing list
-      </label>
-    </div>
-    
-    <div class="form-row">
-      <label>Notes / Feedback For us</label>
-      <textarea name="notes" rows="4" cols="30" placeholder="I miss working for Epic Games, but you guys are really epic!"><%= params[:notes].to_s %></textarea>
-    </div>
-    
-    <div class="form-row">
-      <label>Card Number</label>
-      <input type="text" size="20" autocomplete="off" class="card-number" placeholder="1234 5674 9123 4567" />
-    </div>
-    
-    <div class="form-row">
-      <label>CVC</label>
-      <input type="text" size="4" autocomplete="off" class="card-cvc" placeholder="123" />
-    </div>
-
-    <div class="form-row">
-      <label>Expiration (MM/YYYY)</label>
-      <input type="text" size="2" class="card-expiry-month"  placeholder="08" />
-      <span> / </span>
-      <input type="text" size="4" class="card-expiry-year" placeholder="2014" />
-    </div>
-    
-    <div class="form-row">
-      <label>Amount</label>
-      <select name="amount" id="payment-amount">
-        <option value="500">$5.00</option>
-        <option value="1000">$10.00</option>
-        <option value="2500" selected="selected">$25.00</option>
-        <option value="5000">$50.00</option>
-        <option value="10000">$100.00</option>
-        <option value="50000">$500.00</option>
-        <option value="100000">$1000.00</option>
-        <option value="other">other</option>
-      </select>
-      <span class="amount-other">$</span>
-      <input type="text" name="amount_other" class="amount-other" placeholder="67.41" />
-      <div class="expalin amount-other">
-        $1 or more, please
-      </div>
-    </div>
-
-    <input type="submit" value="Donate" class="button button-blue" />
-    
-    <div class="explain">
-      As of this time GaymerCon is not a registered 501c(3) organization, so donations will not be tax-deductible.
-    </div>
-    
-</form>
+    </form>
+  </div>
+</div>

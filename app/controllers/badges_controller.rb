@@ -57,9 +57,9 @@ class BadgesController < ApplicationController
     @badge = Badge.find_by_id(params[:badge]["id"])
     redirect_to purchase_badges_path, alert: "Sorry, the badge you were going to buy got taken :(" and return unless @badge.present? && @badge.purchasable?
     
-    badge_params = params[:badge].slice("name", "age", "address_1", "address_2", "city", "province", "country", "postal")
+    badge_params = params[:badge].slice("first_name", "last_name", "age", "address_1", "address_2", "city", "province", "country", "postal")
     @badge.assign_attributes(badge_params)
-    unless ["name", "age", "address_1", "city", "province", "country", "postal"].all?{|f| @badge.send(f).present? }
+    unless ["first_name", "last_name", "age", "address_1", "city", "province", "country", "postal"].all?{|f| @badge.send(f).present? }
       flash.now[:alert] = "Please fill out all the badge info."
       render :purchase and return
     end

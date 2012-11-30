@@ -1,37 +1,44 @@
 <% controls = current_user.present? && (@panel.user == current_user || current_user.admin?) %>
-<div class="panel-show">
-  <h2 class="panel-title">
-    Panel: <%= @panel.title %> 
-    <% if @panel.confirmed %>
-      <span class="panel-confirmed">Confirmed! :)</span>
-    <% end %>
-  </h2>
+<div class="row-fluid">
+  <div class="span8">
+    <h2 class="panel-title">
+      Panel: <%= @panel.title %> 
+      <% if @panel.confirmed %>
+        <span class="panel-confirmed">Confirmed! :)</span>
+      <% end %>
+    </h2>
+  </div>
+</div>
+
+<div class="row-fluid">
   <%= render :partial => 'voting', :object => @panel %>
   <p class="panel-voting-question">Do you want to see this panel at GaymerCon? </p>
-  
-  <div class="panel-meta">
-    <h4 class="clearfix panel-description-heading">Description:</h4>
-    <p class="panel-kind"><%= @panel.kind %></p>
-    <p class="panel-description"><%= @panel.description.bbcode_to_html.html_safe %></p>
-    <p class="panel-byline">
+</div>
+
+<div class="row-fluid">
+  <div class="span4 offset1">
+    <h4>Description:</h4>
+    <p><%= @panel.kind %></p>
+    <p><%= @panel.description.bbcode_to_html.html_safe %></p>
       <%= image_tag @panel.user.avatar, :class => "panel-byline-image" %>
-      <div class="panel-byline-message">
-        Created by <%= link_to (@panel.user.name || "Nameless User"), user_path(@panel.user) %>
-        on <%= @panel.created_at.strftime("%b %-d, %Y" ) %>
-        <% if controls %>
-          | <%= link_to "Edit", edit_panel_path(@panel), :class => "danger" %>
-          | <%= link_to "Delete", panel_path(@panel), :method => "delete", :confirm => "Are you sure?", :class => "danger" %>
-        <% end %>
-      </div>
-    </p>
+      Created by <%= link_to (@panel.user.name || "Nameless User"), user_path(@panel.user) %>
+      on <%= @panel.created_at.strftime("%b %-d, %Y" ) %>
+      <% if controls %>
+        | <%= link_to "Edit", edit_panel_path(@panel), :class => "danger" %>
+        | <%= link_to "Delete", panel_path(@panel), :method => "delete", :confirm => "Are you sure?", :class => "danger" %>
+      <% end %>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span4">
+    <br /><br />
     <% if current_user.present? && current_user.admin? %>
-      <div id="panel-confirm">
         <% if !@panel.confirmed %>
-          <%= button_to "Confirm!", halo_path("confirm_panel", @panel), :class => "button button-orange" %>
+          <%= button_to "Confirm!", halo_path("confirm_panel", @panel), :class => "btn btn-danger" %>
         <% else %>
-          <%= button_to "de-confirm :(", halo_path("deconfirm_panel", @panel), :class => "button button-orange" %>
+          <%= button_to "de-confirm :(", halo_path("deconfirm_panel", @panel), :class => "btn btn-danger" %>
         <% end %>
-      </div>
     <% end %>
   </div>
 </div>
