@@ -1,15 +1,17 @@
-<div class="user-profile">
-  <h1><%= @user.name %></h1>
-  <div class="profile-left">
+<h1><%= @user.name %></h1>
+<div class="row-fluid">
+  <div class="span3">
     <%= image_tag @user.avatar %><br />
     <small>Location:<br /> <%= @user.place || "Unknown" %><br />
     Member since <%= @user.created_at.strftime("%b %-d, %Y" ) %></small>
     <br />
     <br />
     <h4>Lvl <%= @user.level %> <%= @user.job.try(:name) %></h4>
-    <div class="level-bar" data-progress="<%= @user.progress %>"></div>
+    <div class="progress progress-striped" style="width: 70%;">
+      <div class="bar" style="width: <%= @user.progress %>%;"></div>
+    </div>
     
-    <table class="stat-sidebar">
+    <table class="table" style="width: 70%;">
       <tr><td>Strength</td><td><%= @user.strength %></td></tr>
       <tr class="highlight"><td>Agility</td><td><%= @user.agility %></td></tr>
       <tr><td>Vitality</td><td><%= @user.vitality %></td></tr>
@@ -18,48 +20,37 @@
     
     <div id="stat-radar" data-str="<%= @user.strength %>" data-agi="<%= @user.agility %>" data-vit="<%= @user.vitality %>" data-mnd="<%= @user.mind %>"></div>
   </div>
-  <div class="profile-main">
-    <div class="profile-row">
-      <%= link_to "Send a Message", new_message_path(to_user_id: @user.id ), :class => "button button-blue" %>
-    </div>
+  <div class="span9">
+    <%= link_to "Send #{@user.display_name} a Message", new_message_path(to_user_id: @user.id ), :class => "btn btn-large" %>
     
     <% if @user.badge.present? %>
-      <div class="profile-row">
         <h3>Con Attendee</h3>
         <h4>Level: <%= @user.badge.level.titleize %></h4>
-      </div>
     <% end %>
     
     <% if @common.present? %>
-      <div class="profile-row">
         <h3>Games You Both Play</h3>
         <ul class="games-list">
           <% @common.each do |game| %>
             <li><%= link_to game.game.titleize, group_path(game) %></li>
           <% end %>
         </ul>
-      </div>
     <% end %>
     
     <% if @user.game_groups.present? %>
-      <div class="profile-row">
         <h3>Games</h3>
         <ul class="games-list">
           <% @user.game_groups.each do |game| %>
             <li><%= link_to game.game.titleize, group_path(game) %></li>
           <% end %>
         </ul>
-      </div>
     <% else %>
-      <div class="profile-row">
         <h3><%= @user.name %> hasn't added any games yet! <%= link_to "send them a message", new_message_path(to_user_id: @user.id ) %> and suggest a few!</h3>
-      </div>
     <% end %>
     
     <% if @user.nicknames.present? %>
-      <div class="profile-row">
         <h3>Gamer IDs</h3>
-        <table>
+        <table class="table table-striped">
           <tr><th>Network</th><th>Handle</th></tr>
           <% @user.nicknames.each do |nickname| %>
             <tr class="<%= cycle('', 'highlight') %>">
@@ -68,7 +59,6 @@
             </tr>
           <% end %>
         </table>
-      </div>
     <% end %>
   </div>
 </div>
