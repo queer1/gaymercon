@@ -51,6 +51,10 @@ class User < ActiveRecord::Base
     the_job.icon_path
   end
   
+  def display_name
+    "#{self.first_name} #{self.last_name}"
+  end
+  
   def admin?
     self.role == "admin"
   end
