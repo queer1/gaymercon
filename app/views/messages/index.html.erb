@@ -1,7 +1,18 @@
-<h1>Inbox <small class="title-link"><%= link_to "Outbox", outbox_messages_path %></small></h1>
-<ul class="message-list">
-  <%= render :partial => "message", :collection => @messages %>
-  <% if @messages.empty? %>
-    <li>You have no new messages!</li>
-  <% end %>
-</ul>
+<div class="row-fluid">
+  <div class="span6">
+    <h1>Inbox <small class="title-link"><%= link_to "Outbox", outbox_messages_path %></small></h1>
+    <% if @messages.empty? %>
+      <h2>You have no new messages!</h2>
+    <% end %>
+    <table class="table table-striped">
+      <tr>
+        <th>&nbsp;</th>
+        <th>From</th>
+        <th>Content</th>
+        <th>On</th>
+        <th>Actions</th>
+      </tr>
+      <%= render :partial => "message", :collection => @messages %>
+    </table>
+  </div>
+</div>

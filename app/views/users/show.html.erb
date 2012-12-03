@@ -20,8 +20,9 @@
     
     <div id="stat-radar" data-str="<%= @user.strength %>" data-agi="<%= @user.agility %>" data-vit="<%= @user.vitality %>" data-mnd="<%= @user.mind %>"></div>
   </div>
+  
   <div class="span9">
-    <%= link_to "Send #{@user.display_name} a Message", new_message_path(to_user_id: @user.id ), :class => "btn btn-large" %>
+    <%= link_to "Send #{@user.name} a Message", new_message_path(to_user_id: @user.id ), :class => "btn btn-large btn-primary" %>
     
     <% if @user.badge.present? %>
         <h3>Con Attendee</h3>
