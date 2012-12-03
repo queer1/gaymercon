@@ -1,28 +1,32 @@
-<% if @user_message.from_user == current_user %>
-  <h1>Message to <%= @user_message.to_user.name %></h1>
-<% else %>
-  <h1>Message from <%= @user_message.from_user.name %></h1>
-<% end %>
-
-<div class="message-content">
-  <%= @user_message.content.bbcode_to_html.html_safe %>
-</div>
-
-<div class="message-byline">
-  <small>
+<div class="row-fluid">
+  <div class="span6">
     <% if @user_message.from_user == current_user %>
-      Sent to <%= link_to @user_message.to_user.name, user_path(@user_message.to_user) %>
+      <h1>Message to <%= @user_message.to_user.name %></h1>
     <% else %>
-      Sent by <%= @user_message.from_user.name %> 
+      <h1>Message from <%= @user_message.from_user.name %></h1>
     <% end %>
-    on <%= @user_message.created_at.strftime("%b %-d, %Y" ) %>
-  </small>
+    
+    <div class="well">
+      <%= @user_message.content.bbcode_to_html.html_safe %>
+      <br />
+      <small>
+        <% if @user_message.from_user == current_user %>
+          Sent to <%= link_to @user_message.to_user.name, user_path(@user_message.to_user) %>
+        <% else %>
+          Sent by <%= @user_message.from_user.name %> 
+        <% end %>
+        on <%= @user_message.created_at.strftime("%b %-d, %Y" ) %>
+      </small>
+    </div>
+  </div>
 </div>
-<br />
-<br />
 
-<h3>Reply</h3>
+<div class="row-fluid">
+  <div class="span8">
+    <h3>Reply</h3>
 
-<%= render partial: "form" %>
+    <%= render partial: "form" %>
 
-<%= link_to "<< Back", messages_path %>
+    <%= link_to "<< Back", messages_path %>
+  </div>
+</div>

@@ -1,10 +1,10 @@
 <%= form_for @message do |f| %>
-  <%= label_tag :to_user, "To:" %><br />
+  <%= label_tag :to_user, "To:" %>
   <%= text_field_tag :to_user, @message.to_user.name, disabled: true %>
-  <%= f.hidden_field :to_user_id %><br />
+  <%= f.hidden_field :to_user_id %>
   
-  <%= f.label :content %><br />
-  <%= f.text_area :content, rows: 8, cols: 45, placeholder: "Your message (please be nice)" %><br />
+  <%= f.label :content %>
+  <%= f.text_area :content, rows: 8, cols: 45, placeholder: "Your message (please be nice)" %>
   
-  <%= submit_tag "Send", :class => "button button-blue" %>
+  <%= submit_tag "Send", :class => "btn" %>
 <% end %>
