@@ -87,4 +87,8 @@ class Admin::HaloController < AdminController
       redirect_to panel_path(@panel, alert: "There was a problem: #{@panel.errors.full_messages.join('<br />')}")
     end
   end
+  
+  def layout
+    render "layout", layout: false
+  end
 end
