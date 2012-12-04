@@ -1,2 +1,5 @@
-<h1>Official Forum Groups</h1>
-<%= render :partial => "header", :collection => @groups %>
+<div class="row-fluid">
+  <div class="span8">
+    <%= render :partial => "group_collection", locals: {name: "Official Forums", groups: @groups} %>
+  </div>
+</div>

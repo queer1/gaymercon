@@ -7,7 +7,7 @@ class GroupsController < ApplicationController
     @kind = params[:kind]
     @page = params.fetch(:page, 1).to_i
 
-    if @page == 1
+    if @page == 1 && !@kind.present?
       if current_user.present?
         @your_groups = current_user.groups.order("updated_at desc").all
         @coords = current_user.location.coords

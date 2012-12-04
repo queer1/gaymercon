@@ -1,5 +1,5 @@
 <% group = form || @group %>
-<%= form_for group, :html => {:class => "form-vertical"} do |f| %>
+<%= form_for group do |f| %>
 
   <%= f.label :name %>
   <%= f.text_field :name, :placeholder => "Neverwinter Nights DMs" %>
@@ -18,17 +18,17 @@
     <%= f.text_field :game, :placeholder => "Mass Effect 3" %>
   </div>
   
-  <div class="location <%= group.kind == 'location' ? '' : 'hidden' %>">
+  <div class="location <%= group.kind == 'location' ? '' : 'hide' %>">
     <%= f.label :place %>
-    <%= link_to image_tag("geolocation.png"), "#", :class => "get-location" %>
+    <%= link_to image_tag("geolocation.png"), "#", :class => "get-location btn" %>
     <%= f.text_field :place, :placeholder => "San Francisco CA", :class => 'place' %>
   </div>
   
   <%= f.label :header, "Header Image" %>
   <%= f.file_field :header %>
-  <div class="explain">
+  <span class="help-block">
     Image will be cropped to 1000x191
-  </div>
+  </span>
   
   <%= f.label :description %>
   <%= f.text_area :description, :size => "35x3" %>
@@ -38,6 +38,6 @@
   
   <%= f.label :site_link, "Web site link:" %>
   <%= f.text_field :site_link, :placeholer => "http://www.neverwinterdms.com" %>
-  
-  <%= f.submit "Save", :class => "button button-blue" %>
+  <br />
+  <%= f.submit "Save", :class => "btn" %>
 <% end %>

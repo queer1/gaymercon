@@ -1,74 +1,34 @@
 <% post ||= @post %>
 
-<div class="group-post">
+<tr>
+  <td>
+    <%= link_to image_tag(post.user.avatar), user_path(post.user) %><br />
+    <%= link_to post.user.name, user_path(post.user) %>
+  </td>
+  
   <% title = post.kind == "link" ? "#{post.user.name}'s link" : post.title %>
   <% title = "Untitled" unless title.present? %>
   <% path = post.kind == "link" ? post.url : group_post_path(post.group_id, post.id) %>
-  <h3><%= link_to title, path %></h3>
-  <div class="group-post-user">
-    <%= link_to image_tag(post.user.avatar), user_path(post.user) %>
-    <h4><%= link_to post.user.name, user_path(post.user) %></h4>
-    <h4>Lvl <%= post.user.level %> <br /> <%= post.user.job.try(:name) %></h4>
-    <div class="level-bar" data-progress="<%= post.user.progress %>"></div>
-  </div>
+  <td><%= link_to title, path %></td>
   
-  <% case post.kind %>
-  <% when 'discussion' %>
-    <div class="group-post-body">
-      <%= post.content.bbcode_to_html.html_safe %>
-    </div>
-  <% when 'link' %>
-    <% link_text = post.title.present? ? post.title : "#{post.user.name}'s link" %>
-    <h5><%= link_to link_text, post.url %></h5>
-  <% when 'image' %>
-    <%= link_to image_tag(post.image.url(:medium)), post.image.url %>
-  <% when 'intro' %>
-    <div class="group-post-body">
-      <%= post.content.bbcode_to_html.html_safe %>
-    </div>
-  <% when 'event' %>
-    <div class="group-post-body">
-      <%= post.content.bbcode_to_html.html_safe %>
-    </div>
-    
-    <div class="group-post-location">
-      <strong>Place:</strong> <%= post.place %>
-    </div>
-    
-    <div class="group-post-event-time">
-      <strong>Start:</strong> <%= post.start_time.strftime("%b %-d, %Y -- %l:%M%P") %><br />
-      <strong>End:</strong> <%= post.end_time.strftime("%b %-d, %Y -- %l:%M%P") %><br />
-    </div>
-  <% else %>
-    <div class="group-post-body">
-      <%= post.content.bbcode_to_html.html_safe %>
-    </div>
-  <% end %>
-  
-  <div class="byline">
-    Posted at:
-    <%= post.created_at.strftime(TIME_FORMAT)%>
-    <% unless post.created_at == post.updated_at %>
-      // Edited at
-      <%= post.updated_at.strftime(TIME_FORMAT) %>
-    <% end %>
-  </div>
-  
-  <div class="group-post-links">
+  <td>
     <% if post.comments.present? %>
       <%= link_to "#{post.comments.count} #{post.comments.count > 1 ? 'replies' : 'reply'}", group_post_path(post.group_id, post.id) %>
     <% else %>
       <%= link_to "Reply", group_post_path(post.group_id, post.id) %>
     <% end %>
-    
-    <% if current_user && post.editor?(current_user) %>
-      | <%= link_to "Edit", edit_group_post_path(post.group_id, post) %> | 
-      <%= link_to "Delete", group_post_path(post.group_id, post), :method => "delete", :confirm => "Are you sure? This cannot be undone." %>
+  </td>
+  
+  <td><%= post.updated_at.strftime(TIME_FORMAT) %></td>
+  
+  <td>
+    <% if current_user %>
+      <%= link_to "Reply", group_post_path(post.group_id, post.id), :class => "btn" %>
     <% end %>
     
-    <% if post.kind == "event" && current_user && !post.replied?(current_user) && current_user.id != post.user_id %>
-      | <%= link_to "I'm coming", group_post_comments_path(post.group_id, post.id, :group_comment => {:content => "In"}), :method => "post" %>
-      | <%= link_to "Nope", group_post_comments_path(post.group_id, post.id, :group_comment => {:content => "Sorry, can't make it"}), :method => "post" %>
-    <% end %>
-  </div>
-</div>
+     <% if current_user && post.editor?(current_user) %>
+        <%= link_to "Edit", edit_group_post_path(post.group_id, post), :class => "btn" %>
+        <%= link_to "Delete", group_post_path(post.group_id, post), :method => "delete", :confirm => "Are you sure? This cannot be undone.", :class => "btn btn-danger" %>
+      <% end %>
+  </td>
+</tr>

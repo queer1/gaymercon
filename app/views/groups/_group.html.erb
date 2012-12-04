@@ -1,0 +1,13 @@
+<tr>
+  <td><%= link_to group.name, group_path(group) %></td>
+  <td><%= group.place %></td>
+  <td><%= group.users.count %></td>
+  <td><%= group.posts.count %></td>
+  <td>
+    <%= link_to "View", group_path(group), :class => "btn" %>
+    <% if current_user && group.editor?(current_user) %>
+      <%= link_to "Edit", edit_group_path(group), :class => "btn" %>
+      <%= link_to "Delete", group_path(group), :method => "delete", :class => "btn btn-danger", :confirm => "Are you sure?" %>
+    <% end %>
+  </td>
+</tr>
