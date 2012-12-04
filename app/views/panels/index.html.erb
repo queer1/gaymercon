@@ -39,6 +39,7 @@
 
 <% if current_user.present? %>
   <div class="new-panel-button">
-    <%= link_to "Start Your Own", new_panel_path, :class => "button button-blue" %>
+    <%= link_to "I want to host a panel!", new_panel_path, :class => "button button-blue" %>
+    <%= link_to "I have a great panel idea!", welcome_path("contact"), :class => "button button-blue" %>
   </div>
 <% end %>
