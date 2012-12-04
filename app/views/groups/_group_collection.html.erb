@@ -1,0 +1,9 @@
+<% if local_assigns[:name] %>
+  <h3><%= name %></h3>
+<% end %>
+<table class="table table-striped">
+  <tr><th>Name</th><th>Location</th><th>Members</th><th>Posts</th><th>Actions</th></tr>
+  <% groups ||= @groups %>
+  <%= render :partial => 'group', :collection => groups %>
+</table>
+  

@@ -1,85 +1,87 @@
-<%= render :partial => "header" %>
-
-<% if @group.kind == "location" && @nearby_users.present? %>
-  <div class="nearby-users">
-    <h4>Nearby Users</h4>
-    <%= render :partial => "users/card", :collection => @nearby_users %>
+<div class="row-fluid">
+  <div class="span12">
+    <ul class="breadcrumb">
+      <li><%= link_to "Groups", groups_path %> <span class="divider">/</span></li>
+      <li class="active"><%= @group.name %></li>
+    </ul>
   </div>
-<% end %>
-
-<div class="group-body">
-  <h5>Type: <%= @group.kind.titleize %></h5>
-  
-  <% if @group.place.present? %>
-    <br /><h5>Location: <%= @group.place %></h5>
-  <% end %>
-  
-  <% if @group.game.present? && @group.kind != "game" %>
-    <br /><h5>Game: <%= link_to @group.game, group_path(@group.game_group) %>
-  <% end %>
-  
-  <div class="group-description">
-    <%= (@group.description || "").bbcode_to_html.html_safe %>
-  </div>
-  
-  <% if @group.site_link.present? %>
-    <h6>Web site: <%= link_to (@group.site_name || @group.site_link), @group.site_link %></h6>
-  <% end %>
-  
-  <% if current_user %>
-    <div class="actions">
-      <% if @group.member?(current_user) %>
-        <%= link_to "Leave", leave_group_path(@group), :method => "post", :class => "button button-orange" %>
-      <% else %>
-        <%= link_to "Join", join_group_path(@group), :method => "post", :class => "button button-blue" %>
-      <% end %>
-      <% if @group.editor?(current_user) %>
-        <%= link_to "Edit", edit_group_path(@group), :class => "button button-orange" %>
-        <%= link_to "Destroy", group_path(@group), :method => "delete", :class => "button button-orange", :confirm => "Are you sure? This cannot be undone." %>
-      <% end %>
-    </div>
-  <% end %>
 </div>
 
-<% if @group.posts.count > 0 %>
-  <div class="group-posts">
-    <h3>Latest Posts</h3>
+<div class="row-fluid">
+  <div class="span6">
+    <h1>
+      <% if @group.member?(current_user) %>
+        <%= link_to "Leave Group", leave_group_path(@group), :method => "post", :class => "btn btn-danger pull-right" %>
+      <% else %>
+        <%= link_to "Join Group", join_group_path(@group), :method => "post", :class => "btn btn-primary pull-right" %>
+      <% end %>
+      <%= link_to @group.name, group_path(@group) %>
+    </h1>
+    <dl class="dl-horizontal">
+      <% if @group.site_link.present? %>
+        <dt>Web Site:</dt>
+        <dd>Web site: <%= link_to (@group.site_name || @group.site_link), @group.site_link %></dd>
+      <% end %>
+      <dt>Description</dt>
+      <dd><%= (@group.description || "").bbcode_to_html.html_safe %></dd>
+    </dl>
+    
+    <div class="actions">
+      <% if current_user.present? %>
+        <% if @group.editor?(current_user) %>
+          <%= link_to "Edit", edit_group_path(@group), :class => "btn" %>
+          <%= link_to "Destroy", group_path(@group), :method => "delete", :class => "btn btn-danger", :confirm => "Are you sure? This cannot be undone." %>
+        <% end %>
+      <% end %>
+    </div>
+    <br />
+    <br />
+  </div>
+</div>
 
+<div class="row">
+  <div class="span12">
     <ul class="nav nav-tabs">
-      <li><%= link_to "New Post", new_group_post_path(@group), :class => "button button-blue" %></li>
-      <li class="<%= @post_kind.present? ? '' : 'active' %>"><%= link_to "All", group_path(@group) %></li>
-      <% GroupPost.kinds.each do |kind| %>
-        <li class="<%= @post_kind == kind ? 'active' : '' %>"><%= link_to kind.pluralize.capitalize, group_discussions_path(@group, kind) %></li>
+      <li class="active"><a href="#posts" data-toggle="tab">Posts (<%= @group.posts.count %>)</a></li>
+      <li><a href="#members" data-toggle="tab">Members (<%= @group.users.count %>)</a></li>
+      <% if @group.place.present? %>
+        <li><a href="#map" data-toggle="tab">Map</a></li>
+      <% end %>
+      <% if @game_groups.present? %>
+        <li><a href="#similar" data-toggle="tab">Similar</a></li>
       <% end %>
     </ul>
+    
+    <div class="tab-content">
+      <div class="tab-pane active" id="posts">
+        <h2>Posts</h2>
+        <table class="table table-striped">
+          <tr><th>From</th><th>Title</th><th>Replies</th><th>Date</th><th>Actions</th></tr>
+          <%= render :partial => "group_posts/post", :collection => @posts %>
+        </table>
+        <%= bootstrap_paginate @posts %>
+      </div>
+      
+      <div class="tab-pane" id="members">
+        <h2>Members</h2>
+        <%= gridify(@group.users.to_a, 'member', col_width: 2) %>
+      </div>
+      
+      <% if @nearby_users.present? %>
+        <div class="tab-pane" id="map">
+          <h4>Nearby Users</h4>
+          <%= gridify(@nearby_users, 'member', col_width: 2) %>
+        </div>
+      <% end %>
+      
+      <% if @game_groups.present? %>
+        <div class="tab-pane" id="similar">
+          <h3>Other Groups Similar To <%= @group.game %></h3>
+          <%= render :partial => 'group_collection', :locals => {title: "Groups similar to #{@group.game}", groups: @game_groups} %>
+        </div>
+      <% end %>
+      
+    </div>
+  </div>
+</div>
 
-    <%= render :partial => "group_posts/post", :collection => @posts %>
-  
-    <%= will_paginate @posts %>
-  </div>
-<% else %>
-  <div class="group-posts">
-    <h3>Latest Posts</h3>
-    <div class="explain">Nothing here yet! Make a post now, before it was cool!</div>
-    <div class="clearfix">&nbsp;</div>
-    <%= link_to "New Post", new_group_post_path(@group), :class => "button button-blue" %>
-    <div class="clearfix">&nbsp;</div>
-  </div>
-<% end %>
-
-<% if @users.present? %>
-  <div class="members">
-    <h3>Members</h3>
-    <%= render :partial => "users/card", :collection => @users %>
-    <% if @group.users.count > @users.count %>
-      <h4><%= link_to "View All", users_group_path(@group) %></h4>
-    <% end %>
-  </div>
-<% end %>
-
-<% if @game_groups.present? %>
-  <div class="game-groups">
-    <h3>Other Groups for <%= @group.game %></h3>
-    <%= render :partial => 'header', :collection => @game_groups %>
-  </div>
-<% end %>

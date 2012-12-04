@@ -3,10 +3,11 @@
 $(function(){
   $("#group_kind").on("change", function(){
     if($(this).val() == "location"){
+      $(".location").removeClass('hide');
       $(".location").slideDown('fast');
     }else{
       $("#group_place").val("");
-      $(".location").slideUp('fast');
+      $(".location").slideUp('fast', function(){ $(".location").addClass('hide'); });
     }
     
     if($(this).val() == "game" || $(this).val() == "guild"){

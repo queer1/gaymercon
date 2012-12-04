@@ -1,19 +1,60 @@
-<%= render :partial => "groups/header" %>
-
-<%= render :partial => "post" %>
-
-<div class="spacer clearfix">&nbsp;</div>
-<% nearby = @post.get_nearby_users %>
-<% if nearby.present? %>
-  <div class="nearby-users">
-    <h4>Nearby Users</h4>
-    <%= render :partial => "users/card", :collection => nearby %>
+<div class="row-fluid">
+  <div class="span12">
+    <ul class="breadcrumb">
+      <li><%= link_to "Groups", groups_path %> <span class="divider">/</span></li>
+      <li><%= link_to @post.group.name, group_path(@post.group) %> <span class="divider">/</span></li>
+      <li class="active"><%= @post.user.name %>'s Post</li>
+    </ul>
   </div>
-<% end %>
+</div>
 
-<% if @post.comments.present? %>
-  <h3>Replies</h3>
-  <%= render :partial => "group_comments/comment", :collection => @post.comments %>
-<% end %>
+<div class="row-fluid">
+  <div class="span8">
+    <% title = @post.kind == "link" ? "#{@post.user.name}'s link" : @post.title %>
+    <% title = "Untitled" unless title.present? %>
+    <% path = @post.kind == "link" ? @post.url : group_post_path(@post.group_id, @post.id) %>
+    <h1><%= link_to title, path %></h1>
+    <div>
+      <%= @post.content.bbcode_to_html.html_safe %>
+    </div>
+    <small><%= @post.updated_at.strftime(TIME_FORMAT) %></small>
+    <% if current_user && @post.editor?(current_user) %>
+      <div class="actions">
+        <%= link_to "Edit", edit_group_post_path(@post.group_id, @post), :class => "btn" %>
+        <%= link_to "Delete", group_post_path(@post.group_id, @post), :method => "delete", :confirm => "Are you sure? This cannot be undone.", :class => "btn btn-danger" %>
+      </div>
+    <% end %>
+  </div>
+</div>
 
-<%= render :partial => "group_comments/form" %>
+<div class="row-fluid">
+  <div class="span8 offset1">
+    <h2>Replies</h2>
+    <table class="table table-striped">
+      <tr><th>From</th><th>Message</th><th>On</th><th>&nbsp;</th></tr>
+      <% @post.comments.each do |comment| %>
+        <tr>
+          <td>
+            <%= link_to image_tag(comment.user.avatar), user_path(comment.user) %>
+            <br />
+            <%= link_to comment.user.name, user_path(comment.user) %>
+          </td>
+          <td><%= comment.content.bbcode_to_html.html_safe %></td>
+          <td><%= comment.updated_at.strftime(TIME_FORMAT) %></td>
+          <td>
+            <% if current_user && comment.editor?(current_user) %>
+              <%= link_to "Edit", edit_group_post_comment_path(comment.group, comment.post, comment), :class => "btn" %>
+              <%= link_to "Delete", group_post_comment_path(comment.group, comment.post, comment), :method => "delete", :confirm => "Are you sure?", :class => "btn btn-danger" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span8 offset1">
+    <%= render :partial => "group_comments/form" %>
+  </div>
+</div>
