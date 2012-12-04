@@ -8,18 +8,16 @@
   
   <%= f.label :level %>
   <%= f.select :level, options_for_select([[@badge.level.to_s.titleize, @badge.level]]), :disabled => true %>
-  <div class="explain">
+  <span class="help-block">
     <strong>Badge Info:</strong> <%= @badge.description %>
-  </div>
+  </span>
   
   <%= f.label :first_name, "Name" %>
-  <div class="form-row">
-    <%= f.text_field :first_name, :size => 10, :placeholder => "Master" %>
-    <%= f.text_field :last_name, :size => 10, :placeholder => "Chief" %>
-  </div>
-  <div class="explain">
+  <%= f.text_field :first_name, :size => 10, :placeholder => "Master" %>
+  <%= f.text_field :last_name, :size => 10, :placeholder => "Chief" %>
+  <span class="help-block">
     We will be checking your picture ID at the door - first and last name <strong>must</strong> match!
-  </div>
+  </span>
   
   <%= f.label :age, "Age (on Aug 2, 2013)" %>
   <%= f.text_field :age, :placeholder => "18" %>

@@ -6,6 +6,10 @@ class Donator < ActiveRecord::Base
   after_create :grant_xp
   after_create :send_email
   
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
+  
   def self.donate(opts = {})
     opts = opts.with_indifferent_access
     Rails.logger.debug opts.inspect

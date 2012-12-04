@@ -1,11 +1,11 @@
 <h1>Users</h1>
-<%= form_tag(halo_path("users"), :method => "get") do %> 
+<%= form_tag(halo_path("users"), :method => "get", :class => "form-search") do %> 
   <%= label_tag(:q, "Search for:") %> 
   <%= text_field_tag(:q) %> 
-  <%= submit_tag("Search") %> 
+  <%= submit_tag "Search", :class => "btn" %> 
 <% end %>
 
-<table id="users-table">
+<table class="table table-striped">
   <tr>
     <th>Name</th>
     <th>Email</th>
@@ -21,19 +21,21 @@
 <h3>Create New User</h3>
 
 <%= form_for(@user, :url => halo_path("add_user")) do |f| %>
-  <div><%= f.label :name %><br />
-  <%= f.text_field :name %></div>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
   
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+  <%= f.label :email %>
+  <%= f.email_field :email %>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+  <%= f.label :password %>
+  <%= f.password_field :password %>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation %>
 
-  <div><%= f.submit "Add User", :class => "button button-blue" %></div>
+  <div>
+    <%= f.submit "Add User", :class => "btn" %>
+  </div>
 <% end %>
 
 <%= link_to "<< Back", halo_path %>

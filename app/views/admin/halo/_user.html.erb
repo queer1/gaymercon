@@ -9,12 +9,12 @@
     <% end %>
   </td>
   <td>
-    <%= form_tag halo_path("award_xp", user.id), method: "post", :class => "user-xp" do %>
+    <%= form_tag halo_path("award_xp", user.id), method: "post", :class => "form-inline" do %>
       <%= text_field_tag :xp, '',  placeholder: "xp to award", :size => 12 %>
-      <%= submit_tag "Award" %>
+      <%= submit_tag "Award", :class => "btn" %>
     <% end %>
   </td>
   <td>
-    <%= link_to "Ban", halo_path("role", user.id, role: 'banned'), :class => "danger", :confirm => "Are you sure?" %>
+    <%= link_to "Ban", halo_path("role", user.id, role: 'banned'), :class => "btn btn-danger", :confirm => "Are you sure?" %>
   </td>
 </tr>

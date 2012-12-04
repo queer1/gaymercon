@@ -20,14 +20,14 @@
   
   <dt>User Name</dt>
   <% if @badge.user.present? %>
-    <dd><%= link_to @badge.user.name, halo_path(:action => "edit_user", :id => @badge.user_id) %></dd>
+    <dd><%= link_to "#{@badge.first_name} #{@badge.last_name}", halo_path(:action => "edit_user", :id => @badge.user_id) %></dd>
   <% else %>
     <dd>Not Redeemed Yet</dd>
   <% end %>
   
   <dt>Address Info</dt>
   <dd>
-    <%= @badge.name %> <%= @badge.name.present? && @badge.age.present? ? "/" : "" %> <%= @badge.age %><br />
+    <%= "#{@badge.first_name} #{@badge.last_name}" %> <%= @badge.first_name.present? && @badge.age.present? ? "/" : "" %> <%= @badge.age %><br />
     <%= @badge.address_1 %><br />
     <%= @badge.address_2 %><br />
     <%= @badge.city %><%= @badge.city.present? && @badge.province.present? ? "," : "" %> <%= @badge.province %> <%= @badge.postal %><br />

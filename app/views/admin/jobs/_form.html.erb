@@ -3,12 +3,14 @@
   <%= f.text_field :name %>
   
   <%= f.label :icon %>
-  <small><em>100x100 or smaller to avoid resizing, please</em></small>
+  <span class="help-block">
+    100x100 or smaller to avoid resizing, please
+  </span>
   <%= file_field_tag :icon_file %>
   <%= @job.icon ? image_tag(@job.icon_path) : '' %>
   
   <%= f.label :level_requirement %>
   <%= f.text_field :level_requirement, :placeholder => "10" %>
   
-  <%= f.submit "Save", :class => "button button-blue" %>
+  <%= f.submit "Save", :class => "btn" %>
 <% end %>

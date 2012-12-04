@@ -9,12 +9,12 @@
     <option value="purchase" <%= redeem == "purchase" ? "selected='selected'" : "" %>>Purchase on gaymercon.org</option>
   </select>
   
-  <div id="code" class="<%= redeem == "code" ? "" : "hidden" %>">
+  <div id="code" class="<%= redeem == "code" ? "" : "hide" %>">
     <%= f.label :code %>
     <%= f.text_field :code, :placeholder => "gaymers-are-awesome" %>
   </div>
   
-  <div id="purchase" class="<%= redeem == "purchase" ? "" : "hidden" %>">
+  <div id="purchase" class="<%= redeem == "purchase" ? "" : "hide" %>">
     <%= f.label :price %>
     <%= f.text_field :price, :value => badge.price_in_dollars, :placeholder => "45.75" %>
   </div>
@@ -22,16 +22,16 @@
   <%= f.label :level %>
   <%= f.select :level, options_for_select(Badge.levels.collect{|k,v| [k.to_s.titleize, k]}, badge.level) %>
   <% Badge.levels.each do |k,v| %>
-    <div class="explain hidden badge-info" id="badge_info_<%= k %>">
+    <span class="help-block con-badge-info" id="badge_info_<%= k %>">
       <strong>Badge Info:</strong> <%= v %>
-    </div>
+    </span>
   <% end %>
   
   <%= f.label :explain %>
   <%= f.text_field :explain %>
-  <div class="explain">
+  <span class="help-block">
     Explain why you're making this badge, like "Kickstarter" or "Facebook giveaway." Only admins can see this.
-  </div>
+  </span>
   
-  <%= f.submit "Save", :class => "button button-blue" %>
+  <%= f.submit "Save", :class => "btn" %>
 <% end %>

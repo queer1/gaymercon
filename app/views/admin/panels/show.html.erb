@@ -1,17 +1,21 @@
-<h1><%= @panel.title %></h1>
-<p><strong>Kind:</strong> <%= @panel.kind %></p>
-<p><%= @panel.description.bbcode_to_html.html_safe %></p>
-<p><strong>Votes:</strong> <%= @panel.panel_votes.count %></p>
+<div class="row-fluid">
+  <div class="span12">
+    <h1><%= @panel.title %></h1>
+    <p><strong>Kind:</strong> <%= @panel.kind %></p>
+    <p><%= @panel.description.bbcode_to_html.html_safe %></p>
+    <p><strong>Votes:</strong> <%= @panel.panel_votes.count %></p>
 
-<p><strong>Owner:</strong> <%= link_to @panel.user.name, halo_path(:action => "edit_user", :id => @panel.user.id) %></p>
+    <p><strong>Owner:</strong> <%= link_to @panel.user.name, halo_path(:action => "edit_user", :id => @panel.user.id) %></p>
 
-<h3>Panelists</h3>
-<% @panel.panelists.each do |panelist| %>
-  <div class="panelist">
-    <h4><%= panelist.name %></h4>
-    <p>Age <%= panelist.age %><br />Email: <%= mail_to panelist.email %><br />Phone: <%= panelist.phone %></p>
-    <p>Address: <%= panelist.address_1 %><br />
-      <%= panelist.address_2 %><br />
-      <%= panelist.city %>, <%= panelist.province %>, <%= panelist.country%></p>
+    <h3>Panelists</h3>
+    <% @panel.panelists.each do |panelist| %>
+      <div class="panelist">
+        <h4><%= panelist.name %></h4>
+        <p>Age <%= panelist.age %><br />Email: <%= mail_to panelist.email %><br />Phone: <%= panelist.phone %></p>
+        <p>Address: <%= panelist.address_1 %><br />
+          <%= panelist.address_2 %><br />
+          <%= panelist.city %>, <%= panelist.province %>, <%= panelist.country%></p>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>
