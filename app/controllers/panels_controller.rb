@@ -22,8 +22,14 @@ class PanelsController < ApplicationController
     kind = params[:panel][:kind] == "Other" ? params[:kind_other] : params[:panel][:kind]
     @panel = Panel.create(user: current_user, title: params[:panel]["title"], kind: kind, description: params[:panel]["description"])
     if @panel.persisted?
-      @panelists = params[:panel][:panelists].collect {|p| Panelist.create(p.merge(panel_id: @panel.id)) }
-      redirect_to edit_panel_path(@panel), notice: "Panel successfully created!"
+      @panelists = params[:panel][:panelists].collect {|k,p| next if p.all? {|k,v| v.empty? }; Panelist.create(p.merge(panel_id: @panel.id)) }
+      if(@panelists.any?{|p| !p.valid? })
+        @panel.destroy
+        flash.now[:alert] = "There were some problems with your panelists: " + @panelists.collect(&:all_errors).join(", ")
+        render :new
+      else
+        redirect_to edit_panel_path(@panel), notice: "Panel successfully created!"
+      end
     else
       @panelists = params[:panel][:panelists].collect {|p| Panelist.new(p) }
       flash.now[:error] = "There was a problem with your panel: #{@panel.all_errors}"
@@ -45,7 +51,12 @@ class PanelsController < ApplicationController
       @panelists << Panelist.create(p.merge(panel_id: @panel.id))
     end
     if @panel.persisted?
-      redirect_to edit_panel_path(@panel), notice: "Panel successfully updated!"
+      if @panelists.any?{|p| !p.valid? }
+        flash.now[:alert] = "There was a problem with your panelists: " + @panelists.collect(&:all_errors).join(", ")
+        render :edit
+      else
+        redirect_to edit_panel_path(@panel), notice: "Panel successfully updated!"
+      end
     else
       flash.now[:error] = "There was a problem with your panel: #{@panel.all_errors}"
       render :edit

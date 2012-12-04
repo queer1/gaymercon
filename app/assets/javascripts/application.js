@@ -20,3 +20,17 @@
 //= require jquery.bbcode
 //= require bootstrap.min
 //= require gaymercon/main
+
+function get_date(){
+  var d = new Date();
+  var date_string = "" + d.getFullYear().toString() + "-";
+  var month = (d.getMonth() + 1);
+  date_string += (month < 10 ? "0" + month.toString() : month.toString());
+  date_string += "-" + d.getDate().toString();
+  return date_string;
+}
+
+function get_timestamp(){
+  var d = new Date();
+  return d.getTime().toString();
+}

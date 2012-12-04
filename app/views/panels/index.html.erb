@@ -39,7 +39,8 @@
 <div class="row-fluid">
   <% if current_user.present? %>
     <div class="span4">
-      <%= link_to "Start Your Own", new_panel_path, :class => "btn btn-primary" %>
+      <%= link_to "I want to host a panel!", new_panel_path, :class => "btn btn-primary" %>
+      <%= link_to "I have a great panel idea!", welcome_path("contact"), :class => "btn btn-primary" %>
     </div>
   <% end %>
 </div>

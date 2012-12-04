@@ -18,9 +18,9 @@
     <%= p.text_field :province, :placeholder => "State / Province", :style => "width: 36px;" %><br />
     <%= p.text_field :country, :placeholder => "Country" %>
 
-    <%= p.label :age %>
-    <%= p.text_field :age, :placeholder => "18+", :style => "width: 36px" %>
-    <span class="help-blcok">
-      You <strong>must</strong> be over 18 by Aug 3, 2013 to be a panelist or to attend GaymerCon.
-    </span>
+    <label for="panelist_age" class="checkbox">
+      <%= p.check_box :age, {}, "18+", nil %>
+      I will be 18+ by Aug 2, 2013
+    </label>
+  </div>
 <% end %>

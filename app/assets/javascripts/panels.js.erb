@@ -45,6 +45,9 @@ $(function(){
   $("#moar-panelists").on("click", function(e){
     e.preventDefault();
     var form = $(".panelist-form:last").clone();
+    var new_html = form.html().replace(/new_panelist/ig, get_timestamp());
+    console.log(new_html);
+    form.html(new_html);
     form.find("input").val("");
     form.hide();
     $("#panelists").append(form);

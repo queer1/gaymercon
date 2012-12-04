@@ -19,11 +19,10 @@
     We will be checking your picture ID at the door - first and last name <strong>must</strong> match!
   </span>
   
-  <%= f.label :age, "Age (on Aug 2, 2013)" %>
-  <%= f.text_field :age, :placeholder => "18" %>
-  <span class="help-block">
-    You must be 18 by Aug 2, 2013 to attend GaymerCon
-  </span>
+  <label for="badge_age" class="checkbox">
+    <%= f.check_box :age, {selected: "selected"}, "18+", nil %>
+    I will be over 18 by Aug 2, 2013
+  </label>
   
   <%= f.label :address_1, "Address Line 1" %>
   <%= f.text_field :address_1, :placeholder => "457 Rainbow Road" %>
