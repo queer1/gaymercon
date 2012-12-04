@@ -84,7 +84,7 @@
                 <% if notification_count > 0 %>
                   <li class="new-notifications"><a href="<%= notifications_path %>" title="Notifications">Notifications<span class="badge badge-success"><%= notification_count %></span></a></li>
                 <% else%>
-                    <li><a href="<%= messages_path %>">Notifications</a></li>
+                    <li><a href="<%= notifications_path %>">Notifications</a></li>
                 <% end %>
                 <li><a href="<%= logout_path %>">Log Out</a></li>
               </ul>
@@ -94,6 +94,7 @@
               <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin <b class="caret"></b></a>
                 <ul class="dropdown-menu">
+                  <li><%= link_to "Stats", halo_path("index") %></li>
                   <li><%= link_to "Badges", admin_badges_path %></li>
                   <li><%= link_to "Donators", admin_donators_path %></li>
                   <li><%= link_to "Users", halo_path("users") %></li>

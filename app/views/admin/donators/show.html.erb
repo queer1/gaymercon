@@ -1,10 +1,10 @@
-<h1>Donation From <%= @donator.name %></h1>
+<h1>Donation From <%= @donator.full_name %></h1>
 <dl>
   <dt>Name</dt>
   <dd><% if @donator.user.present? %>
       <%= link_to @donator.user.name, halo_path(action: "edit_user", id: @donator.user_id) %>
     <% else %>
-      <%= @donator.name %>
+      <%= @donator.first_name %> <%= @donator.last_name %>
     <% end %>
     </dd>
   

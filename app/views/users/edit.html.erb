@@ -115,6 +115,7 @@
               <% end %>
             </div>
           </div>
+          
           <div class="row-fluid">
             <h3>Games</h3>
               <%= render :partial => 'users/key_field', :collection => @games, :locals => {:form => f, :resource => resource, :relevance => :games} %>
@@ -124,10 +125,11 @@
           <div class="row-fluid">
             <h3>Gamer IDs</h3>
             <%= render :partial => "users/network", :collection => @nicknames %>
-            <%= link_to '+ More', '#', :id => "more-nicknames" %>
+            <%= link_to '+ More', '#', :id => "more-nicknames", :class => "btn" %>
           </div>
 
-          <%= f.submit "Update", :class => "btn" %>
+          <br /><br />
+          <%= f.submit "Update", :class => "btn btn-large btn-primary" %>
 
         <% end %>
       </div>

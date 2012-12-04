@@ -1,5 +1,5 @@
 <h1>Registrations</h1>
-<table>
+<table class="table table-striped">
   <tr>
     <th>Email</th>
     <th>City</th>
@@ -8,6 +8,6 @@
   <%= render partial: "registration", collection: @gaymers %>
 </table>
 
-<%= will_paginate @gaymers %>
+<%= bootstrap_paginate @gaymers %>
 
 <%= link_to "<< Back", halo_path %>

@@ -1,12 +1,16 @@
-<h1>Welcome to the Xander Zone</h1>
-<h3>Stats</h3>
-<table id="admin-stats">
-  <tr><td>Con Registrations</td><td class="danger"><%= Badge.redeemed_count %></td></tr>
-  <tr><td>Total Users</td><td class="danger"><%= User.count %></td></tr>
-  <tr><td>Messages Sent</td><td><%= Message.count %></td></tr>
-  <tr><td>Groups</td><td><%= Group.count %></td></tr>
-  <tr><td>Group / Forum Posts</td><td><%= GroupPost.count %></td></tr>
-  <tr><td>Avg # groups per user</td><td><%= number_with_precision((Membership.count / User.count).to_f, :precision => 2) %></td></tr>
-  <tr><td>Panels</td><td><%= Panel.count %></td></tr>
-  <tr><td>Avg panel votes / user</td><td><%= number_with_precision((PanelVote.count / User.count).to_f, :precision => 2) %></td></tr>
-</table>
+<div class="row-fluid">
+  <div class="span8">
+    <h1>Welcome to the Xander Zone</h1>
+    <h3>Stats</h3>
+    <table class="table table-striped">
+      <tr><td>Con Registrations</td><td class="danger"><%= Badge.redeemed_count %></td></tr>
+      <tr><td>Total Users</td><td class="danger"><%= User.count %></td></tr>
+      <tr><td>Messages Sent</td><td><%= Message.count %></td></tr>
+      <tr><td>Groups</td><td><%= Group.count %></td></tr>
+      <tr><td>Group / Forum Posts</td><td><%= GroupPost.count %></td></tr>
+      <tr><td>Avg # groups per user</td><td><%= number_with_precision((Membership.count / User.count).to_f, :precision => 2) %></td></tr>
+      <tr><td>Panels</td><td><%= Panel.count %></td></tr>
+      <tr><td>Avg panel votes / user</td><td><%= number_with_precision((PanelVote.count / User.count).to_f, :precision => 2) %></td></tr>
+    </table>
+  </div>
+</div>

@@ -1,4 +1,5 @@
-<div class="notification <%= notification.read ? '' : 'unread' %>">
-  <h4><%= link_to notification.message, notification.link %></h4>
-  <small><em><%= notification.updated_at.strftime("%b %e, %l:%M%P") %><em></small>
+<tr class="notification <%= notification.read ? '' : 'unread' %>">
+  <td><%= link_to notification.message, notification.link %></td>
+  <td><%= notification.updated_at.strftime(TIME_FORMAT) %></td>
+  <td><%= notification.read ? "Yes" : "No" %></td>
 </div>

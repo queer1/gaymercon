@@ -22,6 +22,10 @@ class Badge < ActiveRecord::Base
   
   validates_inclusion_of :level, :in => LEVELS.keys
   
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
+  
   def self.redeemed_count
     self.where("user_id IS NOT NULL").count
   end

@@ -1,15 +1,19 @@
-<h1>Badges</h1>
+<div class="row-fluid">
+  <div class="span8">
+    <h1>Badges</h1>
 
-<div>Badges redeemed: <span class="danger"><%= Badge.redeemed_count %></span> / <%= Badge.count %></div>
+    <div>Badges redeemed: <span class="danger"><%= Badge.redeemed_count %></span> / <%= Badge.count %></div>
 
-<div class="actions">
-  <%= link_to "New Badge", new_admin_badge_path, :class => "button button-blue" %>
-  <%= link_to "Mass create", mass_new_admin_badges_path, :class => "button button-blue" %>
+    <div class="actions">
+      <%= link_to "New Badge", new_admin_badge_path, :class => "btn" %>
+      <%= link_to "Mass create", mass_new_admin_badges_path, :class => "btn" %>
+    </div>
+
+    <table class="table table-striped">
+      <tr><th>Code</th><th>Price</th><th>Level</th><th>Redeemed?</th><th>Edit</th><th>Delete</th></tr>
+      <%= render :partial => "badge", :collection => @badges %>
+    </table>
+    
+    <%= bootstrap_paginate(@badges) %>
+  </div>
 </div>
-
-<table>
-  <tr><th>Code</th><th>Price</th><th>Level</th><th>Redeemed?</th><th>Edit</th><th>Delete</th></tr>
-  <%= render :partial => "badge", :collection => @badges %>
-</table>
-
-<%= will_paginate(@badges) %>
