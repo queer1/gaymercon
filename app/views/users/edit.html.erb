@@ -122,7 +122,7 @@
               <%= text_field_tag :new_games, '', :placeholder => "New Game", :'data-relevance' => 'games' %>
           </div>
 
-          <div class="row-fluid">
+          <div class="row-fluid nicknames">
             <h3>Gamer IDs</h3>
             <%= render :partial => "users/network", :collection => @nicknames %>
             <%= link_to '+ More', '#', :id => "more-nicknames", :class => "btn" %>
