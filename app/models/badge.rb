@@ -10,7 +10,7 @@ class Badge < ActiveRecord::Base
   LEVELS = {
     coin_entered: "General Access",
     boss_mode: "General Access + Fri night VIP party",
-    artist_ga: "General Access + table in Artist's Alley",
+    artist: "Table in Artist's Alley",
     artist_boss: "Boss Mode + table in Artist's Alley",
     exhibitor: "Boss Mode + VIP Party + table in Exhibitor Hall",
     cheat_code: "Boss Mode + VIP party + instant front-of-line at all events",
