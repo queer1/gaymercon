@@ -1,4 +1,12 @@
-<%= render :partial => "groups/header" %>
+<div class="row-fluid">
+  <div class="span12">
+    <ul class="breadcrumb">
+      <li><%= link_to "Groups", groups_path %> <span class="divider">/</span></li>
+      <li><%= link_to @group.name, group_path(@group) %> <span class="divider">/</span></li>
+      <li class="active">New Post</li>
+    </ul>
+  </div>
+</div>
 
 <h1>New Post</h1>
 

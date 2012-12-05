@@ -15,4 +15,3 @@ module Rails
     YAML.load(File.read(Rails.root.join("config", file)))[Rails.env].with_indifferent_access
   end
 end
-

@@ -14,7 +14,7 @@ class GroupPost < ActiveRecord::Base
   validates_presence_of :group_id
   validates_presence_of :user_id
   
-  KINDS = ["discussion", "link", "image", "intro", "event"]
+  KINDS = ["discussion", "link", "image", "intro"]
   validates_inclusion_of :kind, :in => KINDS, :message => "is not valid."
   
   has_attached_file :image, :styles => { :medium => "570x580>", :thumb => "150x150>" }

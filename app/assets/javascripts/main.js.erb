@@ -41,4 +41,13 @@ $(document).ready(function(){
   });
   
   $(".date").datepicker();
+  $(".close").on("click", function(){ $(this).parent().parent().hide(); });
+  
+  $("input[type='submit']").each(function(elem){
+    var submitButton = $("<button type='submit'>" + $(this).val() + "</button>");
+    submitButton.attr("style", $(this).attr('style'));
+    submitButton.attr("class", $(this).attr('class'));
+    submitButton.attr("id", $(this).attr('id'));
+    $(this).replaceWith(submitButton);
+  });
 })
