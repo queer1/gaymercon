@@ -19,7 +19,7 @@
 //= require require
 //= require jquery.bbcode
 //= require bootstrap.min
-//= require gaymercon/main
+//= require main
 
 function get_date(){
   var d = new Date();

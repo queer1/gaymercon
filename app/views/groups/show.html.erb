@@ -10,10 +10,12 @@
 <div class="row-fluid">
   <div class="span6">
     <h1>
-      <% if @group.member?(current_user) %>
-        <%= link_to "Leave Group", leave_group_path(@group), :method => "post", :class => "btn btn-danger pull-right" %>
-      <% else %>
-        <%= link_to "Join Group", join_group_path(@group), :method => "post", :class => "btn btn-primary pull-right" %>
+      <% unless @group.kind == "official" %>
+        <% if @group.member?(current_user) %>
+          <%= link_to "Leave Group", leave_group_path(@group), :method => "post", :class => "btn btn-danger pull-right" %>
+        <% else %>
+          <%= link_to "Join Group", join_group_path(@group), :method => "post", :class => "btn btn-primary pull-right" %>
+        <% end %>
       <% end %>
       <%= link_to @group.name, group_path(@group) %>
     </h1>
@@ -44,8 +46,8 @@
     <ul class="nav nav-tabs">
       <li class="active"><a href="#posts" data-toggle="tab">Posts (<%= @group.posts.count %>)</a></li>
       <li><a href="#members" data-toggle="tab">Members (<%= @group.users.count %>)</a></li>
-      <% if @group.place.present? %>
-        <li><a href="#map" data-toggle="tab">Map</a></li>
+      <% if @nearby_users.present? %>
+        <li><a href="#nearby" data-toggle="tab">Nearby Users</a></li>
       <% end %>
       <% if @game_groups.present? %>
         <li><a href="#similar" data-toggle="tab">Similar</a></li>
@@ -59,6 +61,7 @@
           <tr><th>From</th><th>Title</th><th>Replies</th><th>Date</th><th>Actions</th></tr>
           <%= render :partial => "group_posts/post", :collection => @posts %>
         </table>
+        <%= link_to "New Post", new_group_post_path(@group), :class => "btn btn-primary" %>
         <%= bootstrap_paginate @posts %>
       </div>
       
@@ -68,7 +71,7 @@
       </div>
       
       <% if @nearby_users.present? %>
-        <div class="tab-pane" id="map">
+        <div class="tab-pane" id="nearby">
           <h4>Nearby Users</h4>
           <%= gridify(@nearby_users, 'member', col_width: 2) %>
         </div>

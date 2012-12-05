@@ -9,7 +9,6 @@
 // Core
 .btn {
   display: inline-block;
-  position: relative;
   .ie7-inline-block();
   padding: 4px 12px;
   margin-bottom: 0; // For input.btn
@@ -20,12 +19,12 @@
   vertical-align: middle;
   cursor: pointer;
   .buttonBackground(@btnBackground, @btnBackgroundHighlight, @grayDark, 0 1px 1px rgba(255,255,255,.75));
-  border: none;
-  // border: 1px solid @btnBorder;
-  // *border: 0; // Remove the border to prevent IE7's black border on input:focus
-  // border-bottom-color: darken(@btnBorder, 10%);
+  border: 1px solid @btnBorder;
+  *border: 0; // Remove the border to prevent IE7's black border on input:focus
+  border-bottom-color: darken(@btnBorder, 10%);
+  .border-radius(@baseBorderRadius);
   .ie7-restore-left-whitespace(); // Give IE7 some love
-  // .box-shadow(~"inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)");
+  .box-shadow(~"inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)");
 
   // Hover state
   &:hover {
@@ -67,10 +66,7 @@
 
 }
 
-.btn::before, .btn::after { content: ""; position: absolute; height: 22px; top:0px; width: 5px; border-top: 3px solid @bodyBackground; border-bottom: 3px solid @bodyBackground;}
 
-.btn::before { left: 0px; }
-.btn::after { right: 0px; }
 
 // Button Sizes
 // --------------------------------------------------
@@ -79,30 +75,30 @@
 .btn-large {
   padding: @paddingLarge;
   font-size: @fontSizeLarge;
+  .border-radius(@borderRadiusLarge);
 }
 .btn-large [class^="icon-"],
 .btn-large [class*=" icon-"] {
   margin-top: 2px;
 }
-.btn-large::before, .btn-large::after { border-top: 5px solid @bodyBackground; border-bottom: 5px solid @bodyBackground; height: 32px; }
 
 // Small
 .btn-small {
   padding: @paddingSmall;
   font-size: @fontSizeSmall;
+  .border-radius(@borderRadiusSmall);
 }
 .btn-small [class^="icon-"],
 .btn-small [class*=" icon-"] {
   margin-top: 0;
 }
-.btn-small::before, .btn-small::after { border-top: 3px solid @bodyBackground; border-bottom: 3px solid @bodyBackground; height: 18px; }
 
 // Mini
 .btn-mini {
   padding: @paddingMini;
   font-size: @fontSizeMini;
+  .border-radius(@borderRadiusSmall);
 }
-.btn-mini::before, .btn-mini::after { border-top: 3px solid @bodyBackground; border-bottom: 3px solid @bodyBackground; height: 18px; }
 
 
 // Block button
@@ -148,33 +144,31 @@ input[type="button"] {
 // Set the backgrounds
 // -------------------------
 .btn {
-  background-image: none;
-  border: none;
   // reset here as of 2.0.3 due to Recess property order
-  // border-color: #c5c5c5;
-  // border-color: rgba(0,0,0,.15) rgba(0,0,0,.15) rgba(0,0,0,.25);
+  border-color: #c5c5c5;
+  border-color: rgba(0,0,0,.15) rgba(0,0,0,.15) rgba(0,0,0,.25);
 }
 .btn-primary {
   .buttonBackground(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
 }
 // Warning appears are orange
-.btn-warning{
+.btn-warning {
   .buttonBackground(@btnWarningBackground, @btnWarningBackgroundHighlight);
 }
 // Danger and error appear as red
-.btn-danger{
+.btn-danger {
   .buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
 }
 // Success appears as green
-.btn-success{
+.btn-success {
   .buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
 }
 // Info appears as a neutral blue
-.btn-info{
+.btn-info {
   .buttonBackground(@btnInfoBackground, @btnInfoBackgroundHighlight);
 }
 // Inverse appears as dark gray
-.btn-inverse{
+.btn-inverse {
   .buttonBackground(@btnInverseBackground, @btnInverseBackgroundHighlight);
 }
 
@@ -225,6 +219,7 @@ input[type="submit"].btn {
   border-color: transparent;
   cursor: pointer;
   color: @linkColor;
+  .border-radius(0);
 }
 .btn-link:hover {
   color: @linkColorHover;
