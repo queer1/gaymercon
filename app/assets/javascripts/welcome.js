@@ -8,6 +8,7 @@ $(function(){
         $(".amount-other").hide();
       }
     });
+    $(".amount-other").hide();
     
     $("#payment-form").on("submit", function(event) {
       if($("#payment-form").find("#stripe-token").length > 0)
