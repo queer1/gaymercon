@@ -18,7 +18,13 @@
 
 // NAVBAR
 // -----------------------------------------------------
-
+.navbar .brand { font-family: @monoFontFamily; font-weight: 400; color: @headingsColor;  }
+.navbar-inverse .brand { font-weight: 300; color: @white;  }
+.navbar .nav > li > a:focus, .navbar .nav > li > a:hover { background: none; }
+.navbar .nav li.dropdown.open > .dropdown-toggle,
+.navbar .nav li.dropdown.active > .dropdown-toggle,
+.navbar .nav li.dropdown.open.active > .dropdown-toggle { .border-radius(5px); }
+.navbar .nav > li > a { font-weight: 500; font-size: 18px; /* text-shadow: .2em .2em .2em @gray; */ }
 .navbar-inner { background: image-url("8bit-navbar-light.png") top left repeat-x; }
 .navbar-inverse {
   .navbar-inner { background: image-url("8bit-navbar-dark.png") top left repeat-x; }
@@ -34,11 +40,11 @@
 
 // BUTTONS
 // -----------------------------------------------------
-.btn { position: relative; border: none; box-shadow: none; border-radius: 0px; background-image: none; }
-.btn::before, .btn::after { content: ""; position: absolute; height: 22px; top:0px; width: 5px;}
+.btn { position: relative; border-top: none; border-right: 2px solid darken(@btnBackground, 20%); border-left: none; border-bottom: 2px solid darken(@btnBackground, 20%); box-shadow: none; border-radius: 0px; background-image: none;  }
+.btn::before, .btn::after { content: ""; position: absolute; height: 24px; top:0px; width: 5px;}
 
 .btn::before { left: 0px; }
-.btn::after { right: 0px; }
+.btn::after { right: -2px; }
 
 body .btn::before, body .btn::after { border-top: 3px solid @bodyBackground; border-bottom: 3px solid @bodyBackground; }
 .table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
@@ -47,9 +53,16 @@ body .btn::before, body .btn::after { border-top: 3px solid @bodyBackground; bor
 .well { .btn::before, .btn::after { border-top-color: @wellBackground; border-bottom-color: @wellBackground; }}
 .hero-unit { .btn::before, .btn::after { border-top-color: @heroUnitBackground; border-bottom-color: @heroUnitBackground; } }
 
-.btn-large::before, .btn-large::after { border-top-width: 5px; border-bottom-width: 5px; height: 36px; }
-.btn-small::before, .btn-small::after { border-top-width: 3px; border-bottom-width: 3px; height: 18px; }
-.btn-mini::before, .btn-mini::after { border-top-width: 3px; border-bottom-width: 3px; height: 18px; }
+.btn-large::before, .btn-large::after { border-top-width: 5px; border-bottom-width: 5px; height: 38px; }
+.btn-small::before, .btn-small::after { border-top-width: 3px; border-bottom-width: 3px; height: 20px; }
+.btn-mini::before, .btn-mini::after { border-top-width: 3px; border-bottom-width: 3px; height: 20px; }
+
+.btn-primary { border-bottom-color: darken(@btnPrimaryBackground, 20%); border-right-color: darken(@btnPrimaryBackground, 20%); }
+.btn-warning { border-bottom-color: darken(@btnWarningBackground, 20%); border-right-color: darken(@btnWarningBackground, 20%); }
+.btn-danger { border-bottom-color: darken(@btnDangerBackground, 20%); border-right-color: darken(@btnDangerBackground, 20%); }
+.btn-success { border-bottom-color: darken(@btnSuccessBackground, 20%); border-right-color: darken(@btnSuccessBackground, 20%); }
+.btn-info { border-bottom-color: darken(@btnInfoBackground, 20%); border-right-color: darken(@btnInfoBackground, 20%); }
+.btn-inverse { border-bottom-color: lighten(@btnInverseBackground, 20%); border-right-color: lighten(@btnInverseBackground, 20%); }
 
 
 // TABLES
@@ -68,6 +81,23 @@ body .btn::before, body .btn::after { border-top: 3px solid @bodyBackground; bor
 
 // MISC
 // -----------------------------------------------------
+
+.hero-unit { 
+  h1, h2, h3 { font-family: @monoFontFamily; font-weight: 400; }
+}
+.page-header {
+  h1 { font-family: @monoFontFamily; font-weight: 400; }
+}
+
+.pagination ul { border: none; .box-shadow(none); }
+.pagination ul > li > a, .pagination ul > li > span { font-family: @monoFontFamily; color: darken(@textColor, 20%); border: none; }
+.pagination ul > li > a:hover { color: @headingsColor; background: none; }
+.pagination ul > .active > a:hover, .pagination ul > .active > span:hover { background-color: @paginationActiveBackground; }
+
+.pager li > a, .pager li > span { 
+  .border-radius(0); font-family: @monoFontFamily; color: darken(@textColor, 20%); 
+  &:hover { color: @headingsColor; }
+}
 
 // MEDIA QUERIES
 // -----------------------------------------------------
