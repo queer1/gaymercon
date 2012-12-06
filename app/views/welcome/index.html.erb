@@ -1,26 +1,26 @@
 <div class="row-fluid">
-  <div class="hero-unit">
-      <h1>GAYMERCON</h1>
-      <h3>AUG 3-4 2013 San Francisco, Ca</h3>
-      <%= link_to "About", welcome_path("about"), :class => "btn btn-primary btn-large eightbit" %>
+  <div class="hero-unit" id="main-hero">
+      <h1><span class="whitebg">GAYMERCON</span></h1>
+      <h3><span class="whitebg">AUG 3-4 2013 San Francisco, Ca</span></h3>
+      <%= link_to "About", welcome_path("about"), :class => "btn btn-success btn-large eightbit" %>
   </div>
 </div>
 
-<div class="row-fluid">
-  <div class="span4">
+<div class="row">
+  <div class="span4 centered">
     <h4>About The Event</h4>
-    <iframe width="327" height="184" src="http://www.youtube.com/embed/6g9wqEkBkRw" frameborder="0" allowfullscreen></iframe>
+    <iframe width="327" height="184" src="http://www.youtube.com/embed/6g9wqEkBkRw" frameborder="0" allowfullscreen="allowfullscree" style="display:block; margin-left: auto; margin-right: auto;"></iframe>
     <br />
-    <%= link_to "Learn More", welcome_path("about"), :class => "btn btn-primary eightbit" %>
+    <%= link_to "Learn More", welcome_path("about"), :class => "btn btn-primary centered" %>
   </div>
   <div class="span4">
-    <h4>@GaymerCon</h4>
+    <h4 class="centered">@GaymerCon</h4>
     <div class="tweet" style="display: inline-block; ">
     </div>
   </div>
-  <div class="span4">
+  <div class="span4 centered">
     <h4>Donate</h4>
     <h4>Already got a badge? Can't make it to the con? Just want to say thanks?</h4>
-    <%= link_to "Donate to GaymerCon", welcome_path("donate"), :class => "btn btn-primary btn-large eightbit" %>
+    <%= link_to "Donate to GaymerCon", welcome_path("donate"), :class => "btn btn-primary btn-large" %>
   </div>
 </div>

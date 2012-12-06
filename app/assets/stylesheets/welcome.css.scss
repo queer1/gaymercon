@@ -1,14 +1,10 @@
 // Place all the styles related to the welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.info-links { margin: 1em 1em 2em 1em; }
-.info-links li { display: inline; margin-right: 20px; }
-.info-links li, .info-links a { font: 18px silkscreen, helvetica, sans-serif; }
-.info-links a { color: #00B7FF; }
-.info-links a:hover { color: #00A6CC;}
-.action { margin: 25px 0;}
-.donate-header { width: 55%; }
-#payment-form label { display: block; }
-.payment-explain { width: 40%; margin-bottom: 2em; }
-span.amount-other, div.amount-other, input.amount-other { display: none; }
-.map { margin: 3em; clear: both;}
+#main-hero {
+  background: image-url("gaymercon-feature-bg.png") top center no-repeat;
+  .whitebg { background: #fff; padding: 4px;}
+  * { margin-left: 100px;}
+  .btn { margin-left: 200px; }
+}
+.centered { text-align: center; }

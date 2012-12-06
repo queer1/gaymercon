@@ -1,12 +1,12 @@
 <%= render :partial => "links" %>
 <div class="row">
-  <div class="span6">
+  <div class="page-header span12">
     <h1>Volunteer for GaymerCon</h1>
-    <p>Join our party</p>
   </div>
 </div>
 <div class="row">
   <div class="span6">
+    <p>Join our party! Be part of one of the coolest teams of super-nerds since those guys from Contra!</p>
     <form action="<%= welcome_path(:action => 'volunteer') %>" class="form-vertical well" method="post">
       <input class="span5" type="text" placeholder="Email" id="email" name="email" />
       <input class="span5" type="hidden" name="subject" value="Volunteering for GaymerCon" />
