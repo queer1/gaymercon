@@ -1,9 +1,12 @@
 <% post ||= @post %>
 
 <tr>
-  <td>
-    <%= link_to image_tag(post.user.avatar), user_path(post.user) %><br />
-    <%= link_to post.user.name, user_path(post.user) %>
+  <td class="center">
+    <% if current_user.present? %>
+      <i class="circle <% post.unread?(current_user) ? 'active' : '' %>">&nbsp;</i>
+    <% else %>
+      &nbsp;
+    <% end %>
   </td>
   
   <% title = post.kind == "link" ? "#{post.user.name}'s link" : post.title %>
@@ -12,23 +15,22 @@
   <td><%= link_to title, path %></td>
   
   <td>
+    <%= link_to post.user.name, user_path(post.user) %>
+  </td>
+  
+  <td>
     <% if post.comments.present? %>
-      <%= link_to "#{post.comments.count} #{post.comments.count > 1 ? 'replies' : 'reply'}", group_post_path(post.group_id, post.id) %>
+      <%= link_to "#{post.comments.count}", group_post_path(post.group_id, post.id) %>
     <% else %>
       <%= link_to "Reply", group_post_path(post.group_id, post.id) %>
     <% end %>
   </td>
   
-  <td><%= post.updated_at.strftime(TIME_FORMAT) %></td>
-  
   <td>
-    <% if current_user %>
-      <%= link_to "Reply", group_post_path(post.group_id, post.id), :class => "btn" %>
+    <% if post.last_reply.present? %>
+      <%= link_to post.last_reply.user.name, user_path(post.last_reply.user) %>
+    <% else %>
+      &nbsp;
     <% end %>
-    
-     <% if current_user && post.editor?(current_user) %>
-        <%= link_to "Edit", edit_group_post_path(post.group_id, post), :class => "btn" %>
-        <%= link_to "Delete", group_post_path(post.group_id, post), :method => "delete", :confirm => "Are you sure? This cannot be undone.", :class => "btn btn-danger" %>
-      <% end %>
   </td>
 </tr>

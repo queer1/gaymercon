@@ -1,6 +1,13 @@
 class Group < ActiveRecord::Base
   include Locatable
   KINDS = ["game", "location", "interest", "guild", "official"]
+  HEADER_DEFAULTS = {
+    game: 'default_group_game.png',
+    location: 'default_group_location.png',
+    interest: 'default_group_interest.png',
+    guild: 'default_group_guild.png',
+    official: 'default_group_official.png'
+  }
   belongs_to :moderator, :class_name => "User"
   has_many :posts, :class_name => "GroupPost"
   has_many :memberships
@@ -18,6 +25,14 @@ class Group < ActiveRecord::Base
 
   def self.kinds
     KINDS
+  end
+  
+  def self.header_defaults
+    HEADER_DEFAULTS.with_indifferent_access
+  end
+  
+  def default_header
+    self.class.header_defaults[self.kind]
   end
   
   def member?(user)
