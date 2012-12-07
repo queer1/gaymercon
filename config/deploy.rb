@@ -1,20 +1,22 @@
 require "bundler/capistrano"
 require 'fileutils'
 
+set :stages, %w(production staging)
+set :default_stage, "production"
+require 'capistrano/ext/multistage'
+
 set :application, "gaymercon"
 set :repository,  "git@github.com:agius/gaymercon.git"
 
 set :scm, :git
+set :branch, fetch(:branch, "master")
+set :env, fetch(:env, "production")
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 set :user,    'deploy'
 set :group,   user
 set :deploy_to, "/var/www/#{application}"
 set :deploy_via, :remote_cache
-
-role :web, "gibson.gaymercon.org"                          # Your HTTP server, Apache/etc
-role :app, "gibson.gaymercon.org"                          # This may be the same as your `Web` server
-role :db,  "gibson.gaymercon.org", :primary => true # This is where Rails migrations will run
 
 # if you want to clean up old releases on each deploy uncomment this:
 after "deploy:restart", "deploy:cleanup"
@@ -48,6 +50,15 @@ namespace :deploy do
     run "cp -r #{deploy_to}/config/* #{release_path}/config"
   end
   
+  task :upload_assets do
+    `bundle exec rake assets:precompile`
+    `tar -czf assets.tar.gz public/assets`
+    top.upload(File.join(Dir.pwd, "assets.tar.gz"), "#{release_path}/assets.tar.gz")
+    run "cd #{release_path} && tar -xzf assets.tar.gz"
+    `rm -rf public/assets`
+    `rm -rf assets.tar.gz`
+  end
+  
   task :restart do
     unicorn.restart
   end
@@ -67,7 +78,7 @@ namespace :unicorn do
 end
 
 before 'deploy:update', 'sudo_ls'
-# before 'deploy:finalize_update', 'deploy_assets'
+before 'deploy:finalize_update', 'deploy:upload_assets'
 after "deploy:update_code", "deploy:build_missing_paperclip_styles"
 after 'deploy:finalize_update', 'deploy:symlink'
 
