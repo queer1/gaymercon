@@ -32,8 +32,16 @@ class GroupPost < ActiveRecord::Base
     self.content
   end
   
+  def unread?(user)
+    self.comments.where("created_at > ?", user.last_sign_in_at).exists?
+  end
+  
   def replied?(user)
     self.comments.where(user_id: user.id).exists?
+  end
+  
+  def last_reply
+    self.comments.last
   end
   
   def get_nearby_users

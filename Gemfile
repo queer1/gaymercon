@@ -57,6 +57,7 @@ gem 'capistrano'
 # To use debugger
 group :development do
   # gem "thin"
+  gem "lorem"
   gem "debugger"
 end
 

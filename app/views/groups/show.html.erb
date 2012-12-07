@@ -7,62 +7,68 @@
   </div>
 </div>
 
-<div class="row-fluid">
-  <div class="span6">
-    <h1>
-      <% unless @group.kind == "official" %>
-        <% if @group.member?(current_user) %>
-          <%= link_to "Leave Group", leave_group_path(@group), :method => "post", :class => "btn btn-danger pull-right" %>
-        <% else %>
-          <%= link_to "Join Group", join_group_path(@group), :method => "post", :class => "btn btn-primary pull-right" %>
+<% unless @group.kind == "official" %>
+  <div class="row-fluid">
+    <div class="span12">
+      <h1 class="pull-right">
+        <% if current_user.present? %>
+          <div class="btn-group">
+            <% if @group.member?(current_user) %>
+              <%= link_to "Leave Group", leave_group_path(@group), :method => "post", :class => "btn" %>
+            <% else %>
+              <%= link_to "Join Group", join_group_path(@group), :method => "post", :class => "btn btn-primary" %>
+            <% end %>
+          
+            <% if @group.editor?(current_user) %>
+              <%= link_to "Edit Group", edit_group_path(@group), :class => "btn" %>
+              <%= link_to "Delete Group", group_path(@group), :method => "delete", :class => "btn", :confirm => "Are you sure? This cannot be undone." %>
+            <% end %>
+          </div>
         <% end %>
-      <% end %>
-      <%= link_to @group.name, group_path(@group) %>
-    </h1>
-    <dl class="dl-horizontal">
-      <% if @group.site_link.present? %>
-        <dt>Web Site:</dt>
-        <dd>Web site: <%= link_to (@group.site_name || @group.site_link), @group.site_link %></dd>
-      <% end %>
-      <dt>Description</dt>
-      <dd><%= (@group.description || "").bbcode_to_html.html_safe %></dd>
-    </dl>
-    
-    <div class="actions">
-      <% if current_user.present? %>
-        <% if @group.editor?(current_user) %>
-          <%= link_to "Edit", edit_group_path(@group), :class => "btn" %>
-          <%= link_to "Destroy", group_path(@group), :method => "delete", :class => "btn btn-danger", :confirm => "Are you sure? This cannot be undone." %>
+      </h1>
+      <dl class="dl-horizontal">
+        <% if @group.site_link.present? %>
+          <dt>Web Site:</dt>
+          <dd>Web site: <%= link_to (@group.site_name || @group.site_link), @group.site_link %></dd>
         <% end %>
-      <% end %>
+        <dt>Description</dt>
+        <dd><%= (@group.description || "").bbcode_to_html.html_safe %></dd>
+      </dl>
+      <br />
+      <br />
     </div>
-    <br />
-    <br />
   </div>
-</div>
+<% end %>
 
 <div class="row">
   <div class="span12">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#posts" data-toggle="tab">Posts (<%= @group.posts.count %>)</a></li>
-      <li><a href="#members" data-toggle="tab">Members (<%= @group.users.count %>)</a></li>
-      <% if @nearby_users.present? %>
-        <li><a href="#nearby" data-toggle="tab">Nearby Users</a></li>
-      <% end %>
-      <% if @game_groups.present? %>
-        <li><a href="#similar" data-toggle="tab">Similar</a></li>
+      <% unless @group.kind == "official" %>
+        <li><a href="#members" data-toggle="tab">Members (<%= @group.users.count %>)</a></li>
+        <% if @nearby_users.present? %>
+          <li><a href="#nearby" data-toggle="tab">Nearby Users</a></li>
+        <% end %>
+        <% if @game_groups.present? %>
+          <li><a href="#similar" data-toggle="tab">Similar</a></li>
+        <% end %>
       <% end %>
     </ul>
     
     <div class="tab-content">
       <div class="tab-pane active" id="posts">
-        <h2>Posts</h2>
-        <table class="table table-striped">
-          <tr><th>From</th><th>Title</th><th>Replies</th><th>Date</th><th>Actions</th></tr>
-          <%= render :partial => "group_posts/post", :collection => @posts %>
-        </table>
-        <%= link_to "New Post", new_group_post_path(@group), :class => "btn btn-primary" %>
-        <%= bootstrap_paginate @posts %>
+        <%= link_to "Create Topic", new_group_post_path(@group), :class => "btn btn-primary btn-large" %>
+        <% if @posts.empty? %>
+          <h1>No posts yet! Go make one :3 </h1>
+        <% else %>
+          <%= bootstrap_paginate @posts %>
+          <table class="table table-striped">
+            <tr><th>&nbsp;</th><th>Subject</th><th>Author</th><th>Replies (friends)</th><th>Last Reply</tr>
+            <%= render :partial => "group_posts/post", :collection => @posts %>
+          </table>
+          <%= link_to "Create Topic", new_group_post_path(@group), :class => "btn btn-primary btn-large" %>
+          <%= bootstrap_paginate @posts %>
+        <% end %>
       </div>
       
       <div class="tab-pane" id="members">

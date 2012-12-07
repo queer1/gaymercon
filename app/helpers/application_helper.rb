@@ -17,6 +17,23 @@ module ApplicationHelper
     html.html_safe
   end
   
+  def header_image
+    if @header_img
+      return asset_path(@header_img)
+    elsif @group
+      return @group.header.url(:large) if @group.header.present?
+      return asset_path(@group.default_header)
+    end
+    return asset_path("gaymercon-feature-bg.png")
+  end
+  
+  def section_name
+    return @section_name if @section_name.present?
+    return @group.name if @group.present?
+    return @user.name if @user.present?
+    return "GrammarCorn"
+  end
+  
   def bootstrap_paginate(pages, options={})
     options.reverse_merge!(
       :class => 'pagination', 
