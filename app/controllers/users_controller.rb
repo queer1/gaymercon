@@ -1,5 +1,5 @@
 class UsersController < Devise::RegistrationsController
-  
+  before_filter :section_name
   before_filter :setup_jobs, :only => [:new, :create, :edit, :update]
   before_filter :authenticate_user!, only: [:index, :edit, :update, :delete, :add_tags]
   
@@ -127,5 +127,9 @@ class UsersController < Devise::RegistrationsController
     
     def after_update_path_for(resource)
       edit_user_registration_path(:tab => "settings")
+    end
+    
+    def section_name
+      "Account"
     end
 end

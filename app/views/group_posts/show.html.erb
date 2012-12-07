@@ -9,7 +9,7 @@
 </div>
 
 <div class="row-fluid">
-  <div class="span8">
+  <div class="span12">
     <% title = @post.kind == "link" ? "#{@post.user.name}'s link" : @post.title %>
     <% title = "Untitled" unless title.present? %>
     <% path = @post.kind == "link" ? @post.url : group_post_path(@post.group_id, @post.id) %>
@@ -28,20 +28,20 @@
 </div>
 
 <div class="row-fluid">
-  <div class="span8 offset1">
+  <div class="span11 offset1">
     <h2>Replies</h2>
     <table class="table table-striped">
       <tr><th>From</th><th>Message</th><th>On</th><th>&nbsp;</th></tr>
       <% @post.comments.each do |comment| %>
         <tr>
-          <td>
+          <td class="span1">
             <%= link_to image_tag(comment.user.avatar), user_path(comment.user) %>
             <br />
             <%= link_to comment.user.name, user_path(comment.user) %>
           </td>
-          <td><%= comment.content.bbcode_to_html.html_safe %></td>
-          <td><%= comment.updated_at.strftime(TIME_FORMAT) %></td>
-          <td>
+          <td class="span6"><%= comment.content.bbcode_to_html.html_safe %></td>
+          <td class="span2"><%= comment.updated_at.strftime(TIME_FORMAT) %></td>
+          <td class="span2">
             <% if current_user && comment.editor?(current_user) %>
               <%= link_to "Edit", edit_group_post_comment_path(comment.group, comment.post, comment), :class => "btn" %>
               <%= link_to "Delete", group_post_comment_path(comment.group, comment.post, comment), :method => "delete", :confirm => "Are you sure?", :class => "btn btn-danger" %>

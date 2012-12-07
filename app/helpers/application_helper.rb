@@ -24,13 +24,11 @@ module ApplicationHelper
       return @group.header.url(:large) if @group.header.present?
       return asset_path(@group.default_header)
     end
-    return asset_path("gaymercon-feature-bg.png")
+    return asset_path("main-header.png")
   end
   
   def section_name
     return @section_name if @section_name.present?
-    return @group.name if @group.present?
-    return @user.name if @user.present?
     return "GrammarCorn"
   end
   

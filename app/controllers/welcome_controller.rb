@@ -1,4 +1,6 @@
 class WelcomeController < ApplicationController
+  before_filter :section_name
+  before_filter :header_img
   
   def index
     if params[:email] && params[:antispam]
@@ -87,5 +89,13 @@ class WelcomeController < ApplicationController
       flash.now[:notice] = "Thanks for donating! GaymerCon loves you!"
       
       payment
+    end
+    
+    def section_name
+      @section_name = "GaymerCon"
+    end
+    
+    def header_img
+      @header_img = "main-header.png"
     end
 end
