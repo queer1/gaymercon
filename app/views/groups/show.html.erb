@@ -58,6 +58,7 @@
     <div class="tab-content">
       <div class="tab-pane active" id="posts">
         <%= link_to "Create Topic", new_group_post_path(@group), :class => "btn btn-primary btn-large" %>
+        <br />
         <% if @posts.empty? %>
           <h1>No posts yet! Go make one :3 </h1>
         <% else %>
@@ -66,6 +67,7 @@
             <tr><th>&nbsp;</th><th>Subject</th><th>Author</th><th>Replies (friends)</th><th>Last Reply</tr>
             <%= render :partial => "group_posts/post", :collection => @posts %>
           </table>
+          <br />
           <%= link_to "Create Topic", new_group_post_path(@group), :class => "btn btn-primary btn-large" %>
           <%= bootstrap_paginate @posts %>
         <% end %>

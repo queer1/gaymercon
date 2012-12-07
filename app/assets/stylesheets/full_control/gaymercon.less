@@ -1,11 +1,12 @@
 body { }
-body > .container { background: #fff; }
+body > .container-fluid { background: #fff; min-height: 700px; }
 .global-header {
   min-height: 200px;
   * { color: @white; }
   .control-panel { 
+    padding-top: 1em;
     padding-left: 15px;
-    background: #000;
+    background: #000 image-url("control-panel-bg.png") top center repeat-y;
     height: 200px;
     h1, h2, h3, h4, h5, h6 { font-family: @monoFontFamily; }
     h3 { line-height: 24px; }

@@ -2,6 +2,7 @@ class GroupsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show, :forums]
   before_filter :find_group, only: [:show, :edit, :update, :destroy, :join, :leave, :users]
   before_filter :authenticate_owner, only: [:edit, :update, :destroy]
+  before_filter :section_name
   
   def index
     @kind = params[:kind]
@@ -14,7 +15,7 @@ class GroupsController < ApplicationController
         @nearby_groups = current_user.nearby_groups.to_a
       end
       @coords ||= Geoip.lookup(request.remote_ip)
-      @nearby_groups ||= Group.nearby(@coords).all
+      @nearby_groups ||= Group.nearby(@coords).all if @coords.present? && @coords.is_a?(Array)
     end
     excluded = (@your_groups.to_a + @nearby_groups.to_a).collect(&:id)
 
@@ -115,5 +116,11 @@ class GroupsController < ApplicationController
     
     def authenticate_owner
       redirect_to groups_path, alert: "Sorry, you don't have permission to do that." unless @group.editor?(current_user)
+    end
+    
+    def section_name
+      @section_name = @group.name if @group.present?
+      @section_name ||= "Forums" if params[:action] == "forums"
+      @section_name ||= "Groups"
     end
 end
