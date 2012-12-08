@@ -1,0 +1,6 @@
+<% job ||= @job %>
+<div class="job-card <%= job.id == resource.job_id ? 'selected-job' : '' %>" data-job-id="<%= job.id %>">
+  <%= image_tag job.icon_path, :id => "job-image-#{job.id}", :class => "job-image" %><br />
+  <%= job.name %>
+  <%= radio_button_tag "user[job_id]", job.id, current_user.job.try(:id) == job.id, :class => "job-button" %>
+</div>

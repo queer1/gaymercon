@@ -13,6 +13,24 @@
     </ul>
 
     <div class="tab-content">
+      <div class="tab-pane <%= active == 'discussion' ? 'active' : '' %>" id="discussion">
+        <div class="row-fluid">
+          <div class="span11">
+            <%= form_for post, :url => path, :method => method do |f| %>
+              <%= f.hidden_field :kind, :value => "discussion" %>
+
+              <%= f.label :title %>
+              <%= f.text_field :title, :placeholder => "I am not a mute protagonist!", :class => "span12" %>
+
+              <%= f.label :content, "Message" %>
+              <%= f.text_area :content, :size => "50x5", :class => "bbcode" %>
+
+              <%= f.submit "Post", :class => "btn btn-primary", :name => "" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      
       <div class="tab-pane <%= active == 'intro' ? 'active' : '' %>" id="intro">
         <%= form_for post, :url => path, :method => method do |f| %>
           <%= f.hidden_field :kind, :value => "intro" %>

@@ -9,6 +9,7 @@ Gc2::Application.routes.draw do
       resources :comments, :controller => "group_comments"
     end
     get :forums, :on => :collection
+    get :games, :on => :collection
     get :events, :on => :collection
     get :users, :on => :member
     post :join, :on => :member
@@ -28,6 +29,7 @@ Gc2::Application.routes.draw do
     get "users/notifications", to: "users#notifications", as: 'notifications'
     post "/users/add_tags", to: "users#add_tags", as: 'add_tags'
     put "/users/update_profile", to: "users#update_profile", as: "update_profile"
+    delete "/users/auth/:id/delete", to: "users/omniauth_callbacks#disconnect", as: "disconnect_profile"
     match "users/:id" => "users#show", as: "user"
     match "users" => "users#index", as: "users"
   end

@@ -4,5 +4,5 @@
   <%= select_tag 'nicknames[][network]', options_for_select(Nickname.networks.collect{|n| [n.capitalize, n]}, (other ? "other" : nickname.network))%>
   <%= text_field_tag 'nicknames[][network_other]', (other ? nickname.network : ''), :placeholder => "Origin", :class => "nickname-network-other #{other ? '' : 'hide'}" %>
   <%= text_field_tag 'nicknames[][name]', nickname.name, :placeholder => "d3tHL0rD!!1!!!1!!11" %>
-  <%= link_to "&times;".html_safe, '#', :class => "nickname-remove" %>
+  <%= link_to "&times;".html_safe, '#', :class => "btn nickname-remove", :style => "position: relative; top: -5px;" %>
 </div>

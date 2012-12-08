@@ -50,4 +50,7 @@ $(document).ready(function(){
     submitButton.attr("id", $(this).attr('id'));
     $(this).replaceWith(submitButton);
   });
+  
+  if(typeof($.QueryString['tab']) && $.QueryString['tab'] != "")
+    $(".nav-tabs a[href='#" + $.QueryString['tab'] + "']").click();
 })

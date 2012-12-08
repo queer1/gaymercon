@@ -1,6 +1,6 @@
 <tr>
   <td><%= link_to group.name, group_path(group) %></td>
-  <td><%= group.place %></td>
+  <% if local_assigns[:location] %><td><%= group.place %></td><% end %>
   <td><%= group.users.count %></td>
   <td><%= group.posts.count %></td>
   <td>

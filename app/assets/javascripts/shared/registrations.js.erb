@@ -23,7 +23,6 @@ $(function(){
   });
   
   $(".nicknames").on("change", "select", function(e){
-    console.log("nick change");
     var sel = $(e.target);
     if(sel.val() == "other")
       sel.siblings(".nickname-network-other").removeClass("hide").fadeIn();
@@ -58,8 +57,16 @@ $(function(){
                       
                       $.post('/users/add_tags', post_data, function(data, status, xhr){
                               var field_name = data['relevance'] + '[' + data['tag'] + ']';
-                              var html = $('<label class="checkbox key-field" for="' + field_name + '"><input type="checkbox" name="' + field_name + '" id="' + field_name + '" checked="true" />' + data['tag'] + '</label>');
-                              $(tf).before(html);
+                              var html = $('<div class="span3"><label class="checkbox key-field" for="' + field_name + '"><input type="checkbox" name="' + field_name + '" id="' + field_name + '" checked="true" />' + data['tag'] + '</label></div');
+                              
+                              var last_row = $("#games .row-fluid:last");
+                              if(last_row.children().length < 3){
+                                $(last_row).append(html);
+                              } else {
+                                var new_row = $("<div class='row-fluid'></div>");
+                                new_row.html(html);
+                                last_row.after(new_row);
+                              }
                               $(tf).val('');
                           });
                       
@@ -126,7 +133,4 @@ $(function(){
       return false;
     });
   }
-  
-  if(typeof($.QueryString['tab']) && $.QueryString['tab'] != "")
-    $(".nav-tabs a[href='#" + $.QueryString['tab'] + "']").click();
 });

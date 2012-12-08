@@ -27,6 +27,15 @@ class GroupsController < ApplicationController
   
   def forums
     @groups = Group.forums
+    @section_name = "Forums"
+  end
+  
+  def games
+    if current_user.present?
+      @your_games = current_user.game_groups
+    end
+    @games = Group.where(kind: "game").order("updated_at desc").page(params[:page])
+    @section_name = "Games"
   end
   
   def events
@@ -120,7 +129,6 @@ class GroupsController < ApplicationController
     
     def section_name
       @section_name = @group.name if @group.present?
-      @section_name ||= "Forums" if params[:action] == "forums"
       @section_name ||= "Groups"
     end
 end

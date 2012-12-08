@@ -56,8 +56,10 @@ module ApplicationHelper
     width = opts[:col_width] || 3
     output = ""
     rows.each do |row|
-      output = "<div class='row-fluid'>\n"
+      Rails.logger.debug "Row: #{row.inspect}"
+      output << "<div class='row-fluid'>\n"
       row.each do |col|
+        Rails.logger.debug "Col: #{col.inspect}"
         output << "<div class='span#{width}'>\n"
         output << render({partial: partial, object: col}.merge(opts))
         output << "\n</div>"
