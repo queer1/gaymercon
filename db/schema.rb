@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121204171255) do
+ActiveRecord::Schema.define(:version => 20121208094820) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(:version => 20121204171255) do
     t.integer  "group_id"
     t.string   "kind"
     t.string   "title"
-    t.string   "content"
+    t.text     "content"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
