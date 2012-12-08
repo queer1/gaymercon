@@ -130,6 +130,8 @@ class UsersController < Devise::RegistrationsController
     end
     
     def section_name
-      "Account"
+      @section_name = @user.name if @user.present?
+      @section_name ||= current_user.name if current_user.present?
+      @section_name ||= "Account"
     end
 end

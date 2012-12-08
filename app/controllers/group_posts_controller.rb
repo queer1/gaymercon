@@ -3,6 +3,7 @@ class GroupPostsController < ApplicationController
   before_filter :find_group
   before_filter :find_post, except: [:index, :new, :create]
   before_filter :authenticate_post, except: [:index, :show, :new, :create]
+  before_filter do @section_name = @group.name end
   
   def index
     @posts = @group.posts.page(params[:page])

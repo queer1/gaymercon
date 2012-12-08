@@ -1,3 +1,14 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#user_place { margin-top: 10px; }
+.job-card {
+  text-align: center;
+  padding: .5em 0;
+  border-radius: 5px;
+  -moz-boder-radius: 5px;
+  -webkit-border-radius: 5px;
+  cursor: pointer;
+}
+.job-card.selected-job { background: #009acc; color: white; }
+.stat-drop { display: inline-block; width: 2em; height: 2em; background: #ccc; }

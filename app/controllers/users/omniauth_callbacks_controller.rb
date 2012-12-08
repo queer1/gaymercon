@@ -28,4 +28,24 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to new_user_registration_url
     end
   end
+  
+  def disconnect
+    redirect_to login_path, alert: "You must be logged in to do that." and return unless current_user.present?
+    redirect_to edit_user_registration_path(tab: "settings"), alert: "You must pick a network to disconnect!" and return unless ["facebook", "twitter"].include?(params[:id])
+    
+    case params[:id] 
+    when "facebook"
+      redirect_to edit_user_registration_path(tab: "settings"), alert: "Doesn't seem like you have a Facebook account connected." and return unless current_user.fb_token.present?
+      current_user.fb_token = nil
+      current_user.fb_expires = nil
+      current_user.save
+    when "twitter"
+      redirect_to edit_user_registration_path(tab: "settings"), alert: "Doesn't seem like you have a Twitter account connected." and return unless current_user.tw_token.present?
+      current_user.tw_token = nil
+      current_user.tw_expires = nil
+      current_user.save
+    end
+    
+    redirect_to edit_user_registration_path(tab: "settings"), notice: "#{params[:id].to_s.capitalize} account disconnected."
+  end
 end

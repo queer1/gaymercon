@@ -1,0 +1,29 @@
+<div class="row-fluid">
+  <div class="span12">
+    <div class="page-header">
+      <h1>Games</h1>
+    </div>
+    <ul class="nav nav-tabs">
+      <% if current_user.present? %>
+        <li class="active"><a href="#your_games" data-toggle="tab">Your Games</a></li>
+      <% end %>
+      <li class="<%= current_user.present? ? '' : 'active' %>"><a href="#all_games" data-toggle="tab">All Games</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="tab-content">
+  <% if @your_games.present? %>
+    <div class="tab-pane active" id="your_games">
+      <%= render :partial => "group_collection", locals: {name: "Your Games", groups: @your_games} %>
+    </div>
+  <% end %>
+  
+  <div class="tab-pane <%= current_user.present? ? 'active' : '' %>" id="all_games">
+    <%= bootstrap_paginate @games, params: {tab: "all_games"} %>
+    <%= render :partial => "group_collection", locals: {name: "All Games", groups: @games}%>
+    <%= bootstrap_paginate @games, params: {tab: "all_games"} %>
+  </div>
+</div>
+
+<%= link_to "Make a New Game Group", new_group_path, :class => "btn btn-large btn-primary" %>

@@ -170,7 +170,8 @@ class User < ActiveRecord::Base
   
   # Omniauth
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    user = signed_in_resource
+    user ||= User.where(:provider => auth.provider, :uid => auth.uid).first
     user ||= User.where(:email => auth.info.email).first
     user ||= User.where(:name => auth.extra.raw_info.name).first
     if user.present?
@@ -190,19 +191,20 @@ class User < ActiveRecord::Base
                            job_id: 1,
                            xp: 1000
                            )
+      # pull games from facebook
+      fb_user = FbGraph::User.me(user.fb_token)
+      likes = fb_user.likes.select {|l| l.category == 'Games/toys' }
+      likes.collect!(&:name)
+      user.add_games(likes)
+      user.save
     end
 
-    # pull games from facebook
-    fb_user = FbGraph::User.me(user.fb_token)
-    likes = fb_user.likes.select {|l| l.category == 'Games/toys' }
-    likes.collect!(&:name)
-    user.add_games(likes)
-    user.save
-    user
+    return user
   end
   
   def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    user = signed_in_resource
+    user ||= User.where(:provider => auth.provider, :uid => auth.uid).first
     user ||= User.where(:name => auth.extra.raw_info.name).first
     if user.present?
       user.update_attributes( provider: auth.provider, 
