@@ -2,7 +2,7 @@
   <h3><%= name %></h3>
 <% end %>
 <table class="table table-striped">
-  <tr><th>Name</th><% if local_assigns[:location] %><th>Location</th><% end %><th>Members</th><th>Posts</th><th>Actions</th></tr>
+  <tr><th>Name</th><% if local_assigns[:location] %><th>Location</th><% end %><th>Members</th><th>Posts</th><th>Last Post </th><th>Actions</th></tr>
   <% groups ||= @groups %>
   <%= render :partial => 'group', :collection => groups, locals: local_assigns %>
 </table>

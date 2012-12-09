@@ -30,6 +30,8 @@ Gc2::Application.routes.draw do
     post "/users/add_tags", to: "users#add_tags", as: 'add_tags'
     put "/users/update_profile", to: "users#update_profile", as: "update_profile"
     delete "/users/auth/:id/delete", to: "users/omniauth_callbacks#disconnect", as: "disconnect_profile"
+    match "/join" => "users#join", as: "join"
+    match "/joined" => "users#joined", as: "joined"
     match "users/:id" => "users#show", as: "user"
     match "users" => "users#index", as: "users"
   end

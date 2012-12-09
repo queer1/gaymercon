@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121208094820) do
+ActiveRecord::Schema.define(:version => 20121209064653) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -255,6 +255,10 @@ ActiveRecord::Schema.define(:version => 20121208094820) do
     t.boolean  "disable_pm_emails"
     t.string   "tw_token"
     t.time     "tw_expires"
+    t.string   "username"
+    t.string   "fb_uid"
+    t.string   "tw_uid"
+    t.text     "about"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

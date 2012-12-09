@@ -21,7 +21,10 @@ class Group < ActiveRecord::Base
   validates_inclusion_of :kind, :in => KINDS, :message => "is not a valid group type."
   validate :game_unique
 
-  scope :for_kind, lambda { |kind| where(kind: kind) }
+  KINDS.each do |kind|
+    scope kind.pluralize.to_sym, where(kind: kind)
+  end
+  scope :with_posts, select("groups.*, (COUNT(*) - 1) as post_count, group_posts.created_at as last_post_date").joins("left outer join group_posts on group_posts.group_id = groups.id").group("group_posts.group_id")
 
   def self.kinds
     KINDS
@@ -39,8 +42,18 @@ class Group < ActiveRecord::Base
     Membership.where(group_id: self.id, user_id: user.id).exists?
   end
   
+  def random_members(n = 1)
+    member_ids = self.users.select("users.id").all.collect(&:id)
+    ret_ids = member_ids.sample(n)
+    self.users.where("users.id in (?)", ret_ids).all
+  end
+  
   def editor?(user)
     user.mod? || self.moderator_id == user.id
+  end
+  
+  def last_post_date
+    posts.order("created_at desc").first.try(:created_at)
   end
   
   def latest_posts(num = 10)
@@ -71,6 +84,6 @@ class Group < ActiveRecord::Base
   def cleanup
     self.posts.destroy_all
     self.memberships.destroy_all
-    GroupNotifications.where(group_id: self.id).destroy
+    GroupNotification.where(group_id: self.id).destroy
   end
 end

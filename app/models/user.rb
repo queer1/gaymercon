@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
   attr_accessible :provider, :uid, :fb_token, :fb_expires, :tw_token, :tw_expires # omniauth
   attr_accessible :disable_emails, :disable_pm_emails
-  attr_accessible :name, :job_id
+  attr_accessible :name, :job_id, :username, :about
   attr_accessible :strength, :agility, :vitality, :mind, :xp
   attr_accessor :leveled_up
   

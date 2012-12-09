@@ -7,22 +7,26 @@ class GroupsController < ApplicationController
   def index
     @kind = params[:kind]
     @page = params.fetch(:page, 1).to_i
-
-    if @page == 1 && !@kind.present?
-      if current_user.present?
-        @your_groups = current_user.groups.order("updated_at desc").all
-        @coords = current_user.location.coords
-        @nearby_groups = current_user.nearby_groups.to_a
+    @coords = current_user.location.coords if current_user.present? 
+    @coords ||= Geoip.get_coords(request.remote_ip)
+    
+    case @kind
+    when 'all'
+      @groups = Group.with_posts
+    when 'nearby'
+      if @coords.present? && @coords.is_a?(Array)
+        @groups = Group.nearby(@coords).with_posts
+      else
+        flash.now[:alert] = "Sorry, we couldn't find your location"
       end
-      @coords ||= Geoip.lookup(request.remote_ip)
-      @nearby_groups ||= Group.nearby(@coords).all if @coords.present? && @coords.is_a?(Array)
+      @groups ||= []
+    when nil
+      @groups = current_user.present? ? current_user.groups.with_posts : Group.with_posts
+    else
+      @groups = Group.where(kind: @kind).with_posts if @kind.present?
+      @groups ||= Group.with_posts
     end
-    excluded = (@your_groups.to_a + @nearby_groups.to_a).collect(&:id)
-
-    @groups = Group.scoped
-    @groups = @groups.for_kind(@kind) if @kind.present?
-    @groups = @groups.where('id NOT IN(?)', excluded) unless excluded.empty?
-    @groups = @groups.order('updated_at DESC').page(@page)
+    @groups = @groups.order('last_post_date != null, last_post_date DESC').page(@page)
   end
   
   def forums
