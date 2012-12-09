@@ -72,6 +72,10 @@ class User < ActiveRecord::Base
     LevelCalculator.level(self.xp)
   end
   
+  def to_next_level
+    LevelCalculator.to_next_level(self.xp)
+  end
+  
   def progress
     LevelCalculator.progress(self.xp)
   end
@@ -140,6 +144,10 @@ class User < ActiveRecord::Base
   # Notifications
   def notifications
     Notification.where(user_id: self.id).desc(:updated_at)
+  end
+  
+  def unread_notifications_count
+    Notification.where(user_id: self.id, read: false).count
   end
   
   # Validationz

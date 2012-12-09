@@ -1,44 +1,25 @@
 <div class="row-fluid">
   <div class="span12">
-    <ul class="breadcrumb">
+    <ul class="breadcrumb"  style="display:inline-block">
       <li><%= link_to "Groups", groups_path %> <span class="divider">/</span></li>
       <li class="active"><%= @group.name %></li>
     </ul>
+    <% if current_user.present? %>
+      <div class="btn-group" style="position: relative; top: -6px; ">
+        <% if @group.member?(current_user) %>
+          <%= link_to "Leave Group", leave_group_path(@group), :method => "post", :class => "btn" %>
+        <% else %>
+          <%= link_to "Join Group", join_group_path(@group), :method => "post", :class => "btn btn-primary" %>
+        <% end %>
+      
+        <% if @group.editor?(current_user) %>
+          <%= link_to "Edit Group", edit_group_path(@group), :class => "btn" %>
+          <%= link_to "Delete Group", group_path(@group), :method => "delete", :class => "btn", :confirm => "Are you sure? This cannot be undone." %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>
-
-<% unless @group.kind == "official" %>
-  <div class="row-fluid">
-    <div class="span12">
-      <h1 class="pull-right">
-        <% if current_user.present? %>
-          <div class="btn-group">
-            <% if @group.member?(current_user) %>
-              <%= link_to "Leave Group", leave_group_path(@group), :method => "post", :class => "btn" %>
-            <% else %>
-              <%= link_to "Join Group", join_group_path(@group), :method => "post", :class => "btn btn-primary" %>
-            <% end %>
-          
-            <% if @group.editor?(current_user) %>
-              <%= link_to "Edit Group", edit_group_path(@group), :class => "btn" %>
-              <%= link_to "Delete Group", group_path(@group), :method => "delete", :class => "btn", :confirm => "Are you sure? This cannot be undone." %>
-            <% end %>
-          </div>
-        <% end %>
-      </h1>
-      <dl class="dl-horizontal">
-        <% if @group.site_link.present? %>
-          <dt>Web Site:</dt>
-          <dd>Web site: <%= link_to (@group.site_name || @group.site_link), @group.site_link %></dd>
-        <% end %>
-        <dt>Description</dt>
-        <dd><%= (@group.description || "").bbcode_to_html.html_safe %></dd>
-      </dl>
-      <br />
-      <br />
-    </div>
-  </div>
-<% end %>
 
 <div class="row">
   <div class="span12">
@@ -75,13 +56,13 @@
       
       <div class="tab-pane" id="members">
         <h2>Members</h2>
-        <%= gridify(@group.users.to_a, 'member', col_width: 2) %>
+        <%= gridify(@group.users.to_a, 'member', col_width: 2, cols: 6) %>
       </div>
       
       <% if @nearby_users.present? %>
         <div class="tab-pane" id="nearby">
           <h4>Nearby Users</h4>
-          <%= gridify(@nearby_users, 'member', col_width: 2) %>
+          <%= gridify(@nearby_users, 'member', col_width: 2, cols: 6) %>
         </div>
       <% end %>
       

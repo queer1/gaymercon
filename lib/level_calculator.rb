@@ -117,7 +117,14 @@ module LevelCalculator
       xp = xp.to_i
       lvl = level(xp)
       diff = (LEVELS[lvl+1] || 9999999) - LEVELS[lvl]
-      percent = (xp - LEVELS[lvl]) / 100.0
+      percent = ((xp - LEVELS[lvl]).to_f / diff) * 100
+    end
+    
+    def to_next_level(xp = 0)
+      xp = xp.to_i
+      lvl = level(xp)
+      diff = (LEVELS[lvl+1] || 9999999) - LEVELS[lvl]
+      diff - (xp - LEVELS[lvl])
     end
   end
   

@@ -3,7 +3,7 @@
   <% if local_assigns[:location] %><td><%= group.place %></td><% end %>
   <td><%= group.users.count %></td>
   <td><%= group.posts.count %></td>
-  <td><%= group.last_post_date.present? ? group.last_post_date.strftime(TIME_FORMAT) : '' %></td>
+  <td><%= group.last_post_date.present? ? "#{time_ago_in_words(group.last_post_date)} ago" : '' %></td>
   <td>
     <%= link_to "View", group_path(group), :class => "btn" %>
     <% if current_user && group.editor?(current_user) %>

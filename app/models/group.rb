@@ -13,7 +13,7 @@ class Group < ActiveRecord::Base
   has_many :memberships
   has_many :users, :through => :memberships
   
-  has_attached_file :header, :styles => { :large => "1000x191#" }
+  has_attached_file :header, :styles => { :large => "1000x200#" }
   
   before_validation :set_game_key
   before_destroy :cleanup
@@ -24,7 +24,7 @@ class Group < ActiveRecord::Base
   KINDS.each do |kind|
     scope kind.pluralize.to_sym, where(kind: kind)
   end
-  scope :with_posts, select("groups.*, (COUNT(*) - 1) as post_count, group_posts.created_at as last_post_date").joins("left outer join group_posts on group_posts.group_id = groups.id").group("group_posts.group_id")
+  scope :with_posts, select("groups.*, (COUNT(*) - 1) as post_count, group_posts.created_at as last_post_date").joins("left join group_posts on group_posts.group_id = groups.id").group("groups.id")
 
   def self.kinds
     KINDS
@@ -84,6 +84,6 @@ class Group < ActiveRecord::Base
   def cleanup
     self.posts.destroy_all
     self.memberships.destroy_all
-    GroupNotification.where(group_id: self.id).destroy
+    Notification::GroupNotification.where(group_id: self.id).destroy
   end
 end

@@ -26,7 +26,7 @@ class GroupsController < ApplicationController
       @groups = Group.where(kind: @kind).with_posts if @kind.present?
       @groups ||= Group.with_posts
     end
-    @groups = @groups.order('last_post_date != null, last_post_date DESC').page(@page)
+    @groups = @groups.order("last_post_date desc").page(@page)
   end
   
   def forums

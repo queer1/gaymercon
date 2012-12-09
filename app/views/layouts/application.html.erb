@@ -41,7 +41,7 @@
       <%= link_to image_tag('gaymercon-logo.png', id: "logo-image", alt: "gaymercon"), root_path, :class => "brand" %>
        <ul class="nav">
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Convention Info <b class="caret"></b></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">GaymerCon 2013 <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><%= link_to "About", welcome_path("about") %></li>
             <li><%= link_to "Location", welcome_path("location") %></li>
@@ -100,17 +100,17 @@
 
 <div class="container-fluid">
   
-  <div class="row-fluid global-header" style="background: url('<%= header_image %>') top right no-repeat;">
+  <div class="row-fluid global-header" style="background: url('<%= header_image %>') top right no-repeat; background-size: 950px 200px;">
     
     <div class="span4 control-panel">
       <% if current_user.present? %>
         <div class="row-fluid">
-          <h3><%= current_user.name %></h3>
           <div class="span8">
-            <div class="pull-left">Lvl <%= current_user.level %></div>
-            <div class="progress">
-              <div class="bar" style="width: <%= current_user.progress %>%;"></div>
-            </div>
+            <h3><%= link_to current_user.name, user_path(current_user) %></h3>
+            <p>XP: <%= strfnum(current_user.xp) %> / Next Level In: <%= strfnum(current_user.to_next_level)%></p>
+              <div class="progress">
+                <div class="bar" style="width: <%= current_user.progress %>%;"></div>
+              </div>
           </div>
         </div>
         <div class="span4">
@@ -118,11 +118,12 @@
         </div>
         <div class="span6">
           <ul class="unstyled">
-            <% unread = current_user.unread_message_count > 0 ? "#{current_user.unread_message_count} " : "" %>
-            <li><i class="icon-envelope icon-white"></i> <%= link_to "#{unread}Messages", messages_path %></li>
+            <% unread = current_user.unread_notifications_count > 0 ? " (#{current_user.unread_notifications_count})" : ""%>
+            <li><i class="icon-heart icon-white"></i> <%= link_to "News Feed#{unread}", notifications_path %></li>
+            <% unread = current_user.unread_message_count > 0 ? " (#{current_user.unread_message_count})" : "" %>
+            <li><i class="icon-envelope icon-white"></i> <%= link_to "Messages#{unread}", messages_path %></li>
             <li><i class="icon-user icon-white"></i> 8 online</li>
             <li><i class="icon-pencil icon-white"></i> <%= link_to "Profile", edit_user_registration_path %></li>
-            <li><i class="icon-heart icon-white"></i> <%= link_to "Account", edit_user_registration_path(tab: "settings") %></li>
             <li><i class="icon-off icon-white"></i> <%= link_to "Log Out", logout_path %></li>
           </ul>
         </div>
