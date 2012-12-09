@@ -117,8 +117,7 @@ class UsersController < Devise::RegistrationsController
   
   def join
     badge_code = params[:badge_code] || session[:badge_code] || params[:badge].try(:[], 'code')
-    if badge_code
-      @badge = Badge.where(code: badge_code).first
+    if badge_code && @badge = Badge.where(code: badge_code).first
       session[:badge_code] = badge_code
       if @badge.user_id.present? && (current_user.nil? || @badge.user_id != current_user.id)
         flash.now[:alert] = "Ruh roh! Somebody alredy registered that badge! If that was supposed to be you, please <a href='mailto:badges@gaymercon.org'>contact the admins</a>".html_safe
@@ -141,7 +140,7 @@ class UsersController < Devise::RegistrationsController
       games << params[:new_games]
       current_user.games = games
       
-      redirect_to joined_path, notice: "Profile updated!" and return unless @badges.present? && params[:badge].present?
+      redirect_to joined_path, notice: "Profile updated!" and return unless @badge.present? && params[:badge].present?
       
       parms = params[:badge].slice(:first_name, :last_name, :age, :address_1, :address_2, :city, :province, :country, :postal)
       parms[:user_id] = current_user.id

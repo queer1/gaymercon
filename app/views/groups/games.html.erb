@@ -19,7 +19,7 @@
     </div>
   <% end %>
   
-  <div class="tab-pane <%= current_user.present? ? 'active' : '' %>" id="all_games">
+  <div class="tab-pane <%= current_user.present? ? '' : 'active' %>" id="all_games">
     <%= bootstrap_paginate @games, params: {tab: "all_games"} %>
     <%= render :partial => "group_collection", locals: {name: "All Games", groups: @games}%>
     <%= bootstrap_paginate @games, params: {tab: "all_games"} %>
