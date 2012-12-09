@@ -128,13 +128,20 @@ class UsersController < Devise::RegistrationsController
         @badge = current_user.badge
         session.delete(:badge_code)
       end
+    elsif badge_code
+      flash.now[:alert] = "Ruh roh! Couldn't find a badge for that badge code."
     end
     
     @badge ||= current_user.badge if current_user.present?
     
     if current_user.present? && request.post?
-      fields = [:name, :job_id, :username, :about]
+      fields = [:name, :job_id, :about]
       profile = params[:user].slice(*fields)
+      fields.each {|f| current_user.send("#{f}=", params[:user][f]) }
+      unless current_user.save
+        flash.now[:alert] = "Oops, there was a problem: #{current_user.all_errors}"
+        render :layout => "empty" and return
+      end
       
       games = params[:games].present? ? params[:games].keys : []
       games << params[:new_games]

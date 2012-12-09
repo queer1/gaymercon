@@ -33,8 +33,8 @@
           <h2>Now let's get you set up</h2>
         </div>
         <%= form_for current_user, :as => :user, :url => join_path, :method => "post", :html => { :method => :post, :class => "edit-form" } do |f| %>
-          <%= f.label :username, "GaymerCon Handle", :style => "display: inline-block;" %>
-          <%= f.text_field :username, :placeholder => "samus_aran" %>
+          <%= f.label :name, "GaymerCon Handle", :style => "display: inline-block; position: relative; top: -5px; " %>
+          <%= f.text_field :name, :placeholder => "samus_aran" %>
           
           <div class="page-header">
             <h2>Pick an Avatar:</h2>
