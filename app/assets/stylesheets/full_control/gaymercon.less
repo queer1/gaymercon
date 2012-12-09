@@ -1,3 +1,6 @@
+
+// LAYOUT
+// -----------------------------------------------------
 body { }
 body > .container-fluid { background: #fff; min-height: 700px; }
 .global-header {
@@ -8,21 +11,20 @@ body > .container-fluid { background: #fff; min-height: 700px; }
     padding-left: 15px;
     background: #000 image-url("control-panel-bg.png") top center repeat-y;
     height: 200px;
-    .progress { margin: 3px 0 0 40px; height: 1em; }
+    .progress { margin: 3px 0 7px 0; height: 1em; }
     h1, h2, h3, h4, h5, h6 { font-family: @monoFontFamily; }
-    h3 { line-height: 24px; }
+    h3 { line-height: 18px; }
+    p { line-height: 18px; margin: 0 0 5px 0; }
     img { max-width: 100px;}
     ul { font-family: @monoFontFamily; }
   }
   .section-name { background-color: @black; color: @white; margin-top: 164px; padding: .5em; font-family: @monoFontFamily; font-weight: 200; font-size: 16px; }
 }
+
 .navbar {
   .nav > li > a { padding-top: 15px; }
   .social { padding-top: 15px; }
 }
-.tweet ul { list-style-type: none; }
-.tweet li { list-style-type: none; margin-top: 2em; }
-.tweet img { float: left; }
 
 footer { 
   width: 100%; 
@@ -37,10 +39,24 @@ footer {
   }
 }
 
+// INCLUDES
+// -----------------------------------------------------
+.tweet ul { list-style-type: none; }
+.tweet li { list-style-type: none; margin-top: 2em; }
+.tweet img { float: left; }
+
+// UTILITY CLASSES
+// -----------------------------------------------------
+
 i.circle {
   display: inline-block;
   width: 1.5em;
   .border-radius(.75em);
   background-color: @grayLight;
 }
+
 i.circle.active { background-color: @linkColor; }
+
+.serif { font-family: @serifFontFamily !important; }
+.sans { font-family: @sansFontFamily !important; }
+.mono { font-family: @monoFontFamily !important; }

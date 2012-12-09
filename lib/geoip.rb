@@ -10,7 +10,7 @@ class Geoip
     end
     
     def get_coords(ip)
-      geoip = self.lookup(id)
+      geoip = self.lookup(ip)
       return nil unless geoip.present? && geoip['latitude'].present? && geoip.longitude.present?
       [geoip['latitude'], geoip['longitdue']]
     end

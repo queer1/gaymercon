@@ -63,6 +63,6 @@ class GroupPost < ActiveRecord::Base
   
   def cleanup
     self.comments.destroy_all
-    ThreadNotification.where(thread_id: self.id).destroy
+    Notification::ThreadNotification.where(thread_id: self.id).destroy
   end
 end

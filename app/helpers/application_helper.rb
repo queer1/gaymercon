@@ -112,4 +112,10 @@ module ApplicationHelper
     return "#{dist.to_i} miles away"
   end
   
+  # 'cause this function name is too verbose
+  def strfnum(num, p = 0, opts = {})
+    opts = {precision: p, :delimiter => ','}.merge(opts)
+    number_with_precision(num, opts)
+  end
+  
 end
