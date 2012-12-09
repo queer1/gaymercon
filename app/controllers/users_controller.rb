@@ -116,6 +116,7 @@ class UsersController < Devise::RegistrationsController
   end
   
   def join
+    session.delete(:badge_code) if params[:clear].present?
     badge_code = params[:badge_code] || session[:badge_code] || params[:badge].try(:[], 'code')
     if badge_code && @badge = Badge.where(code: badge_code).first
       session[:badge_code] = badge_code
@@ -149,13 +150,18 @@ class UsersController < Devise::RegistrationsController
       
       redirect_to joined_path, notice: "Profile updated!" and return unless @badge.present? && params[:badge].present?
       
-      parms = params[:badge].slice(:first_name, :last_name, :age, :address_1, :address_2, :city, :province, :country, :postal)
+      fields = [:first_name, :last_name, :age, :address_1, :address_2, :city, :province, :country, :postal]
+      parms = params[:badge].slice(*fields)
       parms[:user_id] = current_user.id
       @badge.update_attributes(parms)
-      if @badge.valid?
-        redirect_to joined_path, notice: "Badge and profile updated!"
+      fields.delete(:address_2)
+      if @badge.valid? && fields.all?{|f| @badge.send(f).present? }
+        session.delete(:badge_code)
+        redirect_to joined_path, notice: "Badge and profile updated!" and return
       else
-        flash.now[:alert] = "There was a problem: #{@badge.all_errors}"
+        errors = @badge.all_errors
+        fields.each {|f| errors << "#{f.to_s.humanize} cannot be blank<br />" unless @badge.send(f).present? }
+        flash.now[:alert] = "There was a problem: #{errors}".html_safe
       end
     end
     
@@ -172,7 +178,7 @@ class UsersController < Devise::RegistrationsController
   
   def joined
     redirect_to join_path, alert: "Please log in" and return unless current_user.present?
-    badge_code = session.delete(:badge_code)
+    session.delete(:badge_code)
     @badge = current_user.badge
     if @badge.present? && @badge.user_id.present? && (current_user.nil? || @badge.user_id != current_user.id)
       flash.now[:alert] = "Ruh roh! Somebody else registered that badge! If that was supposed to be you, please <a href='mailto:badges@gaymercon.org'>contact the admins</a>".html_safe

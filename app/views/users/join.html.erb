@@ -5,7 +5,6 @@
 
 <div class="container">
   <div class="row-fluid" id="join">
-    <h1>Welcome to GaymerConnect!</h1>
 
     <% if flash[:notice] %>
       <div class="row-fluid">
@@ -27,16 +26,30 @@
 
     <%= current_user.present? ? user_alerts : '' %>
     
+    <div class="row-fluid">
+      <h1 style="font-weight: 100; ">GaymerConnect</h1>
+    
+      <div id="join-header">
+        <% if @badge.present? %>
+          <h2>Get your GaymerCon badge.<br /> Find friends of every identity who play the same games you do.</h2>
+        <% end %>
+        
+        <% if @badge.present? && current_user.nil? %>
+          You'll be able to customize all the information on your badge, but it's easier if you start with Facebook or Twitter.
+        <% else %>
+          You can choose who you want to be and who your friends are on GaymerConnect, but it's easier if you start with Facebook or Twitter.
+        <% end %>
+      </div>
+    </div>
+    
     <% if current_user %>
-      <div class="span8 offset2">
-        <div class="page-header">
-          <h2>Now let's get you set up</h2>
-        </div>
+      <div class="span8 offset3">
+        <hr />
         <%= form_for current_user, :as => :user, :url => join_path, :method => "post", :html => { :method => :post, :class => "edit-form" } do |f| %>
           <%= f.label :name, "GaymerCon Handle", :style => "display: inline-block; position: relative; top: -5px; " %>
           <%= f.text_field :name, :placeholder => "samus_aran" %>
           
-          <div class="page-header">
+          <div class="page-header job-select">
             <h2>Pick an Avatar:</h2>
           </div>
           <%= gridify(@jobs, "shared/job", col_width: 2, cols: 4) %>
