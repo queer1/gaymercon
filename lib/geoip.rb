@@ -8,5 +8,11 @@ class Geoip
       @@instance ||= GeoIP::City.new(File.join(Rails.root, 'lib', 'assets', 'GeoLiteCity.dat'))
       @@instance.look_up(ip)
     end
+    
+    def get_coords(ip)
+      geoip = self.lookup(id)
+      return nil unless geoip.present? && geoip['latitude'].present? && geoip.longitude.present?
+      [geoip['latitude'], geoip['longitdue']]
+    end
   end
 end

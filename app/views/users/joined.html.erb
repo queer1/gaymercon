@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="row-fluid" id="join">
+
+    <% if flash[:notice] %>
+      <div class="row-fluid">
+        <div class="span12 alert alert-success"><%= flash[:notice] %> <button class="close">&times;</button></div>
+      </div>
+    <% end %>
+
+    <% if flash[:error] %>
+      <div class="row-fluid">
+        <div class="span12 alert alert-error"><%= flash[:error] %> <button class="close">&times;</button></div>
+      </div>
+    <% end %>
+
+    <% if flash[:alert] %>
+      <div class="row-fluid">
+        <div class="span12 alert alert-error"><%= flash[:alert] %> <button class="close">&times;</button></div>
+      </div>
+    <% end %>
+
+    <%= current_user.present? ? user_alerts : '' %>
+    
+    <h1>Thanks!</h1>
+    <div class="row-fluid">
+      <div class="span8 offset2">
+        <% if @badge %>
+          <h2>Your badge is on its way!</h2>
+          <h4>While you're at home counting down the days until the 'Con, you can <%= link_to "obsess over your proﬁle", edit_user_registration_path %> or check out the GaymerConnect groups for the games you play:</h4>
+        <% else %>
+          <h2>GaymerCon totally loves you!</h2>
+          <h4>Next you can <%= link_to "obsess over your proﬁle", edit_user_registration_path %> or check out the GaymerConnect groups for the games you play:</h4>
+        <% end %>
+        
+        <% @groups.each do |group| %>
+          <hr />
+          <h2>
+            <%= link_to group.name, group_path(group) %> 
+            <small>
+              &middot;
+              <%= link_to "#{group.users.count} players", group_path(group, tab: "members") %> &middot;
+              <%= link_to "#{group.posts.count} discussions", group_path(group) %>
+            </small>
+          </h2>
+          <h3 class="mono">Check out these gaymers!</h3>
+          <div class="row-fluid">
+            <% group.random_members(3).each do |user| %>
+              <div class="span4">
+                <div class="span4">
+                  <%= image_tag user.avatar %>
+                </div>
+                <div class="span8">
+                  <h4><%= link_to user.name, user_path(user) %></h4>
+                  <%= user.about.to_s.bbcode_to_html.html_safe %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    
+  </div>
+</div>

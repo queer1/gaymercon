@@ -1,0 +1,152 @@
+<% content_for :javascripts do %>
+  <%= javascript_include_tag "join" %>
+  <%= javascript_include_tag "shared/registrations" %>
+<% end %>
+
+<div class="container">
+  <div class="row-fluid" id="join">
+    <h1>Welcome to GaymerConnect!</h1>
+
+    <% if flash[:notice] %>
+      <div class="row-fluid">
+        <div class="span12 alert alert-success"><%= flash[:notice] %> <button class="close">&times;</button></div>
+      </div>
+    <% end %>
+
+    <% if flash[:error] %>
+      <div class="row-fluid">
+        <div class="span12 alert alert-error"><%= flash[:error] %> <button class="close">&times;</button></div>
+      </div>
+    <% end %>
+
+    <% if flash[:alert] %>
+      <div class="row-fluid">
+        <div class="span12 alert alert-error"><%= flash[:alert] %> <button class="close">&times;</button></div>
+      </div>
+    <% end %>
+
+    <%= current_user.present? ? user_alerts : '' %>
+    
+    <% if current_user %>
+      <div class="span8 offset2">
+        <div class="page-header">
+          <h2>Now let's get you set up</h2>
+        </div>
+        <%= form_for current_user, :as => :user, :url => join_path, :method => "post", :html => { :method => :post, :class => "edit-form" } do |f| %>
+          <%= f.label :username, "GaymerCon Handle", :style => "display: inline-block;" %>
+          <%= f.text_field :username, :placeholder => "samus_aran" %>
+          
+          <div class="page-header">
+            <h2>Pick an Avatar:</h2>
+          </div>
+          <%= gridify(@jobs, "shared/job", col_width: 2, cols: 4) %>
+          
+          <h3>Tell people why playing with you is awesome:</h3>
+          <%= f.label :about, "About you", :class => "hide" %>
+          <div class="row-fluid">
+            <div class="span9">
+              <%= f.text_area :about, :size => "50x3", :class => "bbcode" %>  
+            </div>
+          </div>
+          
+          <div class="row-fluid">
+            <div class="span9" id="games">
+              <div class="page-header">
+                <h2>Games</h2>
+              </div>
+              <%= gridify(@games, "users/key_field", :cols => 4, :col_width => 3, :locals => {:form => f, :resource => current_user, :relevance => :games})%>
+              <%= text_field_tag :new_games, '', :placeholder => "New Game", :'data-relevance' => 'games' %>
+            </div>
+          </div>
+          
+          <% if @badge.present? %>
+            <div class="row-fluid">
+              <div class="span9">
+                <div class="page-header">
+                  <h2>Badge Info</h2>
+                </div>
+                <%= fields_for :badge do |b| %>
+                  <%= b.label :code %>
+                  <%= b.text_field :code, :disabled => true %>
+                  <%= b.hidden_field :code %>
+
+                  <%= b.label :level %>
+                  <%= b.select :level, options_for_select([[@badge.level.to_s.titleize, @badge.level]]), :disabled => true %>
+                  <div class="explain">
+                    <strong>Badge Info:</strong> <%= @badge.description %>
+                  </div>
+
+                  <%= b.label :first_name, "Real Name" %>
+                  <div class="form-row">
+                    <%= b.text_field :first_name, :size => 10, :placeholder => "Master" %>
+                    <%= b.text_field :last_name, :size => 10, :placeholder => "Chief" %>
+                  </div>
+                  <div class="explain">
+                    We will be checking your picture ID at the door - first and last name <strong>must</strong> match!
+                  </div>
+
+                  <label for="badge_age">
+                    <%= b.check_box :age, {selected: "selected", style: "float:left;"}, "18+", nil %>
+                    I will be over 18 by Aug 2, 2013
+                  </label>
+
+                  <%= b.label :address_1, "Address Line 1" %>
+                  <%= b.text_field :address_1, :placeholder => "457 Rainbow Road" %>
+
+                  <%= b.label :address_2, "Address Line 2" %>
+                  <%= b.text_field :address_2, :placeholder => "Apt 69" %>
+
+                  <%= b.label :city %>
+                  <%= b.text_field :city, :placeholder => "Providence" %>
+
+                  <%= b.label :province, "State / Province" %>
+                  <%= b.text_field :province, :placeholder => "RI" %>
+
+                  <%= b.label :country %>
+                  <%= b.text_field :country, :placeholder => "USA" %>
+
+                  <%= b.label :postal, "Zip / Postal Code" %>
+                  <%= b.text_field :postal, :placeholder => "02908" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+          
+          <%= f.button "Level Up", :class => "btn btn-primary btn-large pull-right" %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="span4 offset4">
+        <h2>Sign in</h2>
+        <% session[:return_to] = join_path %>
+        <div class="social-signin facebook-signin">
+          <%= link_to "Sign in with <b>Facebook</b>".html_safe, omniauth_authorize_path(resource_name, "facebook"), :class => "btn-auth btn-facebook large" %>
+        </div>
+        <br />
+        <div class="social-signin twitter-signin">
+          <%= link_to "Sign in with <b>Twitter</b>".html_safe, omniauth_authorize_path(resource_name, "twitter"), :class => "btn-auth btn-twitter large" %>
+        </div>
+        <br />
+    
+        <a href="#email" data-toggle="collapse">Or create a separate GaymerConnect account</a>
+
+        <div class="collapse" id="email">
+          <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+
+            <%= f.label :email %>
+            <%= f.email_field :email %>
+
+            <%= f.label :password %>
+            <%= f.password_field :password %>
+
+            <%= f.label :password_confirmation %>
+            <%= f.password_field :password_confirmation %>
+            <br />
+            <%= f.submit "Sign up", :class => "btn" %>
+          <% end %>
+        </div>
+    
+      <% end %>
+    </div>
+  </div>
+</div>

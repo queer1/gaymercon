@@ -15,7 +15,7 @@ class Location
     Rails.logger.debug(item_ids.inspect)
     item_ids.collect!(&:item_id)
     klass = item_class.classify.constantize
-    klass.where("id IN (?)", item_ids)
+    klass.where("#{item_class.pluralize}.id IN (?)", item_ids)
   end
   
   def nearby(max_miles_away = 50, item_class = "user")

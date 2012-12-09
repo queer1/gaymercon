@@ -1,5 +1,5 @@
 <h2>Sign in</h2>
-
+<% session[:return_to] = groups_path %>
 <div class="social-signin facebook-signin">
   <%= link_to "Sign in with <b>Facebook</b>".html_safe, omniauth_authorize_path(resource_name, "facebook"), :class => "btn-auth btn-facebook large" %>
 </div>

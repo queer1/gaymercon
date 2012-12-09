@@ -1,0 +1,49 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>GaymerCon</title>
+  <meta name="description" content="convention for gamers of all kinds">
+  <meta name="author" content="andrew 'agius' evans">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link rel="icon" type="image/png" href="<%= asset_path 'favicon.png' %>">
+
+  <meta name="google-site-verification" content="EOybUW-deV8sHHVkvA92ku6TOAJX1uTYZdpD1CtEUJU" />
+  <meta property="og:image" content="<%= asset_path 'gaymercon_300_256.png' %>" />
+  <meta property="og:title" content="GaymerCon" />
+  <meta property="og:url" content="http://www.gaymercon.org" />
+  <meta property="og:description" content="GaymerCon is the first gaming and geek lifestyle convention with a focus on LGBT culture" />
+  
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= stylesheet_link_tag "//use.typekit.net/rlw4skd.js" %>
+  <% unless Gc2::Application.assets.find_asset("#{params[:controller]}.css").nil? %>
+    <%= stylesheet_link_tag params[:controller], :media => "all" %>
+  <% end %>
+  <%= yield(:stylesheets) %>
+  
+  <%= javascript_include_tag "application" %>
+  <% unless Gc2::Application.assets.find_asset("#{params[:controller]}.js").nil? %>
+    <%= javascript_include_tag params[:controller] %>
+  <% end %>
+  <%= yield(:javascripts) %>
+  
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<div id="fb-root"></div>
+
+  <%= yield %>
+
+</body>
+</html>
+
+
+<% if false %>
+  <iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/follow_button.1340179658.html#_=1340503512136&amp;id=twitter-widget-0&amp;lang=en&amp;screen_name=gaymercon&amp;show_count=true&amp;show_screen_name=false&amp;size=m" class="twitter-follow-button" style="width: 160px; height: 20px; " title="Twitter Follow Button"></iframe>
+  <div class="fb-like" data-href="https://www.facebook.com/GaymerCon" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
+
+  <a href="https://plus.google.com/113440831277664859026" rel="publisher">Find us on Google+</a>
+<% end %>

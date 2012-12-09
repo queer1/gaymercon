@@ -1,6 +1,6 @@
 class UsersController < Devise::RegistrationsController
   before_filter :section_name
-  before_filter :setup_jobs, :only => [:new, :create, :edit, :update]
+  before_filter :setup_jobs, :only => [:new, :create, :edit, :update, :join]
   before_filter :authenticate_user!, only: [:index, :edit, :update, :delete, :add_tags]
   
   def index
@@ -40,7 +40,7 @@ class UsersController < Devise::RegistrationsController
   end
   
   def update_profile
-    fields = [:name, :job_id]
+    fields = [:name, :job_id, :username, :about]
     stats = [:strength, :agility, :vitality, :mind]
     fields += stats if current_user.free_skill_points > 0 || stats.all?{|s| current_user.send(s) == 1}
     profile = params[:user].slice(*fields)
@@ -115,6 +115,67 @@ class UsersController < Devise::RegistrationsController
     @notifications = current_user.notifications
   end
   
+  def join
+    badge_code = params[:badge_code] || session[:badge_code] || params[:badge].try(:[], 'code')
+    if badge_code
+      @badge = Badge.where(code: badge_code).first
+      session[:badge_code] = badge_code
+      if @badge.user_id.present? && (current_user.nil? || @badge.user_id != current_user.id)
+        flash.now[:alert] = "Ruh roh! Somebody alredy registered that badge! If that was supposed to be you, please <a href='mailto:badges@gaymercon.org'>contact the admins</a>".html_safe
+        @badge = nil
+        session.delete(:badge_code)
+      elsif current_user.present? && current_user.badge.present? && @badge.id != current_user.badge.id
+        flash.now[:alert] = "Sorry, you can only have one badge per account"
+        @badge = current_user.badge
+        session.delete(:badge_code)
+      end
+    end
+    
+    @badge ||= current_user.badge if current_user.present?
+    
+    if current_user.present? && request.post?
+      fields = [:name, :job_id, :username, :about]
+      profile = params[:user].slice(*fields)
+      
+      games = params[:games].present? ? params[:games].keys : []
+      games << params[:new_games]
+      current_user.games = games
+      
+      redirect_to joined_path, notice: "Profile updated!" and return unless @badges.present? && params[:badge].present?
+      
+      parms = params[:badge].slice(:first_name, :last_name, :age, :address_1, :address_2, :city, :province, :country, :postal)
+      parms[:user_id] = current_user.id
+      @badge.update_attributes(parms)
+      if @badge.valid?
+        redirect_to joined_path, notice: "Badge and profile updated!"
+      else
+        flash.now[:alert] = "There was a problem: #{@badge.all_errors}"
+      end
+    end
+    
+    if current_user.present?
+      user_games = current_user.games || []
+    else
+      user_games = []
+    end
+    
+    @games = (["Rock Band", "Smash Bros", "Tekken", "Street Fighter", "Starcraft", "Armored Core", "IIDX", "DDR"] + user_games).compact.uniq
+    
+    render :layout => 'empty'
+  end
+  
+  def joined
+    redirect_to join_path, alert: "Please log in" and return unless current_user.present?
+    badge_code = session.delete(:badge_code)
+    @badge = current_user.badge
+    if @badge.present? && @badge.user_id.present? && (current_user.nil? || @badge.user_id != current_user.id)
+      flash.now[:alert] = "Ruh roh! Somebody else registered that badge! If that was supposed to be you, please <a href='mailto:badges@gaymercon.org'>contact the admins</a>".html_safe
+      @badge = nil
+    end
+    @groups = current_user.groups.with_posts.where(kind: "game").order("last_post_date desc").limit(5)
+    render :layout => "empty"
+  end
+  
   private
     def setup_jobs
       @jobs = Job.for_user(current_user) if current_user.present?
@@ -122,6 +183,8 @@ class UsersController < Devise::RegistrationsController
     end
     
     def after_sign_up_path_for(resource)
+      return_to = session.delete(:return_to)
+      return return_to if return_to.present?
       edit_user_registration_path
     end
     
