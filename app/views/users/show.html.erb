@@ -7,15 +7,13 @@
     <br />
     <br />
     <h4>Lvl <%= @user.level %> <%= @user.job.try(:name) %></h4>
-    <div class="progress progress-striped" style="width: 70%;">
-      <div class="bar" style="width: <%= @user.progress %>%;"></div>
-    </div>
     
-    <table class="table" style="width: 70%;">
+    <table class="table table-striped" style="width: 70%;">
+      <tr><td>XP</td><td><%= strfnum(@user.xp) %></td></tr>
       <tr><td>Strength</td><td><%= @user.strength %></td></tr>
-      <tr class="highlight"><td>Agility</td><td><%= @user.agility %></td></tr>
+      <tr><td>Agility</td><td><%= @user.agility %></td></tr>
       <tr><td>Vitality</td><td><%= @user.vitality %></td></tr>
-      <tr class="highlight"><td>Mind</td><td><%= @user.mind %></td></tr>
+      <tr><td>Mind</td><td><%= @user.mind %></td></tr>
     </table>
     
     <div id="stat-radar" data-str="<%= @user.strength %>" data-agi="<%= @user.agility %>" data-vit="<%= @user.vitality %>" data-mnd="<%= @user.mind %>"></div>
