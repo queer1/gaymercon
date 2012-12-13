@@ -1,11 +1,17 @@
 class UsersController < Devise::RegistrationsController
   before_filter :section_name
   before_filter :setup_jobs, :only => [:new, :create, :edit, :update, :join]
-  before_filter :authenticate_user!, only: [:index, :edit, :update, :delete, :add_tags]
+  before_filter :authenticate_user!, except: [:index, :show, :connect, :join, :joined]
   
   def index
-    if params[:tab] == "nearby"
-      @tab = "nearby"
+    @tab = params[:tab] if params[:tab].present?
+    @tab ||= "network" if params[:network].present?
+    @tab ||= "following" if current_user.present?
+    @tab ||= "cool"
+    
+    case @tab
+    when "nearby"
+      @section_name = "Nearby People"
       @coords = current_user.coords if current_user.present?
       @coords ||= Geoip.lookup(request.remote_ip)
       if @coords.present?
@@ -16,17 +22,19 @@ class UsersController < Devise::RegistrationsController
         flash.now[:alert] = "Sorry, we couldn't find your location."
         @users = [].paginate(page: 1)
       end
-    elsif params[:network].present?
-      @tab = "network"
+    when "network"
       @network = params[:network]
+      @section_name = @network.capitalize
       if @network == "other"
-        @network = "Other Networks"
-        @users = Nickname.where("network NOT IN (?)", Nickname.networks).includes(:user).order("created_at desc").page(params[:page]) if params[:network].present?
+        @users = User.other_networks.page(params[:page])
       else
-        @users = Nickname.where(network: params[:network]).includes(:user).order("created_at desc").page(params[:page]) if params[:network].present?
+        @users = User.network(@network).page(params[:page])
       end
+    when "following"
+      @section_name = "Following"
+      @users = current_user.followed_users.page(params[:page])
     else
-      @tab = "cool"
+      @section_name = "Cool People"
       @users ||= (current_user.coplayers - [current_user]).paginate(page: params[:page]) if current_user.present?
       @users = User.order("id desc").page(params[:page]) unless @users.present?
     end
@@ -86,29 +94,18 @@ class UsersController < Devise::RegistrationsController
     end
   end
   
-  def connect
-    if current_user.present?
-      @users = current_user.coplayers
-      @users = User.where("id != ?", current_user.id).order("id desc").limit(10).all unless @users.present?
-      @groups = current_user.groups
-      
-      @coords = current_user.location.coords if current_user.location
-      @coords ||= Geoip.lookup(request.remote_ip)
-      
-      @nearby_users = current_user.nearby_users.to_a if current_user.location
-      @nearby_users ||= User.nearby(@coords).to_a
-      @nearby_users -= (@users + [current_user])
-      
-      @nearby_groups = current_user.nearby_groups.to_a if current_user.location
-      @nearby_groups ||= Group.nearby(@coords).to_a
-      @nearby_groups -= @groups
-    else
-      @coords = Geoip.lookup(request.remote_ip)
-      @nearby_users = User.nearby(@coords)
-      @nearby_groups = Group.nearby(@coords)
-      @users = User.order("id desc").limit(10).all
-      @groups = Group.order("updated_at desc").limit(10).all
-    end
+  def follow
+    user = User.find_by_id(params[:id])
+    redirect_to :back, alert: "Sorry, couldn't find that user" and return unless user.present?
+    current_user.followed_users << user
+    redirect_to :back, notice: "You are now following #{user.name}"
+  end
+  
+  def unfollow
+    user = User.find_by_id(params[:id])
+    redirect_to :back, alert: "Sorry, couldn't find that user" and return unless user.present?
+    current_user.followed_users.delete(user)
+    redirect_to :back, notice: "You are no longer following #{user.name}"
   end
   
   def notifications

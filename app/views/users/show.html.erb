@@ -20,7 +20,14 @@
   </div>
   
   <div class="span9">
-    <%= link_to "Send #{@user.name} a Message", new_message_path(to_user_id: @user.id ), :class => "btn btn-large btn-primary" %>
+    <% if current_user.present? %>
+      <%= link_to "Send #{@user.name} a Message", new_message_path(to_user_id: @user.id ), :class => "btn btn-large btn-primary" %>
+      <% if current_user.following?(@user) %>
+        <%= link_to "Unfollow", unfollow_path(@user), :method => "post", :class => "btn btn-large" %>
+      <% else %>
+        <%= link_to "Follow", follow_path(@user), :method => "post", :class => "btn btn-large btn-primary" %>
+      <% end %>
+    <% end %>
     
     <% if @user.badge.present? %>
         <h3>Con Attendee</h3>
