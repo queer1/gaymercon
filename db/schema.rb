@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121209064653) do
+ActiveRecord::Schema.define(:version => 20121213184930) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -45,6 +45,13 @@ ActiveRecord::Schema.define(:version => 20121209064653) do
     t.string   "notes"
     t.string   "first_name"
     t.string   "last_name"
+  end
+
+  create_table "follows", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "followed_user_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "forum_posts", :force => true do |t|
@@ -189,6 +196,7 @@ ActiveRecord::Schema.define(:version => 20121209064653) do
     t.float    "score"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "type"
     t.string   "kind"
     t.boolean  "confirmed"
   end
@@ -223,6 +231,11 @@ ActiveRecord::Schema.define(:version => 20121209064653) do
   end
 
   create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "fb_token"
+    t.time     "fb_expires"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
     t.string   "email",                  :default => "",     :null => false
     t.string   "encrypted_password",     :default => "",     :null => false
     t.string   "reset_password_token"
@@ -233,15 +246,15 @@ ActiveRecord::Schema.define(:version => 20121209064653) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "string"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.string   "authentication_token"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
     t.string   "role",                   :default => "user"
     t.integer  "job_id"
     t.string   "provider"
     t.string   "uid"
-    t.string   "fb_token"
-    t.time     "fb_expires"
     t.integer  "xp",                     :default => 1
     t.integer  "skill_points",           :default => 46
     t.integer  "strength",               :default => 1
@@ -249,8 +262,6 @@ ActiveRecord::Schema.define(:version => 20121209064653) do
     t.integer  "vitality",               :default => 1
     t.integer  "mind",                   :default => 1
     t.integer  "luck",                   :default => 1
-    t.string   "name"
-    t.string   "authentication_token"
     t.boolean  "disable_emails"
     t.boolean  "disable_pm_emails"
     t.string   "tw_token"
@@ -261,6 +272,7 @@ ActiveRecord::Schema.define(:version => 20121209064653) do
     t.text     "about"
   end
 
+  add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 

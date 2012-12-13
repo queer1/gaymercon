@@ -34,9 +34,18 @@ class User < ActiveRecord::Base
   has_many :groups, :through => :memberships
   has_many :nicknames
   
+  has_many :follows, :dependent => :destroy
+  has_many :followed_users, :through => :follows
+  
+  has_many :inverse_follows, class_name: "Follow", foreign_key: "followed_user_id", :dependent => :destroy
+  has_many :followers, :through => :inverse_follows, :source => :user
+  
   has_one :badge
   
   belongs_to :job
+  
+  scope :network, lambda {|network| joins("left join nicknames on nicknames.user_id = users.id").where("nicknames.network = ?", network) }
+  scope :other_networks, joins("left join nicknames on nicknames.user_id = users.id").where("nicknames.network not in (?)", Nickname.networks)
   
   validate :check_skills
   
@@ -61,6 +70,14 @@ class User < ActiveRecord::Base
   
   def banned?
     self.role == "banned"
+  end
+  
+  def following?(user)
+    self.followed_users.where(id: user.id).exists?
+  end
+  
+  def followed_by?(user)
+    self.followers.where(id: user.id).exists?
   end
   
   def unread_message_count

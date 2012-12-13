@@ -25,6 +25,7 @@
         <li><%= link_to "Forums", forums_groups_path %></li>
         <li><%= link_to "Groups", groups_path %></li>
         <li><%= link_to "Games", games_groups_path %></li>
+        <li><%= link_to "People", users_path %></li>
 
         <% if current_user.present? %>
           <% if current_user.admin? %>
