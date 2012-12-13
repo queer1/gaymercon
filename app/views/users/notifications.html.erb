@@ -1,6 +1,7 @@
 <div class="row-fluid">
   <div class="span8">
-    <h3>Activity</h3>
+    <div class="page-header"><h1>Activity</h1></div>
+    <h4>You receive notifications when new posts are made in your groups, or when new people reply to one of your threads, or when someone you follow makes a post or comment</h4>
     <table class="table table-striped">
       <tr><th>Message</th><th>On</th><th>Read?</th></tr>
       <%= render :partial => "notification", :collection => @notifications %>
@@ -8,8 +9,6 @@
     
     <% if @notifications.empty? %>
       <h3>Nothing here yet! <%= link_to "Join some groups", groups_path %> to start receiving notifications!</h3>
-    <% else %>
-      <h3>You receive notifications when new posts are made in your groups,<br /> or when new people reply to one of your threads</h3>
     <% end %>
   </div>
 </div>

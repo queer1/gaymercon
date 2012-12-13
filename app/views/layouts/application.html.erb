@@ -59,9 +59,12 @@
           <ul class="unstyled">
             <% unread = current_user.unread_notifications_count > 0 ? " (#{current_user.unread_notifications_count})" : ""%>
             <li><i class="icon-heart icon-white"></i> <%= link_to "News Feed#{unread}", notifications_path %></li>
+            
             <% unread = current_user.unread_message_count > 0 ? " (#{current_user.unread_message_count})" : "" %>
             <li><i class="icon-envelope icon-white"></i> <%= link_to "Messages#{unread}", messages_path %></li>
-            <li><i class="icon-user icon-white"></i> 8 online</li>
+            
+            <% follow_count = current_user.followed_users.count; follow_count = "no one" if follow_count == 0%>
+            <li><i class="icon-user icon-white"></i> <%= link_to "Following #{follow_count}", users_path(tab: 'following') %></li>
             <li><i class="icon-pencil icon-white"></i> <%= link_to "Profile", edit_user_registration_path %></li>
             <li><i class="icon-off icon-white"></i> <%= link_to "Log Out", logout_path %></li>
           </ul>
