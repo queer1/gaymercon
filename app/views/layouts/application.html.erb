@@ -35,64 +35,7 @@
 
 <div id="fb-root"></div>
 
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container-fluid">
-      <%= link_to image_tag('gaymercon-logo.png', id: "logo-image", alt: "gaymercon"), root_path, :class => "brand" %>
-       <ul class="nav">
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><b class="caret"></b> GaymerCon 2013</a>
-          <ul class="dropdown-menu">
-            <li><%= link_to "About", welcome_path("about") %></li>
-            <li><%= link_to "Location", welcome_path("location") %></li>
-            <li><%= link_to "Contact", welcome_path("contact") %></li>
-            <li><%= link_to "Volunteer", welcome_path("volunteer") %></li>
-            <li><%= link_to "Donate", welcome_path("donate") %></li>
-            <li><%= link_to "Panels", panels_path %></li>
-            <% if current_user.present? %>
-              <li><%= link_to "My Badge", new_badge_path %></li>
-            <% else %>
-              <li><%= link_to "Con Badge", new_badge_path %></li>
-            <% end %>
-            <li><%= link_to "Blog", "http://blog.gaymercon.org" %></li>
-            <li><a href="http://store.gaymercon.org">Store <%= image_tag "coin.png", :class => "coin-img" %></a></li>
-          </ul>
-        </li>
-
-        <li><%= link_to "Forums", forums_groups_path %></li>
-        <li><%= link_to "Groups", groups_path %></li>
-        <li><%= link_to "Games", games_groups_path %></li>
-
-        <% if current_user.present? %>
-          <% if current_user.admin? %>
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#"><b class="caret"></b> Admin</a>
-              <ul class="dropdown-menu">
-                <li><%= link_to "Stats", halo_path("index") %></li>
-                <li><%= link_to "Badges", admin_badges_path %></li>
-                <li><%= link_to "Donators", admin_donators_path %></li>
-                <li><%= link_to "Users", halo_path("users") %></li>
-                <li><%= link_to "Jobs", admin_jobs_path %></li>
-                <li><%= link_to "Badges", admin_badges_path %></li>
-                <li><%= link_to "Panels", admin_panels_path %></li>
-                <li><%= link_to "Mail List", halo_path("registrations") %></li>
-                <li><%= link_to "Layout", halo_path("layout") %></li>
-              </ul>
-            </li>
-          <% end %>
-        <% else %>
-          <li><%= link_to "Sign Up", signup_path %></li>
-          <li><%= link_to "Log In", login_path %></li>
-        <% end %>
-      </ul>
-      <div class="pull-right social">
-        Follow<i class="icon-play icon-white"></i>
-        <a href="https://www.facebook.com/GaymerCon"><%= image_tag "social-icon-fb.png" %></a>
-        <a href="https://twitter.com/GaymerCon"><%= image_tag "social-icon-twitter.png" %></a>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render partial: "shared/main_nav" %>
 
 <div class="container-fluid">
   
