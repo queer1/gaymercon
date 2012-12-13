@@ -10,8 +10,12 @@ $(function(){
     $("#user_job_id").val(job_id);
   });
   
+  $(".job-select.modal").on("hide", function(){
+    var job_img = $(".selected-job img").attr('src');
+    $("#mini-job-image").attr('src', job_img);
+  });
+  
   $("#more-nicknames").on("click", function(e){
-    console.log("moar nix");
     e.preventDefault();
     var nick_form = $(".nicknames .form-row:last");
     var new_nick = nick_form.clone();
