@@ -166,14 +166,22 @@ class UsersController < Devise::RegistrationsController
     end
     
     if current_user.present?
+      @user = current_user
+      @job = current_user.job || Job.random
+      @user.job = @job
+      @jobs = Job.for_user(current_user)
       user_games = current_user.games || []
     else
+      @user = User.new
+      @job = Job.random
+      @user.job = @job
+      @jobs = Job.where("level_requirement is null or level_requirement = 1").all
       user_games = []
     end
     
-    @games = (["Rock Band", "Smash Bros", "Tekken", "Street Fighter", "Starcraft", "Armored Core", "IIDX", "DDR"] + user_games).compact.uniq
+    @games = user_games
     
-    render :layout => 'empty'
+    render :layout => 'no_controls'
   end
   
   def joined
@@ -185,7 +193,7 @@ class UsersController < Devise::RegistrationsController
       @badge = nil
     end
     @groups = current_user.groups.with_posts.where(kind: "game").order("last_post_date desc").limit(5)
-    render :layout => "empty"
+    render :layout => "no_controls"
   end
   
   private

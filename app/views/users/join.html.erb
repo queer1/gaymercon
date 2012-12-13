@@ -3,163 +3,138 @@
   <%= javascript_include_tag "shared/registrations" %>
 <% end %>
 
-<div class="container">
-  <div class="row-fluid" id="join">
-
-    <% if flash[:notice] %>
-      <div class="row-fluid">
-        <div class="span12 alert alert-success"><%= flash[:notice] %> <button class="close">&times;</button></div>
-      </div>
-    <% end %>
-
-    <% if flash[:error] %>
-      <div class="row-fluid">
-        <div class="span12 alert alert-error"><%= flash[:error] %> <button class="close">&times;</button></div>
-      </div>
-    <% end %>
-
-    <% if flash[:alert] %>
-      <div class="row-fluid">
-        <div class="span12 alert alert-error"><%= flash[:alert] %> <button class="close">&times;</button></div>
-      </div>
-    <% end %>
-
-    <%= current_user.present? ? user_alerts : '' %>
-    
-    <div class="row-fluid">
-      <h1 style="font-weight: 100; ">GaymerConnect</h1>
-    
-      <div id="join-header">
-        <% if @badge.present? %>
-          <h2>Get your GaymerCon badge.<br /> Find friends of every identity who play the same games you do.</h2>
-        <% end %>
-        
-        <% if @badge.present? && current_user.nil? %>
-          You'll be able to customize all the information on your badge, but it's easier if you start with Facebook or Twitter.
-        <% else %>
-          You can choose who you want to be and who your friends are on GaymerConnect, but it's easier if you start with Facebook or Twitter.
-        <% end %>
-      </div>
+<div class="row-fluid">
+  
+  <div class="span2 offset1">
+    <h1 class="step-number">1.</h1>
+  </div>
+  
+  <div class="span4">
+    <% session[:return_to] = join_path %>
+    <div class="social-signin facebook-signin">
+      <%= link_to "Sign in with <b>Facebook</b>".html_safe, omniauth_authorize_path(resource_name, "facebook"), :class => "btn-auth btn-facebook large" %>
     </div>
-    
-    <% if current_user %>
-      <div class="span8 offset3">
-        <hr />
-        <%= form_for current_user, :as => :user, :url => join_path, :method => "post", :html => { :method => :post, :class => "edit-form" } do |f| %>
-          <%= f.label :name, "GaymerCon Handle", :style => "display: inline-block; position: relative; top: -5px; " %>
-          <%= f.text_field :name, :placeholder => "samus_aran" %>
-          
-          <div class="page-header job-select">
-            <h2>Pick an Avatar:</h2>
-          </div>
-          <%= gridify(@jobs, "shared/job", col_width: 2, cols: 4) %>
-          
-          <h3>Tell people why playing with you is awesome:</h3>
-          <%= f.label :about, "About you", :class => "hide" %>
-          <div class="row-fluid">
-            <div class="span9">
-              <%= f.text_area :about, :size => "50x3", :class => "bbcode" %>  
-            </div>
-          </div>
-          
-          <div class="row-fluid">
-            <div class="span9" id="games">
-              <div class="page-header">
-                <h2>Games</h2>
-              </div>
-              <%= gridify(@games, "users/key_field", :cols => 4, :col_width => 3, :locals => {:form => f, :resource => current_user, :relevance => :games})%>
-              <%= text_field_tag :new_games, '', :placeholder => "New Game", :'data-relevance' => 'games' %>
-            </div>
-          </div>
-          
-          <% if @badge.present? %>
-            <div class="row-fluid">
-              <div class="span9">
-                <div class="page-header">
-                  <h2>Badge Info</h2>
-                </div>
-                <%= fields_for :badge do |b| %>
-                  <%= b.label :code %>
-                  <%= b.text_field :code, :disabled => true %>
-                  <%= b.hidden_field :code %>
+    <div class="social-signin twitter-signin">
+      <%= link_to "Sign in with <b>Twitter</b>".html_safe, omniauth_authorize_path(resource_name, "twitter"), :class => "btn-auth btn-twitter large" %>
+    </div>
 
-                  <%= b.label :level %>
-                  <%= b.select :level, options_for_select([[@badge.level.to_s.titleize, @badge.level]]), :disabled => true %>
-                  <div class="explain">
-                    <strong>Badge Info:</strong> <%= @badge.description %>
-                  </div>
+    <a href="#email" data-toggle="collapse" class="create-account-link">Or create an account</a>
 
-                  <%= b.label :first_name, "Real Name" %>
-                  <div class="form-row">
-                    <%= b.text_field :first_name, :size => 10, :placeholder => "Master" %>
-                    <%= b.text_field :last_name, :size => 10, :placeholder => "Chief" %>
-                  </div>
-                  <div class="explain">
-                    We will be checking your picture ID at the door - first and last name <strong>must</strong> match!
-                  </div>
+    <div class="collapse" id="email">
+      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
 
-                  <label for="badge_age">
-                    <%= b.check_box :age, {selected: "selected", style: "float:left;"}, "18+", nil %>
-                    I will be over 18 by Aug 2, 2013
-                  </label>
+        <%= f.label :email %>
+        <%= f.email_field :email %>
 
-                  <%= b.label :address_1, "Address Line 1" %>
-                  <%= b.text_field :address_1, :placeholder => "457 Rainbow Road" %>
+        <%= f.label :password %>
+        <%= f.password_field :password %>
 
-                  <%= b.label :address_2, "Address Line 2" %>
-                  <%= b.text_field :address_2, :placeholder => "Apt 69" %>
-
-                  <%= b.label :city %>
-                  <%= b.text_field :city, :placeholder => "Providence" %>
-
-                  <%= b.label :province, "State / Province" %>
-                  <%= b.text_field :province, :placeholder => "RI" %>
-
-                  <%= b.label :country %>
-                  <%= b.text_field :country, :placeholder => "USA" %>
-
-                  <%= b.label :postal, "Zip / Postal Code" %>
-                  <%= b.text_field :postal, :placeholder => "02908" %>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-          
-          <%= f.button "Level Up", :class => "btn btn-primary btn-large pull-right" %>
-        <% end %>
-      </div>
-    <% else %>
-      <div class="span4 offset4">
-        <h2>Sign in</h2>
-        <% session[:return_to] = join_path %>
-        <div class="social-signin facebook-signin">
-          <%= link_to "Sign in with <b>Facebook</b>".html_safe, omniauth_authorize_path(resource_name, "facebook"), :class => "btn-auth btn-facebook large" %>
-        </div>
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation %>
         <br />
-        <div class="social-signin twitter-signin">
-          <%= link_to "Sign in with <b>Twitter</b>".html_safe, omniauth_authorize_path(resource_name, "twitter"), :class => "btn-auth btn-twitter large" %>
-        </div>
-        <br />
-    
-        <a href="#email" data-toggle="collapse">Or create a separate GaymerConnect account</a>
-
-        <div class="collapse" id="email">
-          <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-
-            <%= f.label :email %>
-            <%= f.email_field :email %>
-
-            <%= f.label :password %>
-            <%= f.password_field :password %>
-
-            <%= f.label :password_confirmation %>
-            <%= f.password_field :password_confirmation %>
-            <br />
-            <%= f.submit "Sign up", :class => "btn" %>
-          <% end %>
-        </div>
-    
+        <%= f.submit "Sign up", :class => "btn" %>
       <% end %>
     </div>
   </div>
 </div>
+
+<div class="row-fluid" id="join">
+  
+  <div class="span2 offset1">
+    <h1 class="step-number">2.</h1>
+  </div>
+  
+  <div class="span8">
+    <%= form_for @user, :as => :user, :url => join_path, :method => "post", :html => { :method => :post, :class => "edit-form" } do |f| %>
+      <div class="input-prepend user-name">
+        <span class="add-on"><%= link_to image_tag(@job.icon_path, width: 45, height: 45, id: "mini-job-image"), "#job-select", "data-toggle" => "modal" %></span>
+        <%= f.text_field :name, :placeholder => "GaymerCon Handle", :class => "span5" %>
+      </div>
+      
+      <div id="job-select" class="modal hide fade job-select" tabindex="-1" role="dialog" aria-labelledby="job-select-label" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="job-select-label">Select Job:</h3>
+        </div>
+        <div class="modal-body">
+          <%= gridify @jobs, "shared/job", cols: 4, col_width: 3 %>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          <button class="btn btn-primary" data-dismiss="modal">Select</button>
+        </div>
+      </div>
+      
+      <%= f.label :about, "About you", :class => "hide" %>
+      <%= f.text_area :about, :size => "50x5", :class => "span6", :placeholder => "Tell people why playing with you is aweosme" %>  
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span2 offset1">
+    <h1 class="step-number">3.</h1>
+  </div>
+
+  <div class="span9" id="games">
+    <%= gridify(@games, "users/key_field", :cols => 4, :col_width => 2, :locals => {:form => f, :resource => @user, :relevance => :games})%>
+    <%= text_field_tag :new_games, '', :placeholder => "+ Add a Game You Love", :'data-relevance' => 'games' %>
+  </div>
+</div>
+      
+  <% if @badge.present? %>
+  
+    <div class="row-fluid">
+      <div class="span2 offset1">
+        <h1 class="step-number">4.</h1>
+      </div>
+      <div class="span9">
+        <%= fields_for :badge do |b| %>
+          <%= b.hidden_field :code %>
+          <%= b.hidden_field :code %>
+          <div class="explain">
+            <strong>Badge Info:</strong> <%= @badge.description %>
+          </div>
+
+          <%= b.label :first_name, "Real Name" %>
+          <div class="form-row">
+            <%= b.text_field :first_name, :size => 10, :placeholder => "Master" %>
+            <%= b.text_field :last_name, :size => 10, :placeholder => "Chief" %>
+          </div>
+          <div class="explain">
+            Whatever is printed on the ID you'll bring to the con
+          </div>
+
+          <label for="badge_age">
+            <%= b.check_box :age, {selected: "selected", style: "float:left;"}, "18+", nil %>
+            &nbsp;&nbsp;I will be over 18 by Aug 2, 2013
+          </label>
+
+          <%= b.label :address_1, "Address Line 1" %>
+          <%= b.text_field :address_1, :placeholder => "457 Rainbow Road" %>
+
+          <%= b.label :address_2, "Address Line 2" %>
+          <%= b.text_field :address_2, :placeholder => "Apt 69" %>
+
+          <%= b.label :city %>
+          <%= b.text_field :city, :placeholder => "Providence" %>
+
+          <%= b.label :province, "State / Province" %>
+          <%= b.text_field :province, :placeholder => "RI" %>
+
+          <%= b.label :country %>
+          <%= b.text_field :country, :placeholder => "USA" %>
+
+          <%= b.label :postal, "Zip / Postal Code" %>
+          <%= b.text_field :postal, :placeholder => "02908" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  
+  <div class="row-fluid">
+    <div class="span6 offset3">
+      <%= f.button "Level Up", :class => "btn btn-primary btn-large" %>
+    </div>
+  </div>
+  
+<% end %>

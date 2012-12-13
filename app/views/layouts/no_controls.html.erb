@@ -59,14 +59,18 @@
           </ul>
         </li>
 
-        <li><%= link_to "Forums", forums_groups_path %></li>
-        <li><%= link_to "Groups", groups_path %></li>
-        <li><%= link_to "Games", games_groups_path %></li>
-
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">GaymerConnect <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Forums", forums_groups_path %></li>
+            <li><%= link_to "Groups", groups_path %></li>
+            <li><%= link_to "Games", games_groups_path %></li>
+          </ul>
+        </li>
         <% if current_user.present? %>
           <% if current_user.admin? %>
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#"><b class="caret"></b> Admin</a>
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><%= link_to "Stats", halo_path("index") %></li>
                 <li><%= link_to "Badges", admin_badges_path %></li>
@@ -96,42 +100,7 @@
 
 <div class="container-fluid">
   
-  <div class="row-fluid global-header" style="background: url('<%= header_image %>') top right no-repeat; background-size: 950px 200px;">
-    
-    <div class="span4 control-panel">
-      <% if current_user.present? %>
-        <div class="row-fluid">
-          <div class="span8">
-            <h3><%= link_to current_user.name, user_path(current_user) %></h3>
-            <p>XP: <%= strfnum(current_user.xp) %> / Next Level In: <%= strfnum(current_user.to_next_level)%></p>
-              <div class="progress">
-                <div class="bar" style="width: <%= current_user.progress %>%;"></div>
-              </div>
-          </div>
-        </div>
-        <div class="span4">
-          <%= image_tag current_user.avatar %>
-        </div>
-        <div class="span6">
-          <ul class="unstyled">
-            <% unread = current_user.unread_notifications_count > 0 ? " (#{current_user.unread_notifications_count})" : ""%>
-            <li><i class="icon-heart icon-white"></i> <%= link_to "News Feed#{unread}", notifications_path %></li>
-            <% unread = current_user.unread_message_count > 0 ? " (#{current_user.unread_message_count})" : "" %>
-            <li><i class="icon-envelope icon-white"></i> <%= link_to "Messages#{unread}", messages_path %></li>
-            <li><i class="icon-user icon-white"></i> 8 online</li>
-            <li><i class="icon-pencil icon-white"></i> <%= link_to "Profile", edit_user_registration_path %></li>
-            <li><i class="icon-off icon-white"></i> <%= link_to "Log Out", logout_path %></li>
-          </ul>
-        </div>
-      <% else %>
-        <h3>HEY! LISTEN!</h3>
-        <p>You should sign up for a GaymerConnect account! The cool, free way to find fellow Gaymers!</p>
-        <%= link_to "Sign Up", signup_path, :class => "btn btn-primary" %>
-      <% end %>
-    </div>
-    <div class="section-name pull-right">
-      <%= section_name %>
-    </div>
+  <div class="row-fluid global-header" style="background: url('<%= header_image %>') top right no-repeat; background-size: 950px 238px; border-bottom: 14px solid black;">
   </div>
 
   <% if flash[:notice] %>
