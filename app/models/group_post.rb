@@ -59,6 +59,10 @@ class GroupPost < ActiveRecord::Base
     self.group.users.each do |user|
       Notification::GroupNotification.find_or_create_by(:read => false, :user_id => user.id, :group_id => self.group.id).add_to_set(:post_ids, self.id) unless user.id == self.user_id
     end
+    
+    self.user.followers.each do |user|
+      Notification::GroupNotification.find_or_create_by(:read => false, :user_id => user.id, :group_id => self.group.id).add_to_set(:post_ids, self.id) unless user.id == self.user_id
+    end
   end
   
   def cleanup

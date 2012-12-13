@@ -12,44 +12,48 @@
 <div class='tab-content'>
   <div class="row-fluid">
     <div class="span12">
-      <%= bootstrap_paginate @users %>
-      <table class="table table-striped">
-        <tr>
-          <th>Pic</th>
-          <th>Name</th>
-          <th>Location</th>
-          <% if current_user.present? %>
-            <th>Games in Common</th>
-          <% end %>
-          <th>XP</th>
-          <th>Actions</th>
-        </tr>
-        <% @users.each do |user| %>
+      <% if @users.empty? %>
+        <h2>Sorry, no one here yet</h2>
+      <% else %>
+        <%= bootstrap_paginate @users %>
+        <table class="table table-striped">
           <tr>
-            <td><%= link_to image_tag(user.avatar, width: 75, height: 75, style: "width: 75px;"), user_path(user) %></td>
-            <td><%= link_to user.name, user_path(user) %></td>
-            <td><%= user.place %></td>
+            <th>Pic</th>
+            <th>Name</th>
+            <th>Location</th>
             <% if current_user.present? %>
-              <td><%= user.games_in_common(current_user).count %></td>
+              <th>Games in Common</th>
             <% end %>
-            <td><%= strfnum(user.xp) %></td>
-            <td>
-              <% if current_user.present? %>
-                <% if current_user.following?(user) %>
-                  <%= link_to "Unfollow", unfollow_path(user), :method => "post", :class => "btn" %>
-                <% else %>
-                  <%= link_to "Follow", follow_path(user), :method => "post", :class => "btn btn-primary" %>
-                <% end %>
-                <%= link_to "View", user_path(user), :class => "btn" %>
-                <% if current_user.admin? %>
-                  <%= link_to "Edit", halo_path("edit_user", user.id), :class => "btn" %>
-                <% end %>
-              <% end %>
-            </td>
+            <th>XP</th>
+            <th>Actions</th>
           </tr>
-        <% end %>
-      </table>
-      <%= bootstrap_paginate @users %>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= link_to image_tag(user.avatar, width: 75, height: 75, style: "width: 75px;"), user_path(user) %></td>
+              <td><%= link_to user.name, user_path(user) %></td>
+              <td><%= user.place %></td>
+              <% if current_user.present? %>
+                <td><%= user.games_in_common(current_user).count %></td>
+              <% end %>
+              <td><%= strfnum(user.xp) %></td>
+              <td>
+                <% if current_user.present? %>
+                  <% if current_user.following?(user) %>
+                    <%= link_to "Unfollow", unfollow_path(user), :method => "post", :class => "btn" %>
+                  <% else %>
+                    <%= link_to "Follow", follow_path(user), :method => "post", :class => "btn btn-primary" %>
+                  <% end %>
+                  <%= link_to "View", user_path(user), :class => "btn" %>
+                  <% if current_user.admin? %>
+                    <%= link_to "Edit", halo_path("edit_user", user.id), :class => "btn" %>
+                  <% end %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+        <%= bootstrap_paginate @users %>
+      <% end %>
     </div>
   </div>
 </div>
