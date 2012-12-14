@@ -133,30 +133,32 @@ class UsersController < Devise::RegistrationsController
     @badge ||= current_user.badge if current_user.present?
     
     if current_user.present? && request.post?
-      fields = [:name, :job_id, :about]
-      profile = params[:user].slice(*fields)
-      fields.each {|f| current_user.send("#{f}=", params[:user][f]) }
-      unless current_user.save
-        flash.now[:alert] = "Oops, there was a problem: #{current_user.all_errors}"
-        render :layout => "empty" and return
+      if params[:user].present?
+        fields = [:name, :job_id, :about]
+        profile = params[:user].slice(*fields)
+        fields.each {|f| current_user.send("#{f}=", params[:user][f]) }
+        unless current_user.save
+          flash.now[:alert] = "Oops, there was a problem: #{current_user.all_errors}"
+          render :layout => "empty" and return
+        end
+      
+        games = params[:games].present? ? params[:games].keys : []
+        games << params[:new_games]
+        current_user.games = games
+      
+        redirect_to joined_path, notice: "Profile updated!" and return
       end
-      
-      games = params[:games].present? ? params[:games].keys : []
-      games << params[:new_games]
-      current_user.games = games
-      
-      redirect_to joined_path, notice: "Profile updated!" and return unless @badge.present? && params[:badge].present?
       
       fields = [:first_name, :last_name, :age, :address_1, :address_2, :city, :province, :country, :postal]
       parms = params[:badge].slice(*fields)
       parms[:user_id] = current_user.id
       @badge.update_attributes(parms)
-      fields.delete(:address_2)
-      if @badge.valid? && fields.all?{|f| @badge.send(f).present? }
+      if @badge.valid? && @badge.filled_out?
         session.delete(:badge_code)
-        redirect_to joined_path, notice: "Badge and profile updated!" and return
+        flash.now[:notice] = "Badge info saved!"
       else
         errors = @badge.all_errors
+        fields.delete(:address_2)
         fields.each {|f| errors << "#{f.to_s.humanize} cannot be blank<br />" unless @badge.send(f).present? }
         flash.now[:alert] = "There was a problem: #{errors}".html_safe
       end
@@ -164,19 +166,13 @@ class UsersController < Devise::RegistrationsController
     
     if current_user.present?
       @user = current_user
-      @job = current_user.job || Job.random
-      @user.job = @job
       @jobs = Job.for_user(current_user)
-      user_games = current_user.games || []
-    else
-      @user = User.new
-      @job = Job.random
+      @job = current_user.job || @jobs.sample
       @user.job = @job
-      @jobs = Job.where("level_requirement is null or level_requirement = 1").all
-      user_games = []
+      @games = current_user.games || []
     end
     
-    @games = user_games
+    @header_img = "gaymers.png"
     
     render :layout => 'no_controls'
   end

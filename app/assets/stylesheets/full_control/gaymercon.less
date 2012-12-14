@@ -5,6 +5,9 @@ body { }
 body > .container-fluid { background: #fff; min-height: 700px; padding-top: 10px; }
 .global-header {
   min-height: 200px;
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-size: 950px 238px;
   * { color: @white; }
   .control-panel { 
     padding-top: 1em;
@@ -20,6 +23,29 @@ body > .container-fluid { background: #fff; min-height: 700px; padding-top: 10px
   }
   .section-name { background-color: @black; color: @white; margin-top: 164px; padding: .5em; font-family: @monoFontFamily; font-weight: 200; font-size: 16px; }
 }
+.no-controls-header {
+  border-bottom: 14px solid black;
+  background: -webkit-linear-gradient(198deg,
+      #FFEF3B  0%, #FFEF3B  4%,
+      #D8E036  4%, #D8E036 10%,
+      #82C652 10%, #82C652 16%,
+      #00B55A 16%, #00B55A 22%,
+      #009250 22%, #009250 28%,
+      #00683D 28%, #00683D 34%,
+      #00AAA0 34%, #00AAA0 40%,
+      #0081BD 40%, #0081BD 46%,
+      #404495 46%, #404495 52%,
+      #662D91 52%, #662D91 58%,
+      #9E005D 58%, #9E005D 64%,
+      #D4145A 64%, #D4145A 70%,
+      #DD464B 70%, #DD464B 76%,
+      #FF464D 76%, #FF464D 82%,
+      #FF7A4B 82%, #FF7A4B 88%,
+      #FFA843 88%, #FFA843 94%,
+      #FFC15C 94%, #FFC15C 100%
+    );
+}
+.blank-page-form { margin-top: 55px; }
 
 .navbar {
   .nav > li > a { padding-top: 15px; }
@@ -30,6 +56,7 @@ footer {
   width: 100%; 
   background: @grayDark; 
   padding: 2em 0 2em 0; 
+  margin-top: 55px;
   font-family: @monoFontFamily;
   color: @white;
   .social { display: inline-block; }

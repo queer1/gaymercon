@@ -63,8 +63,13 @@
             <% unread = current_user.unread_message_count > 0 ? " (#{current_user.unread_message_count})" : "" %>
             <li><i class="icon-envelope icon-white"></i> <%= link_to "Messages#{unread}", messages_path %></li>
             
-            <% follow_count = current_user.followed_users.count; follow_count = "no one" if follow_count == 0%>
-            <li><i class="icon-user icon-white"></i> <%= link_to "Following #{follow_count}", users_path(tab: 'following') %></li>
+            <% follow_count = current_user.followed_users.count %>
+            <% if follow_count > 0 %>
+              <li><i class="icon-user icon-white"></i> <%= link_to "Following #{follow_count}", users_path(tab: 'following') %></li>
+            <% else %>
+              <li><i class="icon-user icon-white"></i> <%= link_to "Following Nobody", users_path(tab: 'cool') %></li>
+            <% end %>
+            
             <li><i class="icon-pencil icon-white"></i> <%= link_to "Profile", edit_user_registration_path %></li>
             <li><i class="icon-off icon-white"></i> <%= link_to "Log Out", logout_path %></li>
           </ul>
