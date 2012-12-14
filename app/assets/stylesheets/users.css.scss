@@ -1,7 +1,6 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-#user_place { margin-top: 10px; }
 .job-card {
   text-align: center;
   padding: .5em 0;
@@ -18,4 +17,7 @@
 .social-signin { margin-bottom: 10px;}
 .create-account-link { display: block; text-align: right; width: 278px; color: #999; }
 .user-name span.add-on {height: 45px; }
-#user_name { height: 55px; width: 41.8%; }
+#mini-job-image { height: 45px; }
+input[type=text].name-with-job { height: 45px; }
+
+.get-location { width: 45px; margin: 0; padding: 12px 0 13px 0; vertical-align: middle; }

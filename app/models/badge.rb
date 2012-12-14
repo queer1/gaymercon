@@ -26,6 +26,12 @@ class Badge < ActiveRecord::Base
     "#{self.first_name} #{self.last_name}"
   end
   
+  def filled_out?
+    ["user_id", "address_1",  "city", "province",  "country",  "postal", "age", "first_name",  "last_name"].all? do |f|
+      self.send(f).present?
+    end
+  end
+  
   def self.redeemed_count
     self.where("user_id IS NOT NULL").count
   end
