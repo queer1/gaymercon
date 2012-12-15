@@ -3,8 +3,17 @@ class WelcomeController < ApplicationController
   before_filter :header_img
   
   def index
-    @user = current_user || User.new
+    redirect_to home_path and return if current_user.present?
+    @user = User.new
     render layout: "no_controls"
+  end
+  
+  def home
+    redirect_to root_path and return unless current_user.present?
+    @threads = MessageThread.all_for_user(current_user)
+    Rails.logger.debug "threads: #{@threads.inspect}"
+    @users = User.where("created_at > ?", current_user.last_sign_in_at).limit(5).all
+    @users = User.where("id NOT IN (?)", current_user.followeds.collect(&:followed_user_id)).order("last_sign_in_at").limit(50).sample(5) unless @users.present?
   end
   
   def about

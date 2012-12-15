@@ -1,0 +1,15 @@
+<% if @threads.present? %>
+  <table class="table table-striped">
+    <tr><th>&nbsp;</th><th>With</th><th>Preview</th><th>Time</th></tr>
+    <% @threads.each do |thread| %>
+      <tr>
+        <td><i class="pull-right circle <%= thread.unread? ? 'active' : '' %>"></i></td>
+        <td><%= link_to thread.user.name, users_path(thread.user) %></td>
+        <td><%= link_to thread.last_message.content.truncate(100).bbcode_to_html.html_safe, message_path(thread.user.id) %></td>
+        <td><%= time_ago_in_words thread.last_message.created_at %></td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <h4>No messages yet! <%= link_to "Check out some cool people you might want to chat with.", users_path(tab: "cool") %>
+<% end %>

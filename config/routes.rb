@@ -27,6 +27,7 @@ Gc2::Application.routes.draw do
     get '/connect', to: "users#connect", as: 'connect'
     get "/users/get_location", to: "users#get_location", as: 'get_location'
     get "users/notifications", to: "users#notifications", as: 'notifications'
+    get '/home', to: "welcome#home", as: "home"
     post "/users/add_tags", to: "users#add_tags", as: 'add_tags'
     put "/users/update_profile", to: "users#update_profile", as: "update_profile"
     delete "/users/auth/:id/delete", to: "users/omniauth_callbacks#disconnect", as: "disconnect_profile"

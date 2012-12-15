@@ -1,13 +1,10 @@
 class MessagesController < ApplicationController
   
   before_filter :authenticate_user!
+  before_filter do @section_name = "Messages" end
   
   def index
-    @messages = Message.where("to_user_id = ?", current_user.id).order("created_at desc").page(params[:page])
-  end
-  
-  def outbox
-    @messages = Message.where("from_user_id = ?", current_user.id).order("created_at desc").page(params[:page])
+    @threads = MessageThread.all_for_user(current_user)
   end
   
   def new
@@ -55,9 +52,9 @@ class MessagesController < ApplicationController
   end
   
   def show
-    @user_message = Message.find_by_id(params[:id])
-    redirect_to messages_path, alert: "Sorry, couldn't find that message" and return unless @user_message.to_user == current_user || @user_message.from_user == current_user
-    @user_message.update_attributes(read: true)
-    @message = Message.new(to_user_id: @user_message.from_user_id)
+    @user = User.find_by_id(params[:id])
+    redirect_to messages_path, alert: "Sorry, couldn't find that thread" and return unless @user.present?
+    @thread = MessageThread.new(current_user, @user)
+    @message = Message.new(to_user: @user, from_user: current_user)
   end
 end

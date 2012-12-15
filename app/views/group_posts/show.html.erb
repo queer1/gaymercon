@@ -1,7 +1,11 @@
 <div class="row-fluid">
   <div class="span12">
     <ul class="breadcrumb">
-      <li><%= link_to "Groups", groups_path %> <span class="divider">/</span></li>
+      <% if @post.group.kind == "official" %>
+        <li><%= link_to "Forums", forums_groups_path %> <span class="divider">/</span></li>
+      <% else %>
+        <li><%= link_to "Groups", groups_path %> <span class="divider">/</span></li>
+      <% end %>
       <li><%= link_to @post.group.name, group_path(@post.group) %> <span class="divider">/</span></li>
       <li class="active"><%= @post.user.name %>'s Post</li>
     </ul>
@@ -14,7 +18,7 @@
     <% title = "Untitled" unless title.present? %>
     <% path = @post.kind == "link" ? @post.url : group_post_path(@post.group_id, @post.id) %>
     <h1><%= link_to title, path %></h1>
-    <div>
+    <div id="post">
       <%= @post.content.bbcode_to_html.html_safe %>
     </div>
     <small><%= @post.updated_at.strftime(TIME_FORMAT) %></small>
