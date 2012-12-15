@@ -1,11 +1,6 @@
 <% unread = message.from_user != current_user && message.read? == false %>
 <tr>
   <td>
-    <% if message.from_user == current_user %>
-      <%= link_to image_tag(message.to_user.avatar), user_path(message.to_user) %>
-    <% else %>
-      <%= link_to image_tag(message.from_user.avatar), user_path(message.from_user) %>
-    <% end %>
   </td>
   <td>
     <% if message.from_user == current_user %>

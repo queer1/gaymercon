@@ -1,0 +1,35 @@
+<h1>Welcome Back, Commander!</h1>
+<div class="row-fluid">
+  <div class="span4">
+    <h2>News</h2>
+    <% if @notifications.present? %>
+      <table class="table table-striped">
+        <tr><th>&nbsp;</th><th>Message</th><th>On</th></tr>
+        <%= render :partial => "users/notification", :collection => @notifications %>
+      </table>
+      <%= link_to "View All", notifications_path, :class => "btn" %>
+    <% else %>
+      <h4>No new notifications! <%= link_to "Join some more groups", groups_path(kind: "all") %> to start getting more updates.</h4>
+    <% end %>
+  </div>
+  <div class="span4">
+    <h2>Messages</h2>
+    <%= render partial: "messages/threads" %>
+    <%= link_to "View All", messages_path, :class => "btn" %>
+  </div>
+  <div class="span4">
+    <h2>My badge</h2>
+    <% if current_user.badge.present? %>
+      <table class="table">
+        <tr><td>&nbsp;</td><td><span class="label label-success" id="badge-redeemed">Redeemed!</span></td></tr>
+        <tr><td><strong>Level:</strong></td><td><%= current_user.badge.level.humanize %></td></tr>
+        <tr><td><strong>Info:</strong></td><td><%= Badge.levels[current_user.badge.level] %></td></tr>
+        <tr><td><strong>Real Name:</strong></td><td><%= current_user.badge.full_name %></td></tr>
+      </table>
+      <%= link_to "Edit Badge Info", edit_badge_path(current_user.badge), :class => "btn" %>
+    <% else %>
+      <%= link_to "Buy a Badge", new_badge_path, :class => "btn btn-primary btn-large" %>
+      <%= link_to "Redeem a Badge Code", new_badge_path, :class => "btn btn-primary btn-large" %>
+    <% end %>
+  </div>
+</div>
