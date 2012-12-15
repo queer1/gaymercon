@@ -71,12 +71,11 @@
             <% end %>
             
             <li><i class="icon-pencil icon-white"></i> <%= link_to "Profile", edit_user_registration_path %></li>
-            <li><i class="icon-off icon-white"></i> <%= link_to "Log Out", logout_path %></li>
           </ul>
         </div>
       <% else %>
         <h3>HEY! LISTEN!</h3>
-        <p>You should sign up for a GaymerConnect account! The cool, free way to find fellow Gaymers!</p>
+        <p>You should sign up for a GaymerConnect account!<br /> The cool, free way to find fellow Gaymers!</p>
         <%= link_to "Sign Up", signup_path, :class => "btn btn-primary" %>
       <% end %>
     </div>
@@ -108,34 +107,7 @@
   <%= yield %>
 </div>
 
-<footer>
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span2">
-        <%= link_to image_tag('gaymercon-logo.png', id: "logo-image", alt: "gaymercon"), root_path, :class => "brand" %>
-      </div>
-      <div class="span4">
-        &copy; GaymerCon 2012 | <%= link_to "Credits", welcome_path("credits") %>
-      </div>
-      <div class="span5 offset1">
-        <div class="social">
-          Follow<i class="icon-play icon-white"></i>
-          <a href="https://www.facebook.com/GaymerCon"><%= image_tag "social-icon-fb.png" %></a>
-          <a href="https://twitter.com/GaymerCon"><%= image_tag "social-icon-twitter.png" %></a>
-        </div>
-        | <%= link_to "Privacy Policy", page_path("privacy") %> | Legal Stuff
-      </div>
-    </div>
-  </div>
-</footer>
+<%= render partial: "shared/footer" %>
 
 </body>
 </html>
-
-
-<% if false %>
-  <iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/follow_button.1340179658.html#_=1340503512136&amp;id=twitter-widget-0&amp;lang=en&amp;screen_name=gaymercon&amp;show_count=true&amp;show_screen_name=false&amp;size=m" class="twitter-follow-button" style="width: 160px; height: 20px; " title="Twitter Follow Button"></iframe>
-  <div class="fb-like" data-href="https://www.facebook.com/GaymerCon" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
-
-  <a href="https://plus.google.com/113440831277664859026" rel="publisher">Find us on Google+</a>
-<% end %>

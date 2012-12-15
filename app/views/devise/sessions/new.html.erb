@@ -1,29 +1,7 @@
-<h2>Sign in</h2>
 <% session[:return_to] = groups_path %>
-<div class="social-signin facebook-signin">
-  <%= link_to "Sign in with <b>Facebook</b>".html_safe, omniauth_authorize_path(resource_name, "facebook"), :class => "btn-auth btn-facebook large" %>
+<div class="row-fluid">
+  <div class="span4 offset4">
+    <h2>Sign in</h2>
+    <%= render partial: "shared/login" %>
+  </div>
 </div>
-<br />
-<div class="social-signin twitter-signin">
-  <%= link_to "Sign in with <b>Twitter</b>".html_safe, omniauth_authorize_path(resource_name, "twitter"), :class => "btn-auth btn-twitter large" %>
-</div>
-<br />
-
-<h2>Or...</h2>
-
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <%= f.label :email %>
-  <%= f.email_field :email %>
-
-  <%= f.label :password %>
-  <%= f.password_field :password %>
-
-  <% if devise_mapping.rememberable? -%>
-    <label for="user_remember_me" class="checkbox"><%= f.check_box :remember_me %> Remember Me</label>
-  <% end %>
-
-  <br />
-  <%= f.submit "Sign in", :class => "btn" %>
-<% end %>
-
-<%= render "devise/shared/links" %>

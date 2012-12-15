@@ -1,5 +1,5 @@
 class BadgesController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: [:new]
   before_filter :find_badge, only: [:show, :edit, :update, :destroy]
   before_filter :not_implemented, only: [:index, :show, :create]
   
@@ -13,7 +13,8 @@ class BadgesController < ApplicationController
   end
   
   def new
-    redirect_to edit_badge_path(current_user.badge) if current_user.badge.present?
+    redirect_to edit_badge_path(current_user.badge) if current_user.present? && current_user.badge.present?
+    session[:user_return_to] = new_badge_path unless current_user.present?
     @badge = Badge.new
   end
   

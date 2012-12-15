@@ -1,11 +1,14 @@
 $(document).ready(function(){
   
+  // use require.js to include anything from external urls, so they don't block the page
+  // i don't trust Google, Twitter, Facbeook et al
   require(["<%= asset_path "libs/twitter.js" %>", 
            "<%= asset_path "libs/gplus.js" %>",
-           "<%= asset_path "libs/fb.js" %>", 
-           "<%= asset_path "libs/uservoice.js" %>",
+           "<%= asset_path "libs/fb.js" %>",
            "<%= asset_path "libs/ganalytics.js" %>",
-           "<%= asset_path "jquery.tweet.js" %>"], function(util){
+           "<%= asset_path "jquery.tweet.js" %>",
+           "https://apis.google.com/js/plusone.js"], function(util){
+             $("#social").delay(1000).fadeIn();
              $('.tweet').tweet({
                avatar_size: 32,
                count: 3,
@@ -15,6 +18,16 @@ $(document).ready(function(){
              });
              $(".tweet ul:first").addClass("unstyled");
            });
+  
+  $("#signup-form").on("show", function(){
+    if( $("#login-form").hasClass("in"))
+      $("#login-form").collapse('hide');
+  });
+  
+  $("#login-form").on("show", function(){
+    if($("#signup-form").hasClass("in"))
+      $("#signup-form").collapse('hide');
+  });
   
   elem = $('<input type="hidden" name="antispam" value="gaymercon" />')
   $('#email').after(elem)

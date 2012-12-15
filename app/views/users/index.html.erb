@@ -4,7 +4,9 @@
   <li <%= @tab == "following" ? "class='active'" : '' %>><%= link_to "Following", users_path(tab: 'following') %></li>
   <li <%= @tab == "nearby" ? "class='active'" : '' %>><%= link_to "Nearby", users_path(tab: 'nearby') %></li>
   <% Nickname.networks.each do |n| %>
-    <li <%= @network == n ? "class='active'" : '' %>><%= link_to n.humanize, users_path(network: n) %></li>
+    <% name = n.humanize %>
+    <% name = name.upcase unless name == "Steam" || name == "Other" %>
+    <li <%= @network == n ? "class='active'" : '' %>><%= link_to name, users_path(network: n) %></li>
   <% end %>
   <li <%= @tab == "cool" ? "class='active'" : '' %>><%= link_to "All Users", users_path(tab: "cool") %></li>
 </ul>

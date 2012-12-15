@@ -1,0 +1,41 @@
+<div class="social-signin facebook-signin">
+  <%= link_to "Sign in with <b>Facebook</b>".html_safe, omniauth_authorize_path(resource_name, "facebook"), :class => "btn-auth btn-facebook large" %>
+</div>
+<div class="social-signin twitter-signin">
+  <%= link_to "Sign in with <b>Twitter</b>".html_safe, omniauth_authorize_path(resource_name, "twitter"), :class => "btn-auth btn-twitter large" %>
+</div>
+
+<a href="#signup-form" data-toggle="collapse">Create an account</a> | 
+<a href="#login-form" data-toggle="collapse">Log In</a>
+
+<div class="collapse" id="signup-form">
+  <%= form_for(User.new, :url => registration_path("user")) do |f| %>
+
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
+    <br />
+    <%= f.submit "Sign up", :class => "btn" %>
+  <% end %>
+</div>
+
+<div class="collapse" id="login-form">
+  <%= form_for(User.new, :as => "user", :url => session_path("user")) do |f| %>
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+  
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  
+    <label for="user_remember_me" class="checkbox"><%= f.check_box :remember_me %> Remember Me</label>
+  
+    <br />
+    <%= f.submit "Sign in", :class => "btn" %>
+  <% end %>
+</div>
+  

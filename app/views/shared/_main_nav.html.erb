@@ -25,7 +25,6 @@
         <li><%= link_to "Forums", forums_groups_path %></li>
         <li><%= link_to "Groups", groups_path %></li>
         <li><%= link_to "Games", games_groups_path %></li>
-        <li><%= link_to "People", users_path(tab: "cool") %></li>
 
         <% if current_user.present? %>
           <% if current_user.admin? %>
@@ -37,22 +36,22 @@
                 <li><%= link_to "Donators", admin_donators_path %></li>
                 <li><%= link_to "Users", halo_path("users") %></li>
                 <li><%= link_to "Jobs", admin_jobs_path %></li>
-                <li><%= link_to "Badges", admin_badges_path %></li>
                 <li><%= link_to "Panels", admin_panels_path %></li>
                 <li><%= link_to "Mail List", halo_path("registrations") %></li>
                 <li><%= link_to "Layout", halo_path("layout") %></li>
               </ul>
             </li>
           <% end %>
-        <% else %>
-          <li><%= link_to "Sign Up", signup_path %></li>
-          <li><%= link_to "Log In", login_path %></li>
         <% end %>
       </ul>
-      <div class="pull-right social">
-        Follow<i class="icon-play icon-white"></i>
-        <a href="https://www.facebook.com/GaymerCon"><%= image_tag "social-icon-fb.png" %></a>
-        <a href="https://twitter.com/GaymerCon"><%= image_tag "social-icon-twitter.png" %></a>
+      <div class="pull-right">
+        <ul class="nav">
+          <% if current_user.present? %>
+            <li><%= link_to "Log Out".html_safe, destroy_user_session_path, method: "delete" %></li>
+          <% else %>
+            <li><%= link_to "Log In", new_user_session_path %></li>
+          <% end %>
+        </ul>
       </div>
     </div>
   </div>

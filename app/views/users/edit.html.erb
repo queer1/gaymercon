@@ -13,7 +13,7 @@
     <ul class="nav nav-tabs">
       <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
       <li><a href="#games" data-toggle="tab">Game I Play</a></li>
-      <li><a href="#nicknames" data-toggle="tab">Game IDs</a></li>
+      <li><a href="#nicknames" data-toggle="tab">GamerTags</a></li>
       <li><a href="#settings" data-toggle="tab">Settings</a></li>
     </ul>
   </div>
@@ -154,7 +154,7 @@
         <div class="span6 nicknames">
           <%= form_for(resource, :as => resource_name, :url => update_path, :html => { :method => :put, :class => "edit-form" }) do |f| %>
             <%= devise_error_messages! %>
-            <h3>Gamer IDs</h3>
+            <h3>GamerTags</h3>
             <%= render :partial => "users/network", :collection => @nicknames %>
             <%= link_to '+ More', '#', :id => "more-nicknames", :class => "btn" %>
           

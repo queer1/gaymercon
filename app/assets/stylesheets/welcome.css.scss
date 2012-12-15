@@ -1,10 +1,38 @@
 // Place all the styles related to the welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-#main-hero {
-  background: image-url("gaymercon-feature-bg.png") top center no-repeat;
-  .whitebg { background: #fff; padding: 4px;}
-  * { margin-left: 100px;}
-  .btn { margin-left: 200px; }
+.landing-button { display: inline-block; }
+
+#landing-register, #landing-redeem {
+  display: inline-block;
+  color: black;
+  font-weight: bold;
+  width: 235px;
+  line-height: 1em;
+  padding: 20px;
+  background: -moz-linear-gradient(top, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.5)), color-stop(100%,rgba(255,255,255,0)));
+  background: -webkit-linear-gradient(top, rgba(255,255,255,0.5) 0%,rgba(255,255,255,0) 100%);
+  background: -o-linear-gradient(top, rgba(255,255,255,0.5) 0%,rgba(255,255,255,0) 100%);
+  background: -ms-linear-gradient(top, rgba(255,255,255,0.5) 0%,rgba(255,255,255,0) 100%);
+  background: linear-gradient(to bottom, rgba(255,255,255,0.5) 0%,rgba(255,255,255,0) 100%);
+  text-shadow: 0 1px white;
+  text-align: center;
+  &:hover { 
+    text-decoration: none; 
+    background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,0.3)));
+    background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,0.3) 100%);
+    background: -o-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,0.3) 100%);
+    background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,0.3) 100%);
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0.3) 100%);
+  };
 }
-.centered { text-align: center; }
+
+#landing-register { 
+  font-size: 24px;
+}
+
+#landing-redeem {
+  font-size: 18px;
+}
