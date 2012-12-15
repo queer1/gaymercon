@@ -8,11 +8,10 @@
         <li class="<%= @kind.present? ? '' : 'active' %>"><%= link_to "Your Groups", groups_path %></li>
       <% end %>
       <li class="<%= @kind == "all" ? 'active' : '' %>"><%= link_to "All", groups_path(kind: 'all') %></li>
-      <% if @coords.present? %>
-        <li class="<%= @kind == "nearby" ? 'active' : '' %>"><%= link_to "Nearby", groups_path(kind: 'nearby') %></li>
-      <% end %>
-      <% (Group.kinds - ["official"]).each do |kind| %>
-        <li class="<%= @kind == kind ? 'active' : '' %>"><%= link_to kind.pluralize.capitalize, groups_path(:kind => kind) %></li>
+      <% (Group.kinds - ["official", "game"]).each do |kind| %>
+        <% name = kind.pluralize.capitalize %>
+        <% name = "Local Groups" if name == "Locations" %>
+        <li class="<%= @kind == kind ? 'active' : '' %>"><%= link_to name, groups_path(:kind => kind) %></li>
       <% end %>
     </ul>
   </div>
@@ -22,12 +21,13 @@
   <%= render :partial => "group_collection", locals: {name: "Your Groups", groups: @your_groups} %>
 <% end %>
 
-<% if @nearby_groups.present? %>
-  <%= render :partial => "group_collection", locals: {name: "Nearby", groups: @nearby_groups} %>
-<% end %>
-
-<% name = @kind.present? ? @kind.pluralize.humanize : "Groups" %>
-<%= render :partial => "group_collection", locals: {name: name, groups: @groups} %>
+<% 
+  name = @kind.present? ? @kind.pluralize.humanize : "Groups" 
+  name = "Local Groups" if name == "Locations"
+  opts = {name: name, groups: @groups}
+  opts[:location] = true if @kind == "location"
+%>
+<%= render :partial => "group_collection", locals: opts  %>
 
 <%= bootstrap_paginate @groups %>
 

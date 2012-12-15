@@ -34,6 +34,19 @@
         <h4>Level: <%= @user.badge.level.titleize %></h4>
     <% end %>
     
+    <% if @user.nicknames.present? %>
+        <h3>GamerTags</h3>
+        <table class="table table-striped">
+          <tr><th>Network</th><th>Handle</th></tr>
+          <% @user.nicknames.each do |nickname| %>
+            <tr class="<%= cycle('', 'highlight') %>">
+              <td class="left"><strong><%= nickname.network.upcase %></strong></td>
+              <td class="left"><%= nickname.name %></td>
+            </tr>
+          <% end %>
+        </table>
+    <% end %>
+    
     <% if @common.present? %>
         <h3>Games You Both Play</h3>
         <%= gridify(@common, 'users/game', col_width: 3, cols: 4) %>
@@ -44,19 +57,6 @@
         <%= gridify(@user.game_groups, 'users/game', col_width: 3, cols: 4) %>
     <% else %>
         <h3><%= @user.name %> hasn't added any games yet! <%= link_to "send them a message", new_message_path(to_user_id: @user.id ) %> and suggest a few!</h3>
-    <% end %>
-    
-    <% if @user.nicknames.present? %>
-        <h3>Gamer IDs</h3>
-        <table class="table table-striped">
-          <tr><th>Network</th><th>Handle</th></tr>
-          <% @user.nicknames.each do |nickname| %>
-            <tr class="<%= cycle('', 'highlight') %>">
-              <td class="left"><strong><%= nickname.network.upcase %></strong></td>
-              <td class="left"><%= nickname.name %></td>
-            </tr>
-          <% end %>
-        </table>
     <% end %>
   </div>
 </div>

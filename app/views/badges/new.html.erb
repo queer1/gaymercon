@@ -1,20 +1,21 @@
-<div class="row-fluid">
-  <div class="span4">
-    <h3>Enter A Code</h3>
-    <%= form_tag register_badges_path, :method => "get" do %>
-      <%= label_tag :code %>
-      <%= text_field_tag :code %>
-      <span class="help-block">
-        Sorry, up, up, down, down, left, right, left, right, b, a, start doesn't get you 30 free registrations.
-      </span>
+<% if current_user.present? %>
+  <div class="row-fluid">
+    <h1>Two ways to get your badge:</h1>
+    <div class="span4 offset2 ">
+      <h3>1. Enter A Code</h3>
+      <%= form_tag register_badges_path, :method => "get" do %>
+        <%= label_tag :code %>
+        <%= text_field_tag :code %>
+        <span class="help-block">
+          Sorry, &uarr; &uarr; &darr; &darr; &larr; &rarr; &larr; &rarr; b a start <br />doesn't get you 30 free registrations.
+        </span>
 
-      <%= submit_tag "Enter", :class => "btn", :name => "" %>
-    <% end %>
-  </div>
-  <% if current_user.present? && current_user.admin? %>
+        <%= submit_tag "Enter", :class => "btn", :name => "" %>
+      <% end %>
+    </div>
     <div class="span4">
+    <h3>2. Buy a Badge</h3>
     <% if Badge.purchasable_levels.present? %>
-      <h3>Or... Buy a Badge!</h3>
       <%= form_tag purchase_badges_path, :method => "get", :class => "form-vertical", :id => "purchase-form" do %>
           <%= label_tag :level %>
           <%= select_tag :badge_level, options_for_select(Badge.purchasable_levels.collect{|k,v| ["#{k.to_s.titleize} (#{number_to_currency(Badge.price(k).to_f / 100)})", k]}) %>
@@ -27,8 +28,15 @@
           <input type="submit" value="Purchase" class="btn" />
       <% end %>
     <% else %>
-      <h4>Sorry, badges are not available for purchase right now</h4>
+      <h4>Oops, sorry, badges are not available for purchase right now</h4>
     <% end %>
     </div>
-  <% end %>
-</div>
+  </div>
+<% else %>
+  <div class="row-fluid">
+    <div class="span4 offset4">
+      <h3>You'll need to sign in before you can get a badge</h3>
+      <%= render partial: "shared/login" %>
+    </div>
+  </div>
+<% end %>

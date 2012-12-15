@@ -1,8 +1,101 @@
 
+// INCLUDES
+// -----------------------------------------------------
+.tweet ul { list-style-type: none; }
+.tweet li { list-style-type: none; margin-top: 2em; }
+.tweet img { float: left; }
+.btn-twitter { width: 236px; }
+
+// TYPOGRAPHY
+// -----------------------------------------------------
+@font-face {
+    font-family: silkscreen;
+    src: font-url("slkscr.ttf");
+    font-weight:normal;
+}
+
+@font-face {
+    font-family: chunk;
+    src: font-url("chunkfive-webfont.ttf"), font-url("chunkfive-webfont.eot");
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: chunk;
+    src: font-url("Chunk.ttf");
+    font-weight:bold;
+}
+
+// EFFECTS
+// -----------------------------------------------------
+.glassy-black { 
+  padding: 5px; 
+  background: rgba(0, 0, 0, 0.4);
+}
+
+
+.rainbow {
+  background: -webkit-linear-gradient(198deg,
+      #FFEF3B  0%, #FFEF3B  4%,
+      #D8E036  4%, #D8E036 10%,
+      #82C652 10%, #82C652 16%,
+      #00B55A 16%, #00B55A 22%,
+      #009250 22%, #009250 28%,
+      #00683D 28%, #00683D 34%,
+      #00AAA0 34%, #00AAA0 40%,
+      #0081BD 40%, #0081BD 46%,
+      #404495 46%, #404495 52%,
+      #662D91 52%, #662D91 58%,
+      #9E005D 58%, #9E005D 64%,
+      #D4145A 64%, #D4145A 70%,
+      #DD464B 70%, #DD464B 76%,
+      #FF464D 76%, #FF464D 82%,
+      #FF7A4B 82%, #FF7A4B 88%,
+      #FFA843 88%, #FFA843 94%,
+      #FFC15C 94%, #FFC15C 100%
+  );
+}
+
+.rainbow-light{
+  background: -webkit-linear-gradient(198deg,
+      #FCE2B1 0%, #FCE2B1  9%,
+      #FBDBAC  9%, #FBDBAC 18%,
+      #FBDCCF 18%, #FBDCCF 27%,
+      #F7ADB0 27%, #F7ADB0 36%,
+      #E8ADB0 36%, #E8ADB0 45%,
+      #E296B7 45%, #E296B7 54%,
+      #CD8EBA 54%, #CD8EBA 63%,
+      #B7A0D0 63%, #B7A0D0 72%,
+      #ADAED3 72%, #ADAED3 81%,
+      #9CC9E4 81%, #9CC9E4 90%,
+      #9AD9D3 90%, #9AD9D3 100%,
+    );
+}
+
+
+// UTILITY CLASSES
+// -----------------------------------------------------
+hide { display: none; }
+
+i.circle {
+  display: inline-block;
+  width: 1.5em;
+  .border-radius(.75em);
+  background-color: @grayLight;
+}
+
+i.circle.active { background-color: @linkColor; }
+
+.serif { font-family: @serifFontFamily !important; }
+.sans { font-family: @sansFontFamily !important; }
+.mono { font-family: @monoFontFamily !important; }
+
 // LAYOUT
 // -----------------------------------------------------
 body { }
-body > .container-fluid { background: #fff; min-height: 700px; padding-top: 10px; }
+
+body > .container-fluid { background: #fff; min-height: 600px; padding-top: 10px; }
+
 .global-header {
   min-height: 200px;
   background-position: top right;
@@ -23,38 +116,47 @@ body > .container-fluid { background: #fff; min-height: 700px; padding-top: 10px
   }
   .section-name { background-color: @black; color: @white; margin-top: 164px; padding: .5em; font-family: @monoFontFamily; font-weight: 200; font-size: 16px; }
 }
-.no-controls-header {
-  border-bottom: 14px solid black;
-  background: -webkit-linear-gradient(198deg,
-      #FFEF3B  0%, #FFEF3B  4%,
-      #D8E036  4%, #D8E036 10%,
-      #82C652 10%, #82C652 16%,
-      #00B55A 16%, #00B55A 22%,
-      #009250 22%, #009250 28%,
-      #00683D 28%, #00683D 34%,
-      #00AAA0 34%, #00AAA0 40%,
-      #0081BD 40%, #0081BD 46%,
-      #404495 46%, #404495 52%,
-      #662D91 52%, #662D91 58%,
-      #9E005D 58%, #9E005D 64%,
-      #D4145A 64%, #D4145A 70%,
-      #DD464B 70%, #DD464B 76%,
-      #FF464D 76%, #FF464D 82%,
-      #FF7A4B 82%, #FF7A4B 88%,
-      #FFA843 88%, #FFA843 94%,
-      #FFC15C 94%, #FFC15C 100%
-    );
+.header-flavor{
+  position: absolute;
+  top: 64px;
+  width: 100%;
+  z-index: @zindexHeaderFlavor;
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: lighter;
+    font-stretch: expanded;
+    padding: 10px 30px 10px 30px;
+    line-height: 1.5em;
+    display: inline-block;
+    background-color: @black;
+    color: @white;
+    font-family: @highlightFontFamily; 
+    width: auto;
+  }
+  .center { text-align: center; margin-left: auto; margin-right: auto; }
+  .gray-float {
+    position: absolute;
+    left: 47.5%;
+    top: 85px;
+    color: @grayLight;
+    font: lighter 70px @highlightFontFamily;
+    z-index: @zindexHeaderGrayFloat;
+  }
 }
-.blank-page-form { margin-top: 55px; }
+.header-big {
+  .rainbow;
+  border-bottom: 14px solid black;
+}
 
 .navbar {
   .nav > li > a { padding-top: 15px; }
   .social { padding-top: 15px; }
 }
 
+.social-signin { margin-bottom: 10px;}
+
 footer { 
   width: 100%; 
-  background: @grayDark; 
+  background: @black; 
   padding: 2em 0 2em 0; 
   margin-top: 55px;
   font-family: @monoFontFamily;
@@ -65,35 +167,3 @@ footer {
     &:hover { color: @grayLight; }
   }
 }
-
-// INCLUDES
-// -----------------------------------------------------
-.tweet ul { list-style-type: none; }
-.tweet li { list-style-type: none; margin-top: 2em; }
-.tweet img { float: left; }
-.btn-twitter { width: 236px; }
-
-// TYPOGRAPHY
-// -----------------------------------------------------
-@font-face {
-    font-family: silkscreen;
-    src: font-url("slkscr.ttf");
-    font-weight:400;
-}
-
-
-// UTILITY CLASSES
-// -----------------------------------------------------
-
-i.circle {
-  display: inline-block;
-  width: 1.5em;
-  .border-radius(.75em);
-  background-color: @grayLight;
-}
-
-i.circle.active { background-color: @linkColor; }
-
-.serif { font-family: @serifFontFamily !important; }
-.sans { font-family: @sansFontFamily !important; }
-.mono { font-family: @monoFontFamily !important; }

@@ -3,14 +3,8 @@ class WelcomeController < ApplicationController
   before_filter :header_img
   
   def index
-    if params[:email] && params[:antispam]
-      @gaymer.create(email: params[:email], city: params[:city], age: params[:age])
-      if @gaymer.persisted?
-        flash.now[:notice] = "You're in the loop!"
-      else
-        flash.now[:error] = "There was a problem: #{@gaymer.errors.full_messages.join("<br /")}"
-      end
-    end
+    @user = current_user || User.new
+    render layout: "no_controls"
   end
   
   def about
