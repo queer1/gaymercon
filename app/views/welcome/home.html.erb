@@ -4,7 +4,7 @@
     <h2>News</h2>
     <% if @notifications.present? %>
       <table class="table table-striped">
-        <tr><th>&nbsp;</th><th>Message</th><th>On</th></tr>
+        <tr><th>&nbsp;</th><th>Message</th><th>When</th></tr>
         <%= render :partial => "users/notification", :collection => @notifications %>
       </table>
       <%= link_to "View All", notifications_path, :class => "btn" %>
