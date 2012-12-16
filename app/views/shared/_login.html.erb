@@ -31,6 +31,9 @@
   
     <%= f.label :password %>
     <%= f.password_field :password %>
+    <span class="help-block">
+      <%= link_to "Forgot your password?", new_password_path("user") %><br />
+    </span>
   
     <label for="user_remember_me" class="checkbox"><%= f.check_box :remember_me %> Remember Me</label>
   

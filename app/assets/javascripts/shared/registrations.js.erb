@@ -83,6 +83,8 @@ $(function(){
     $('.initial-stat').draggable({revert: true});
     $('.stat-drop').droppable({tolerance: "touch",
     drop: function(e, ui){
+      if(!$(this).hasClass('stat-drop'))
+        return;
       stat = ui.draggable;
       $(this).parent().find('input').val(stat.data('stat'));
       $(this).removeClass('stat-drop');

@@ -24,28 +24,33 @@ class WelcomeController < ApplicationController
   end
   
   def contact
-    if params[:email].present? && params[:antispam]
-      message = "New Message from #{params[:email]}\n\n#{params[:message]}"
-      Pony.mail({
-        :to => 'site@gaymercon.org',
-        :from => params[:email],
-        :subject => params[:subject],
-        :body => message
-      })
-      flash.now[:notice] = "Thanks! We'll get back to you as soon as we can."
-    end
-  end
-  
-  def volunteer
-    if params[:email].present? && params[:antispam]
-      message = "#{params[:email]} wants to volunteer!\n\n#{params[:message]}"
-      Pony.mail({
-        :to => 'site@gaymercon.org',
-        :from => params[:email],
-        :subject => "Volunteering for GaymerCon",
-        :body => message
-      })
-      flash.now[:notice] = "Thanks a ton! We'll get back to you ASAP."
+    @reasons = {
+      idea: "I have an idea",
+      question: "I have a question",
+      volunteer: "I want to volunteer",
+      panel: "I have an awesome idea for a panel",
+      bug: "I want to report a bug",
+      other: "Other"
+    }
+    
+    if request.post? && params[:antispam]
+      if params[:email].present? && params[:reason].present? && params[:subject].present? || params[:message].present?
+        subject = "[gaymercon] #{params[:reason]} - #{params[:subject]}"
+        message = "New Message from #{params[:email]}\n\n#{params[:message]}"
+        Pony.mail({
+          :to => 'site@gaymercon.org',
+          :from => params[:email],
+          :subject => subject,
+          :body => message
+        })
+        flash.now[:notice] = "Thanks! We'll get back to you as soon as we can."
+      else
+        errors = []
+        errors << "Please enter an email we can contact you at." unless params[:email].present?
+        errors << "Please select a reason for contacting us." unless params[:reason].present?
+        errors << "Please enter a subject or message" unless params[:subject].present? || params[:message].present?
+        flash.now[:alert] = errors.join("\n")
+      end
     end
   end
   

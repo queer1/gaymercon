@@ -28,7 +28,7 @@
       </table>
       <%= link_to "Edit Badge Info", edit_badge_path(current_user.badge), :class => "btn" %>
     <% else %>
-      <%= link_to "Buy a Badge", new_badge_path, :class => "btn btn-primary btn-large" %>
+      <%= link_to "Buy a Badge", new_badge_path, :class => "btn btn-primary btn-large" %><br /><br />
       <%= link_to "Redeem a Badge Code", new_badge_path, :class => "btn btn-primary btn-large" %>
     <% end %>
   </div>

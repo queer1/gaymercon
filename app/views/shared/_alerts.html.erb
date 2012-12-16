@@ -1,0 +1,28 @@
+<% if flash[:notice] %>
+  <div class="row-fluid">
+    <div class="span12 alert alert-success">
+      <%= flash[:notice].gsub(/\n/, "<br />").html_safe %>
+      <button class="close">&times;</button>
+    </div>
+  </div>
+<% end %>
+
+<% if flash[:error] %>
+  <div class="row-fluid">
+    <div class="span12 alert alert-error">
+      <%= flash[:error].gsub(/\n/, "<br />").html_safe %> 
+      <button class="close">&times;</button>
+    </div>
+  </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <div class="row-fluid">
+    <div class="span12 alert alert-error">
+      <%= flash[:alert].gsub(/\n/, "<br />").html_safe %> 
+      <button class="close">&times;</button>
+    </div>
+  </div>
+<% end %>
+
+<%= current_user.present? ? user_alerts : '' %>

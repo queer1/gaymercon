@@ -83,26 +83,8 @@
       <%= section_name %>
     </div>
   </div>
-
-  <% if flash[:notice] %>
-    <div class="row-fluid">
-      <div class="span12 alert alert-success"><%= flash[:notice] %> <button class="close">&times;</button></div>
-    </div>
-  <% end %>
   
-  <% if flash[:error] %>
-    <div class="row-fluid">
-      <div class="span12 alert alert-error"><%= flash[:error] %> <button class="close">&times;</button></div>
-    </div>
-  <% end %>
-  
-  <% if flash[:alert] %>
-    <div class="row-fluid">
-      <div class="span12 alert alert-error"><%= flash[:alert] %> <button class="close">&times;</button></div>
-    </div>
-  <% end %>
-  
-  <%= current_user.present? ? user_alerts : '' %>
+  <%= render partial: "shared/alerts" %>
 
   <%= yield %>
 </div>
