@@ -9,7 +9,6 @@
             <li><%= link_to "About", welcome_path("about") %></li>
             <li><%= link_to "Location", welcome_path("location") %></li>
             <li><%= link_to "Contact", welcome_path("contact") %></li>
-            <li><%= link_to "Volunteer", welcome_path("volunteer") %></li>
             <li><%= link_to "Donate", welcome_path("donate") %></li>
             <li><%= link_to "Panels", panels_path %></li>
             <% if current_user.present? %>
@@ -18,7 +17,6 @@
               <li><%= link_to "Con Badge", new_badge_path %></li>
             <% end %>
             <li><%= link_to "Blog", "http://blog.gaymercon.org" %></li>
-            <li><a href="http://store.gaymercon.org">Store <%= image_tag "coin.png", :class => "coin-img" %></a></li>
           </ul>
         </li>
 

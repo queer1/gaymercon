@@ -9,9 +9,15 @@
 <div class="row">
   <div class="span6">
     <form action="<%= welcome_path(:action => "contact") %>" method="post" class="well">
-      <input type="text" class="span5" placeholder="Email" id="email" name="email" />
-      <input type="text" class="span5" placeholder="Subject" name="subject" />
-      <textarea name="message" class="span5" rows="6" placeholder="Message"></textarea><br />
+      <input type="text" class="span5" placeholder="Email" id="email" name="email" value="<%= params[:email] %>" />
+      <select name="reason" class="span5" id="reason">
+        <option value="">Select One:</option>
+        <% @reasons.each do |r, name| %>
+          <option value="<%= r %>" <%= params[:reason] == r.to_s ? "selected='selected'" : '' %>><%= name %></option>
+        <% end %>
+      </select>
+      <input type="text" class="span5" placeholder="Subject" name="subject" value="<%= params[:subject] %>" />
+      <textarea name="message" class="span5" rows="6" placeholder="Message"><%= params[:message] %></textarea><br />
       <input type="submit" value="Submit" class="btn btn-primary" />
     </form>
   </div>

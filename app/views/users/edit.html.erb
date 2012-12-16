@@ -12,7 +12,7 @@
   <div class="row-fluid">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
-      <li><a href="#games" data-toggle="tab">Game I Play</a></li>
+      <li><a href="#games" data-toggle="tab">Games I Play</a></li>
       <li><a href="#nicknames" data-toggle="tab">GamerTags</a></li>
       <li><a href="#settings" data-toggle="tab">Settings</a></li>
     </ul>
@@ -140,7 +140,7 @@
             <%= devise_error_messages! %>
             <h3>Games</h3>
             <%= gridify(@games, "users/key_field", :locals => {:form => f, :resource => resource, :relevance => :games})%>
-            <%= text_field_tag :new_games, '', :placeholder => "New Game", :'data-relevance' => 'games' %>
+            <%= text_field_tag :new_games, '', :placeholder => "Type & hit enter to add a game!", :'data-relevance' => 'games' %>
           
             <br /><br />
             <%= f.submit "Save", :class => "btn btn-large btn-primary" %>
@@ -232,7 +232,7 @@
               <td> 
                 <% if resource.tw_token.present? %>
                   <strong>Connected!</strong>
-                  <%= link_to "Disconnect", disconnect_profile_path("twitter"), :class => "btn", :confirm => "Are you sure?", :method => "delete" %>
+                  <%= link_to "Disconnect?", disconnect_profile_path("twitter"), :class => "btn", :confirm => "Are you sure?", :method => "delete" %>
                 <% else %>
                   <%= link_to "Connect Now", omniauth_authorize_path(resource_name, "twitter"), :class => "btn btn-primary" %>
                 <% end %>
