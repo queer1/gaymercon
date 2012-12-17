@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<div class="row">
   <div class="span12">
     <ul class="breadcrumb">
       <% if @post.group.kind == "official" %>
@@ -12,7 +12,7 @@
   </div>
 </div>
 
-<div class="row-fluid">
+<div class="row">
   <div class="span12">
     <% title = @post.kind == "link" ? "#{@post.user.name}'s link" : @post.title %>
     <% title = "Untitled" unless title.present? %>
@@ -31,7 +31,7 @@
   </div>
 </div>
 
-<div class="row-fluid">
+<div class="row">
   <div class="span11 offset1">
     <h2>Replies</h2>
     <table class="table table-striped">
@@ -57,7 +57,7 @@
   </div>
 </div>
 
-<div class="row-fluid">
+<div class="row">
   <div class="span8 offset1">
     <%= render :partial => "group_comments/form" %>
   </div>

@@ -37,21 +37,21 @@
 
 <%= render partial: "shared/main_nav" %>
 
-<div class="container-fluid">
+<div class="container">
   
-  <div class="row-fluid global-header header-big">
-    <%= image_tag "gaymers.png" %>
-  </div>
-  
-  <div class="header-flavor" style="text-align: center;">
-    <% if @section_name.present? %>
-      <h1 class="center"><%= @section_name.gsub(/\n/, "<br />").html_safe %></h1><br />
-      <% if @section_subhead.present? %>
-        <div class="gray-float">&amp;</div>
-        <h2 class="center"><%= @section_subhead.gsub(/\n/, "<br />").html_safe %></h2>
-      <% end %>
-    <% end %>
-    
+  <div class="row global-header header-big">
+    <div id="header-flavor" class="container">
+      <div class="header-flavor">
+        <% if @section_name.present? %>
+          <h1 class="center"><%= @section_name.gsub(/\n/, "<br />").html_safe %></h1><br />
+          <% if @section_subhead.present? %>
+            <div class="gray-float">&amp;</div>
+            <h2 class="center"><%= @section_subhead.gsub(/\n/, "<br />").html_safe %></h2>
+          <% end %>
+        <% end %>
+        <%= yield(:header_flavor) %>
+      </div>
+    </div>
   </div>
 
   <%= render partial: "shared/alerts" %>
@@ -59,9 +59,9 @@
   <%= current_user.present? ? user_alerts : '' %>
 
   <%= yield %>
+  
+  <%= render partial: "shared/footer" %>
 </div>
-
-<%= render partial: "shared/footer" %>
 
 </body>
 </html>

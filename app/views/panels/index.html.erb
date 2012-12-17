@@ -1,10 +1,10 @@
-<div class="row-fluid">
+<div class="row">
   <div class="span8">
     <h1>Panels</h1>
   </div>
 </div>
 
-<div class="row-fluid">
+<div class="row">
   <% unless params[:page].present? && params[:page] > 1 %>
     <% if @popular.present? %>
       <div class="span4">
@@ -25,7 +25,7 @@
     <% end %>
   <% end %>
 </div>
-<div class="row-fluid">
+<div class="row">
   <% if @all.present? %>
     <div class="span8">
       <h3>All Panels</h3>
@@ -36,7 +36,7 @@
   <% end %>
 </div>
 
-<div class="row-fluid">
+<div class="row">
   <% if current_user.present? %>
     <div class="span4">
       <%= link_to "I want to host a panel!", new_panel_path, :class => "btn btn-primary" %>
