@@ -1,26 +1,32 @@
 <% if flash[:notice] %>
   <div class="row">
-    <div class="span11 alert alert-success">
-      <%= flash[:notice].gsub(/\n/, "<br />").html_safe %>
-      <button class="close">&times;</button>
+    <div class="span12">
+      <div class="alert alert-success">
+        <%= flash[:notice].gsub(/\n/, "<br />").html_safe %>
+        <button class="close">&times;</button>
+      </div>
     </div>
   </div>
 <% end %>
 
 <% if flash[:error] %>
   <div class="row">
-    <div class="span11 alert alert-error">
-      <%= flash[:error].gsub(/\n/, "<br />").html_safe %> 
-      <button class="close">&times;</button>
+    <div class="span12">
+      <div class="alert alert-error">
+        <%= flash[:error].gsub(/\n/, "<br />").html_safe %> 
+        <button class="close">&times;</button>
+      </div>
     </div>
   </div>
 <% end %>
 
 <% if flash[:alert] %>
   <div class="row">
-    <div class="span11 alert alert-error">
-      <%= flash[:alert].gsub(/\n/, "<br />").html_safe %> 
-      <button class="close">&times;</button>
+    <div class="span12">
+      <div class="alert alert-error">
+        <%= flash[:alert].gsub(/\n/, "<br />").html_safe %> 
+        <button class="close">&times;</button>
+      </div>
     </div>
   </div>
 <% end %>
