@@ -1,5 +1,5 @@
 <% controls = current_user.present? && (@panel.user == current_user || current_user.admin?) %>
-<div class="row-fluid">
+<div class="row">
   <div class="span8">
     <div class="page-header">
       <h1>Panel: <%= @panel.title %></h1>
@@ -7,7 +7,7 @@
   </div>
 </div>
 
-<div class="row-fluid">
+<div class="row">
   <div class="span8">
     <% if @panel.confirmed %>
       <div class="alert alert-success">Confirmed!</div>
@@ -17,7 +17,7 @@
   </div>
 </div>
 
-<div class="row-fluid">
+<div class="row">
   <div class="span4 offset1">
     <h4>Description:</h4>
     <p><%= @panel.kind %></p>
@@ -28,7 +28,7 @@
   </div>
 </div>
 
-<div class="row-fluid">
+<div class="row">
   <div class="span4">
     <br /><br />
     <% if controls %>

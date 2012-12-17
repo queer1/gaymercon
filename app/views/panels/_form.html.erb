@@ -1,13 +1,13 @@
-<div class="row-fluid">
+<div class="row">
   <div class="span8">
     Got something too awesome to happen in a side room? Helicopter drops, ziplines, or a full-scale show? Email us at <%= mail_to "site@gaymercon.org" %> and we can make special arrangements!
   </div>
 </div>
 
-<div class="row-fluid">
+<div class="row">
   <div class="span9">
     <%= form_for @panel do |f| %>
-      <div class="row-fluid">
+      <div class="row">
         <h3>Public Info</h3>
         <%= f.label :title %>
         <%= f.text_field :title, :placeholder => "Title" %>
@@ -32,7 +32,7 @@
           <%= link_to "+ Moar Panelists", '#', :id => "moar-panelists", :class => "btn" %>
         </div>
       </div>
-      <div class="row-fluid">
+      <div class="row">
         <br /><br />
         <%= submit_tag "Save", :class => "btn btn-primary btn-large" %>
       </div>

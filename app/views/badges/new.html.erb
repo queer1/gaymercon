@@ -1,5 +1,5 @@
 <% if current_user.present? %>
-  <div class="row-fluid">
+  <div class="row">
     <h1>Two ways to get your badge:</h1>
     <div class="span4 offset2 ">
       <h3>1. Enter A Code</h3>
@@ -33,8 +33,8 @@
     </div>
   </div>
 <% else %>
-  <div class="row-fluid">
-    <div class="span4 offset4">
+  <div class="row">
+    <div class="span5 offset4">
       <h3>You'll need to sign in before you can get a badge</h3>
       <%= render partial: "shared/login" %>
     </div>

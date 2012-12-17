@@ -100,9 +100,10 @@ body > .container-fluid { background: #fff; min-height: 600px; padding-top: 10px
 
 .global-header {
   min-height: 200px;
-  background-position: top right;
+  background-position: 415px 10px;
+  background-size: auto 205px;
   background-repeat: no-repeat;
-  background-size: 950px 238px;
+  // background-size: 790px 238px;
   * { color: @white; }
   .control-panel { 
     padding-top: 1em;
@@ -116,15 +117,15 @@ body > .container-fluid { background: #fff; min-height: 600px; padding-top: 10px
     img { max-width: 100px;}
     ul { font-family: @monoFontFamily; }
   }
-  .section-name { background-color: @black; color: @white; margin-top: 164px; padding: .5em; font-family: @monoFontFamily; font-weight: 200; font-size: 16px; }
+  .section-name { background-color: @black; color: @white; margin-top: 178px; padding: .5em; font-family: @monoFontFamily; font-weight: 200; font-size: 16px; }
 }
-.header-flavor{
-  position: absolute;
-  top: 64px;
-  width: 100%;
-  z-index: @zindexHeaderFlavor;
+#header-flavor{
+  text-align: center;
+  background: image-url("gaymers.png") top center no-repeat;
+  height: 300px;
+  overflow: auto;
   h1, h2, h3, h4, h5, h6 {
-    margin: 0;
+    margin: .5em 0 0 0;
     font-weight: lighter;
     font-stretch: expanded;
     padding: 10px 30px 10px 30px;
@@ -135,12 +136,14 @@ body > .container-fluid { background: #fff; min-height: 600px; padding-top: 10px
     font-family: @highlightFontFamily; 
     width: auto;
   }
-  h2 { margin-top: 1.5em; }
+  .glassy-black {
+    h1, h2, h3, h4, h5, h6 { margin: 0; }
+  }
   .center { text-align: center; margin-left: auto; margin-right: auto; }
   .gray-float {
     position: absolute;
-    left: 47.5%;
-    top: 85px;
+    left: 47%;
+    top: 130px;
     color: @grayLight;
     font: lighter 70px @highlightFontFamily;
     z-index: @zindexHeaderGrayFloat;
@@ -153,7 +156,6 @@ body > .container-fluid { background: #fff; min-height: 600px; padding-top: 10px
 
 .navbar {
   .nav > li > a { padding-top: 15px; }
-  .social { padding-top: 15px; }
 }
 
 .social-signin { margin-bottom: 10px;}
@@ -165,7 +167,8 @@ footer {
   margin-top: 55px;
   font-family: @monoFontFamily;
   color: @white;
-  .social { display: inline-block; }
+  #social { position: relative; top: -14px; padding-left: 1.5em; }
+  #copy { text-align: right; padding-right: 1.5em; }
   a { 
     color: @white;
     &:hover { color: @grayLight; }

@@ -37,41 +37,44 @@
 
 <%= render partial: "shared/main_nav" %>
 
-<div class="container-fluid">
+<div class="container">
   
-  <div class="row-fluid global-header" style="background: url('<%= header_image %>') top right no-repeat; background-size: 950px 200px;">
+  <div class="row global-header" style="background-image: url('<%= header_image %>');">
     
     <div class="span4 control-panel">
       <% if current_user.present? %>
-        <div class="row-fluid">
-          <div class="span8">
-            <h3><%= link_to current_user.name, user_path(current_user) %></h3>
+        <div class="row">
+          <div class="span3">
+            <h3><%= link_to current_user.name, user_path(current_user) %> - Lvl <%= current_user.level %> <%= current_user.job.try(:name) %></h3>
             <p>XP: <%= strfnum(current_user.xp) %> / Next Level In: <%= strfnum(current_user.to_next_level)%></p>
               <div class="progress">
                 <div class="bar" style="width: <%= current_user.progress %>%;"></div>
               </div>
           </div>
         </div>
-        <div class="span4">
-          <%= image_tag current_user.avatar %>
-        </div>
-        <div class="span6">
-          <ul class="unstyled">
-            <% unread = current_user.unread_notifications_count > 0 ? " (#{current_user.unread_notifications_count})" : ""%>
-            <li><i class="icon-heart icon-white"></i> <%= link_to "News Feed#{unread}", notifications_path %></li>
+        <div class="row">
+          <div class="span1" style="text-align: right;">
+            <%= image_tag current_user.avatar %>
+          </div>
+        
+          <div class="span2" style="padding-left: 1.5em; padding-top: .5em;">
+            <ul class="unstyled">
+              <% unread = current_user.unread_notifications_count > 0 ? " (#{current_user.unread_notifications_count})" : ""%>
+              <li><i class="icon-heart icon-white"></i> <%= link_to "News Feed#{unread}", notifications_path %></li>
             
-            <% unread = current_user.unread_message_count > 0 ? " (#{current_user.unread_message_count})" : "" %>
-            <li><i class="icon-envelope icon-white"></i> <%= link_to "Messages#{unread}", messages_path %></li>
+              <% unread = current_user.unread_message_count > 0 ? " (#{current_user.unread_message_count})" : "" %>
+              <li><i class="icon-envelope icon-white"></i> <%= link_to "Messages#{unread}", messages_path %></li>
             
-            <% follow_count = current_user.followed_users.count %>
-            <% if follow_count > 0 %>
-              <li><i class="icon-user icon-white"></i> <%= link_to "Following #{follow_count}", users_path(tab: 'following') %></li>
-            <% else %>
-              <li><i class="icon-user icon-white"></i> <%= link_to "Following Nobody", users_path(tab: 'cool') %></li>
-            <% end %>
+              <% follow_count = current_user.followed_users.count %>
+              <% if follow_count > 0 %>
+                <li><i class="icon-user icon-white"></i> <%= link_to "Following #{follow_count}", users_path(tab: 'following') %></li>
+              <% else %>
+                <li><i class="icon-user icon-white"></i> <%= link_to "Following Nobody", users_path(tab: 'cool') %></li>
+              <% end %>
             
-            <li><i class="icon-pencil icon-white"></i> <%= link_to "Profile", edit_user_registration_path %></li>
-          </ul>
+              <li><i class="icon-pencil icon-white"></i> <%= link_to "Profile", edit_user_registration_path %></li>
+            </ul>
+          </div>
         </div>
       <% else %>
         <h3>HEY! LISTEN!</h3>
@@ -87,9 +90,9 @@
   <%= render partial: "shared/alerts" %>
 
   <%= yield %>
+  
+  <%= render partial: "shared/footer" %>
 </div>
-
-<%= render partial: "shared/footer" %>
 
 </body>
 </html>
