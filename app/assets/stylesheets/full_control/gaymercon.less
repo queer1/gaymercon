@@ -16,7 +16,7 @@
 
 @font-face {
     font-family: chunk;
-    src: font-url("chunkfive-webfont.ttf"), font-url("chunkfive-webfont.eot");
+    src: font-url("Chunkfive-webfont.ttf"), font-url("Chunkfive-webfont.eot");
     font-weight: normal;
 }
 
@@ -29,8 +29,9 @@
 // EFFECTS
 // -----------------------------------------------------
 .glassy-black { 
-  padding: 5px; 
+  padding: 6px; 
   background: rgba(0, 0, 0, 0.4);
+  display: inline-block;
 }
 
 
@@ -123,6 +124,7 @@ body > .container-fluid { background: #fff; min-height: 600px; padding-top: 10px
   width: 100%;
   z-index: @zindexHeaderFlavor;
   h1, h2, h3, h4, h5, h6 {
+    margin: 0;
     font-weight: lighter;
     font-stretch: expanded;
     padding: 10px 30px 10px 30px;
@@ -133,6 +135,7 @@ body > .container-fluid { background: #fff; min-height: 600px; padding-top: 10px
     font-family: @highlightFontFamily; 
     width: auto;
   }
+  h2 { margin-top: 1.5em; }
   .center { text-align: center; margin-left: auto; margin-right: auto; }
   .gray-float {
     position: absolute;

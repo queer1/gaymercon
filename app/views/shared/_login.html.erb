@@ -8,7 +8,7 @@
 <a href="#signup-form" data-toggle="collapse">Create an account</a> | 
 <a href="#login-form" data-toggle="collapse">Log In</a>
 
-<div class="collapse" id="signup-form">
+<div class="collapse <%= local_assigns[:create] ? 'in' : '' %>" id="signup-form">
   <%= form_for(User.new, :url => registration_path("user")) do |f| %>
 
     <%= f.label :email %>
@@ -24,7 +24,7 @@
   <% end %>
 </div>
 
-<div class="collapse" id="login-form">
+<div class="collapse <%= local_assigns[:login] ? 'in' : '' %>" id="login-form">
   <%= form_for(User.new, :as => "user", :url => session_path("user")) do |f| %>
     <%= f.label :email %>
     <%= f.email_field :email %>

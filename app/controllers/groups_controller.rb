@@ -1,11 +1,12 @@
 class GroupsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show, :forums]
+  before_filter :authenticate_user!, except: [:index, :show, :forums, :games]
   before_filter :find_group, only: [:show, :edit, :update, :destroy, :join, :leave, :users]
   before_filter :authenticate_owner, only: [:edit, :update, :destroy]
   before_filter :section_name
   
   def index
     @kind = params[:kind]
+    @kind = current_user.present? ? "your_groups" : "all" unless @kind.present?
     @page = params.fetch(:page, 1).to_i
     @coords = current_user.location.coords if current_user.present? 
     @coords ||= Geoip.get_coords(request.remote_ip)
@@ -20,8 +21,10 @@ class GroupsController < ApplicationController
         flash.now[:alert] = "Sorry, we couldn't find your location"
       end
       @groups ||= []
-    when nil
-      @groups = current_user.present? ? current_user.groups.with_posts : Group.with_posts
+    when "your_groups"
+      @groups = current_user.groups.with_posts
+    when "all"
+      @groups = Group.with_posts
     else
       @groups = Group.where(kind: @kind).with_posts if @kind.present?
       @groups ||= Group.with_posts
@@ -38,7 +41,7 @@ class GroupsController < ApplicationController
     if current_user.present?
       @your_games = current_user.game_groups
     end
-    @games = Group.where(kind: "game").order("updated_at desc").page(params[:page])
+    @games = Group.with_posts.where(kind: "game").order("last_post_date desc").page(params[:page])
     @section_name = "Games"
   end
   

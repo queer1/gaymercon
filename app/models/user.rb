@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   attr_accessible :disable_emails, :disable_pm_emails
   attr_accessible :name, :job_id, :username, :about
   attr_accessible :strength, :agility, :vitality, :mind, :xp
-  attr_accessor :leveled_up
+  attr_accessor :leveled_up, :just_created
   
   has_many :forum_threads
   has_many :forum_posts
@@ -217,10 +217,11 @@ class User < ActiveRecord::Base
                            xp: 1000
                            )
       # pull games from facebook
+      user.just_created = true
       fb_user = FbGraph::User.me(user.fb_token)
       likes = fb_user.likes.select {|l| l.category == 'Games/toys' }
       likes.collect!(&:name)
-      user.add_games(likes)
+      user.add_games(likes) unless user.games.present?
       user.save
     end
 
@@ -248,6 +249,7 @@ class User < ActiveRecord::Base
                            job_id: 1,
                            xp: 1000
                            )
+      user.just_created = true
     end
 
     user.save

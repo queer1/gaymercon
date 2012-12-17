@@ -4,6 +4,7 @@ class WelcomeController < ApplicationController
   
   def index
     redirect_to home_path and return if current_user.present?
+    @section_name = nil
     @user = User.new
     render layout: "no_controls"
   end

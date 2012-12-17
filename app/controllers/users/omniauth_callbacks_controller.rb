@@ -1,4 +1,6 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  include DeviseRedirector
+  
   def facebook
     # You need to implement the method below in your model (e.g. app/models/user.rb)
     @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)
@@ -6,9 +8,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user.persisted?
       flash[:notice] = "Signed in via Facebook!"
       sign_in @user
-      return_to = session.delete(:return_to)
-      redirect_to return_to and return if return_to.present?
-      redirect_to edit_user_registration_path
+      devise_redirect(@user)
     else
       flash[:alert] = "Oops, there was a problem: #{@user.all_errors}"
       session["devise.facebook_data"] = request.env["omniauth.auth"]
@@ -23,9 +23,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user.persisted?
       flash[:notice] = "Signed in via Twitter!"
       sign_in @user
-      return_to = session.delete(:return_to)
-      redirect_to return_to and return if return_to.present?
-      redirect_to edit_user_registration_path
+      devise_redirect(@user)
     else
       flash[:alert] = "Oops, there was a problem: #{@user.all_errors}"
       session["devise.twitter_data"] = request.env["omniauth.auth.credentials"]
@@ -52,10 +50,4 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     
     redirect_to edit_user_registration_path(tab: "settings"), notice: "#{params[:id].to_s.capitalize} account disconnected."
   end
-  
-  private
-    def after_sign_in_path_for(resource_or_scope)
-       return request.env['omniauth.origin'] if request.env['omniauth.origin']
-       super(resource_or_scope)
-    end
 end

@@ -42,6 +42,17 @@
   <div class="row-fluid global-header header-big">
     <%= image_tag "gaymers.png" %>
   </div>
+  
+  <div class="header-flavor" style="text-align: center;">
+    <% if @section_name.present? %>
+      <h1 class="center"><%= @section_name.gsub(/\n/, "<br />").html_safe %></h1><br />
+      <% if @section_subhead.present? %>
+        <div class="gray-float">&amp;</div>
+        <h2 class="center"><%= @section_subhead.gsub(/\n/, "<br />").html_safe %></h2>
+      <% end %>
+    <% end %>
+    
+  </div>
 
   <%= render partial: "shared/alerts" %>
   
