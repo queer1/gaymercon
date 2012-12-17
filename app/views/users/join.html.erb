@@ -3,14 +3,6 @@
   <%= javascript_include_tag "shared/registrations" %>
 <% end %>
 
-<div class="header-flavor" style="text-align: center;">
-  <% if @badge.present? %>
-    <h1 class="center">Get Your Badge</h1><br />
-    <div class="gray-float">&amp;</div>
-  <% end %>
-  <h2 class="center">Find friends of every<br />identity who play the<br />same games you do.</h2>
-</div>
-
 <% unless current_user.present? %>
   <div class="row-fluid" style="margin-top: 55px;">
   
@@ -19,7 +11,7 @@
     </div>
   
     <div class="span4">
-      <% session[:return_to] = join_path %>
+      <% session[:user_return_to] = join_path %>
       <%= render partial: "shared/login" %>
     </div>
   </div>

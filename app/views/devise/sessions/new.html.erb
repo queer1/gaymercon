@@ -1,7 +1,6 @@
-<% session[:return_to] = groups_path %>
 <div class="row-fluid">
   <div class="span4 offset4">
-    <h2>Sign in</h2>
-    <%= render partial: "shared/login" %>
+    <h2>&nbsp;</h2>
+    <%= render partial: "shared/login", locals: {login: true} %>
   </div>
 </div>

@@ -18,7 +18,7 @@ Gc2::Application.routes.draw do
   
   match "/groups/:id/:post_kind" => "groups#show", as: 'group_discussions'
   
-  devise_for :users, controllers: { registrations: "users", :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, controllers: { registrations: "users", :omniauth_callbacks => "users/omniauth_callbacks", :sessions => "users/sessions", :passwords => "users/passwords" }
   
   devise_scope :user do
     get "/signup", to: "users#new", as: 'signup'

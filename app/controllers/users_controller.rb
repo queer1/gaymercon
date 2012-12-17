@@ -3,6 +3,10 @@ class UsersController < Devise::RegistrationsController
   before_filter :setup_jobs, :only => [:new, :create, :edit, :update, :join]
   before_filter :authenticate_user!, except: [:index, :show, :connect, :join, :joined]
   
+  layout :layout_selector
+  
+  include DeviseRedirector
+  
   def index
     @tab = params[:tab] if params[:tab].present?
     @tab ||= "network" if params[:network].present?
@@ -38,6 +42,11 @@ class UsersController < Devise::RegistrationsController
       @users ||= (current_user.coplayers - [current_user]).paginate(page: params[:page]) if current_user.present?
       @users = User.order("id desc").page(params[:page]) unless @users.present?
     end
+  end
+  
+  def create
+    session[:user_return_to] ||= join_path
+    super
   end
   
   def edit
@@ -131,6 +140,8 @@ class UsersController < Devise::RegistrationsController
     end
     
     @badge ||= current_user.badge if current_user.present?
+    @section_name = @badge.present? ? "Get Your Badge" : "Create a Profile"
+    @section_subhead = "Find friends of every<br />identity who play the<br />same games you do."
     
     if current_user.present? && request.post?
       if params[:user].present?
@@ -195,12 +206,6 @@ class UsersController < Devise::RegistrationsController
       @jobs ||= Job.new_jobs
     end
     
-    def after_sign_up_path_for(resource)
-      return_to = session.delete(:return_to)
-      return return_to if return_to.present?
-      edit_user_registration_path
-    end
-    
     def after_update_path_for(resource)
       edit_user_registration_path(:tab => "settings")
     end
@@ -209,5 +214,9 @@ class UsersController < Devise::RegistrationsController
       @section_name = @user.name if @user.present?
       @section_name ||= current_user.name if current_user.present?
       @section_name ||= "Account"
+    end
+    
+    def layout_selector
+      params[:action] == "new" ? "no_controls" : "application"
     end
 end
