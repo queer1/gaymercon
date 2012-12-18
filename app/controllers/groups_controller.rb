@@ -13,18 +13,18 @@ class GroupsController < ApplicationController
     
     case @kind
     when 'all'
-      @groups = Group.with_posts
+      @groups = Group.where("groups.kind != 'game'").with_posts
     when 'nearby'
       if @coords.present? && @coords.is_a?(Array)
-        @groups = Group.nearby(@coords).with_posts
+        @groups = Group.nearby(@coords).where("groups.kind != 'game'").with_posts
       else
         flash.now[:alert] = "Sorry, we couldn't find your location"
       end
       @groups ||= []
     when "your_groups"
-      @groups = current_user.groups.with_posts
+      @groups = current_user.groups.where("groups.kind != 'game'").with_posts
     when "all"
-      @groups = Group.with_posts
+      @groups = Group.where("groups.kind != 'game'").with_posts
     else
       @groups = Group.where(kind: @kind).with_posts if @kind.present?
       @groups ||= Group.with_posts
