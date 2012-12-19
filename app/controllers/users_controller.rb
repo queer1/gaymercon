@@ -67,12 +67,20 @@ class UsersController < Devise::RegistrationsController
     else
       flash[:error] = "Couldn't update your profile: #{current_user.all_errors}"
     end
+    current_user.place = params[:user][:place]
     
+    redirect_to edit_user_registration_path
+  end
+  
+  def update_games
     games = params[:games].present? ? params[:games].keys : []
     games << params[:new_games]
     current_user.games = games
-    current_user.place = params[:user][:place]
-    
+    flash[:notice] = "Games updated!"
+    redirect_to edit_user_registration_path(tab: "games")
+  end
+  
+  def update_nicknames
     current_user.nicknames.destroy_all
     nicknames = params[:nicknames]
     nicknames = [] unless nicknames.present?
@@ -83,8 +91,8 @@ class UsersController < Devise::RegistrationsController
       n.name = nickname["name"]
       n.save
     end
-    
-    redirect_to edit_user_registration_path
+    flash[:notice] = "Gamer Tags updated!"
+    redirect_to edit_user_registration_path(tab: "nicknames")
   end
   
   def show

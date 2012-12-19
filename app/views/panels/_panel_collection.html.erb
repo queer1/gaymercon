@@ -1,0 +1,12 @@
+<% panels = local_assigns[:panels] || panel_collection %>
+<% panels ||= @panels %>
+<table class="table table-striped">
+  <tr>
+    <th>&nbsp;</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Kind</th>
+    <th>Confirmed?</th>
+  </tr>
+  <%= render partial: "panel_row", collection: panels %>
+</table>

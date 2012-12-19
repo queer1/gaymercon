@@ -8,7 +8,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user.persisted?
       flash[:notice] = "Signed in via Facebook!"
       sign_in @user
-      devise_redirect(@user)
+      redirect_to devise_redirect(@user)
     else
       flash[:alert] = "Oops, there was a problem: #{@user.all_errors}"
       session["devise.facebook_data"] = request.env["omniauth.auth"]
@@ -23,7 +23,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user.persisted?
       flash[:notice] = "Signed in via Twitter!"
       sign_in @user
-      devise_redirect(@user)
+      redirect_to devise_redirect(@user)
     else
       flash[:alert] = "Oops, there was a problem: #{@user.all_errors}"
       session["devise.twitter_data"] = request.env["omniauth.auth.credentials"]

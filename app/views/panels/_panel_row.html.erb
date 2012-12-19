@@ -1,0 +1,22 @@
+<% panel = panel_row %>
+<% panel ||= @panel %>
+<% Rails.logger.debug panel.inspect %>
+<tr>
+  <td style="text-align: right;">
+    <% if current_user.present? %>
+      <% vote = panel.vote(current_user) %>
+      <% upvoted = (vote.present? && vote.value > 0) ? "upvote_green.png" : "upvote_gray.png" %>
+      <% downvoted = (vote.present? && vote.value < 0) ? "downvote_red.png" : "downvote_gray.png" %>
+      <div class="voting">
+        <%= link_to image_tag(upvoted, alt: "Upvote"), panel_upvote_path(panel), :title => "Upvote", :class => "upvote" %>
+        <%= link_to image_tag(downvoted, alt: "Downvote"), panel_downvote_path(panel), :title => "Downvote", :class => "downvote" %>
+      </div>
+    <% end %>
+  </td>
+  <td><%= link_to panel.title, panel_path(panel) %></td>
+  <td><%= panel.description.truncate(150, :separator => ' ') %></td>
+  <td><%= panel.kind %></td>
+  <td><%= panel.confirmed ? "<span class='alert alert-success'>Confirmed!</span>".html_safe : '' %></td>
+</tr>
+  
+  

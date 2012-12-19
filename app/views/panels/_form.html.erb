@@ -4,38 +4,38 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="span9">
-    <%= form_for @panel do |f| %>
-      <div class="row">
-        <h3>Public Info</h3>
-        <%= f.label :title %>
-        <%= f.text_field :title, :placeholder => "Title" %>
+<%= form_for @panel do |f| %>
+  <h3>Public Info</h3>
+  <%= f.label :title %>
+  <%= f.text_field :title, :placeholder => "Title" %>
 
-        <%= f.label :kind, "Type of event" %>
-        <% kinds = ["Panel", "Workshop", "Meet & Greet", "Q&A", "Board / Card / Tabletop Game", "Other"] %>
-        <%= f.select :kind, options_for_select(kinds, @panel.kind) %>
-        <%= text_field_tag :kind_other, @panel.kind, :class => "hidden", :placeholder => "Enter your own event type!" %>
+  <%= f.label :kind, "Type of event" %>
+  <% kinds = ["Panel", "Workshop", "Meet & Greet", "Q&A", "Board / Card / Tabletop Game", "Other"] %>
+  <%= f.select :kind, options_for_select(kinds, @panel.kind) %>
+  <%= text_field_tag :kind_other, @panel.kind, :class => "hidden", :placeholder => "Enter your own event type!" %>
 
-        <%= f.label :description %>
-        <small><em><strong>GamePro ProTip:</strong> to get the best response, make a short video and include it via the YouTube tag!</em></small>
-        <%= f.text_area :description, :placeholder => "Describe your panel in detail.", :id => "panel-content", :class => "bbcode" %>
+  <%= f.label :description %>
+  <small><em><strong>GamePro ProTip:</strong> to get the best response, make a short video and include it via the YouTube tag!</em></small>
+  <div class="row">
+    <div class="span6">
+      <%= f.text_area :description, :placeholder => "Describe your panel in detail.", :id => "panel-content", :class => "bbcode" %>
+    </div>
+  </div>
   
-        <h3>Private Info</h3>
-        <span class="help-block">Only admins will see this stuff, but we need as much info as possible before we confirm your panel!</span>
-  
-        <div id="panelists">
-          <%= render :partial => "panels/panelist", :collection => @panelists %>
-        </div>
-  
-        <div class="actions">
-          <%= link_to "+ Moar Panelists", '#', :id => "moar-panelists", :class => "btn" %>
-        </div>
-      </div>
-      <div class="row">
-        <br /><br />
+  <h3>Private Info</h3>
+  <span class="help-block">Only admins will see this stuff, but we need as much info as possible before we confirm your panel!</span>
+
+  <div id="panelists">
+    <%= render :partial => "panels/panelist", :collection => @panelists %>
+  </div>
+
+  <div class="row">
+    <div class="span6">
+      <div class="actions">
+        <%= link_to "+ Moar Panelists", '#', :id => "moar-panelists", :class => "btn" %>
         <%= submit_tag "Save", :class => "btn btn-primary btn-large" %>
       </div>
-    <% end %>
+    </div>
   </div>
-</div>
+  
+<% end %>
