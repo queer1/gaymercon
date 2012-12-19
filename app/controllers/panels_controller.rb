@@ -4,8 +4,8 @@ class PanelsController < ApplicationController
   before_filter :authenticate_panel, only: [:edit, :update, :destroy]
   
   def index
-    @popular = Panel.order("score desc")
-    @new = Panel.where("id NOT IN (?)", @popular.collect(&:id)).order("created_at desc")
+    @popular = Panel.order("score desc").limit(10)
+    @new = Panel.where("id NOT IN (?)", @popular.collect(&:id)).order("created_at desc").limit(10)
     displayed_ids = @popular.collect(&:id) + @new.collect(&:id)
     @all = Panel.where("id NOT IN (?)", displayed_ids).order("updated_at desc").page(params[:page])
   end

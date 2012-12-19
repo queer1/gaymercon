@@ -18,7 +18,7 @@ class MessagesController < ApplicationController
     @message = Message.create(fields)
     if @message.persisted?
       flash[:notice] = "Message sent!"
-      redirect_to outbox_messages_path
+      redirect_to messages_path
     else
       flash.now[:error] = "There was a problem: #{@message.errors.full_messages.join("<br />")}"
       render :new
@@ -27,7 +27,7 @@ class MessagesController < ApplicationController
   
   def edit
     @message = current_user.sent_messages.find_by_id(params[:id])
-    redirect_to outbox_messages_path, alert: "Sorry, couldn't find that message" and return unless @message.present?
+    redirect_to messages_path, alert: "Sorry, couldn't find that message" and return unless @message.present?
   end
   
   def update
@@ -36,7 +36,7 @@ class MessagesController < ApplicationController
     @message.update_attributes(content: params[:message][:content])
     if @message.persisted?
       flash[:notice] = "Message updated!"
-      redirect_to outbox_messages_path
+      redirect_to messages_path
     else
       flash.now[:error] = "There was a problem: #{@message.errors.full_messages.join("<br />")}"
       render :edit

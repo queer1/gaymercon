@@ -136,7 +136,7 @@
     <div class="tab-pane span12" id="games">
       <div class="row">
         <div class="span6" id="games">
-          <%= form_for(resource, :as => resource_name, :url => update_path, :html => { :method => :put, :class => "edit-form" }) do |f| %>
+          <%= form_for(resource, :as => resource_name, :url => update_games_path, :html => { :method => :put, :class => "edit-form" }) do |f| %>
             <%= devise_error_messages! %>
             <h3>Games</h3>
             <%= gridify(@games, "users/key_field", :locals => {:form => f, :resource => resource, :relevance => :games})%>
@@ -152,7 +152,7 @@
     <div class="tab-pane span12" id="nicknames">
       <div class="row">
         <div class="span6 nicknames">
-          <%= form_for(resource, :as => resource_name, :url => update_path, :html => { :method => :put, :class => "edit-form" }) do |f| %>
+          <%= form_for(resource, :as => resource_name, :url => update_nicknames_path, :html => { :method => :put, :class => "edit-form" }) do |f| %>
             <%= devise_error_messages! %>
             <h3>GamerTags</h3>
             <%= render :partial => "users/network", :collection => @nicknames %>

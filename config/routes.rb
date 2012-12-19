@@ -1,8 +1,6 @@
 Gc2::Application.routes.draw do
   
-  resources :messages do
-    get 'outbox', :on => :collection
-  end
+  resources :messages
   
   resources :groups do
     resources :posts, :controller => "group_posts" do
@@ -30,6 +28,8 @@ Gc2::Application.routes.draw do
     get '/home', to: "welcome#home", as: "home"
     post "/users/add_tags", to: "users#add_tags", as: 'add_tags'
     put "/users/update_profile", to: "users#update_profile", as: "update_profile"
+    put "/users/update_games", to: "users#update_games", as: "update_games"
+    put "/users/update_nicknames", to: "users#update_nicknames", as: "update_nicknames"
     delete "/users/auth/:id/delete", to: "users/omniauth_callbacks#disconnect", as: "disconnect_profile"
     post "/users/:id/follow", to: "users#follow", as: "follow"
     post "/users/:id/unfollow", to: "users#unfollow", as: "unfollow"
