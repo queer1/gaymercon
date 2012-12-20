@@ -91,7 +91,7 @@
                 <% end %>
               </tr>
               <tr class="highlight">
-                <td>Agility</td>
+                <td>Dexterity</td>
                 <td class="stat">
                   <div class="<%= stat_setup ? 'stat-drop' : 'agility' %>" data-initial="<%= resource.agility %>"><%= stat_setup ? '' : resource.agility %></div>
                   <%= f.hidden_field :agility %>
@@ -194,13 +194,13 @@
                 </label>
               </div>
               <br />
-              <%= f.label :password %>
+              <%= f.label :password, "New Password" %>
               <%= f.password_field :password, :autocomplete => "off" %>
               <span class="help-block">
                 (leave blank if you don't want to change it)
               </span>
 
-              <%= f.label :password_confirmation %>
+              <%= f.label :password_confirmation, "New Password Confirmation" %>
               <%= f.password_field :password_confirmation %>
 
               <%= f.label :current_password %>

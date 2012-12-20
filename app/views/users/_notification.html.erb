@@ -1,5 +1,5 @@
 <tr>
-  <td><i class="pull-right circle <% notification.read? ? '' : 'active' %>">&nbsp;</i></td>
+  <td><i class="pull-right circle <% notification.read ? '' : 'active' %>">&nbsp;</i></td>
   <td><%= link_to notification.message, notification.link %></td>
   <td><%= time_ago_in_words notification.updated_at %> ago</td>
 </div>

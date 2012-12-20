@@ -11,7 +11,7 @@
     <table class="table table-striped" style="width: 70%;">
       <tr><td>XP</td><td><%= strfnum(@user.xp) %></td></tr>
       <tr><td>Strength</td><td><%= @user.strength %></td></tr>
-      <tr><td>Agility</td><td><%= @user.agility %></td></tr>
+      <tr><td>Dexterity</td><td><%= @user.agility %></td></tr>
       <tr><td>Vitality</td><td><%= @user.vitality %></td></tr>
       <tr><td>Mind</td><td><%= @user.mind %></td></tr>
     </table>
@@ -20,7 +20,7 @@
   </div>
   
   <div class="span9">
-    <% if current_user.present? %>
+    <% if current_user.present? && @user != current_user %>
       <%= link_to "Send #{@user.name} a Message", new_message_path(to_user_id: @user.id ), :class => "btn btn-large btn-primary" %>
       <% if current_user.following?(@user) %>
         <%= link_to "Unfollow", unfollow_path(@user), :method => "post", :class => "btn btn-large" %>
@@ -33,6 +33,9 @@
         <h3>Con Attendee</h3>
         <h4>Level: <%= @user.badge.level.titleize %></h4>
     <% end %>
+    
+    <h3>Bio</h3>
+    <%= @user.about.bbcode_to_html.html_safe %>
     
     <% if @user.nicknames.present? %>
         <h3>GamerTags</h3>
