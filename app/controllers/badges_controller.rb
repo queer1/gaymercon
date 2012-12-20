@@ -2,6 +2,7 @@ class BadgesController < ApplicationController
   before_filter :authenticate_user!, except: [:new]
   before_filter :find_badge, only: [:show, :edit, :update, :destroy]
   before_filter :not_implemented, only: [:index, :show, :create]
+  before_filter do @section_name = "Con Badge" end
   
   def index
   end

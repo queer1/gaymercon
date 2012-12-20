@@ -1,8 +1,18 @@
+<div class="row">
+  <div class="span12">
+    <ul class="breadcrumb">
+      <li><%= link_to "Panels", panels_path %> <span class="divider">/</span></li>
+      <li class="active"><%= @panel.title %></li>
+    </ul>
+  </div>
+</div>
+
+
 <% controls = current_user.present? && (@panel.user == current_user || current_user.admin?) %>
 <div class="row">
   <div class="span8">
     <div class="page-header">
-      <h1>Panel: <%= @panel.title %></h1>
+      <h1><%= @panel.kind %>: <%= @panel.title %></h1>
     </div>
   </div>
 </div>
@@ -13,14 +23,13 @@
       <div class="alert alert-success">Confirmed!</div>
     <% end %>
     <%= render :partial => 'voting', :object => @panel %>
-    <h4 class="panel-voting-question">Do you want to see this panel at GaymerCon? </h4>
+    Do you want to see this panel at GaymerCon?
   </div>
 </div>
 
 <div class="row">
-  <div class="span4 offset1">
-    <h4>Description:</h4>
-    <p><%= @panel.kind %></p>
+  <div class="span8">
+    <h3>Description</h3>
     <p><%= @panel.description.bbcode_to_html.html_safe %></p>
       <%= image_tag @panel.user.avatar, :class => "panel-byline-image" %>
       Created by <%= link_to (@panel.user.name || "Nameless User"), user_path(@panel.user) %>
