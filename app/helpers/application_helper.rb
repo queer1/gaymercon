@@ -57,7 +57,7 @@ module ApplicationHelper
     output = ""
     row_count = 0
     rows.each do |row|
-      output << "<div class='row #{opts[:row_class]} #{(opts[:stripes] && row_count % 2 == 1) ? 'highlight' : ''}'>\n"
+      output << "<div class='row-fluid #{opts[:row_class]} #{(opts[:stripes] && row_count % 2 == 1) ? 'highlight' : ''}'>\n"
       row.each do |col|
         output << "<div class='span#{width} #{opts[:col_class]}'>\n"
         output << render({partial: partial, object: col}.merge(opts))

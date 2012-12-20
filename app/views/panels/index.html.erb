@@ -1,14 +1,14 @@
 <div class="row">
   <% unless params[:page].present? && params[:page] > 1 %>
     <% if @popular.present? %>
-      <div class="span6">
+      <div class="span5">
         <h3>Popular</h3>
         <%= render partial: "panel_collection", locals: {panels: @popular} %>
       </div>
     <% end %>
   
     <% if @new.present? %>
-      <div class="span6">
+      <div class="span5 offset1">
         <h3>New</h3>
         <%= render partial: "panel_collection", locals: {panels: @new} %>
       </div>

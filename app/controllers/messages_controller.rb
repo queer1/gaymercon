@@ -55,6 +55,7 @@ class MessagesController < ApplicationController
     @user = User.find_by_id(params[:id])
     redirect_to messages_path, alert: "Sorry, couldn't find that thread" and return unless @user.present?
     @thread = MessageThread.new(current_user, @user)
+    @thread.messages.each {|m| m.read = true; m.save }
     @message = Message.new(to_user: @user, from_user: current_user)
   end
 end
