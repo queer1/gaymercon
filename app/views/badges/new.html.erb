@@ -1,6 +1,10 @@
 <% if current_user.present? %>
   <div class="row">
-    <h1>Two ways to get your badge:</h1>
+    <div class="span12">
+      <h1>Two ways to get your badge:</h1>
+    </div>
+  </div>
+  <div class="row">
     <div class="span4 offset2 ">
       <h3>1. Enter A Code</h3>
       <%= form_tag register_badges_path, :method => "get" do %>

@@ -2,6 +2,7 @@ class PanelsController < ApplicationController
   
   before_filter :setup_panel, except: [:index, :new, :create]
   before_filter :authenticate_panel, only: [:edit, :update, :destroy]
+  before_filter do @section_name = "Panels" end
   
   def index
     @popular = Panel.order("score desc").limit(10)

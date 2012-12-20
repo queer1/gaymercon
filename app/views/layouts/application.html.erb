@@ -45,7 +45,8 @@
       <% if current_user.present? %>
         <div class="row">
           <div class="span3">
-            <h3><%= link_to current_user.name, user_path(current_user) %> - Lvl <%= current_user.level %> <%= current_user.job.try(:name) %></h3>
+            <% name = current_user.name.present? ? current_user.name : "No Name" %>
+            <h3><%= link_to name, user_path(current_user) %> - Lvl <%= current_user.level %> <%= current_user.job.try(:name) %></h3>
             <p>XP: <%= strfnum(current_user.xp) %> / Next Level In: <%= strfnum(current_user.to_next_level)%></p>
               <div class="progress">
                 <div class="bar" style="width: <%= current_user.progress %>%;"></div>
@@ -69,7 +70,7 @@
               <% if follow_count > 0 %>
                 <li><i class="icon-user icon-white"></i> <%= link_to "Following #{follow_count}", users_path(tab: 'following') %></li>
               <% else %>
-                <li><i class="icon-user icon-white"></i> <%= link_to "Following Nobody", users_path(tab: 'cool') %></li>
+                <li><i class="icon-user icon-white"></i> <%= link_to "Follow Someone", users_path(tab: 'cool') %></li>
               <% end %>
             
               <li><i class="icon-pencil icon-white"></i> <%= link_to "Profile", edit_user_registration_path %></li>
