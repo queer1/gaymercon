@@ -52,4 +52,8 @@ class GroupComment < ActiveRecord::Base
       Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id).add_to_set(:comment_ids, self.id) unless user.id == self.user_id
     end
   end
+  
+  def delete_notifications
+    Notification.where(thread_id: self.group_post.id).destroy
+  end
 end

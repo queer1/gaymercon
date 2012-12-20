@@ -19,7 +19,7 @@
     <% path = @post.kind == "link" ? @post.url : group_post_path(@post.group_id, @post.id) %>
     <h1><%= link_to title, path %></h1>
     <div id="post">
-      <%= @post.content.bbcode_to_html.html_safe %>
+      <%= @post.content.to_s.bbcode_to_html.html_safe %>
     </div>
     <small><%= @post.updated_at.strftime(TIME_FORMAT) %></small>
     <% if current_user && @post.editor?(current_user) %>
@@ -39,9 +39,11 @@
       <% @post.comments.each do |comment| %>
         <tr>
           <td class="span1">
-            <%= link_to image_tag(comment.user.avatar), user_path(comment.user) %>
-            <br />
-            <%= link_to comment.user.name, user_path(comment.user) %>
+            <% if comment.user.present? %>
+              <%= link_to image_tag(comment.user.avatar), user_path(comment.user) %>
+              <br />
+              <%= link_to comment.user.name, user_path(comment.user) %>
+            <% end %>
           </td>
           <td class="span6"><%= comment.content.bbcode_to_html.html_safe %></td>
           <td class="span2"><%= comment.updated_at.strftime(TIME_FORMAT) %></td>
