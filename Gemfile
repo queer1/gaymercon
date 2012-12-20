@@ -23,6 +23,7 @@ gem 'hominid' # mailchimp
 gem "paperclip"
 gem 'rmagick', :require => "RMagick"
 gem 'httparty'
+gem 'stringex'
 gem "fb_graph"
 gem "geoip-c", :require => 'geoip'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'

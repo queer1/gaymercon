@@ -1,7 +1,38 @@
 <div class="row">
-  <div class="span8 offset2">
-    <h1>Made in California</h1>
-    <h3><%= link_to "Our Github", "http://github.com/agius/gaymercon" %></h3>
+  <div class="span12">
+    <h1>Major thanks to all our sponsors!</h1>
+    </div>
+</div>
+
+    <h2>16 Bit Sponsors</h2>
+    <%= gridify(Sponsors.sixteen_bit, "sponsor", cols: 4, col_width: 2, stripes: true, row_class: 'sponsor-row') %>
+    
+    <h2>8 Bit Sponsors</h2>
+    <%= gridify(Sponsors.eight_bit, "sponsor", cols: 4, col_width: 2, stripes: true, row_class: 'sponsor-row') %>
+    
+    <h2>$500+</h2>
+    <%= gridify(Sponsors.five_hundred, "sponsor", cols: 4, col_width: 2, stripes: true, row_class: 'sponsor-row') %>
+    
+    <h2>$350+</h2>
+    <%= gridify(Sponsors.three_fifty, "sponsor", cols: 4, col_width: 2, stripes: true, row_class: 'sponsor-row') %>
+    
+    <h2>$250+</h2>
+    <%= gridify(Sponsors.two_fifty, "sponsor", cols: 4, col_width: 2, stripes: true, row_class: 'sponsor-row') %>
+    
+    <h2>$200+</h2>
+    <%= gridify(Sponsors.two_hundred, "sponsor", cols: 4, col_width: 2, stripes: true, row_class: 'sponsor-row') %>
+    
+    <h2>$150+</h2>
+    <%= gridify(Sponsors.one_fifty, "sponsor", cols: 4, col_width: 2, stripes: true, row_class: 'sponsor-row') %>
+    
+    <h2>$100+</h2>
+    <%= gridify(Sponsors.one_hundred, "sponsor", cols: 4, col_width: 2, stripes: true, row_class: 'sponsor-row') %>
+    
+    <h2>Other Awesome Gaymers!</h2>
+    <%= gridify(Sponsors.gaymers, "sponsor", cols: 4, col_width: 2, stripes: true, row_class: 'sponsor-row') %>
+    
+    <h2>All Our Awesome Github Contributors!</h2>
+    <h3><%= link_to "Our Github", "http://github.com/agius/gaymercon" %> &mdash; <%= link_to "Members", "https://github.com/agius/gaymercon/network/members" %></h3>
     
     <h2>Site Resources</h2>
     <ul>

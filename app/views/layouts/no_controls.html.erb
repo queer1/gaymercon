@@ -40,18 +40,16 @@
 <div class="container">
   
   <div class="row">
-    <div class="span12 global-header header-big">
+    <div class="span12 header-big">
       <div id="header-flavor" class="container">
-        <div class="header-flavor">
-          <% if @section_name.present? %>
-            <h1 class="center"><%= @section_name.gsub(/\n/, "<br />").html_safe %></h1><br />
-            <% if @section_subhead.present? %>
-              <div class="gray-float">&amp;</div>
-              <h2 class="center"><%= @section_subhead.gsub(/\n/, "<br />").html_safe %></h2>
-            <% end %>
+        <% if @section_name.present? %>
+          <h1 class="center"><%= @section_name.gsub(/\n/, "<br />").html_safe %></h1><br />
+          <% if @section_subhead.present? %>
+            <div class="gray-float">&amp;</div>
+            <h2 class="center"><%= @section_subhead.gsub(/\n/, "<br />").html_safe %></h2>
           <% end %>
-          <%= yield(:header_flavor) %>
-        </div>
+        <% end %>
+        <%= yield(:header_flavor) %>
       </div>
     </div>
   </div>

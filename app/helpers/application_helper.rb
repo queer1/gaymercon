@@ -55,15 +55,15 @@ module ApplicationHelper
     
     width = opts[:col_width] || 3
     output = ""
+    row_count = 0
     rows.each do |row|
-      Rails.logger.debug "Row: #{row.inspect}"
-      output << "<div class='row-fluid'>\n"
+      output << "<div class='row #{opts[:row_class]} #{(opts[:stripes] && row_count % 2 == 1) ? 'highlight' : ''}'>\n"
       row.each do |col|
-        Rails.logger.debug "Col: #{col.inspect}"
-        output << "<div class='span#{width}'>\n"
+        output << "<div class='span#{width} #{opts[:col_class]}'>\n"
         output << render({partial: partial, object: col}.merge(opts))
         output << "\n</div>"
       end
+      row_count += 1
       output << "\n</div>"
     end
     
