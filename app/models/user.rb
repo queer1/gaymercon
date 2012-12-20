@@ -54,9 +54,9 @@ class User < ActiveRecord::Base
   
   # blegh. debugged on production
   def avatar
-    return "default_user.png" unless self.job_id.present?
+    return "default-user.gif" unless self.job_id.present?
     the_job = Job.where(id: self.job_id).first
-    return "default_user.png" unless the_job.present?
+    return "default-user.gif" unless the_job.present?
     the_job.icon_path
   end
   
@@ -114,7 +114,7 @@ class User < ActiveRecord::Base
   
   # Tag shenanigans
   def game_groups
-    self.groups.where(kind: "game").all
+    self.groups.with_posts.where(kind: "game").order("last_post_date desc").all
   end
   
   def games=(games = [])

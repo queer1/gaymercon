@@ -43,6 +43,7 @@ module ApplicationHelper
   end
   
   def gridify(collection, partial, opts = {})
+    return "" unless collection.present?
     rows = []
     coll_copy = collection.dup
     cols = opts[:cols] || 3

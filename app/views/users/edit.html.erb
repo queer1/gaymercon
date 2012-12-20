@@ -54,6 +54,12 @@
             </div>
           </div>
         </div>
+        <div class="row-fluid">
+          <div class="span6">
+            <%= f.label :about, "About you" %>
+            <%= f.text_area :about, :size => "53x5", :class => "bbcode", :placeholder => "Tell people why playing with you is awesome" %>
+          </div>
+        </div>
         <div class="row">
   
           <% stat_setup = [resource.strength, resource.agility, resource.vitality, resource.mind].all?{|s| s == 1} %>

@@ -13,7 +13,7 @@ class Group < ActiveRecord::Base
   has_many :memberships
   has_many :users, :through => :memberships
   
-  has_attached_file :header, :styles => { :large => "1000x200#" }
+  has_attached_file :header, :styles => { :large => "800x215#" }
   
   before_validation :set_game_key
   before_destroy :cleanup
@@ -35,7 +35,9 @@ class Group < ActiveRecord::Base
   end
   
   def default_header
-    self.class.header_defaults[self.kind]
+    header = self.class.header_defaults[self.kind]
+    header = "main-header.png" unless header.present?
+    return header
   end
   
   def member?(user)
