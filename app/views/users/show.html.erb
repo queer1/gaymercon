@@ -35,7 +35,11 @@
     <% end %>
     
     <h3>Bio</h3>
-    <%= @user.about.bbcode_to_html.html_safe %>
+    <% if @user.about.present? %>
+      <%= @user.about.to_s.bbcode_to_html.html_safe %>
+    <% else %>
+      <p><%= @user.name %> hasn't filled out their bio yet! <%= link_to "Send them a message", new_message_path(to_user_id: @user.id ) %> and give them some encouragement!</p>
+    <% end %>
     
     <% if @user.nicknames.present? %>
         <h3>GamerTags</h3>
