@@ -8,6 +8,7 @@ module Sponsors
     Looney Labs
     SharkRobot.com
     So Much Drama Studios
+    The Rough Trade Gaming Community
     DOC
     gaymers.strip_heredoc.split("\n").collect(&:to_ascii)
   end

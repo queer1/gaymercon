@@ -9,10 +9,13 @@ class MessageThread
   end
   
   def self.all_for_user(user)
-    other_user_ids = Message.select("to_user_id, from_user_id, IF(to_user_id = '#{user.id}', from_user_id, to_user_id) as other_user_id").where('to_user_id = ? or from_user_id = ?', user.id, user.id).group("other_user_id").order("created_at desc").collect(&:other_user_id)
+    other_user_ids = Message.select("to_user_id, from_user_id, IF(to_user_id = '#{user.id}', from_user_id, to_user_id) as other_user_id").where('to_user_id = ? or from_user_id = ?', user.id, user.id).group("other_user_id").collect(&:other_user_id)
     other_users = other_user_ids.collect{|uid| User.find_by_id(uid)}.compact
     return [] unless other_users.present?
-    other_users.collect {|other| self.new(user, other) }
+    threads = other_users.collect {|other| self.new(user, other) }
+    threads.sort_by!{|t| t.last_message.try(:created_at); }
+    threads.reverse!
+    return threads
   end
   
   def last_message
@@ -20,7 +23,7 @@ class MessageThread
   end
   
   def read?
-    messages.first.created_at <= current_user.last_sign_in_at
+    messages.first.from_user_id == current_user || messages.first.read?
   end
   
   def unread?

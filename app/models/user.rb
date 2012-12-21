@@ -198,7 +198,7 @@ class User < ActiveRecord::Base
     user = signed_in_resource
     user ||= User.where(:provider => auth.provider, :uid => auth.uid).first
     user ||= User.where(:email => auth.info.email).first
-    user ||= User.where(:name => auth.extra.raw_info.name).first
+    user ||= User.where(:name => auth.extra.raw_info.name.to_s.to_ascii).first
     if user.present?
       user.update_attributes( provider: auth.provider, 
         uid: auth.uid, 
@@ -206,7 +206,7 @@ class User < ActiveRecord::Base
         fb_expires: Time.at(auth.credentials.expires_at.to_i) 
       )
     else
-      user = User.create(name:auth.extra.raw_info.name,
+      user = User.create(name:auth.extra.raw_info.name.to_s.to_ascii,
                            provider:auth.provider,
                            uid:auth.uid,
                            fb_token: auth.credentials.token, 
@@ -220,7 +220,7 @@ class User < ActiveRecord::Base
       user.just_created = true
       fb_user = FbGraph::User.me(user.fb_token)
       likes = fb_user.likes.select {|l| l.category == 'Games/toys' }
-      likes.collect!(&:name)
+      likes = likes.collect(&:name).collect(&:to_s).collect(&:to_ascii)
       user.add_games(likes) unless user.games.present?
       user.save
     end
@@ -231,7 +231,7 @@ class User < ActiveRecord::Base
   def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
     user = signed_in_resource
     user ||= User.where(:provider => auth.provider, :uid => auth.uid).first
-    user ||= User.where(:name => auth.extra.raw_info.name).first
+    user ||= User.where(:name => auth.extra.raw_info.name.to_s.to_ascii).first
     if user.present?
       user.update_attributes( provider: auth.provider, 
         uid: auth.uid, 
@@ -239,7 +239,7 @@ class User < ActiveRecord::Base
         tw_expires: Time.at(auth.credentials.expires_at.to_i) 
       )
     else
-      user = User.create(name:auth.extra.raw_info.name,
+      user = User.create(name:auth.extra.raw_info.name.to_s.to_ascii,
                            provider:auth.provider,
                            uid:auth.uid,
                            tw_token: auth.credentials.token, 

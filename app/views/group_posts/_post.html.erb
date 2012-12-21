@@ -20,7 +20,11 @@
   
   <td>
     <% if post.comments.present? %>
-      <%= link_to "#{post.comments.count}", group_post_path(post.group_id, post.id) %>
+      <% if current_user.present? && post.friend_replies(current_user).count > 0 %>
+        <%= link_to "#{post.comments.count} (#{post.friend_replies(current_user).count})", group_post_path(post.group_id, post.id) %>
+      <% else %>
+        <%= link_to "#{post.comments.count}", group_post_path(post.group_id, post.id) %>
+      <% end %>
     <% else %>
       <%= link_to "Reply", group_post_path(post.group_id, post.id) %>
     <% end %>

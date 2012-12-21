@@ -23,6 +23,11 @@ class GroupPost < ActiveRecord::Base
     KINDS
   end
   
+  def friend_replies(user)
+    friend_ids = user.followed_users.collect(&:id)
+    self.comments.where("user_id IN (?)", friend_ids)
+  end
+  
   def editor?(user)
     user.id == user_id || user.id == self.group.moderator_id || user.mod? || user.admin?
   end
