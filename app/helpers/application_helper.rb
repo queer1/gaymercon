@@ -29,7 +29,7 @@ module ApplicationHelper
   
   def section_name
     return @section_name if @section_name.present?
-    return "GaymerCon"
+    return "GaymerConnect"
   end
   
   def bootstrap_paginate(pages, options={})

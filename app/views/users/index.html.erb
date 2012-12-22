@@ -1,7 +1,10 @@
 <h1>Here's some cool people for you!</h1>
 
 <ul class="nav nav-tabs">
-  <li <%= @tab == "following" ? "class='active'" : '' %>><%= link_to "Following", users_path(tab: 'following') %></li>
+  <% if current_user.present? %>
+    <li <%= @tab == "following" ? "class='active'" : '' %>><%= link_to "Following", users_path(tab: 'following') %></li>
+    <li <%= @tab == "followers" ? "class='active'" : '' %>><%= link_to "Followers", users_path(tab: 'followers') %></li>
+  <% end %>
   <li <%= @tab == "nearby" ? "class='active'" : '' %>><%= link_to "Nearby", users_path(tab: 'nearby') %></li>
   <% Nickname.networks.each do |n| %>
     <% name = n.humanize %>

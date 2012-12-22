@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121213184930) do
+ActiveRecord::Schema.define(:version => 20121222221503) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -129,7 +129,10 @@ ActiveRecord::Schema.define(:version => 20121213184930) do
     t.datetime "updated_at",          :null => false
     t.string   "game"
     t.string   "game_key"
+    t.string   "url"
   end
+
+  add_index "groups", ["url"], :name => "index_groups_on_url", :unique => true
 
   create_table "jobs", :force => true do |t|
     t.string   "name"
@@ -270,10 +273,12 @@ ActiveRecord::Schema.define(:version => 20121213184930) do
     t.string   "fb_uid"
     t.string   "tw_uid"
     t.text     "about"
+    t.string   "url"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["url"], :name => "index_users_on_url", :unique => true
 
 end

@@ -52,6 +52,8 @@ class User < ActiveRecord::Base
   after_save :level_up
   before_destroy :cleanup
   
+  acts_as_url :name, sync_url: true
+  
   # blegh. debugged on production
   def avatar
     return "default-user.gif" unless self.job_id.present?
@@ -82,6 +84,10 @@ class User < ActiveRecord::Base
   
   def unread_message_count
     self.messages.where(read: false).count
+  end
+  
+  def to_param
+    url
   end
   
   # Level Stuff

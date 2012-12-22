@@ -126,7 +126,7 @@ class GroupsController < ApplicationController
   
   private
     def find_group
-      @group = Group.find_by_id(params[:id])
+      @group = Group.find_by_url(params[:id])
       redirect_to groups_path, alert: "Sorry, couldn't find that group" unless @group.present?
     end
     

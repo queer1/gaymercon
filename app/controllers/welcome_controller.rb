@@ -13,7 +13,6 @@ class WelcomeController < ApplicationController
     redirect_to root_path and return unless current_user.present?
     @notifications = current_user.notifications.take(5)
     @threads = MessageThread.all_for_user(current_user)
-    Rails.logger.debug "threads: #{@threads.inspect}"
     @users = User.where("created_at > ?", current_user.last_sign_in_at).limit(5).all
     @users = User.where("id NOT IN (?)", current_user.follows.collect(&:followed_user_id)).order("last_sign_in_at").limit(50).sample(5) unless @users.present?
   end
@@ -102,7 +101,7 @@ class WelcomeController < ApplicationController
     end
     
     def section_name
-      @section_name = "GaymerCon"
+      @section_name = "GaymerConnect"
     end
     
     def header_img

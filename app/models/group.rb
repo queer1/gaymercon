@@ -20,6 +20,8 @@ class Group < ActiveRecord::Base
   
   validates_inclusion_of :kind, :in => KINDS, :message => "is not a valid group type."
   validate :game_unique
+  
+  acts_as_url :name, sync_url: true
 
   KINDS.each do |kind|
     scope kind.pluralize.to_sym, where(kind: kind)
@@ -71,6 +73,10 @@ class Group < ActiveRecord::Base
     if Group.where("game_key = ? and kind = 'game' and id != ?", self.game_key, self.id).exists?
       errors[:base] << "There is already a group for that game. Is your group a guild?"
     end
+  end
+  
+  def to_param
+    url
   end
   
   def game_group

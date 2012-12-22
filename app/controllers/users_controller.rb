@@ -1,7 +1,7 @@
 class UsersController < Devise::RegistrationsController
   before_filter :section_name
   before_filter :setup_jobs, :only => [:new, :create, :edit, :update, :join]
-  before_filter :authenticate_user!, except: [:index, :show, :connect, :join, :joined]
+  before_filter :authenticate_user!, except: [:index, :show, :join, :joined]
   
   layout :layout_selector
   
@@ -37,6 +37,9 @@ class UsersController < Devise::RegistrationsController
     when "following"
       @section_name = "Following"
       @users = current_user.followed_users.page(params[:page])
+    when "followers"
+      @section_name = "Followers"
+      @users = current_user.followers.page(params[:page])
     else
       @section_name = "Cool People"
       @users ||= (current_user.coplayers - [current_user]).paginate(page: params[:page]) if current_user.present?
@@ -96,7 +99,7 @@ class UsersController < Devise::RegistrationsController
   end
   
   def show
-    @user = User.find_by_id(params[:id])
+    @user = User.find_by_url(params[:id])
     redirect_to root_path, error: "Sorry, couldn't find that user." and return unless @user.present?
     @common = @user.game_groups & current_user.game_groups if current_user.present? && @user != current_user
   end
@@ -126,6 +129,7 @@ class UsersController < Devise::RegistrationsController
   end
   
   def notifications
+    redirect_to join_path unless current_user.present?
     @notifications = current_user.notifications
   end
   
