@@ -81,7 +81,7 @@ class WelcomeController < ApplicationController
     @search = @klass.search do
       fulltext params[:q]
       with :kind, "game" if params[:kind] == "game"
-      without :kind, "game" unless params[:kind] == "game"
+      without :kind, "game" if params[:kind] == "group"
       paginate page: params[:page], per_page: 30
     end
     

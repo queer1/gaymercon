@@ -46,7 +46,7 @@ end
 namespace :deploy do
   task :restart_solr do
     run "rm -rf #{release_path}/solr/data"
-    run "ln -sf #{deploy_to}/shared/solr/data #{release_path}/solr/"
+    run "ln -sf #{deploy_to}/shared/solr/data #{release_path}/solr/data"
     run "ln -sf #{deploy_to}/shared/solr/pids #{release_path}/solr/pids"
     run "cd #{release_path} && bundle exec rake sunspot:solr:stop RAILS_ENV=production; true"
     sudo "killall java; true"
@@ -102,9 +102,9 @@ end
 
 before 'deploy:update', 'sudo_ls'
 before 'deploy:finalize_update', 'deploy:upload_assets'
-before 'deploy:finalize_update', 'deploy:restart_solr'
 after "deploy:update_code", "deploy:build_missing_paperclip_styles"
 after 'deploy:finalize_update', 'deploy:symlink'
+after 'deploy:finalize_update', 'deploy:restart_solr'
 
 # If you are using Passenger mod_rails uncomment this:
 # namespace :deploy do
