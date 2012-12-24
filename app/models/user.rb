@@ -50,9 +50,18 @@ class User < ActiveRecord::Base
   validate :check_skills
   
   after_save :level_up
+  before_save :solr_index?
+  after_save :solr_index_callback
   before_destroy :cleanup
   
   acts_as_url :name, sync_url: true
+  
+  searchable(auto_index: false) do
+    text :name, :email, :username, :about, :url
+    text :nicknames do 
+      nicknames.each {|nick| nick.name }
+    end
+  end
   
   # blegh. debugged on production
   def avatar
@@ -188,6 +197,21 @@ class User < ActiveRecord::Base
   def check_job
     return true if !self.job_id.present? || Job.for_user(self).include?(self.job)
     errors.add(:base, "Please pick one of the available jobs.")
+  end
+  
+  def solr_index?
+    @reindex = [:name, :email, :username, :about, :url].any?{|u| self.changes.keys.include?(u.to_s) }
+    return true
+  end
+  
+  def solr_index_callback(opts = {})
+    return true unless @reindex || opts[:force]
+    begin
+      Sunspot.index(self)
+    rescue Exception => e
+      Pony.mail(:to => "andrew@atevans.com", :subject => "[gamertalent] Solr Error", :body => "#{e.message}\n\n#{e.backtrace.join("\n")}")
+    end
+    return true
   end
   
   def cleanup

@@ -1,0 +1,11 @@
+<% posts = table %>
+<% posts ||= local_assigns[:posts] %>
+<% posts ||= @posts %>
+
+<%= bootstrap_paginate posts %>
+<table class="table table-striped">
+  <tr><th>&nbsp;</th><th>Subject</th><th>Author</th><th>Replies (friends)</th><th>Last Reply</tr>
+  <%= render :partial => "group_posts/post", :collection => posts %>
+</table>
+<br />
+<%= bootstrap_paginate posts %>

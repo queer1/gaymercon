@@ -19,6 +19,14 @@ class GroupPost < ActiveRecord::Base
   
   has_attached_file :image, :styles => { :medium => "570x580>", :thumb => "150x150>" }
   
+  searchable do
+    text :title
+    text :content
+    text :summary do
+      comments.collect {|c| c.content }
+    end
+  end
+  
   def self.kinds
     KINDS
   end

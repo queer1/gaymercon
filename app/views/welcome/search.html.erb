@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="span12">
+    <div class="page-header">
+      <h1>Search Results for <%= params[:q] %></h1>
+    </div>
+    <ul class="nav nav-tabs">
+      <li class="<%= @kind == "user" ? 'active' : '' %>"><%= link_to "Users", search_path(q: params[:q], kind: 'user') %></li>
+      <li class="<%= @kind == "game" ? 'active' : '' %>"><%= link_to "Games", search_path(q: params[:q], kind: 'game') %></li>
+      <li class="<%= @kind == "group" ? 'active' : '' %>"><%= link_to "Groups", search_path(q: params[:q], kind: 'group') %></li>
+      <li class="<%= @kind == "thread" ? 'active' : '' %>"><%= link_to "Threads", search_path(q: params[:q], kind: 'thread') %></li>
+    </ul>
+  </div>
+</div>
+
+<% case @klass.name %>
+<% when "User" %>
+  <%= render partial: "users/table", locals: {users: @search.results} %>
+<% when "Group" %>
+  <%= render partial: "groups/group_collection", locals: {groups: @search.results} %>
+<% when "GroupPost" %>
+  <%= render partial: "group_posts/table", locals: {posts: @search.results} %>
+<% end %>

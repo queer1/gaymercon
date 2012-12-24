@@ -19,3 +19,6 @@
 *.yml
 !config/locales/*.yml
 .DS_Store
+solr/data
+solr/pids
+log/*

@@ -49,14 +49,8 @@
         <% if @posts.empty? %>
           <h1>No posts yet! Go make one :3 </h1>
         <% else %>
-          <%= bootstrap_paginate @posts %>
-          <table class="table table-striped">
-            <tr><th>&nbsp;</th><th>Subject</th><th>Author</th><th>Replies (friends)</th><th>Last Reply</tr>
-            <%= render :partial => "group_posts/post", :collection => @posts %>
-          </table>
-          <br />
+          <%= render partial: "group_posts/table", locals: {posts: @posts} %>
           <%= link_to "Create Topic", new_group_post_path(@group), :class => "btn btn-primary btn-large" %>
-          <%= bootstrap_paginate @posts %>
         <% end %>
       </div>
       

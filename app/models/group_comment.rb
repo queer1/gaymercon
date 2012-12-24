@@ -7,6 +7,7 @@ class GroupComment < ActiveRecord::Base
   
   after_create :grant_xp
   after_create :notify
+  after_create :reindex_thread
   
   before_destroy :delete_notifications
   
@@ -51,6 +52,10 @@ class GroupComment < ActiveRecord::Base
     self.user.followers.each do |user|
       Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id).add_to_set(:comment_ids, self.id) unless user.id == self.user_id
     end
+  end
+  
+  def reindex_thread
+    self.post.index
   end
   
   def delete_notifications

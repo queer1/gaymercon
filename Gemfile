@@ -11,6 +11,8 @@ gem 'capistrano-unicorn'
 gem "mongoid", "~> 3.0.0"
 gem 'mysql2'
 gem "redis"
+gem "sunspot_rails"
+gem "sunspot_solr"
 
 gem 'devise'
 gem 'omniauth-facebook'

@@ -22,6 +22,11 @@ class Group < ActiveRecord::Base
   validate :game_unique
   
   acts_as_url :name, sync_url: true
+  
+  searchable do
+    text :name, :description, :site_name, :site_link, :game, :game_key, :url
+    string :kind
+  end
 
   KINDS.each do |kind|
     scope kind.pluralize.to_sym, where(kind: kind)
@@ -82,11 +87,6 @@ class Group < ActiveRecord::Base
   def game_group
     return nil unless self.kind != "game" && self.game_key.present?
     Group.where(kind: "game", game_key: self.game_key).first
-  end
-  
-  def self.forums
-    forum_groups = ["GaymerX", "The Site", "General Chat"]
-    forum_groups.collect {|fg| Group.where(name: fg, kind: 'official').first_or_create }
   end
   
   def cleanup

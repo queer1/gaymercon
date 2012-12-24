@@ -71,6 +71,22 @@ class WelcomeController < ApplicationController
     render :json => response
   end
   
+  def search
+    @kind = params[:kind] if ["user", "group", "thread", "game"].include?(params[:kind])
+    @kind ||= "user"
+    @klass = GroupPost if params[:kind] == "thread"
+    @klass = Group if params[:kind] == "game"
+    @klass = params[:kind].capitalize.constantize if ["user", "group"].include?(params[:kind])
+    @klass ||= User
+    @search = @klass.search do
+      fulltext params[:q]
+      with :kind, "game" if params[:kind] == "game"
+      without :kind, "game" unless params[:kind] == "game"
+      paginate page: params[:page], per_page: 30
+    end
+    
+  end
+  
   private
     def stripe_donate
       email = current_user.present? ? current_user.email : params[:email]

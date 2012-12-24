@@ -44,6 +44,15 @@ task :sudo_ls do
 end
 
 namespace :deploy do
+  task :restart_solr do
+    run "rm -rf #{release_path}/solr/data"
+    run "ln -sf #{deploy_to}/shared/solr/data #{release_path}/solr/"
+    run "ln -sf #{deploy_to}/shared/solr/pids #{release_path}/solr/pids"
+    run "cd #{release_path} && bundle exec rake sunspot:solr:stop RAILS_ENV=production; true"
+    sudo "killall java; true"
+    run "cd #{release_path} && bundle exec rake sunspot:solr:start RAILS_ENV=production"
+  end
+  
   task :symlink do
     # for capistrano-unicorn -- kill path is hard-coded to look for pid here :(
     run "mkdir -p #{deploy_to}/tmp/pids && ln -s #{deploy_to}/tmp  #{release_path}/tmp"
@@ -69,6 +78,20 @@ namespace :deploy do
   end
 end
 
+namespace :solr do
+  task :reindex do
+    run "cd #{deploy_to}/current && bundle exec rake sunspot:reindex RAILS_ENV=production"
+  end
+  
+  task :stop do
+    run "cd #{deploy_to}/current && bundle exec rake sunspot:solr:stop RAILS_ENV=production; true"
+  end
+  
+  task :start do
+    run "cd #{deploy_to}/current && bundle exec rake sunspot:solr:start RAILS_ENV=production"
+  end
+end
+
 namespace :unicorn do
   task :restart do
     unicorn.stop
@@ -79,6 +102,7 @@ end
 
 before 'deploy:update', 'sudo_ls'
 before 'deploy:finalize_update', 'deploy:upload_assets'
+before 'deploy:finalize_update', 'deploy:restart_solr'
 after "deploy:update_code", "deploy:build_missing_paperclip_styles"
 after 'deploy:finalize_update', 'deploy:symlink'
 

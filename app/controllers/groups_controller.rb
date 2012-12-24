@@ -33,7 +33,7 @@ class GroupsController < ApplicationController
   end
   
   def forums
-    @groups = Group.forums
+    @groups = Group.where(kind: "official")
     @section_name = "Forums"
   end
   
