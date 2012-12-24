@@ -30,7 +30,7 @@ class Notification::GroupNotification < Notification
   end
   
   def link
-    group_path(group_id)
+    group_path(group)
   end
   
 end

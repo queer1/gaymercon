@@ -115,14 +115,14 @@ class UsersController < Devise::RegistrationsController
   end
   
   def follow
-    user = User.find_by_id(params[:id])
+    user = User.find_by_url(params[:id])
     redirect_to :back, alert: "Sorry, couldn't find that user" and return unless user.present?
     current_user.followed_users << user
     redirect_to :back, notice: "You are now following #{user.name}"
   end
   
   def unfollow
-    user = User.find_by_id(params[:id])
+    user = User.find_by_url(params[:id])
     redirect_to :back, alert: "Sorry, couldn't find that user" and return unless user.present?
     current_user.followed_users.delete(user)
     redirect_to :back, notice: "You are no longer following #{user.name}"

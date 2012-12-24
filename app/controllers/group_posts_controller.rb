@@ -56,12 +56,12 @@ class GroupPostsController < ApplicationController
   
   private
     def find_group
-      @group = Group.find params[:group_id]
+      @group = Group.find_by_url params[:group_id]
       redirect_to groups_path, alert: "Sorry, couldn't find that group" unless @group.present?
     end
     
     def find_post
-      @post = @group.posts.find(params[:id])
+      @post = @group.posts.find_by_id(params[:id])
       redirect_to group_path(@group), alert: "Sorry, couldn't find that post" unless @post.present?
     end
     
