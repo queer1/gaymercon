@@ -43,6 +43,7 @@
               <td><%= strfnum(user.xp) %></td>
               <td>
                 <% if current_user.present? %>
+                  <%= link_to "Message", new_message_path(to_user: user.url), :class => "btn" %>
                   <% if current_user.following?(user) %>
                     <%= link_to "Unfollow", unfollow_path(user), :method => "post", :class => "btn" %>
                   <% else %>

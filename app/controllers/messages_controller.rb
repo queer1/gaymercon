@@ -8,7 +8,9 @@ class MessagesController < ApplicationController
   end
   
   def new
-    @to_user = User.find(params[:to_user_id])
+    @to_user = User.find_by_id(params[:to_user_id])
+    @to_user ||= User.find_by_url(params[:to_user])
+    redirect_to :back, alert: "Sorry, couldn't find that user" unless @to_user.present?
     @message = Message.new(to_user_id: @to_user.id)
   end
   

@@ -21,7 +21,7 @@
   
   <div class="span9">
     <% if current_user.present? && @user != current_user %>
-      <%= link_to "Send #{@user.name} a Message", new_message_path(to_user_id: @user.id ), :class => "btn btn-large btn-primary" %>
+      <%= link_to "Send #{@user.name} a Message", new_message_path(to_user: @user.url), :class => "btn btn-large btn-primary" %>
       <% if current_user.following?(@user) %>
         <%= link_to "Unfollow", unfollow_path(@user), :method => "post", :class => "btn btn-large" %>
       <% else %>

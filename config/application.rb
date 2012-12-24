@@ -55,7 +55,6 @@ module Gc2
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    config.assets.paths << Rails.root.join("public", "system")
     config.assets.initialize_on_precompile = true
 
     # Version of your assets, change this if you want to expire all your assets

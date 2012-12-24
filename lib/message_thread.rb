@@ -23,7 +23,7 @@ class MessageThread
   end
   
   def read?
-    messages.first.from_user_id == current_user || messages.first.read?
+    messages.first.from_user_id == current_user.id || messages.first.read?
   end
   
   def unread?
