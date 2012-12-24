@@ -85,7 +85,7 @@ class Group < ActiveRecord::Base
   end
   
   def self.forums
-    forum_groups = ["GaymerCon", "The Site", "General Chat"]
+    forum_groups = ["GaymerX", "The Site", "General Chat"]
     forum_groups.collect {|fg| Group.where(name: fg, kind: 'official').first_or_create }
   end
   
