@@ -1,14 +1,19 @@
 <div class="row">
   <div class="span8">
     <div class="page-header"><h1>Activity</h1></div>
-    <h4>You receive notifications when new posts are made in your groups, or when new people reply to one of your threads, or when someone you follow makes a post or comment</h4>
-    <table class="table table-striped">
-      <tr><th>&nbsp;</th><th>Message</th><th>On</th></tr>
-      <%= render :partial => "notification", :collection => @notifications %>
-    </table>
-    
     <% if @notifications.empty? %>
       <h3>Nothing here yet! <%= link_to "Join some groups", groups_path(kind: "all") %> to start receiving notifications!</h3>
+      
+    <% else %>
+      <h4>You receive notifications when new posts are made in your groups, or when new people reply to one of your threads, or when someone you follow makes a post or comment</h4>
+      <%= bootstrap_paginate @notifications %>
+      <table class="table table-striped">
+        <tr><th>&nbsp;</th><th>Message</th><th>On</th></tr>
+        <%= render :partial => "notification", :collection => @notifications %>
+      </table>
+      <%= bootstrap_paginate @notifications %>
+
+      <%= button_to "Mark All as Read", notifications_path(mark_all: true), method: 'post', class: "btn btn-large" %>
     <% end %>
   </div>
 </div>

@@ -49,7 +49,7 @@
           <div class="span3">
             <%= f.label :place %>
             <div class="input-prepend user-name">
-              <span class="add-on"><%= link_to image_tag("geolocation.png"), "#", :class => "get-location btn" %></span>
+              <span class="add-on"><%= link_to image_tag("geolocation.png"), "#user_place", :class => "get-location btn" %></span>
               <%= f.text_field :place, :placeholder => "San Francisco, CA", :class => 'place name-with-job' %>
             </div>
           </div>
@@ -146,7 +146,7 @@
             <%= devise_error_messages! %>
             <h3>Games</h3>
             <%= gridify(@games, "users/key_field", :locals => {:form => f, :resource => resource, :relevance => :games})%>
-            <%= text_field_tag :new_games, '', :placeholder => "Type & hit enter to add a game!", :'data-relevance' => 'games' %>
+            <%= text_field_tag :new_games, '', :placeholder => "Type & hit enter to add a game!", :data => { relevance: "games", kind: "typeahead", klass: "game" } %>
           
             <br /><br />
             <%= f.submit "Save", :class => "btn btn-large btn-primary" %>

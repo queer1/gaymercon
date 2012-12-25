@@ -13,6 +13,11 @@
     <%= image_tag group.header.url(:large) %>
   <% end %>
   
+  <% if group.editor?(current_user) && group.id.present? %>
+    <%= label_tag "Owner:" %>
+    <%= text_field_tag "user", group.moderator.try(:name), data: {kind: 'typeahead', klass: 'user'} %>
+  <% end %>
+  
   <div class="game <%= (group.kind == 'guild' || group.kind == 'game' || !group.kind.present?) ? '' : 'hidden' %>">
     <%= f.label :game %>
     <%= f.text_field :game, :placeholder => "Mass Effect 3" %>

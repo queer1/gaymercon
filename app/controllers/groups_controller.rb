@@ -99,6 +99,7 @@ class GroupsController < ApplicationController
   
   def update
     parms = params[:group].slice(:name, :type, :description, :kind, :header, :site_name, :site_link, :game)
+    parms[:moderator_id] = params[:user_id] if params[:user_id].present?
     @group.update_attributes(parms)
     if @group.valid?
       @group.place = params[:group][:place]

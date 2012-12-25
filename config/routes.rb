@@ -23,7 +23,7 @@ Gc2::Application.routes.draw do
     get "/login", to: "devise/sessions#new", as: 'login'
     get '/logout', to: "devise/sessions#destroy", as: 'logout'
     get "/users/get_location", to: "users#get_location", as: 'get_location'
-    get "users/notifications", to: "users#notifications", as: 'notifications'
+    match "users/notifications", to: "users#notifications", as: 'notifications'
     get '/home', to: "welcome#home", as: "home"
     post "/users/add_tags", to: "users#add_tags", as: 'add_tags'
     put "/users/update_profile", to: "users#update_profile", as: "update_profile"
@@ -65,5 +65,6 @@ Gc2::Application.routes.draw do
   match "/pages/*id" => 'pages#show', :as => :page, :format => false
   match "info/:action" => 'welcome', as: "welcome"
   match "/search" => "welcome#search", as: "search"
+  match "/typeahead" => "welcome#typeahead", as: "typeahead"
   root :to => 'welcome#index'
 end

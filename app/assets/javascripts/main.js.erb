@@ -48,7 +48,7 @@ $(document).ready(function(){
     var link = $(this);
     $.get("/info/get_location", {}, function(data, status, xhr){
       if(data["location"])
-        link.siblings('.place:first').val(data["location"]);
+        $(link.attr('href')).val(data["location"]);
     });
     return false;
   });
@@ -62,6 +62,29 @@ $(document).ready(function(){
     submitButton.attr("class", $(this).attr('class'));
     submitButton.attr("id", $(this).attr('id'));
     $(this).replaceWith(submitButton);
+  });
+  
+  $("input[data-kind='typeahead']").each(function(elem){
+    var input = $(this);
+    var klass = input.data('klass');
+    var hidden_id = input.attr('id') + "_id";
+    input.after("<input type='hidden' id='" + hidden_id + "' name='" + hidden_id + "' value='' />");
+    input.typeahead({
+      source: function(query, process){
+        $.get('/typeahead', {q: query, kind: klass}, function(data){ 
+          input.data('choices', data);
+          var choices = [];
+          $.each(data, function(key, val){ choices.push(key) })
+          process(choices);
+        });
+      },
+      items: 4,
+      minLength: 3,
+      updater: function(item){ 
+        $("#" + hidden_id).val(input.data('choices')[item]);
+        return item;
+      }
+    });
   });
   
   if(typeof($.QueryString['tab']) && $.QueryString['tab'] != "")

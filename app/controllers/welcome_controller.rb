@@ -87,6 +87,28 @@ class WelcomeController < ApplicationController
     
   end
   
+  def typeahead
+    kind = params[:kind] if ["user", "group", "game"].include?(params[:kind])
+    kind ||= "user"
+    query = params[:q].to_s.to_url + "%"
+    limit = params[:limit] || 10
+    case kind
+    when "user"
+      results = User.where("url LIKE ?", query).limit(limit).all
+      results = Hash[results.collect{|r| [r.name, r.id]}]
+    when "group"
+      results = Group.where("kind != 'game' and url LIKE ?", query).limit(limit).all
+      results = Hash[results.collect{|r| [r.name, r.id]}]
+    when "game"
+      results = Group.where("kind = 'game' and url LIKE ?", query).limit(limit).all
+      results = Hash[results.collect{|r| [r.name, r.id]}]
+    else
+      render :json => "Invalid search type", :status => 500 and return
+    end
+    
+    render :json => results
+  end
+  
   private
     def stripe_donate
       email = current_user.present? ? current_user.email : params[:email]

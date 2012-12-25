@@ -10,12 +10,13 @@ class MessagesController < ApplicationController
   def new
     @to_user = User.find_by_id(params[:to_user_id])
     @to_user ||= User.find_by_url(params[:to_user])
-    redirect_to :back, alert: "Sorry, couldn't find that user" unless @to_user.present?
-    @message = Message.new(to_user_id: @to_user.id)
+    @message = Message.new
+    @message.to_user_id = @to_user.id if @to_user.present?
   end
   
   def create
     fields = params[:message].slice(:to_user_id, :content)
+    fields[:to_user_id] ||= params[:message_to_user_id]
     fields[:from_user_id] = current_user.id
     @message = Message.create(fields)
     if @message.persisted?

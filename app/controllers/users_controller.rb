@@ -130,7 +130,10 @@ class UsersController < Devise::RegistrationsController
   
   def notifications
     redirect_to join_path unless current_user.present?
-    @notifications = current_user.notifications
+    if request.post? && params[:mark_all]
+      current_user.notifications.where(read: false).update_all(read: true)
+    end
+    @notifications = current_user.notifications.paginate(page: params[:page])
   end
   
   def join
