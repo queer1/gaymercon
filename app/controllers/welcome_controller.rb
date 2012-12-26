@@ -120,12 +120,16 @@ class WelcomeController < ApplicationController
       amount = amount.to_i
       return "Please enter a valid amount." unless amount.is_a?(Integer) && amount > 99
       return "Sorry, couldn't process your card. Please try again, and make sure javascript is enabled." unless params[:token].present?
-      charge = Stripe::Charge.create(
-        :amount => amount,
-        :currency => "usd",
-        :card => params[:token],
-        :description => "Donation from #{email}"
-      )
+      begin
+        charge = Stripe::Charge.create(
+          :amount => amount,
+          :currency => "usd",
+          :card => params[:token],
+          :description => "Donation from #{email}"
+        )
+      rescue Stripe::StripeError => se
+        return "Oops, there was a problem: #{se.message}"
+      end
       return "Oops, there was a problem: #{charge.message}" if charge.is_a?(Stripe::StripeError)
       donator = Donator.donate(params.merge({current_user: current_user, amount: amount, email: email}))
       

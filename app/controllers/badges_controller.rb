@@ -104,12 +104,16 @@ class BadgesController < ApplicationController
     
     def process_payment(badge)
       return "Sorry, couldn't process your card. Please try again, and make sure javascript is enabled." unless params[:token].present?
-      charge = Stripe::Charge.create(
-        :amount => badge.price,
-        :currency => "usd",
-        :card => params[:token],
-        :description => "Purchase badge #{badge.id}"
-      )
+      begin
+        charge = Stripe::Charge.create(
+          :amount => badge.price,
+          :currency => "usd",
+          :card => params[:token],
+          :description => "Purchase badge #{badge.id}"
+        )
+      rescue Stripe::StripeError => se
+        return "Oops, there was a problem: #{se.message}"
+      end
       return "Oops, there was a problem: #{charge.message}" if charge.is_a?(Stripe::StripeError)
       
       sp = { amount: badge.price, token: params[:token], description: "Purchase badge #{badge.id}", stripe_id: charge.id, paid: charge.paid, badge_id: badge.id }
