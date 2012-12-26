@@ -10,6 +10,6 @@ class Nickname < ActiveRecord::Base
   end
   
   def update_user
-    self.user.solr_index(force: true)
+    self.user.solr_index
   end
 end

@@ -1,6 +1,7 @@
 <%= form_for @message do |f| %>
   <%= label_tag :to_user, "To:" %>
   <% if @message.to_user.present? %>
+    <%= f.hidden_field :to_user_id %>
     <%= text_field_tag :to_user, @message.to_user.name, disabled: true %>
   <% else %>
     <%= text_field_tag :'message[to_user]', '', data: {kind: 'typeahead', klass: "user"} %>

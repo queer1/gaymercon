@@ -6,6 +6,8 @@ class GroupCommentsController < ApplicationController
   before_filter :authenticate_comment, only: [:edit, :update, :destroy]
   
   def index
+    @comment = GroupComment.new(group_post_id: @post)
+    @comment.user_id = current_user.id if current_user.present?
     render "group_posts/show"
   end
   

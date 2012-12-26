@@ -13,6 +13,11 @@ class UsersController < Devise::RegistrationsController
     @tab ||= "following" if current_user.present?
     @tab ||= "cool"
     
+    if ["following", "followers"].include?(@tab) && current_user.nil?
+      session[:return_to] = users_path(tab: @tab)
+      redirect_to login_path, alert: "You must sign in to see that" and return
+    end
+    
     case @tab
     when "nearby"
       @section_name = "Nearby People"
@@ -129,9 +134,12 @@ class UsersController < Devise::RegistrationsController
   end
   
   def notifications
-    redirect_to join_path unless current_user.present?
+    unless current_user.present?
+      session[:return_to] = notifications_path
+      redirect_to login_path, alert: "You must be logged in to check your notifications"
+    end
     if request.post? && params[:mark_all]
-      current_user.notifications.where(read: false).update_all(read: true)
+      Notification.where(user_id: current_user.id, read: false).update_all(read: true)
     end
     @notifications = current_user.notifications.paginate(page: params[:page])
   end
