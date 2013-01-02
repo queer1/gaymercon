@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121222221503) do
+ActiveRecord::Schema.define(:version => 20121227165157) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -140,6 +140,31 @@ ActiveRecord::Schema.define(:version => 20121222221503) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.integer  "level_requirement"
+  end
+
+  create_table "mail_batch_drafts", :force => true do |t|
+    t.integer  "mail_batch_id"
+    t.string   "subject"
+    t.text     "body"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "mail_batch_records", :force => true do |t|
+    t.integer  "mail_batch_id"
+    t.time     "sent_at"
+    t.integer  "mail_batch_draft_id"
+    t.string   "email"
+    t.text     "info"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  create_table "mail_batches", :force => true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "memberships", :force => true do |t|

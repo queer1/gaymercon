@@ -76,6 +76,14 @@ class Admin::BadgesController < AdminController
     redirect_to admin_badges_path, notice: "Badges created"
   end
   
+  def export
+    csv = ""
+    Badge.where("code is not null and user_id is null").find_each do |b|
+      csv << "#{b.level}, #{b.code}\n"
+    end
+    send_data csv, :type => 'text/csv; charset=iso-8859-1; header=present', :disposition => "attachment; filename=badge_codes_#{Time.now.to_i}.csv"
+  end
+  
   private
     def find_badge
       @badge = Badge.find_by_id(params[:id])

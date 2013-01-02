@@ -25,4 +25,11 @@ class UserMailer < ActionMailer::Base
     headers = {:to => donation.email, :subject => @title}
     mail(headers)
   end
+  
+  def mass_mail(record)
+    @title = record.subject
+    @record = record
+    headers = {:to => @record.email, :subject => @title}
+    mail(headers)
+  end
 end

@@ -1,0 +1,71 @@
+<% batch = form || @batch %>
+<% draft = batch.latest_draft || @draft %>
+
+<%= form_for [:admin, batch], html: {multipart: true} do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  
+  <% if draft.present? %>
+    <%= fields_for draft do |d| %>
+      <h2>Current Draft</h2>
+      <%= d.label :subject %>
+      <%= d.text_field :subject, :class => "span6" %>
+      
+      <%= d.label :body %>
+      <%= d.text_area :body, :class => "span6", :size => "80x10"%>
+    <% end %>
+
+    <% if draft.id.present? %>
+      <div>
+        <%= link_to "Send to #{batch.unsent_count} emails", admin_mail_batch_transmit_path(batch), :class => "btn btn-large btn-primary", :method => "post", :confirm => "Really send to #{batch.unsent_count} emails? Are you sure? Did you proofread? CANNOT BE UNDONE" %>
+      </div>
+    
+      <h2>Emails Uploaded <small>(sent to <%= batch.sent_count %> / <%= batch.records.count %>)</h2>
+      
+      <table class="table bordered">
+        <tr>
+          <% draft.fields.each do |f| %>
+            <th><%= f %></th>
+          <% end %>
+          <th>Sent at</th>
+          <th>Actions</th>
+        </tr>
+        <% if batch.records.count > 0 %>
+          <% batch.records.each do |record| %>
+            <tr>
+              <% draft.fields.each do |f| %>
+                <td><%= record.info[f] %></td>
+              <% end %>
+              <td><%= record.sent_at.present? ? record.sent_at.strftime(TIME_FORMAT) : '' %></td>
+              <td>
+                <%= link_to "View", admin_mail_batch_path(record.id), :class => "btn" %> 
+                <%= link_to "Delete", admin_mail_batch_path(record.id), :class => "btn btn-danger", method: "delete" %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <% draft.fields.each do |f| %>
+              <td>Example</td>
+            <% end %>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        <% end %>
+      </table>
+      
+      <%= link_to "Clear Unsent Emails", admin_mail_batch_clear_unsent_path(batch, clear: true), :class => "btn btn-danger", method: "post" %>
+      
+      <h2>Add more emails</h2>
+      <%= fields_for :csv do |c| %>
+        <%= c.label :file, "CSV File" %>
+        <%= c.file_field :file %>
+      <% end %>
+      
+    <% end %>
+  <% end %>
+  
+  <br />
+  <br />
+  <%= f.button "Save", :class => "btn" %>
+<% end %>

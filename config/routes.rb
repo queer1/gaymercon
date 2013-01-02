@@ -53,10 +53,15 @@ Gc2::Application.routes.draw do
   namespace :admin do
     resources :jobs
     resources :panels
+    resources :mail_batches do
+      post "transmit"
+      post "clear_unsent"
+    end
     resources :donators, only: [:index, :show]
     resources :badges do
       get "mass_new", to: "badges#mass_new", on: :collection
       post "mass_create", to: "badges#mass_create", on: :collection
+      get "export", to: "badges#export", on: :collection
     end
     match "/" => "admin/halo#index"
   end

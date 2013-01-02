@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="span8">
+    <h1>Mail Batches</h1>
+
+    <%= link_to "New Batch", new_admin_mail_batch_path, :class => "btn btn-primary btn-large" %>
+
+    <table class="table table-striped">
+      <tr><th>Name</th><th>Created By</th><th>On</th><th>Actions</th></tr>
+      <% @batches.each do |batch| %>
+        <tr>
+          <td><%= batch.name %></td>
+          <td><%= batch.user.try(:name) %></td>
+          <td><%= batch.created_at.strftime(DATE_FORMAT) %></td>
+          <td>
+            <%= link_to "Edit", edit_admin_mail_batch_path(batch), :class => "btn" %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+    
+    <%= link_to "New Batch", new_admin_mail_batch_path, :class => "btn btn-primary btn-large" %>
+  </div>
+</div>
