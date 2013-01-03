@@ -1,0 +1,15 @@
+<br />
+<div class="row">
+  <div class="span3">
+    <%= link_to "What is GaymerConnect?", page_path("what"), :class => "link-box #{params[:id] == "what" ? 'active' : ''}" %>
+  </div>
+  <div class="span3">
+    <%= link_to "How does it work?", page_path("how"), :class => "link-box #{params[:id] == "how" ? 'active' : ''}" %>
+  </div>
+  <div class="span3">
+    <%= link_to "GaymerConnect <br />& GaymerX".html_safe, page_path("together"), :class => "link-box #{params[:id] == "together" ? 'active' : ''}" %>
+  </div>
+  <div class="span3">
+    <%= link_to "What does XP do?", page_path("xp"), :class => "link-box #{params[:id] == "xp" ? 'active' : ''}" %>
+  </div>
+</div>

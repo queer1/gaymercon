@@ -1,0 +1,39 @@
+<%= render partial: "shared/gcx_links" %>
+
+<div class="row">
+  <div class="span12">
+    <h2>Gain XP and Level Up By</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span4">
+    <%= image_tag "gcx_info/post.png" %>
+    <h3 class="center">Create New Forum Posts</h3>
+  </div>
+  
+  <div class="span4">
+    <%= image_tag "gcx_info/respond.png" %>
+    <h3 class="center">Respond to Posts</h3>
+  </div>
+  
+  <div class="span4">
+    <%= image_tag "gcx_info/message.png" %>
+    <h3 class="center">Send messages to friends</h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <p class="lead">The higher your level, the more classes &amp; avatars you can unlock. For instance, at level 10 you unlock: 
+      <br /><%= image_tag Job.avatar("TuringBot") %> TuringBot and <%= image_tag Job.avatar("ConwayBot") %> ConwayBot!
+    </p>
+    <ul class="lead">
+      <li>The higher your level, the more Gaymer cred you can show off to your friends and rule the forums!</li>
+      <li>As you gain levels, you’ll be able to add stats to your characters abilites, which may or may not unlock other
+      classes.</li>
+      <li>Higher XP may also relate to other special things at Gaymer X or other stuff in the future :)</li>
+  </div>
+</div>
+
+<%= render partial: "shared/gcx_dots" %>

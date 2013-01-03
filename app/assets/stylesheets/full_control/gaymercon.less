@@ -27,6 +27,8 @@
     font-weight:bold;
 }
 
+.lead li { margin-bottom: @baseLineHeight; line-height: @baseLineHeight * 1.5; }
+
 // EFFECTS
 // -----------------------------------------------------
 .glassy-black { 
@@ -109,12 +111,30 @@ i.circle {
   background-color: @grayLight;
 }
 
+i.circle.circle-black{ background-color: @black; }
+i.circle.circle-red{ background-color: @red; }
 i.circle.active { background-color: @linkColor; }
 
 .serif { font-family: @serifFontFamily !important; }
 .sans { font-family: @sansFontFamily !important; }
 .mono { font-family: @monoFontFamily !important; }
 .chunk { font-family: @highlightFontFamily !important; }
+
+.link-box {
+  background: @black; 
+  font-family: @highlightFontFamily;
+  font-size: @fontSizeLarge;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  width: inherit;
+  height: 4em;
+  color: white; &:hover { color: white; text-decoration: none; }
+  font-weight: 200;
+}
+.link-box.active { background: @red; }
+
+.center { text-align: center; }
 
 // LAYOUT
 // -----------------------------------------------------

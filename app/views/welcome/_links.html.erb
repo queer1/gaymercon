@@ -1,7 +1,20 @@
-<ul class="breadcrumb">
-  <li><%= link_to "About", welcome_path("about") %> <span class="divider">|</span></li>
-  <li><%= link_to "Location", welcome_path("location") %> <span class="divider">|</span></li>
-  <li><%= link_to "Contact", welcome_path("contact") %> <span class="divider">|</span></li>
-  <li><%= link_to "Donate", welcome_path("donate") %> <span class="divider">|</span></li>
-  <li><%= link_to "Blog", "http://blog.gaymercon.org" %> </li>
-</ul>
+<br />
+<div class="row">
+  <div class="span2">
+    <%= link_to "About", welcome_path("about"), :class => "link-box #{params[:action] == "about" ? 'active' : ''}" %>
+  </div>
+  <div class="span2">
+    <%= link_to "Location", welcome_path("location"), :class => "link-box #{params[:action] == "location" ? 'active' : ''}" %>
+  </div>
+  <div class="span2">
+    <%= link_to "Contact", welcome_path("contact"), :class => "link-box #{params[:action] == "contact" ? 'active' : ''}" %>
+  </div>
+  <div class="span2">
+    <%= link_to "Donate", welcome_path("donate"), :class => "link-box #{params[:action] == "donate" ? 'active' : ''}" %>
+  </div>
+  
+  <div class="span2">
+    <%= link_to "Blog", "http://blog.gaymercon.org", :class => "link-box #{params[:action] == "blog" ? 'active' : ''}" %>
+  </div>
+</div>
+<br />

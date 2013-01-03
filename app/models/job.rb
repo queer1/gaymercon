@@ -15,4 +15,9 @@ class Job < ActiveRecord::Base
   def self.new_jobs
     Job.where("level_requirement IS NULL OR level_requirement = 0").all
   end
+  
+  def self.avatar(name)
+    j = self.where(name: name).first
+    return j.present? ? j.icon_path : "default-user.gif"
+  end
 end
