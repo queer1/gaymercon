@@ -45,8 +45,9 @@
       </ul>
       
       <ul class="nav pull-right">
+        <li style="position: relative; left: 10px;"><%= link_to "?", page_path("what") %></li>
         <% if current_user.present? %>
-          <li><%= link_to "Log Out".html_safe, destroy_user_session_path, method: "delete" %></li>
+          <li><%= link_to "<i class='icon-off icon-white'></i>".html_safe, destroy_user_session_path, method: "delete" %></li>
         <% else %>
           <li><%= link_to "Log In", new_user_session_path %></li>
         <% end %>
