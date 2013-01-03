@@ -44,6 +44,11 @@
     
     <div class="tab-content">
       <div class="tab-pane active" id="posts">
+        <% if current_user.present? && @group.editor?(current_user) %>
+          You are a moderator of <%= @group.name %>
+          <br />
+          <br />
+        <% end %>
         <%= link_to "Create Topic", new_group_post_path(@group), :class => "btn btn-primary btn-large" %>
         <br />
         <% if @posts.empty? %>
