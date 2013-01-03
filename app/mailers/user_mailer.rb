@@ -6,7 +6,7 @@ class UserMailer < ActionMailer::Base
     @user = user
     @url  = "https://www.gaymercon.org/users/edit"
     headers = {:to => user.email, :subject => @title}
-    headers[:delivery_method] = :test if @user.disable_emails
+    # headers[:delivery_method] = :test if @user.disable_emails
     mail(headers)
   end
   
