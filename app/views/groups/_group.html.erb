@@ -1,7 +1,11 @@
 <tr>
   <td><%= link_to group.name, group_path(group) %></td>
   <% if local_assigns[:location] %><td><%= group.place %></td><% end %>
-  <td><%= link_to group.users.count, group_path(group, tab: "members") %></td>
+  
+  <% if @section_name != "Forums" %>
+    <td><%= link_to group.users.count, group_path(group, tab: "members") %></td>
+  <% end %>
+  
   <td><%= group.posts.count %></td>
   <td><%= group.last_post_date.present? ? "#{time_ago_in_words(group.last_post_date)} ago" : '' %></td>
   <td>
