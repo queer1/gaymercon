@@ -18,7 +18,7 @@ class MailBatchUpload
       end
       
       row_hash = {}
-      row.each_with_index {|col, idx| h = headers[idx]; row_hash[h] = col.strip }
+      row.each_with_index {|col, idx| h = headers[idx]; row_hash[h] = col.to_s.strip }
       
       yield(row_hash.with_indifferent_access)
     end
