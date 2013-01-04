@@ -5,6 +5,7 @@ class UserMailer < ActionMailer::Base
     @title = "Welcome to GaymerCon"
     @user = user
     @url  = "https://www.gaymercon.org/users/edit"
+    @header = "email_header.png"
     headers = {:to => user.email, :subject => @title}
     # headers[:delivery_method] = :test if @user.disable_emails
     mail(headers)
@@ -13,6 +14,7 @@ class UserMailer < ActionMailer::Base
   def new_pm(pm)
     @user = pm.to_user
     @title = "New Private Message From #{pm.from_user.name}"
+    @header = "email_header.png"
     @pm = pm
     headers = {:to => @user.email, :subject => @title}
     headers[:delivery_method] = :test if @user.disable_emails || @user.disable_pm_emails
@@ -21,12 +23,14 @@ class UserMailer < ActionMailer::Base
   
   def new_donation(donation)
     @title = "Thanks for your donation!"
+    @header = "email_header.png"
     @donation = donation
     headers = {:to => donation.email, :subject => @title}
     mail(headers)
   end
   
   def mass_mail(record)
+    @header = "gaymerXheader.png"
     @title = record.subject
     @record = record
     headers = {:to => @record.email, :subject => @title}
