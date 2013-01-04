@@ -6,6 +6,7 @@ Gc2::Application.routes.draw do
     resources :posts, :controller => "group_posts" do
       resources :comments, :controller => "group_comments"
     end
+    resources :comments, :controller => "gorup_comments"
     get :forums, :on => :collection
     get :games, :on => :collection
     get :events, :on => :collection
@@ -15,6 +16,8 @@ Gc2::Application.routes.draw do
   end
   
   match "/groups/:id/:post_kind" => "groups#show", as: 'group_discussions'
+  match "/groups/:id/:post_kind/:post_id" => "groups#show", as: 'group_discussions'
+  match "/groups/:id/:post_kind/:post_id/:responses" => "groups#show", as: 'group_discussions'
   
   devise_for :users, controllers: { registrations: "users", :omniauth_callbacks => "users/omniauth_callbacks", :sessions => "users/sessions", :passwords => "users/passwords" }
   

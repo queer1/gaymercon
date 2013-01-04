@@ -6,9 +6,16 @@ class GroupCommentsController < ApplicationController
   before_filter :authenticate_comment, only: [:edit, :update, :destroy]
   
   def index
-    @comment = GroupComment.new(group_post_id: @post)
-    @comment.user_id = current_user.id if current_user.present?
-    render "group_posts/show"
+    @post = GroupPost.find_by_id(params[:group_post_id])
+    @post ||= GroupPost.find_by_id(params[:post_id])
+    @group = Group.find_by_id(params[:group_id])
+    @group ||= @post.group
+    redirect_to group_post_comments_path(@group.id, @post.id) and return
+  end
+  
+  def new
+    redirect_to Group.find_by_id(params[:group_id]) and return if params[:group_id].present?
+    redirect_to group_post_path(@comment.group_post_id)
   end
   
   def create
@@ -26,6 +33,11 @@ class GroupCommentsController < ApplicationController
   end
   
   def update
+    @post = GroupPost.find_by_id(params[:post_id])
+    @comment = GroupComment.find_by_id(params[:comment_id]) if params[:comment_id].present?
+    @post ||= @comment.post
+    @group = Group.find_by_id(params[:group_id])
+    @group ||= @group_id
     @comment.update_attributes(params[:group_comment].slice(:content))
     if @comment.valid?
       redirect_to group_post_path(@group.id, @post), notice: "Comment updated!"

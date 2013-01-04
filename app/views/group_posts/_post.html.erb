@@ -15,7 +15,7 @@
   <td><%= link_to title, path %></td>
   
   <td>
-    <%= link_to post.user.name, user_path(post.user) %>
+    <%= link_to post.user.try(:name).to_s, user_path(post.try(:user)) %>
   </td>
   
   <td>
