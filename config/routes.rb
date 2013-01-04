@@ -66,6 +66,7 @@ Gc2::Application.routes.draw do
     match "/" => "admin/halo#index"
   end
 
+  match '/badge/new', :to => "badges#new"
   match "/admin/:action(/:id)" => "admin/halo", as: "halo"
   match "/pages/*id" => 'pages#show', :as => :page, :format => false
   match "info/:action" => 'welcome', as: "welcome"
