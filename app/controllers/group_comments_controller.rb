@@ -10,7 +10,7 @@ class GroupCommentsController < ApplicationController
     @post ||= GroupPost.find_by_id(params[:post_id])
     @group = Group.find_by_id(params[:group_id])
     @group ||= @post.group
-    redirect_to group_post_comments_path(@group.id, @post.id) and return
+    redirect_to group_post_comments_path(@group, @post.id) and return
   end
   
   def new
@@ -22,7 +22,7 @@ class GroupCommentsController < ApplicationController
     parms = {group_post_id: @post.id, user_id: current_user.id}.merge(params[:group_comment].slice(:content))
     @comment = GroupComment.create(parms)
     if @comment.valid?
-      redirect_to group_post_path(@group.id, @post), notice: "Comment posted!"
+      redirect_to group_post_path(@group, @post), notice: "Comment posted!"
     else
       flash.now[:alert] = "Oops, there was a problem"
       render :new
@@ -40,7 +40,7 @@ class GroupCommentsController < ApplicationController
     @group ||= @group_id
     @comment.update_attributes(params[:group_comment].slice(:content))
     if @comment.valid?
-      redirect_to group_post_path(@group.id, @post), notice: "Comment updated!"
+      redirect_to group_post_path(@group, @post), notice: "Comment updated!"
     else
       flash.now[:alert] = "Oops, there was a problem"
       render :edit
@@ -49,7 +49,7 @@ class GroupCommentsController < ApplicationController
   
   def destroy
     @comment.destroy
-    redirect_to group_post_path(@group.id, @post), notice: "Comment deleted."
+    redirect_to group_post_path(@group, @post), notice: "Comment deleted."
   end
   
   private

@@ -1,7 +1,7 @@
 <% comment = form || @comment %>
 <% post = comment.post %>
 <% group = comment.group %>
-<% path = comment.persisted? ? group_post_comment_path(group.id, post.id, comment.id) : group_post_path(group.id, post.id) %>
+<% path = comment.persisted? ? group_post_comment_path(group, post, comment) : group_post_comments_path(group, post) %>
 
 <%= form_for comment, :url => path do |f| %>
   <%= f.label :comment, "Reply" %>

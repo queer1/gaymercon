@@ -25,7 +25,7 @@ class GroupPostsController < ApplicationController
     @post = GroupPost.create(parms)
     if @post.valid?
       @post.place = params[:group_post][:place] if @post.kind == "location" || @post.kind == "event" && params[:group_post][:place].present?
-      redirect_to group_post_path(@group.id, @post), notice: "Post created!"
+      redirect_to group_post_path(@group, @post), notice: "Post created!"
     else
       flash.now[:alert] = "Oops, there was a problem: #{@post.all_errors}"
       render :new
@@ -42,7 +42,7 @@ class GroupPostsController < ApplicationController
     @post.update_attributes(parms)
     if @post.valid?
       @post.place = params[:group_post][:place] if @post.kind == "location" && params[:group_post][:place].present?
-      redirect_to group_post_path(@group.id, @post), notice: "Post saved!"
+      redirect_to group_post_path(@group, @post), notice: "Post saved!"
     else
       flash.now[:alert] = "Oops, there was a problem: #{@post.all_errors}"
       render :edit
