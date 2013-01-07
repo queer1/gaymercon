@@ -31,6 +31,7 @@
         <tr><td>&nbsp;</td><td><span class="label label-success" id="badge-redeemed">Redeemed!</span></td></tr>
         <tr><td><strong>Level:</strong></td><td><%= current_user.badge.level.humanize %></td></tr>
         <tr><td><strong>Info:</strong></td><td><%= Badge.levels[current_user.badge.level] %></td></tr>
+        <tr><td><strong>Badge Name:</strong></td><td><%= current_user.badge.badge_name %></td></tr>
         <tr><td><strong>Real Name:</strong></td><td><%= current_user.badge.full_name %></td></tr>
       </table>
       <%= link_to "Edit Badge Info", edit_badge_path(current_user.badge), :class => "btn" %>

@@ -12,7 +12,13 @@
     <strong>Badge Info:</strong> <%= @badge.description %>
   </span>
   
-  <%= f.label :first_name, "Name" %>
+  <%= f.label :badge_name %>
+  <%= f.text_field :badge_name, :size => 20, :placeholder => "xX~~TheLittleOne~~Xx" %>
+  <span class="help-block">
+    The name we will print on your badge
+  </span>
+  
+  <%= f.label :first_name, "Legal Name" %>
   <%= f.text_field :first_name, :size => 10, :placeholder => "Ash" %>
   <%= f.text_field :last_name, :size => 10, :placeholder => "Ketchum" %>
   <span class="help-block">

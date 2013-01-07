@@ -34,13 +34,20 @@
               <strong>Badge Info:</strong> <%= @badge.description %>
             </div>
 
-            <%= b.label :first_name, "Real Name" %>
+            <%= b.label :badge_name %>
+            <% badge_name = @badge.badge_name || current_user.name %>
+            <%= b.text_field :badge_name, :size => 20, :placeholder => "xX~~TheLittleOne~~Xx", :value => badge_name %>
+            <span class="help-block">
+              The name we will print on your badge
+            </span>
+
+            <%= b.label :first_name, "Legal Name" %>
             <div class="form-row">
               <%= b.text_field :first_name, :size => 10, :placeholder => "Ash" %>
               <%= b.text_field :last_name, :size => 10, :placeholder => "Ketchum" %>
             </div>
-            <div class="explain">
-              Whatever is printed on the ID you'll bring to the con
+            <div class="help-block">
+              The name printed on your id, which we'll be checking at the door
             </div>
 
             <label for="badge_age">

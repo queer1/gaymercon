@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121227165157) do
+ActiveRecord::Schema.define(:version => 20130107014351) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20121227165157) do
     t.integer  "price"
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "badge_name"
   end
 
   add_index "badges", ["code"], :name => "index_badges_on_code", :unique => true

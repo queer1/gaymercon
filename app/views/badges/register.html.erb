@@ -11,18 +11,25 @@
     <strong>Badge Info:</strong> <%= @badge.description %>
   </div>
   
-  <%= f.label :first_name, "Name" %>
+  <%= f.label :badge_name %>
+  <% badge_name = @badge.badge_name || current_user.name %>
+  <%= f.text_field :badge_name, :size => 20, :placeholder => "xX~~TheLittleOne~~Xx", :value => badge_name %>
+  <span class="help-block">
+    The name we will print on your badge
+  </span>
+  
+  <%= f.label :first_name, "Legal Name" %>
   <div class="form-row">
     <%= f.text_field :first_name, :size => 10, :placeholder => "Master" %>
     <%= f.text_field :last_name, :size => 10, :placeholder => "Chief" %>
   </div>
-  <div class="explain">
+  <div class="help-block">
     We will be checking your picture ID at the door - first and last name <strong>must</strong> match!
   </div>
   
   <label for="badge_age">
     <%= f.check_box :age, {selected: "selected", style: "float:left;"}, "18+", nil %>
-    I will be over 18 by Aug 2, 2013
+    &nbsp;&nbsp; I will be over 18 by Aug 2, 2013
   </label>
   
   <%= f.label :address_1, "Address Line 1" %>
