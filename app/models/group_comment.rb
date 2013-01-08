@@ -31,11 +31,13 @@ class GroupComment < ActiveRecord::Base
     self.group_post.group_id
   end
   
-  def editor?(user)
-    return true if user.try(:mod?)
-    return false unless user.id.present?
+  def editor?(other_user)
+    return true if other_user.try(:mod?)
+    return false unless other_user.id.present?
     return false unless self.user_id.present?
-    user_id == self.group.try(:moderator_id) || self.user_id == user.id
+    return true if user_id == self.group.try(:moderator_id)
+    return true if self.user_id == other_user.id
+    return false
   end
   
   def grant_xp
