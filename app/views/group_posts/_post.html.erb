@@ -11,7 +11,7 @@
   
   <% title = post.kind == "link" ? "#{post.user.name}'s link" : post.title %>
   <% title = "Untitled" unless title.present? %>
-  <% path = post.kind == "link" ? post.url : group_post_path(post.group_id, post.id) %>
+  <% path = post.kind == "link" ? post.url : group_post_path(post.group, post) %>
   <td><%= link_to title, path %></td>
   
   <td>
@@ -21,12 +21,12 @@
   <td>
     <% if post.comments.present? %>
       <% if current_user.present? && post.friend_replies(current_user).count > 0 %>
-        <%= link_to "#{post.comments.count} (#{post.friend_replies(current_user).count})", group_post_path(post.group_id, post.id) %>
+        <%= link_to "#{post.comments.count} (#{post.friend_replies(current_user).count})", group_post_path(post.group, post) %>
       <% else %>
-        <%= link_to "#{post.comments.count}", group_post_path(post.group_id, post.id) %>
+        <%= link_to "#{post.comments.count}", group_post_path(post.group, post) %>
       <% end %>
     <% else %>
-      <%= link_to "Reply", group_post_path(post.group_id, post.id) %>
+      <%= link_to "Reply", group_post_path(post.group, post) %>
     <% end %>
   </td>
   

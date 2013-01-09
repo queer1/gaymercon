@@ -35,7 +35,7 @@ class GroupComment < ActiveRecord::Base
     return true if other_user.try(:mod?)
     return false unless other_user.id.present?
     return false unless self.user_id.present?
-    return true if user_id == self.group.try(:moderator_id)
+    return true if other_user.id == self.group.try(:moderator_id)
     return true if self.user_id == other_user.id
     return false
   end
