@@ -20,7 +20,7 @@ class GroupsController < ApplicationController
       else
         flash.now[:alert] = "Sorry, we couldn't find your location"
       end
-      @groups ||= []
+      @groups ||= Group.where(id: -1).with_posts
     when "your_groups"
       @groups = current_user.groups.where("groups.kind != 'game'").with_posts
     when "all"

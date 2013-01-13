@@ -1,122 +1,129 @@
-
 <!doctype html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>GaymerCon</title>
+  <title>GaymerConnect</title>
   <meta name="description" content="convention for gamers of all kinds">
   <meta name="author" content="andrew 'agius' evans">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
+
   <link rel="icon" type="image/png" href="/assets/favicon.png">
 
-  <meta name="google-site-verification" content="EOybUW" />
-  <meta property="og:image" content="/assets/gaymercon_300_256.png" />
-  <meta property="og:title" content="GaymerCon" />
-  <meta property="og:url" content="http://www.gaymercon.org" />
-  <meta property="og:description" content="GaymerCon is the first gaming and geek lifestyle convention with a focus on LGBT culture" />
+  <meta name="google-site-verification" content="EOybUW-deV8sHHVkvA92ku6TOAJX1uTYZdpD1CtEUJU" />
+  <meta property="og:image" content="http://www.gaymerconnect.com/assets/gaymercon_300_256.png" />
+  <meta property="og:title" content="GaymerConnect" />
+  <meta property="og:url" content="http://www.gaymerconnect.com" />
+  <meta property="og:description" content="GaymerConnect lets you connect with thousands of gaymers online." />
   
-  <link href="/assets/application.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="/assets/application.css?body=1" media="all" rel="stylesheet" type="text/css" />
+<link href="/assets/jquery.bbcode.css?body=1" media="all" rel="stylesheet" type="text/css" />
+<link href="/assets/auth-buttons.css?body=1" media="all" rel="stylesheet" type="text/css" />
+<link href="/assets/jquery.ui.redmond.theme.css?body=1" media="all" rel="stylesheet" type="text/css" />
+<link href="/assets/full_control/index.css?body=1" media="all" rel="stylesheet" type="text/css" />
   <link href="//use.typekit.net/rlw4skd.js" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/assets/welcome.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="/assets/welcome.css?body=1" media="all" rel="stylesheet" type="text/css" />
   
   
-  <script src="/assets/application.js" type="text/javascript"></script>
-  <script src="/assets/welcome.js" type="text/javascript"></script>
+  <script src="/assets/jquery.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery_ujs.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery-ui-1.8.23.custom.min.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery.query_string.js?body=1" type="text/javascript"></script>
+<script src="/assets/require.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery.bbcode.js?body=1" type="text/javascript"></script>
+<script src="/assets/bootstrap.min.js?body=1" type="text/javascript"></script>
+<script src="/assets/main.js?body=1" type="text/javascript"></script>
+<script src="/assets/application.js?body=1" type="text/javascript"></script>
+    <script src="/assets/welcome.js?body=1" type="text/javascript"></script>
+  
+  
+  <meta content="authenticity_token" name="csrf-param" />
+<meta content="/9FwO2QIaJXWJsIjU5FqNFSCn0WNONyXwRaP9KgkNGk=" name="csrf-token" />
 </head>
 <body>
 
 <div id="fb-root"></div>
-
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
-    <div class="container-fluid">
-      <a href="/" class="brand"><img alt="gaymercon" id="logo-image" src="/assets/gaymercon-logo.png" /></a>
+    <div class="container">
        <ul class="nav">
+        <a href="/" class="brand"><img alt="gaymercon" id="logo-image" src="/assets/navbar-logo.png" /></a>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Convention Info <b class="caret"></b></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><b class="caret"></b> Gaymer X 2013</a>
           <ul class="dropdown-menu">
             <li><a href="/info/about">About</a></li>
             <li><a href="/info/location">Location</a></li>
             <li><a href="/info/contact">Contact</a></li>
-            <li><a href="/info/volunteer">Volunteer</a></li>
             <li><a href="/info/donate">Donate</a></li>
             <li><a href="/panels">Panels</a></li>
-              <li><a href="/badges/new">Con Badge</a></li>
+              <li><a href="/badges/new">My Badge</a></li>
             <li><a href="http://blog.gaymercon.org">Blog</a></li>
-            <li><a href="http://store.gaymercon.org">Store <img alt="Coin" class="coin-img" src="/assets/coin.png" /></a></li>
           </ul>
         </li>
 
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">GaymerConnect <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="/groups/forums">Forums</a></li>
-            <li><a href="/groups">Groups</a></li>
-            <li><a href="/groups/games">Games</a></li>
-          </ul>
-        </li>
-          <li><a href="/signup">Sign Up</a></li>
-          <li><a href="/login">Log In</a></li>
+        <li><a href="/groups/forums">Forums</a></li>
+        <li><a href="/groups">Groups</a></li>
+        <li><a href="/groups/games">Games</a></li>
       </ul>
-      <div class="pull-right social">
-        Follow<i class="icon-play icon-white"></i>
-        <a href="https://www.facebook.com/GaymerCon"><img alt="Social-icon-fb" src="/assets/social-icon-fb.png" /></a>
-        <a href="https://twitter.com/GaymerCon"><img alt="Social-icon-twitter" src="/assets/social-icon-twitter.png" /></a>
-      </div>
-    </div>
+      
+      <ul class="nav pull-right">
+        <li style="position: relative; left: 10px;"><a href="/pages/what">?</a></li>
+          <li><a href="/users/sign_out" data-method="delete" rel="nofollow"><i class='icon-off icon-white'></i></a></li>
+      </ul>
+      
+      <form accept-charset="UTF-8" action="/search" class="form-search pull-right" method="get" style="display: inline-block; position: relative; top: 10px; "><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+        <div class="input-append">
+          <input class="input-small search-query" id="q" name="q" placeholder="Search" type="text" />
+          <button class="btn" name="" type="submit"><i class='icon-search'></i></button>
+        </div>
+</form>    </div>
   </div>
 </div>
 
-<div class="container-fluid">
-  
-  <div class="row-fluid global-header" style="background: url('/assets/main-header.png') top right no-repeat;">
-    
-    <div class="span4 control-panel">
-        <h3>HEY! LISTEN!</h3>
-        <p>You should sign up for a GaymerConnect account! The cool, free way to find fellow Gaymers!</p>
-        <a href="/signup" class="btn btn-primary">Sign Up</a>
-    </div>
-    <div class="section-name pull-right">
-      GaymerCon
-    </div>
-  </div>
+<div class="container">
 
-  <div class="row-fluid" style="margin-top: 50px;">
-    <div class="span12">
-      <div class="centered">
-        <h2 class="mono">Your <br />prince / <br />princess / <br />royal person <br />is in another castle!</h2>
-        <h3>Not here. We're not hiding them. We swear.</h3>
-      </div>
+  <div class="row" style="margin-top: 50px; min-height: 600px;">
+    <div class="span6">
+      <h1>Four Hundred Four</h1>
+      <h2 class="mono">Your <br />prince / <br />princess / <br />royal person <br />is in another castle!</h2>
+      <h3>Not here. We're not hiding them. We swear.</h3>
     </div>
-  </div>
-  
-  <div class="row-fluid">
-    <div class="span4 offset4">
+    
+    <div class="span6" style="margin-top: 100px;">
       <p>There's nothing at this url. Maybe there was supposed to be, or was once, but there is nothing now. You can <a href="http://www.gaymercon.org">go back</a> and look for more cool stuff. Or if you think something <strong>should</strong> be here, please let us know <a href="http://twitter.com/gaymercon">on Twitter</a> or <a href="http://www.facebook.com/gaymercon">on Facebook</a>. Or <a href="mailto:admin@gaymercon.org">via email</a>, if you're old-fashioned like that.</p>
     </div>
   </div>
-
 </div>
 
 
 <footer>
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span2">
-        <a href="/" class="brand"><img alt="gaymercon" id="logo-image" src="/assets/gaymercon-logo.png" /></a>
-      </div>
-      <div class="span4">
-        &copy; GaymerCon 2012 | <a href="/info/credits">Credits</a>
-      </div>
-      <div class="span5 offset1">
-        <div class="social">
-          Follow<i class="icon-play icon-white"></i>
-          <a href="https://www.facebook.com/GaymerCon"><img alt="Social-icon-fb" src="/assets/social-icon-fb.png" /></a>
-          <a href="https://twitter.com/GaymerCon"><img alt="Social-icon-twitter" src="/assets/social-icon-twitter.png" /></a>
+  <div class="container">
+    <div class="row">
+      <div class="span6">
+        <div id="social" class="hide">
+          <iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/follow_button.1340179658.html#_=1340503512136&amp;id=twitter-widget-0&amp;lang=en&amp;screen_name=gaymerconnect&amp;show_count=true&amp;show_screen_name=false&amp;size=m" class="twitter-follow-button" style="width: 160px; height: 20px; position: relative; top: 7px;" title="Twitter Follow Button"></iframe>
+          
+          <div class="fb-like" data-href="https://www.facebook.com/GaymerConnect" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" style="position: relative; top: 3px;"></div>
+          
+          &nbsp;&nbsp;
+          <a href="https://plus.google.com/113440831277664859026?prsrc=3" rel="publisher" style="text-decoration:none;">
+          <img src="//ssl.gstatic.com/images/icons/gplus-32.png" alt="Google+"/></a>
+          
+          &nbsp;
+          <a href="http://www.youtube.com/user/gaymercon?feature=creators_cornier-%2F%2Fs.ytimg.com%2Fyt%2Fimg%2Fcreators_corner%2FYouTube%2Fyoutube_32x32.png"><img src="//s.ytimg.com/yt/img/creators_corner/YouTube/youtube_32x32.png" alt="Subscribe to me on YouTube"/></a><img src="//www.youtube-nocookie.com/gen_204?feature=creators_cornier-//s.ytimg.com/yt/img/creators_corner/YouTube/youtube_32x32.png" style="display: none"/>
+          
+          &nbsp;
+          <a href="http://gaymerconnect.tumblr.com" alt="GaymerCon Tumblr"><img alt="Social-icon-tumblr" height="43" src="/assets/social-icon-tumblr.png" style="position: relative; top: 3px;" width="43" /></a>
+          
+          &nbsp;
+          <a href="http://blog.gaymercon.org" alt="GaymerBlog"><img alt="Social-icon-feed" src="/assets/social-icon-feed.png" /></a>
         </div>
-        | Privacy Policy | Legal Stuff
+      </div>
+      <div id="copy" class="span5">
+        &copy; <a href="/pages/what">GaymerConnect 2012</a> | 
+        <a href="/info/credits">Thanks!</a> |
+        <a href="/pages/privacy">Privacy</a> |
+        <a href="/info/contact">Contact</a>
       </div>
     </div>
   </div>

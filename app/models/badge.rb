@@ -9,12 +9,12 @@ class Badge < ActiveRecord::Base
   
   LEVELS = {
     coin_entered: "General Access",
-    boss_mode: "General Access + Fri night VIP party",
+    boss_mode: "General Access + Fri night VIP party + Tshirt + Swag Bag",
     artist: "Table in Artist's Alley",
-    artist_boss: "Boss Mode + table in Artist's Alley",
-    exhibitor: "Boss Mode + VIP Party + table in Exhibitor Hall",
-    cheat_code: "Boss Mode + VIP party + instant front-of-line at all events",
-    backstage: "Boss Mode + VIP party + backstage passes to Gaymer Concert",
+    artist_boss: "Boss Mode + table in Artist's Alley + Tshirt + Swag Bag",
+    exhibitor: "Boss Mode + VIP Party + table in Exhibitor Hall + Tshirt + Swag Bag",
+    cheat_code: "Boss Mode + VIP party + instant front-of-line at all events + Tshirt + Swag Bag",
+    backstage: "Boss Mode + VIP party + backstage passes to Gaymer Concert + Tshirt + Swag Bag",
     press: "All Access",
     special: "Industry / Special Guest pass: All Access",
     staff: "All Access"
