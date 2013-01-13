@@ -36,4 +36,13 @@ class UserMailer < ActionMailer::Base
     headers = {:to => @record.email, :subject => @title}
     mail(headers)
   end
+  
+  def gift_badge(email, badge, cc = nil)
+    @user = badge.purchaser
+    @badge = badge
+    @title = "#{@user.name} has given you a badge for GaymerX!"
+    @header = "gaymerXheader.png"
+    headers = {:to => email, :subject => @title}
+    mail(headers)
+  end
 end

@@ -1,54 +1,75 @@
-<h1>Update Your Info</h1>
+<div class="row">
+  <div class="span6">
+    <h2>Update Your Info</h2>
 
-<%= form_for @badge, :html => {:class => "form-vertical" } do |f| %>
-  <% if @badge.code.present? %>
-    <%= f.label :code %>
-    <%= f.text_field :code, :disabled => true %>
-  <% end %>
+    <%= form_for @badge, :html => {:class => "form-vertical" } do |f| %>
+      <% if @badge.code.present? %>
+        <%= f.label :code %>
+        <%= f.text_field :code, :disabled => true %>
+      <% end %>
   
-  <%= f.label :level %>
-  <%= f.select :level, options_for_select([[@badge.level.to_s.titleize, @badge.level]]), :disabled => true %>
-  <span class="help-block">
-    <strong>Badge Info:</strong> <%= @badge.description %>
-  </span>
+      <%= f.label :level %>
+      <%= f.select :level, options_for_select([[@badge.level.to_s.titleize, @badge.level]]), :disabled => true %>
+      <span class="help-block">
+        <strong>Badge Info:</strong> <%= @badge.description %>
+      </span>
   
-  <%= f.label :badge_name %>
-  <%= f.text_field :badge_name, :size => 20, :placeholder => "xX~~TheLittleOne~~Xx" %>
-  <span class="help-block">
-    The name we will print on your badge
-  </span>
+      <%= f.label :badge_name %>
+      <%= f.text_field :badge_name, :size => 20, :placeholder => "xX~~TheLittleOne~~Xx" %>
+      <span class="help-block">
+        The name we will print on your badge
+      </span>
   
-  <%= f.label :first_name, "Legal Name" %>
-  <%= f.text_field :first_name, :size => 10, :placeholder => "Ash" %>
-  <%= f.text_field :last_name, :size => 10, :placeholder => "Ketchum" %>
-  <span class="help-block">
-    We will be checking your picture ID at the door - first and last name <strong>must</strong> match!
-  </span>
+      <%= f.label :first_name, "Legal Name" %>
+      <%= f.text_field :first_name, :size => 10, :placeholder => "Ash" %>
+      <%= f.text_field :last_name, :size => 10, :placeholder => "Ketchum" %>
+      <span class="help-block">
+        We will be checking your picture ID at the door - first and last name <strong>must</strong> match!
+      </span>
   
-  <label for="badge_age" class="checkbox">
-    <%= f.check_box :age, {selected: "selected"}, "18+", nil %>
-    I will be over 18 by Aug 2, 2013
-  </label>
+      <label for="badge_age" class="checkbox">
+        <%= f.check_box :age, {selected: "selected"}, "18+", nil %>
+        I will be over 18 by Aug 2, 2013
+      </label>
   
-  <%= f.label :address_1, "Address Line 1" %>
-  <%= f.text_field :address_1, :placeholder => "457 Rainbow Road" %>
+      <%= f.label :address_1, "Address Line 1" %>
+      <%= f.text_field :address_1, :placeholder => "457 Rainbow Road" %>
   
-  <%= f.label :address_2, "Address Line 2" %>
-  <%= f.text_field :address_2, :placeholder => "Apt 69" %>
+      <%= f.label :address_2, "Address Line 2" %>
+      <%= f.text_field :address_2, :placeholder => "Apt 69" %>
   
-  <%= f.label :city %>
-  <%= f.text_field :city, :placeholder => "Pallett Town" %>
+      <%= f.label :city %>
+      <%= f.text_field :city, :placeholder => "Pallett Town" %>
   
-  <%= f.label :province, "State / Province" %>
-  <%= f.text_field :province, :placeholder => "Kanto" %>
+      <%= f.label :province, "State / Province" %>
+      <%= f.text_field :province, :placeholder => "Kanto" %>
   
-  <%= f.label :country %>
-  <%= f.text_field :country, :placeholder => "Pokemon Land" %>
+      <%= f.label :country %>
+      <%= f.text_field :country, :placeholder => "Pokemon Land" %>
   
-  <%= f.label :postal, "Zip / Postal Code" %>
-  <%= f.text_field :postal, :placeholder => "55555" %>
-  <br />
+      <%= f.label :postal, "Zip / Postal Code" %>
+      <%= f.text_field :postal, :placeholder => "55555" %>
+      <br />
   
-  <%= f.submit "Save", :class => "btn" %>
-<% end %>
-
+      <%= f.submit "Save", :class => "btn" %>
+    <% end %>
+  </div>
+  
+  <div class="span6">
+    <h2>Codes You've Bought For Others</h2>
+    <% if current_user.purchased_codes.present? %>
+      <table class="table table-bordered">
+        <tr><th>Code</th><th>Redeemed?</th></tr>
+        <% current_user.purchased_codes.each do |badge| %>
+          <tr>
+            <td><%= badge.code %></td>
+            <td><%= badge.user.present? ? link_to(badge.user.name, user_path(badge.user)) : "Not Yet" %></td>
+          </tr>
+        <% end %>
+      </table>
+    <% else %>
+      <h3>You haven't bought any badge codes for your friends yet.</h3>
+    <% end %>
+    <%= link_to "Buy a badge code", new_code_badges_path, :class => "btn btn-primary" %>
+  </div>
+</div>

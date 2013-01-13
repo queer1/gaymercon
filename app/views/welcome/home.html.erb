@@ -32,12 +32,14 @@
         <tr><td><strong>Level:</strong></td><td><%= current_user.badge.level.humanize %></td></tr>
         <tr><td><strong>Info:</strong></td><td><%= Badge.levels[current_user.badge.level] %></td></tr>
         <tr><td><strong>Badge Name:</strong></td><td><%= current_user.badge.badge_name %></td></tr>
-        <tr><td><strong>Real Name:</strong></td><td><%= current_user.badge.full_name %></td></tr>
+        <tr><td><strong>Legal Name:</strong></td><td><%= current_user.badge.full_name %></td></tr>
       </table>
       <%= link_to "Edit Badge Info", edit_badge_path(current_user.badge), :class => "btn" %>
+      <%= link_to "Buy extra badge codes", new_code_badges_path, :class => "btn btn-primary" %>
     <% else %>
-      <%= link_to "Buy a Badge", new_badge_path, :class => "btn btn-primary btn-large" %><br /><br />
-      <%= link_to "Redeem a Badge Code", new_badge_path, :class => "btn btn-primary btn-large" %>
+      <%= link_to "Get Your Badge", new_badge_path, :class => "btn btn-primary btn-large" %><br /><br />
+      <%= link_to "Gift a Badge", new_code_badges_path, :class => "btn btn-primary btn-large" %>
+      
     <% end %>
   </div>
 </div>

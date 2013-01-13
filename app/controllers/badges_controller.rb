@@ -1,10 +1,14 @@
 class BadgesController < ApplicationController
-  before_filter :authenticate_user!, except: [:new]
+  before_filter :authenticate_user!, except: [:new, :new_code]
   before_filter :find_badge, only: [:show, :edit, :update, :destroy]
-  before_filter :not_implemented, only: [:index, :show, :create]
+  before_filter :not_implemented, only: [:show, :create]
   before_filter do @section_name = "Con Badge" end
   
   def index
+    @badges = []
+    @badges << current_user.badge
+    @badges += current_user.purchased_codes
+    @badges.compact!
   end
   
   def show
@@ -14,8 +18,12 @@ class BadgesController < ApplicationController
   end
   
   def new
-    redirect_to edit_badge_path(current_user.badge) if current_user.present? && current_user.badge.present?
     session[:user_return_to] = new_badge_path unless current_user.present?
+    @badge = Badge.new
+  end
+  
+  def new_code
+    session[:user_return_to] = new_code_badges_path unless current_user.present?
     @badge = Badge.new
   end
   
@@ -40,11 +48,13 @@ class BadgesController < ApplicationController
   
   # html form for purchasing a badge
   def purchase
-    @badge = Badge.find_by_id(session[:purchase_badge])
+    @badge = Badge.purchasable.where(id: session[:purchase_badge]).first
     unless @badge.present? && @badge.purchasable?
       session[:purchase_badge] = nil
       @badge = nil
     end
+    
+    @for_code = params[:for_code]
     
     level = params[:badge_level] || "coin_entered"
     @badge ||= Badge.find_for_purchase(level)
@@ -59,20 +69,42 @@ class BadgesController < ApplicationController
     @badge = Badge.find_by_id(params[:badge]["id"])
     redirect_to purchase_badges_path, alert: "Sorry, the badge you were going to buy got taken :(" and return unless @badge.present? && @badge.purchasable?
     
-    fields = ["badge_name", "first_name", "last_name", "age", "address_1", "city", "province", "country", "postal"]
-    badge_params = params[:badge].slice(*(fields + ["address_2"]))
-    badge_params["badge_name"] ||= current_user.name
-    @badge.assign_attributes(badge_params)
-    unless fields.all?{|f| @badge.send(f).present? }
-      flash.now[:alert] = "Please fill out all the badge info."
-      render :purchase and return
+    @for_code = params[:badge][:for_code]
+    result = "Oops, there was an error processing your payment."
+    if @for_code.present?
+      result = process_payment(@badge, for_code: true)
+    else
+      fields = ["badge_name", "first_name", "last_name", "age", "address_1", "city", "province", "country", "postal"]
+      badge_params = params[:badge].slice(*(fields + ["address_2"]))
+      badge_params["badge_name"] ||= current_user.name
+      @badge.assign_attributes(badge_params)
+      unless fields.all?{|f| @badge.send(f).present? }
+        flash.now[:alert] = "Please fill out all the badge info."
+        render :purchase and return
+      end
+      result = process_payment(@badge)
     end
-    result = process_payment(@badge)
-    redirect_to edit_badge_path(@badge), notice: "You've purchased a badge! Aren't you awesome?" and return if result.is_a?(Badge)
+    
+    if result.is_a?(Badge)
+      session[:purchase_badge] = nil
+      if @for_code
+        begin
+          UserMailer.gift_badge(params[:email], result).deliver if params[:email].present?
+          UserMailer.gift_badge(current_user.email, result).deliver if params[:cc_me].present? && current_user.email.present?
+        rescue Exception => e
+          Coalmine.notify(e)
+          flash[:alert] = "Your badge code has been purchased, but there was a problem sending the email."
+        end
+        redirect_to badges_path, notice: "You've purchased badge code #{result.code}!" and return
+      else
+        redirect_to edit_badge_path(@badge), notice: "You've purchased a badge! Aren't you awesome?" and return
+      end
+    end
     flash.now[:alert] = result
     render :purchase
   end
   
+  # process code entry
   def register
     code = params[:code] || params[:badge].try(:[], :code)
     @badge = Badge.find_by_code(code)
@@ -104,7 +136,7 @@ class BadgesController < ApplicationController
       redirect_to current_user.badge.present? ? edit_badge_path : new_badge_path
     end
     
-    def process_payment(badge)
+    def process_payment(badge, opts = {})
       return "Sorry, couldn't process your card. Please try again, and make sure javascript is enabled." unless params[:token].present?
       begin
         charge = Stripe::Charge.create(
@@ -122,7 +154,21 @@ class BadgesController < ApplicationController
       sp[:user_id] = current_user.id
       payment = StripePayment.create(sp)
       return payment.all_errors unless payment.valid?
-      if badge.update_attributes(:user_id => current_user.id)
+      
+      if opts[:for_code]
+        badge_code = nil
+        begin
+          badge_code = SecureRandom.hex(4)
+        end while Badge.where(code: badge_code).exists?
+        
+        if badge.update_attributes(:purchaser_id => current_user.id, code: badge_code)
+          return badge
+        else
+          return "Your payment has been processed, but there was a problem saving your badge: #{badge.all_errors}. Please contact the admins."
+        end
+      end
+      
+      if badge.update_attributes(:user_id => current_user.id, :purchaser_id => current_user.id)
         return badge
       else
         return "Your payment has been processed, but there was a problem saving your badge: #{badge.all_errors}. Please contact the admins."

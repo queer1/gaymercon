@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
   has_many :followers, :through => :inverse_follows, :source => :user
   
   has_one :badge
+  has_many :purchased_codes, class_name: "Badge", foreign_key: "purchaser_id", conditions: proc {"user_id is null or user_id != #{self.id}"}
   
   belongs_to :job
   

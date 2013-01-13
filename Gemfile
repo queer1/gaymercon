@@ -62,5 +62,6 @@ group :development do
   # gem "thin"
   gem "lorem"
   gem "debugger"
+  gem "thin"
 end
 

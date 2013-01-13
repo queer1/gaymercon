@@ -2,10 +2,11 @@ class Badge < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :admin, :class_name => "User"
+  belongs_to :purchaser, :class_name => "User"
   has_one :stripe_payment
   validate :price_or_code
   before_save :grant_xp
-  scope :purchasable, where("price IS NOT NULL and user_id IS NULL")
+  scope :purchasable, where("code IS NULL and price IS NOT NULL and user_id IS NULL and purchaser_id IS NULL")
   
   LEVELS = {
     coin_entered: "General Access",
@@ -41,8 +42,11 @@ class Badge < ActiveRecord::Base
   end
   
   def self.purchasable_levels
-    lvls = self.where("price IS NOT NULL and user_id IS NULL").select("level").group("level").collect(&:level)
-    LEVELS.slice(*lvls)
+    lvls = self.purchasable.select("level").group("level").collect(&:level)
+    ret = {}
+    # maintain order in LEVELS hash
+    LEVELS.each {|k,v| ret[k] = v if lvls.include?(k.to_s) }
+    return ret
   end
   
   def self.find_for_purchase(level)

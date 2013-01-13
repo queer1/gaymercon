@@ -17,36 +17,56 @@
         <strong>Badge Info:</strong> <%= @badge.description %>
       </span>
 
-      <%= f.label :first_name, "Full Name" %>
-      <%= f.text_field :first_name, :placeholder => "Chell" %>
-      <%= f.text_field :last_name, :placeholder => "Portal" %>
-      <span class="help-block">
-        We will be checking your picture ID at the door - this name <strong>has</strong> to match!
-      </span>
+      <% if @for_code %>
+        <span class="help-block">
+          Once you check out, we will give you a badge code you can email / im / tweet to someone cool. Thanks!
+        </span>
+        <%= f.hidden_field :for_code, value: true %>
+        <%= label_tag :email, "Email we should send the code to:" %>
+        <%= email_field_tag :email, "", placeholder: "samus@bountyhunters.com" %>
+        
+        <label for="badge_age" class="checkbox">
+          <%= check_box_tag :cc_me %>
+          Also send me the confirmation email
+        </label>
+      <% else %>
+        <%= f.label :badge_name, "Badge Name" %>
+        <% badge_name = @badge.badge_name || current_user.name %>
+        <%= f.text_field :badge_name, :value => badge_name, :placeholder => "xX//WhiteRaSC\\Xx" %>
+        <span class="help-block">
+          The name you would like printed on your badge
+        </span>
+      
+        <%= f.label :first_name, "Legal Name" %>
+        <%= f.text_field :first_name, :placeholder => "Chell" %>
+        <%= f.text_field :last_name, :placeholder => "Portal" %>
+        <span class="help-block">
+          We will be checking your picture ID at the door - this name <strong>has</strong> to match!
+        </span>
 
-      <%= f.label :age, "Age (on Aug 2, 2013)" %>
-      <%= f.text_field :age, :placeholder => "18" %>
-      <span class="help-block">
-        You must be 18 by Aug 2, 2013 to attend GaymerCon
-      </span>
+        <label for="badge_age" class="checkbox">
+          <%= f.check_box :age, {selected: "selected"}, "18+", nil %>
+          I will be over 18 by Aug 2, 2013
+        </label>
   
-      <%= f.label :address_1, "Address Line 1" %>
-      <%= f.text_field :address_1, :placeholder => "457 Rainbow Road" %>
+        <%= f.label :address_1, "Address Line 1" %>
+        <%= f.text_field :address_1, :placeholder => "457 Rainbow Road" %>
   
-      <%= f.label :address_2, "Address Line 2" %>
-      <%= f.text_field :address_2, :placeholder => "Apt 69" %>
+        <%= f.label :address_2, "Address Line 2" %>
+        <%= f.text_field :address_2, :placeholder => "Apt 69" %>
   
-      <%= f.label :city %>
-      <%= f.text_field :city, :placeholder => "Providence" %>
+        <%= f.label :city %>
+        <%= f.text_field :city, :placeholder => "Providence" %>
   
-      <%= f.label :province, "State / Province" %>
-      <%= f.text_field :province, :placeholder => "RI" %>
+        <%= f.label :province, "State / Province" %>
+        <%= f.text_field :province, :placeholder => "RI" %>
   
-      <%= f.label :country %>
-      <%= f.text_field :country, :placeholder => "USA" %>
+        <%= f.label :country %>
+        <%= f.text_field :country, :placeholder => "USA" %>
   
-      <%= f.label :postal, "Zip / Postal Code" %>
-      <%= f.text_field :postal, :placeholder => "02908" %>
+        <%= f.label :postal, "Zip / Postal Code" %>
+        <%= f.text_field :postal, :placeholder => "02908" %>
+      <% end %>
   
       <h4>Price</h4>
       <% amount = number_to_currency(@badge.price_in_dollars) %>

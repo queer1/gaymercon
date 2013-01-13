@@ -1,0 +1,7 @@
+<%= @title %>
+
+You can redeem your badge code here: <%= register_badges_url(:code => @badge.code, :only_path => false) %>
+
+Your badge registration code is <%= @badge.code %>
+
+Log in to GaymerConnect and send <%= @badge.purchaser.name %> a thank you message here: <%= new_message_url(:to_user => @badge.purchaser, :only_path => false) %>
