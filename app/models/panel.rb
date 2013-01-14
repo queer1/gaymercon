@@ -10,7 +10,7 @@ class Panel < ActiveRecord::Base
   validates_presence_of :description
   
   searchable do
-    text :title, :description, :type, :kind
+    text :title, :description, :kind
     boolean :confirmed
     string :kind
     string :klass do
