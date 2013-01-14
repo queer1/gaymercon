@@ -135,6 +135,7 @@ class BadgesController < ApplicationController
     
     def setup_badge_list
       @badges = []
+      return unless current_user.present?
       @badges << current_user.badge
       @badges += current_user.purchased_codes
       @badges.compact!
