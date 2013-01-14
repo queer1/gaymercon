@@ -62,6 +62,9 @@ class User < ActiveRecord::Base
     text :nicknames do 
       nicknames.each {|nick| nick.name }
     end
+    string :klass do
+      self.class.name
+    end
   end
   
   # blegh. debugged on production

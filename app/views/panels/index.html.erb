@@ -1,26 +1,51 @@
 <div class="row">
-  <% unless params[:page].present? && params[:page] > 1 %>
-    <% if @popular.present? %>
-      <div class="span5">
-        <h3>Popular</h3>
-        <%= render partial: "panel_collection", locals: {panels: @popular} %>
-      </div>
-    <% end %>
-  
-    <% if @new.present? %>
-      <div class="span5 offset1">
-        <h3>New</h3>
-        <%= render partial: "panel_collection", locals: {panels: @new} %>
-      </div>
-    <% end %>
-  <% end %>
+  <div class="span12">
+    <h1>Panels</h1>
+    <small><strong>GaymePro ProTip:</strong> Gain xp by voting on panels! Make your voice heard!</small>
+    <ul class="nav nav-tabs">
+      <% if @popular.present? %>
+        <li class="<%= params[:page].present? ? '' : 'active' %>"><a href="#popular" data-toggle="tab">Popular (<%= @popular.count %>)</a></li>
+      <% end %>
+      
+      <% if @new.present? %>
+        <li><a href="#new" data-toggle="tab">New (<%= @new.count %>)</a></li>
+      <% end %>
+      
+      <% if @all.present? %>
+        <li class="<%= params[:page].present? ? 'active' : '' %>"><a href="#other" data-toggle="tab">All Others (<%= @all.total_entries %>)</a></li>
+      <% end %>
+    </ul>
+  </div>
 </div>
 
-<div class="row">
+<div class="tab-content">
+  <% if @popular.present? %>
+    <div class="tab-pane <%= params[:page].present? ? '' : 'active' %>" id="popular">
+      <div class="row">
+        <div class="span12">
+          <%= render partial: "panel_collection", locals: {panels: @popular} %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  
+  <% if @new.present? %>
+    <div class="tab-pane" id="new">
+      <div class="row">
+        <div class="span12">
+          <%= render partial: "panel_collection", locals: {panels: @new} %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  
   <% if @all.present? %>
-    <div class="span12">
-      <h3>All Panels</h3>
-      <%= render :partial => "panel_collection", locals: {:panels => @all} %>
+    <div class="tab-pane <%= params[:page].present? ? 'active' : '' %>" id="other">
+      <div class="row">
+        <div class="span12">
+          <%= render :partial => "panel_collection", locals: {:panels => @all} %>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>

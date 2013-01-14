@@ -72,8 +72,9 @@ class WelcomeController < ApplicationController
   end
   
   def search
-    @kind = params[:kind] if ["user", "group", "thread", "game"].include?(params[:kind])
+    @kind = params[:kind] if ["user", "group", "thread", "game", "panel"].include?(params[:kind])
     @kind ||= "user"
+    @klass = Panel if params[:kind] == "panel"
     @klass = GroupPost if params[:kind] == "thread"
     @klass = Group if params[:kind] == "game"
     @klass = params[:kind].capitalize.constantize if ["user", "group"].include?(params[:kind])
@@ -83,6 +84,33 @@ class WelcomeController < ApplicationController
       with :kind, "game" if params[:kind] == "game"
       without :kind, "game" if params[:kind] == "group"
       paginate page: params[:page], per_page: 30
+    end
+    
+    @meta = Sunspot.search(User, Group, GroupPost, Panel) do
+      fulltext params[:q]
+      facet(:kind) do
+        row(:user) do
+          with(:klass,  "User")
+        end
+        
+        row(:group) do
+          with(:klass, "Group")
+          without(:kind, "game")
+        end
+        
+        row(:thread) do
+          with(:klass, "GroupPost")
+        end
+        
+        row(:game) do
+          with(:klass, "Group")
+          with(:kind, "game")
+        end
+        
+        row(:panel) do
+          with(:klass, "Panel")
+        end
+      end
     end
     
   end

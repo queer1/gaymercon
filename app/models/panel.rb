@@ -9,6 +9,15 @@ class Panel < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :description
   
+  searchable do
+    text :title, :description, :type, :kind
+    boolean :confirmed
+    string :kind
+    string :klass do
+      self.class.name
+    end
+  end
+  
   # reddit algorithm, as stolen from here: 
   # http://www.seomoz.org/blog/reddit-stumbleupon-delicious-and-hacker-news-algorithms-exposed
   def compute_score

@@ -25,6 +25,9 @@ class GroupPost < ActiveRecord::Base
     text :summary do
       comments.collect {|c| c.content }
     end
+    string :klass do
+      self.class.name
+    end
   end
   
   def self.kinds

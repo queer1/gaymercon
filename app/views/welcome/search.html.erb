@@ -1,13 +1,30 @@
+<% if @klass.name == "Panel" %>
+  <% content_for :javascripts do %>
+    <%= javascript_include_tag "panels" %>
+  <% end %>
+<% end %>
+
 <div class="row">
   <div class="span12">
     <div class="page-header">
       <h1>Search Results for <%= params[:q] %></h1>
     </div>
+    <% Rails.logger.debug "facets: " + @meta.facet(:kind).rows.inspect %>
     <ul class="nav nav-tabs">
-      <li class="<%= @kind == "user" ? 'active' : '' %>"><%= link_to "Users", search_path(q: params[:q], kind: 'user') %></li>
-      <li class="<%= @kind == "game" ? 'active' : '' %>"><%= link_to "Games", search_path(q: params[:q], kind: 'game') %></li>
-      <li class="<%= @kind == "group" ? 'active' : '' %>"><%= link_to "Groups", search_path(q: params[:q], kind: 'group') %></li>
-      <li class="<%= @kind == "thread" ? 'active' : '' %>"><%= link_to "Threads", search_path(q: params[:q], kind: 'thread') %></li>
+      <% f = @meta.facet(:kind).rows.select{|r| r.value == :user }.first %>
+      <li class="<%= @kind == "user" ? 'active' : '' %>"><%= link_to "Users (#{f.try(:count) || 0})", search_path(q: params[:q], kind: 'user') %></li>
+      
+      <% f = @meta.facet(:kind).rows.select{|r| r.value == :game }.first %>
+      <li class="<%= @kind == "game" ? 'active' : '' %>"><%= link_to "Games (#{f.try(:count) || 0})", search_path(q: params[:q], kind: 'game') %></li>
+      
+      <% f = @meta.facet(:kind).rows.select{|r| r.value == :group }.first %>
+      <li class="<%= @kind == "group" ? 'active' : '' %>"><%= link_to "Groups (#{f.try(:count) || 0})", search_path(q: params[:q], kind: 'group') %></li>
+      
+      <% f = @meta.facet(:kind).rows.select{|r| r.value == :thread }.first %>
+      <li class="<%= @kind == "thread" ? 'active' : '' %>"><%= link_to "Threads (#{f.try(:count) || 0})", search_path(q: params[:q], kind: 'thread') %></li>
+      
+      <% f = @meta.facet(:kind).rows.select{|r| r.value == :panel }.first %>
+      <li class="<%= @kind == "panel" ? 'active' : '' %>"><%= link_to "Panels (#{f.try(:count) || 0})", search_path(q: params[:q], kind: 'panel') %></li>
     </ul>
   </div>
 </div>
@@ -19,4 +36,6 @@
   <%= render partial: "groups/group_collection", locals: {groups: @search.results} %>
 <% when "GroupPost" %>
   <%= render partial: "group_posts/table", locals: {posts: @search.results} %>
+<% when "Panel" %>
+  <%= render partial: "panels/panel_collection", locals: {panels: @search.results} %>
 <% end %>

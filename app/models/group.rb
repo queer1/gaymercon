@@ -26,6 +26,9 @@ class Group < ActiveRecord::Base
   searchable do
     text :name, :description, :site_name, :site_link, :game, :game_key, :url
     string :kind
+    string :klass do
+      self.class.name
+    end
   end
 
   KINDS.each do |kind|
