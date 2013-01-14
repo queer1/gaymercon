@@ -1,0 +1,43 @@
+<h2>Badges You've Purchased</h2>
+<% if @badges.present? %>
+  <table class="table table-bordered">
+    <tr>
+      <th>Code</th><th>Price</th><th>Redeemed?</th>
+    </tr>
+    
+    <% @badges.each do |badge| %>
+      <tr>
+        <td><%= badge.code || "None" %></td>
+        <td><%= number_to_currency(badge.price_in_dollars) %></td>
+        <td>
+          <% if badge.user == current_user %>
+            <%= link_to "Edit my badge info", edit_badge_path(badge), :class => "btn btn-primary" %>
+          <% elsif badge.user.present? %>
+            <%= link_to badge.user.name, user_path(badge.user) %>
+          <% else %>
+            Not yet!
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  
+  <% unless current_user.badge.present? || params[:action] == "purchase" %>
+    <%= link_to "Get Your Badge Today!", new_badge_path, :class => 'btn btn-primary' %>&nbsp;&nbsp;&nbsp;&nbsp;
+  <% end %>
+  
+  <% unless params[:action] == "new_code" %>
+    <%= link_to "Gift a Badge Code", new_code_badges_path, :class => "btn btn-primary" %>
+  <% end %>
+<% else %>
+  <h3>You haven't bought any badges yet!</h3>
+  <p>
+    <% unless params[:action] == "purchase" %>
+      <%= link_to "Buy a badge for yourself", new_badge_path, :class => "btn btn-primary" %>
+    <% end %>
+    
+    <% unless params[:action] == "new_code" %>
+      <%= link_to "Buy a code for a friend", new_code_badges_path, :class => "btn btn-primary" %>
+    <% end %>
+  </p>
+<% end %>

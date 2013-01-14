@@ -3,7 +3,15 @@ class Admin::BadgesController < AdminController
   before_filter :find_badge, only: [:show, :edit, :update, :destroy]
   
   def index
-    @badges = Badge.order("created_at desc").page(params[:page])
+    if params[:q].present?
+      q = params[:q]
+      @badges = Badge.joins("left join users u on badges.user_id = u.id")
+                     .joins("left join users p on badges.purchaser_id = p.id")
+                     .joins("left join users a on badges.admin_id = a.id")
+                     .where("code like '%#{q}%' or u.name like '%#{q}%' or u.email like '%#{q}%' or p.name like '%#{q}%' or p.email like '%#{q}%' or a.name like '%#{q}%' or a.email like '%#{q}%' or level = ? or price = ?", q.downcase.gsub(/\s+/, '_'), q.to_i * 100)
+                     .page(params[:page])
+    end
+    @badges ||= Badge.order("created_at desc").page(params[:page])
   end
   
   def show

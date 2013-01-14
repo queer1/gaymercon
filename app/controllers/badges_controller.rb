@@ -2,13 +2,10 @@ class BadgesController < ApplicationController
   before_filter :authenticate_user!, except: [:new, :new_code]
   before_filter :find_badge, only: [:show, :edit, :update, :destroy]
   before_filter :not_implemented, only: [:show, :create]
+  before_filter :setup_badge_list, only: [:index, :new_code, :edit]
   before_filter do @section_name = "Con Badge" end
   
   def index
-    @badges = []
-    @badges << current_user.badge
-    @badges += current_user.purchased_codes
-    @badges.compact!
   end
   
   def show
@@ -49,7 +46,7 @@ class BadgesController < ApplicationController
   # html form for purchasing a badge
   def purchase
     @badge = Badge.purchasable.where(id: session[:purchase_badge]).first
-    unless @badge.present? && @badge.purchasable?
+    if @badge.nil? || !@badge.purchasable? || (params[:badge_level].present? && @badge.level != params[:badge_level])
       session[:purchase_badge] = nil
       @badge = nil
     end
@@ -134,6 +131,13 @@ class BadgesController < ApplicationController
     
     def not_implemented
       redirect_to current_user.badge.present? ? edit_badge_path : new_badge_path
+    end
+    
+    def setup_badge_list
+      @badges = []
+      @badges << current_user.badge
+      @badges += current_user.purchased_codes
+      @badges.compact!
     end
     
     def process_payment(badge, opts = {})

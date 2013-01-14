@@ -1,19 +1,9 @@
 <% if current_user.present? %>
   <div class="row">
     <div class="span6">
-      <h1>Buy a Code to Give</h1>
+      <h2>Buy a Code to Give</h2>
       <p>Can't go to the con? Want to bring a friend? Want an extra badge just in case?
       Well now you can buy extra badge codes! Just fill out the info below and we'll have the code(s) made for you! Then you can give the code to whoever wants to go and they can use that code to register!</p>
-    
-      <% if current_user.badge.present? %>
-        <p>To edit your own badge info, go here:
-          <%= link_to "Edit Badge Info", edit_badge_path(current_user.badge), :class => "btn btn-primary" %>
-        </p>
-      <% else %>
-        <p>To get a badge for <strong>yourself</strong>, go here:
-          <%= link_to "Get a Badge", new_badge_path, :class => "btn btn-primary" %>
-        </p>
-      <% end %>
     
       <% if Badge.purchasable_levels.present? %>
         <%= form_tag purchase_badges_path, :method => "get", :class => "form-vertical", :id => "purchase-form" do %>
@@ -31,6 +21,10 @@
       <% else %>
         <h4>Oops, sorry, badges are not available for purchase right now</h4>
       <% end %>
+    </div>
+    
+    <div class="span6">
+      <%= render partial: "badges/purchased_table" %>
     </div>
   </div>
 <% else %>

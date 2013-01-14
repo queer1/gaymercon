@@ -54,7 +54,7 @@ $(document).ready(function(){
   });
   
   $(".date").datepicker();
-  $(".close").on("click", function(){ $(this).parent().parent().hide(); });
+  $("body").on("click", ".close", function(e){ e.preventDefault(); $(this).parent().parent().hide(); return false;});
   
   $("input[type='submit']").each(function(elem){
     var submitButton = $("<button type='submit'>" + $(this).val() + "</button>");

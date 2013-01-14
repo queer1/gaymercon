@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="span8">
+  <div class="span12">
     <h1>Badges</h1>
 
     <div>Badges redeemed: <span class="danger"><%= Badge.redeemed_count %></span> / <%= Badge.count %></div>
@@ -8,8 +8,19 @@
       <%= link_to "New Badge", new_admin_badge_path, :class => "btn" %>
       <%= link_to "Mass create", mass_new_admin_badges_path, :class => "btn" %>
       <%= link_to "Export unclaimed", export_admin_badges_path, :class => "btn" %>
+      <%= form_tag nil, :class => "form-search", :style => "display: inline-block", :method => "get" do %>
+        <%= text_field_tag :q, params[:q], :class => "input-medium search-query" %>
+        <%= button_tag "Search", :class => "btn" %>
+      <% end %>
     </div>
+    <small>
+      Search by: name or email of user / purchaser / admin, or price / level / code.
+    </small>
+  </div>
+</div>
 
+<div class="row">
+  <div class="span8">
     <table class="table table-striped">
       <tr><th>Code</th><th>Price</th><th>Level</th><th>Redeemed?</th><th>Edit</th><th>Delete</th></tr>
       <%= render :partial => "badge", :collection => @badges %>

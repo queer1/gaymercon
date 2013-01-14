@@ -42,7 +42,9 @@ class Badge < ActiveRecord::Base
   end
   
   def self.purchasable_levels
-    lvls = self.purchasable.select("level").group("level").collect(&:level)
+    excluded = REDIS.zrangebyscore("badge_reserve", "(#{Time.now.to_i}", "+inf")
+    excluded = [-1] unless excluded.present?
+    lvls = self.purchasable.where("id NOT IN (?)", excluded).select("level").group("level").collect(&:level)
     ret = {}
     # maintain order in LEVELS hash
     LEVELS.each {|k,v| ret[k] = v if lvls.include?(k.to_s) }
@@ -52,7 +54,7 @@ class Badge < ActiveRecord::Base
   def self.find_for_purchase(level)
     excluded = REDIS.zrangebyscore("badge_reserve", "(#{Time.now.to_i}", "+inf")
     excluded = [-1] unless excluded.present?
-    self.purchasable.where("id NOT IN (?)", excluded).order("price asc").first
+    self.purchasable.where("level = ? and id NOT IN (?)", level, excluded).order("price asc").first
   end
   
   def self.price(level)

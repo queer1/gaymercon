@@ -30,10 +30,8 @@ $(function(){
       }, function(status, response){
         var form = $("#payment-form");
         if (response.error) {
-          $("#card-number-row").before("<div class='error'>" + response.error.message + "</div>")
+          $("#first-stripe-field").before("<div><div class='alert alert-error'>" + response.error.message + "<button class='close' >&times;</button></div></div>")
           $(".submit-button").removeAttr("disabled");
-          $('.submit-button').addClass("button-blue")
-          $('.submit-button').removeClass("button-gray");
         } else {
           var token = response['id'];
           form.append("<input type='hidden' name='token' id='stripe-token' value='" + token + "'/>");
