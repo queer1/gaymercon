@@ -3,15 +3,30 @@ class Admin::BadgesController < AdminController
   before_filter :find_badge, only: [:show, :edit, :update, :destroy]
   
   def index
+    @order = "created_at desc"
+    @order = "level asc" if params[:order] == "level"
+    @order = "price desc" if params[:order] == "price"
+    @order = "code asc" if params[:order] == "code"
+    
     if params[:q].present?
       q = params[:q]
       @badges = Badge.joins("left join users u on badges.user_id = u.id")
                      .joins("left join users p on badges.purchaser_id = p.id")
                      .joins("left join users a on badges.admin_id = a.id")
                      .where("code like '%#{q}%' or u.name like '%#{q}%' or u.email like '%#{q}%' or p.name like '%#{q}%' or p.email like '%#{q}%' or a.name like '%#{q}%' or a.email like '%#{q}%' or level = ? or price = ?", q.downcase.gsub(/\s+/, '_'), q.to_i * 100)
+                     .order(@order)
                      .page(params[:page])
     end
-    @badges ||= Badge.order("created_at desc").page(params[:page])
+    
+    if params[:unredeemed_codes].present?
+      @badges = Badge.where("code IS NOT NULL and code != '' and user_id IS NULL").order(@order).page(params[:page])
+    end
+    
+    if params[:for_sale].present?
+      @badges = Badge.where("price IS NOT NULL and price != '' and user_id IS NULL").order(@order).page(params[:page])
+    end
+    
+    @badges ||= Badge.order(@order).page(params[:page])
   end
   
   def show

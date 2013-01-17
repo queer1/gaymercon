@@ -3,14 +3,14 @@ module Sponsors
   
   def self.sixteen_bit
     gaymers = <<-DOC
-    Greater Than Games
-    holdtheline.com
-    Looney Labs
-    SharkRobot.com
-    So Much Drama Studios
-    The Rough Trade Gaming Community
+    Greater Than Games: http://sentinelsofthemultiverse.com/
+    Hold The Line: http://www.holdtheline.com
+    Looney Labs: http://www.looneylabs.com/
+    SharkRobot: http://www.sharkrobot.com
+    So Much Drama Studios: http://www.somuchdramastudios.com/
+    The Rough Trade Gaming Community: http://roughtradegamingcommunity.org/
     DOC
-    gaymers.strip_heredoc.split("\n").collect(&:to_ascii)
+    YAML.load(gaymers.strip_heredoc)
   end
   
   def self.eight_bit

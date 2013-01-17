@@ -141,8 +141,13 @@ class UsersController < Devise::RegistrationsController
   def follow
     user = User.find_by_url(params[:id])
     redirect_to :back, alert: "Sorry, couldn't find that user" and return unless user.present?
-    current_user.followed_users << user
-    redirect_to :back, notice: "You are now following #{user.name}"
+    begin
+      current_user.followed_users << user
+      flash[:notice] = "You are now following #{user.name}"
+    rescue ActiveRecord::RecordInvalid => e
+      flash[:alert] = e.message
+    end
+    redirect_to :back
   end
   
   def unfollow

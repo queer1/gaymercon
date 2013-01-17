@@ -1,5 +1,5 @@
-<% if local_assigns[:link] %>
-  <a href="<%= @link %>"><%= sponsor %></a>
+<% if sponsor.is_a?(Array) %>
+  <a href="<%= sponsor.last %>" title="<%= sponsor.first %>"><%= sponsor.first %></a>
 <% else %>
   <%= sponsor %>
 <% end %>

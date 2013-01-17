@@ -14,7 +14,9 @@
       <% end %>
     </div>
     <small>
-      Search by: name or email of user / purchaser / admin, or price / level / code.
+      Search by: name or email of user / purchaser / admin, or price / level / code. |
+      <%= link_to "Unredeemed codes", admin_badges_path(unredeemed_codes: true) %> | 
+      <%= link_to "For sale", admin_badges_path(for_sale: true) %>
     </small>
   </div>
 </div>
@@ -22,7 +24,28 @@
 <div class="row">
   <div class="span8">
     <table class="table table-striped">
-      <tr><th>Code</th><th>Price</th><th>Level</th><th>Redeemed?</th><th>Edit</th><th>Delete</th></tr>
+      <% parms = params.dup 
+         parms.delete(:action)
+         parms.delete(:controller)
+         parms.delete(:id)
+      %>
+      <tr>
+        <th>
+          <%= link_to "Code", admin_badges_path(parms.merge(order: "code")) %>
+          <%= params[:order] == "code" ? "<b class='caret row-caret'></b>".html_safe : '' %>
+        </th>
+        <th>
+          <%= link_to "Price", admin_badges_path(parms.merge(order: "price")) %>
+          <%= params[:order] == "price" ? "<b class='caret'></b>".html_safe : '' %>
+        </th>
+        <th>
+          <%= link_to "Level", admin_badges_path(parms.merge(order: "level")) %>
+          <%= params[:order] == "level" ? "<b class='caret'></b>".html_safe : '' %>
+        </th>
+        <th>Redeemed?</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
       <%= render :partial => "badge", :collection => @badges %>
     </table>
     
