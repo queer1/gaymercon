@@ -69,6 +69,11 @@ class User < ActiveRecord::Base
     end
   end
   
+  # for devise - do not require password for updates
+  def password_required? 
+    false 
+  end
+  
   # blegh. debugged on production
   def avatar
     return "default-user.gif" unless self.job_id.present?

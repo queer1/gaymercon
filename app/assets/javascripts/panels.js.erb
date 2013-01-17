@@ -42,23 +42,22 @@ $(function(){
       $("#kind_other").hide();
   });
   
+  $("#panel_kind").change();
+  
   $("#moar-panelists").on("click", function(e){
     e.preventDefault();
-    var form = $(".panelist-form:last").clone();
-    var new_html = form.html().replace(/new_panelist/ig, get_timestamp());
-    console.log(new_html);
-    form.html(new_html);
+    var form = $(".panelist:last").clone();
     form.find("input").val("");
     form.hide();
-    $("#panelists").append(form);
+    $(this).before(form);
     form.slideDown();
     return false;
   });
   
   $("#panelists").on("click", ".remove-panelist", function(e){
     e.preventDefault();
-    var form = $(e.target).parents(".panelist-form");
-    if($(".panelist-form").length > 1){
+    var form = $(e.target).parents(".panelist");
+    if($(".panelist").length > 1){
       form.fadeOut('fast', function(e){ $(this).remove(); });
     }else{
       var newform = form.clone();

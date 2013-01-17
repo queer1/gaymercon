@@ -23,16 +23,22 @@ class PanelsController < ApplicationController
     kind = params[:panel][:kind] == "Other" ? params[:kind_other] : params[:panel][:kind]
     @panel = Panel.create(user: current_user, title: params[:panel]["title"], kind: kind, description: params[:panel]["description"])
     if @panel.persisted?
-      @panelists = params[:panel][:panelists].collect {|k,p| next if p.all? {|k,v| v.empty? }; Panelist.create(p.merge(panel_id: @panel.id)) }
-      if(@panelists.any?{|p| !p.valid? })
+      @panelists = params[:panel][:panelists].collect {|k,p| next if p.all? {|k,v| v.empty? }; Panelist.create(p.merge(panel_id: @panel.id)) }.compact
+      Rails.logger.debug "Panelists: #{@panelists.inspect}"
+      if(@panelists.any?{|p| !p.valid? } || @panelists.empty?)
         @panel.destroy
-        flash.now[:alert] = "There were some problems with your panelists: " + @panelists.collect(&:all_errors).join(", ")
+        errors = ""
+        errors << "Did you enter any panelist info?\n" if @panelists.empty?
+        errors <<  @panelists.collect(&:all_errors).join("\n")
+        flash.now[:alert] = "There were some problems with your panelists: \n#{errors}"
+        @panelists << Panelist.new
         render :new
       else
         redirect_to edit_panel_path(@panel), notice: "Panel successfully created!"
       end
     else
-      @panelists = params[:panel][:panelists].collect {|p| Panelist.new(p) }
+      @panelists = params[:panel][:panelists].collect {|p| p.is_a?(Array) ? Panelist.new(p.last) : Panelist.new(p) }
+      @panelists << Panelist.new
       flash.now[:error] = "There was a problem with your panel: #{@panel.all_errors}"
       render :new
     end

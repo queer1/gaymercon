@@ -114,7 +114,7 @@
 
         <div class="span9" id="games">
           <%= gridify(@games, "users/key_field", :cols => 4, :col_width => 2, :locals => {:form => f, :resource => @user, :relevance => :games})%>
-          <%= text_field_tag :new_games, '', :placeholder => "+ Add a Game You Love", :data => { relevance: "games", kind: "typeahead", klass: "game" } %>
+          <%= text_field_tag :new_games, '', :placeholder => "+ Add a Game You Love", :data => { relevance: "games", kind: "typeahead", klass: "game" }, :autocomplete => "off" %>
         </div>
       </div>
     <% end %>

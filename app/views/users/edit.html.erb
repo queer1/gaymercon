@@ -148,7 +148,7 @@
             <%= devise_error_messages! %>
             <h3>Games</h3>
             <%= gridify(@games, "users/key_field", :locals => {:form => f, :resource => resource, :relevance => :games})%>
-            <%= text_field_tag :new_games, '', :placeholder => "Type & hit enter to add a game!", :data => { relevance: "games", kind: "typeahead", klass: "game" } %>
+            <%= text_field_tag :new_games, '', :placeholder => "Type & hit enter to add a game!", :data => { relevance: "games", kind: "typeahead", klass: "game" }, :autocomplete => "off" %>
           
             <br /><br />
             <%= f.submit "Save", :class => "btn btn-large btn-primary" %>
@@ -204,13 +204,6 @@
 
               <%= f.label :password_confirmation, "New Password Confirmation" %>
               <%= f.password_field :password_confirmation %>
-
-              <%= f.label :current_password %>
-              <%= f.password_field :current_password %>
-              <span class="help-block">
-                (we need your current password to confirm your changes)
-              </span>
-          
 
             <br /><br />
             <%= f.submit "Save", :class => "btn btn-large btn-primary" %>

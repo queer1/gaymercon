@@ -64,6 +64,25 @@ class UsersController < Devise::RegistrationsController
     super
   end
   
+  def update
+      # required for settings form to submit when password is left blank
+      if params[:user][:password].blank?
+        params[:user].delete("password")
+        params[:user].delete("password_confirmation")
+      end
+
+      @user = User.where(id: current_user.id).first
+      if @user.update_attributes(params[:user])
+        set_flash_message :notice, :updated
+        # Sign in the user bypassing validation in case his password changed
+        sign_in @user, :bypass => true
+        redirect_to after_update_path_for(@user)
+      else
+        flash.now[:alert] = @user.all_errors
+        render "edit"
+      end
+    end
+  
   def update_profile
     fields = [:name, :job_id, :username, :about]
     stats = [:strength, :agility, :vitality, :mind]
@@ -143,7 +162,7 @@ class UsersController < Devise::RegistrationsController
       Notification.where(user_id: current_user.id, read: false).update_all(read: true)
     end
     # no idea how nils are making it past the nil check above, but they are
-    @notifications = curent_user.nil? ? [].paginate(page: params[:page]) : current_user.notifications.paginate(page: params[:page])
+    @notifications = current_user.nil? ? [].paginate(page: params[:page]) : current_user.notifications.paginate(page: params[:page])
   end
   
   def join

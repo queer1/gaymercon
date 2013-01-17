@@ -1,3 +1,16 @@
-<h1>Editing <%= @panel.title %></h1>
-<%= render :partial => "panels/form" %>
-<p><%= link_to "<< Back to Panels", :back %></p>
+<div class="row">
+  <div class="span12">
+    <ul class="breadcrumb">
+      <li><%= link_to "Panels",panels_path %> <span class="divider">/</span></li>
+      <li class="active"><%= @panel.title %></li>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <h1>Editing <%= @panel.title %></h1>
+    <%= render :partial => "panels/form" %>
+    <p><%= link_to "<< Back to Panels", :back %></p>
+  </div>
+</div>
