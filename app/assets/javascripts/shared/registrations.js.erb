@@ -1,5 +1,16 @@
 $(function(){
   
+  $("#user_name").on("change", function(e){
+    var user_name = $(this);
+    $("#name_warning").remove();
+    $.get($(this).data('path'), {name: $(this).val()}, function(response){
+      if(response != null){
+        var padding = user_name.height();
+        user_name.after("<span class='help-block danger' style='font-size: 14px;' id='name_warning'>Sorry, that name is already taken</span>");
+      }
+    });
+  });
+  
   $('.job-button').remove();
   var job_id = $(".selected-job").data('job-id');
   $('.job-select').after("<input type='hidden' id='user_job_id' name='user[job_id]' value='" + job_id + "' />")

@@ -85,7 +85,7 @@
         <div class="span8">
             <div class="input-prepend user-name">
               <span class="add-on"><%= link_to image_tag(@job.icon_path, width: 45, height: 45, id: "mini-job-image"), "#job-select", "data-toggle" => "modal" %></span>
-              <%= f.text_field :name, :placeholder => "GaymerCon Handle", :class => "name-with-job" %>
+              <%= f.text_field :name, :placeholder => "GaymerCon Handle", :class => "name-with-job", :'data-path' => find_by_name_path %>
             </div>
       
             <div id="job-select" class="modal hide fade job-select" tabindex="-1" role="dialog" aria-labelledby="job-select-label" aria-hidden="true">
@@ -114,7 +114,7 @@
 
         <div class="span9" id="games">
           <%= gridify(@games, "users/key_field", :cols => 4, :col_width => 2, :locals => {:form => f, :resource => @user, :relevance => :games})%>
-          <%= text_field_tag :new_games, '', :placeholder => "+ Add a Game You Love", :'data-relevance' => 'games' %>
+          <%= text_field_tag :new_games, '', :placeholder => "+ Add a Game You Love", :data => { relevance: "games", kind: "typeahead", klass: "game" } %>
         </div>
       </div>
     <% end %>

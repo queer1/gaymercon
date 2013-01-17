@@ -28,6 +28,7 @@ Gc2::Application.routes.draw do
     get "/users/get_location", to: "users#get_location", as: 'get_location'
     match "users/notifications", to: "users#notifications", as: 'notifications'
     get '/home', to: "welcome#home", as: "home"
+    get "find_by_name", to: "users#find_by_name", as: "find_by_name"
     post "/users/add_tags", to: "users#add_tags", as: 'add_tags'
     put "/users/update_profile", to: "users#update_profile", as: "update_profile"
     put "/users/update_games", to: "users#update_games", as: "update_games"

@@ -15,7 +15,8 @@ en:
     users:
       user:
         updated: "You've updated your account!"
-        signed_up: "Welcome to the GaymerCon site!"
+        signed_up: "Welcome to the GaymerConnect site!"
+        destroyed: "We're sorry to see you go. Come back soon!"
     failure:
       already_authenticated: 'You are already signed in.'
       unauthenticated: 'You need to sign in or sign up before continuing.'

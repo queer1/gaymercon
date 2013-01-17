@@ -134,14 +134,16 @@ class UsersController < Devise::RegistrationsController
   end
   
   def notifications
-    unless current_user.present?
+    if current_user.nil? || !current_user.present?
       session[:return_to] = notifications_path
       redirect_to login_path, alert: "You must be logged in to check your notifications"
     end
+    
     if request.post? && params[:mark_all]
       Notification.where(user_id: current_user.id, read: false).update_all(read: true)
     end
-    @notifications = current_user.notifications.paginate(page: params[:page])
+    # no idea how nils are making it past the nil check above, but they are
+    @notifications = curent_user.nil? ? [].paginate(page: params[:page]) : current_user.notifications.paginate(page: params[:page])
   end
   
   def join
@@ -221,6 +223,11 @@ class UsersController < Devise::RegistrationsController
     end
     @groups = current_user.groups.with_posts.where(kind: "game").order("last_post_date desc").limit(5)
     render :layout => "no_controls"
+  end
+  
+  def find_by_name
+    @user = User.where(name: params[:name]).first
+    render :json => @user
   end
   
   private

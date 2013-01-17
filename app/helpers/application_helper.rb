@@ -75,12 +75,12 @@ module ApplicationHelper
     return '' unless current_user.present?
     alerts = current_user.alerts.all
     return '' unless alerts.count > 0
-    alert_text = "<div class='info'>"
+    alert_text = "<div class=\"row\"><div class=\"span12\"><div class='alert alert-info'>"
     current_user.alerts.each do |alert|
       alert_text << "#{alert.message} <br />"
       alert.destroy
     end
-    alert_text << "</div>"
+    alert_text << "</div></div></div>"
     alert_text.html_safe
   end
   

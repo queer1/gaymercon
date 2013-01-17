@@ -15,7 +15,7 @@
   <td><%= link_to title, path %></td>
   
   <td>
-    <%= link_to post.user.try(:name).to_s, user_path(post.try(:user)) %>
+    <%= link_to (post.user.try(:name) || "Deleted User"), user_path(post.try(:user)) %>
   </td>
   
   <td>
@@ -32,7 +32,7 @@
   
   <td>
     <% if post.last_reply.present? %>
-      <%= link_to post.last_reply.user.name, user_path(post.last_reply.user) %>
+      <%= link_to (post.last_reply.user.try(:name) || "Deleted User"), user_path(post.last_reply.user || '#') %>
       <small><%= post.last_reply.created_at.strftime(TIME_FORMAT) %></small>
     <% else %>
       &nbsp;

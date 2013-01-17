@@ -7,14 +7,14 @@
         <li><%= link_to "Groups", groups_path %> <span class="divider">/</span></li>
       <% end %>
       <li><%= link_to @post.group.name, group_path(@post.group) %> <span class="divider">/</span></li>
-      <li class="active"><%= @post.user.name %>'s Post</li>
+      <li class="active"><%= @post.user.try(:name) || "Deleted User" %>'s Post</li>
     </ul>
   </div>
 </div>
 
 <div class="row">
   <div class="span12">
-    <% title = @post.kind == "link" ? "#{@post.user.name}'s link" : @post.title %>
+    <% title = @post.kind == "link" ? "#{@post.user.try(:name) || "Deleted User"}'s link" : @post.title %>
     <% title = "Untitled" unless title.present? %>
     <% path = @post.kind == "link" ? @post.url : group_post_path(@post.group_id, @post.id) %>
     <h1><%= link_to title, path %></h1>
@@ -43,6 +43,8 @@
               <%= link_to image_tag(comment.user.avatar), user_path(comment.user) %>
               <br />
               <%= link_to comment.user.name, user_path(comment.user) %>
+            <% else %>
+              Deleted User
             <% end %>
           </td>
           <td class="span6"><%= comment.content.bbcode_to_html.html_safe %></td>

@@ -49,7 +49,9 @@ class User < ActiveRecord::Base
   scope :other_networks, joins("left join nicknames on nicknames.user_id = users.id").where("nicknames.network not in (?)", Nickname.networks)
   
   validate :check_skills
+  validates_uniqueness_of :name, allow_nil: true
   
+  before_create :try_name
   after_save :level_up
   before_save :solr_index?
   after_save :solr_index_callback
@@ -127,6 +129,12 @@ class User < ActiveRecord::Base
     end
   end
   
+  def skill_points
+    db_val = read_attribute(:skill_points)
+    return db_val unless db_val < 46 + (self.level - 1)
+    46 + (self.level - 1)
+  end
+  
   def free_skill_points
     skill_points - strength - agility - vitality - mind
   end
@@ -186,7 +194,11 @@ class User < ActiveRecord::Base
     Notification.where(user_id: self.id, read: false).count
   end
   
-  # Validationz
+  # Validationz & callbacks
+  def try_name
+    return if name.present?
+    self.name ||= self.email.split("@").first
+  end
   
   def check_skills
     stats = [strength, agility, vitality, mind]
@@ -225,9 +237,24 @@ class User < ActiveRecord::Base
     self.memberships.destroy_all
     self.nicknames.destroy_all
     self.alerts.destroy_all
+    self.panels.destroy_all
+    self.panel_votes.destroy_all
+    self.badge.destroy
+    solr_remove_from_index
   end
   
   # Omniauth
+  def self.uniquify_name(name)
+    return name unless User.where(name: name).exists?
+    prefixes = ["Cmdr", "Lord", "Prof", "Capt", "Agent", "Coach", "Darth"]
+    begin 
+      prefix = prefixes.sample || self.last.id + 1
+      prefixes.delete(prefix)
+      name = "#{prefix} #{name}"
+    end while User.where(name: name).exists?
+    return name
+  end
+  
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = signed_in_resource
     user ||= User.where(:provider => auth.provider, :uid => auth.uid).first
@@ -240,7 +267,9 @@ class User < ActiveRecord::Base
         fb_expires: Time.at(auth.credentials.expires_at.to_i) 
       )
     else
-      user = User.create(name:auth.extra.raw_info.name.to_s.to_ascii,
+      name = auth.extra.raw_info.name.to_s.to_ascii
+      name = uniquify_name(name)
+      user = User.create(name:name,
                            provider:auth.provider,
                            uid:auth.uid,
                            fb_token: auth.credentials.token, 
@@ -273,10 +302,12 @@ class User < ActiveRecord::Base
         tw_expires: Time.at(auth.credentials.expires_at.to_i) 
       )
     else
-      user = User.create(name:auth.extra.raw_info.name.to_s.to_ascii,
+      name = auth.extra.raw_info.name.to_s.to_ascii
+      name = uniquify_name(name)
+      user = User.create(name:name,
                            provider:auth.provider,
                            uid:auth.uid,
-                           tw_token: auth.credentials.token, 
+                           tw_token: auth.credentials.token,
                            tw_expires: Time.at(auth.credentials.expires_at.to_i),
                            email:"#{auth.extra.raw_info.screen_name}@twitter.com",
                            password:Devise.friendly_token[0,20],
