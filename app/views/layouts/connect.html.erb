@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Gaymer Connect</title>
-  <%= stylesheet_link_tag "connect", :media => "all" %>
-  <% unless Gc2::Application.assets.find_asset("connect/#{params[:controller]}.css").nil? %>
-    <%= stylesheet_link_tag "connect/#{params[:controller]}", :media => "all" %>
-  <% end %>
-  <%= yield :stylesheets %>
-  
-  <%= javascript_include_tag "connect" %>
-  <% unless Gc2::Application.assets.find_asset("connect/#{params[:controller]}.js").nil? %>
-    <%= javascript_iinclude_tag "connect/#{params[:controller]}" %>
-  <% end %>
-  <%= yield :javascripts %>
-  <%= csrf_meta_tags %>
-  <%= yield :head %>
-</head>
+<%= render partial: "shared/head" %>
 <body>
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">

@@ -1,0 +1,33 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>GaymerConnect</title>
+  <meta name="description" content="convention for gamers of all kinds">
+  <meta name="author" content="andrew 'agius' evans">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="icon" type="image/png" href="<%= asset_path 'favicon.png' %>">
+
+  <meta name="google-site-verification" content="dMsk4w3-t_Cn9G7aTGSynaBnMZVioZ3qYtjMAkb7U6A" />
+  <meta property="og:image" content="http://www.gaymerconnect.com<%= asset_path 'gaymercon_300_256.png' %>" />
+  <meta property="og:title" content="GaymerConnect" />
+  <meta property="og:url" content="http://www.gaymerconnect.com" />
+  <meta property="og:description" content="GaymerConnect lets you connect with thousands of gaymers online." />
+  
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= stylesheet_link_tag "//use.typekit.net/rlw4skd.js" %>
+  <% unless Gc2::Application.assets.find_asset("#{params[:controller]}.css").nil? %>
+    <%= stylesheet_link_tag params[:controller], :media => "all" %>
+  <% end %>
+  <%= yield(:stylesheets) %>
+  
+  <%= javascript_include_tag "application" %>
+  <% unless Gc2::Application.assets.find_asset("#{params[:controller]}.js").nil? %>
+    <%= javascript_include_tag params[:controller] %>
+  <% end %>
+  <%= yield(:javascripts) %>
+  
+  <%= csrf_meta_tags %>
+</head>
