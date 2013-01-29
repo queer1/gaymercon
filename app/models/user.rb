@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
   attr_accessible :provider, :uid, :fb_token, :fb_expires, :tw_token, :tw_expires # omniauth
   attr_accessible :disable_emails, :disable_pm_emails
-  attr_accessible :name, :job_id, :username, :about
+  attr_accessible :name, :job_id, :username, :about, :nsfw
   attr_accessible :strength, :agility, :vitality, :mind, :xp
   attr_accessor :leveled_up, :just_created
   
@@ -76,9 +76,9 @@ class User < ActiveRecord::Base
   
   # blegh. debugged on production
   def avatar
-    return "default-user.gif" unless self.job_id.present?
+    return "default_user.png" unless self.job_id.present?
     the_job = Job.where(id: self.job_id).first
-    return "default-user.gif" unless the_job.present?
+    return "default_user.png" unless the_job.present?
     the_job.icon_path
   end
   

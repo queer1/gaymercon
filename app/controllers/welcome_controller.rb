@@ -12,7 +12,7 @@ class WelcomeController < ApplicationController
   def home
     redirect_to root_path and return unless current_user.present?
     @notifications = current_user.notifications.take(5)
-    @threads = MessageThread.all_for_user(current_user)
+    @threads = MessageThread.all_for_user(current_user).take(8)
     @users = User.where("created_at > ?", current_user.last_sign_in_at).limit(5).all
     @users = User.where("id NOT IN (?)", current_user.follows.collect(&:followed_user_id)).order("last_sign_in_at").limit(50).sample(5) unless @users.present?
   end

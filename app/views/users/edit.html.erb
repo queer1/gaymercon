@@ -181,6 +181,13 @@
 
               <%= f.label :email %>
               <%= f.email_field :email %>
+              
+              <div>
+                <label for="user_disable_emails">
+                  <%= f.check_box :nsfw %>
+                  Show me adult content (I am over 18)
+                </label>
+              </div>
   
               <div>
                 <label for="user_disable_emails">

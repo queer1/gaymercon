@@ -6,6 +6,13 @@ class Notification
   field :user_id, type: Integer
   field :read, type: Boolean, default: false
   
+  # cap notifications at 100 / user 
+  after_save do |notification|
+    return true unless Notification.where(user_id: notification.user_id).count > 100
+    Notification.where(user_id: notification.user_id).skip(100).destroy
+    return true
+  end
+  
   index :user_id => -1
   
   def self.unread_count(user)

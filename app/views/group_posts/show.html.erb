@@ -34,9 +34,10 @@
 <div class="row">
   <div class="span11 offset1">
     <h2>Replies</h2>
+    <%= bootstrap_paginate @comments %>
     <table class="table table-striped">
       <tr><th>From</th><th>Message</th><th>On</th><th>&nbsp;</th></tr>
-      <% @post.comments.each do |comment| %>
+      <% @comments.each do |comment| %>
         <tr>
           <td class="span1">
             <% if comment.user.present? %>
@@ -58,6 +59,7 @@
         </tr>
       <% end %>
     </table>
+    <%= bootstrap_paginate @comments %>
   </div>
 </div>
 

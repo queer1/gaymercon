@@ -39,6 +39,10 @@ class GroupPost < ActiveRecord::Base
     self.comments.where("user_id IN (?)", friend_ids)
   end
   
+  def nsfw?
+    self.title =~ /nsfw/i
+  end
+  
   def editor?(user)
     user.id == user_id || user.id == self.group.moderator_id || user.mod? || user.admin?
   end

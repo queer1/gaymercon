@@ -12,7 +12,7 @@
   <% title = post.kind == "link" ? "#{post.user.name}'s link" : post.title %>
   <% title = "Untitled" unless title.present? %>
   <% path = post.kind == "link" ? post.url : group_post_path(post.group, post) %>
-  <td><%= link_to title, path %></td>
+  <td><%= link_to title, path %> <%= post.nsfw? ? "<sup class='danger'>NSFW</sup>".html_safe : "" %></td>
   
   <td>
     <%= link_to (post.user.try(:name) || "Deleted User"), user_path(post.try(:user)) %>
