@@ -40,7 +40,7 @@ class GroupPost < ActiveRecord::Base
   end
   
   def nsfw?
-    self.title =~ /nsfw/i
+    self.title =~ /nsfw/i || self.content =~ /nsfw/i
   end
   
   def editor?(user)
