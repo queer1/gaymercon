@@ -9,7 +9,7 @@ class Notification
   # cap notifications at 100 / user 
   after_save do |notification|
     return true unless Notification.where(user_id: notification.user_id).count > 100
-    Notification.where(user_id: notification.user_id).skip(100).destroy
+    Notification.where(user_id: notification.user_id).desc(:_id).skip(100).destroy
     return true
   end
   
