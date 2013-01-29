@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="span12">
+    <ul class="breadcrumb">
+      <% if @post.group.kind == "official" %>
+        <li><%= link_to "Forums", forums_groups_path %> <span class="divider">/</span></li>
+      <% else %>
+        <li><%= link_to "Groups", groups_path %> <span class="divider">/</span></li>
+      <% end %>
+      <li><%= link_to @post.group.name, group_path(@post.group) %> <span class="divider">/</span></li>
+      <li class="active"><%= @post.user.try(:name) || "Deleted User" %>'s Post</li>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12 center">
+    <h1 class="danger">Not Safe For Work! &trade;</h1>
+    <h3>
+      To enable showing adult content, please check the box allowing adult stuff on your setting page. <br />
+    </h3>
+    <%= link_to "Settings", edit_user_registration_path(tab: "settings"), :class => "btn btn-primary btn-large" %>
+    <h2>Or...</h2>
+    <p>Nope, <%= link_to "get me out of here!", :back %></p>
+  </div>
+</div>
