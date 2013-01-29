@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="span12">
+    <ul class="breadcrumb"  style="display:inline-block">
+      <% if @group.kind == "official" %>
+        <li><%= link_to "Forums", forums_groups_path %> <span class="divider">/</span></li>
+      <% else %>
+        <li><%= link_to "Groups", groups_path %> <span class="divider">/</span></li>
+      <% end %>
+      <li class="active"><%= @group.name %></li>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12 center">
+    <h1>This is a private group</h1>
+    <p style="margin: 2em 0 2em 0;">To join, you have to be invited by the group's moderator: <%= @group.moderator.try(:name) %>. Send them a message, and if you ask nicely, they may let you in. Good luck!</p>
+    <% user = @group.moderator %>
+    <% if user.present? %>
+      <%= link_to "Send #{user.name} a Message", new_message_path(to_user: user.url), :class => "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>
+

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130129020359) do
+ActiveRecord::Schema.define(:version => 20130129032542) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(:version => 20130129020359) do
     t.string   "game"
     t.string   "game_key"
     t.string   "url"
+    t.boolean  "private"
   end
 
   add_index "groups", ["url"], :name => "index_groups_on_url", :unique => true

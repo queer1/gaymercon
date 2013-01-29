@@ -20,6 +20,8 @@ class Group < ActiveRecord::Base
   
   validates_inclusion_of :kind, :in => KINDS, :message => "is not a valid group type."
   validate :game_unique
+  validates_presence_of :name
+  validates_uniqueness_of :name
   
   acts_as_url :name, sync_url: true
   
@@ -29,6 +31,7 @@ class Group < ActiveRecord::Base
     string :klass do
       self.class.name
     end
+    boolean :private
   end
 
   KINDS.each do |kind|
@@ -58,6 +61,10 @@ class Group < ActiveRecord::Base
     member_ids = self.users.select("users.id").all.collect(&:id)
     ret_ids = member_ids.sample(n)
     self.users.where("users.id in (?)", ret_ids).all
+  end
+  
+  def visible_to?(user)
+    user.mod? || self.users.where(id: user.id).exists?
   end
   
   def editor?(user)

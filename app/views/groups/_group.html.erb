@@ -1,18 +1,20 @@
-<tr>
-  <td><%= link_to group.name, group_path(group) %></td>
-  <% if local_assigns[:location] %><td><%= group.place %></td><% end %>
+<% unless group.private && !group.visible_to?(current_user) %>
+  <tr>
+    <td><%= link_to group.name, group_path(group) %></td>
+    <% if local_assigns[:location] %><td><%= group.place %></td><% end %>
   
-  <% if @section_name != "Forums" %>
-    <td><%= link_to group.users.count, group_path(group, tab: "members") %></td>
-  <% end %>
-  
-  <td><%= group.posts.count %></td>
-  <td><%= group.last_post_date.present? ? "#{time_ago_in_words(group.last_post_date)} ago" : '' %></td>
-  <td>
-    <%= link_to "View", group_path(group), :class => "btn" %>
-    <% if current_user && group.editor?(current_user) %>
-      <%= link_to "Edit", edit_group_path(group), :class => "btn" %>
-      <%= link_to "Delete", group_path(group), :method => "delete", :class => "btn btn-danger", :confirm => "Are you sure?" %>
+    <% if @section_name != "Forums" %>
+      <td><%= link_to group.users.count, group_path(group, tab: "members") %></td>
     <% end %>
-  </td>
-</tr>
+  
+    <td><%= group.posts.count %></td>
+    <td><%= group.last_post_date.present? ? "#{time_ago_in_words(group.last_post_date)} ago" : '' %></td>
+    <td>
+      <%= link_to "View", group_path(group), :class => "btn" %>
+      <% if current_user && group.editor?(current_user) %>
+        <%= link_to "Edit", edit_group_path(group), :class => "btn" %>
+        <%= link_to "Delete", group_path(group), :method => "delete", :class => "btn btn-danger", :confirm => "Are you sure?" %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>

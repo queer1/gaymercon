@@ -83,6 +83,7 @@ class WelcomeController < ApplicationController
       fulltext params[:q]
       with :kind, "game" if params[:kind] == "game"
       without :kind, "game" if params[:kind] == "group"
+      with :private, false if (params[:kind] == "group" || params[:kind] == "game") && !current_user.mod?
       paginate page: params[:page], per_page: 30
     end
     
@@ -96,6 +97,7 @@ class WelcomeController < ApplicationController
         row(:group) do
           with(:klass, "Group")
           without(:kind, "game")
+          with :private, false unless current_user.mod?
         end
         
         row(:thread) do
@@ -105,6 +107,7 @@ class WelcomeController < ApplicationController
         row(:game) do
           with(:klass, "Group")
           with(:kind, "game")
+          with :private, false unless current_user.mod?
         end
         
         row(:panel) do

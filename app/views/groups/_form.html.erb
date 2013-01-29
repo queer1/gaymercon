@@ -1,44 +1,73 @@
 <% group = form || @group %>
 <%= form_for group do |f| %>
 
-  <%= f.label :name %>
-  <%= f.text_field :name, :placeholder => "Neverwinter Nights DMs" %>
+<div class="row">
+  <div class="span6">
+      <h2>Edit Group</h2>
+
+      <%= f.label :name %>
+      <%= f.text_field :name, :placeholder => "Neverwinter Nights DMs" %>
   
-  <%= f.label :kind, "Type:" %>
-  <% kinds = Group.kinds %>
-  <% kinds -= ['official'] unless current_user.admin? %>
-  <%= f.select :kind, options_for_select(kinds.collect{|k| [k.titleize, k]}, group.kind) %>
+      <%= f.label :kind, "Type:" %>
+      <% kinds = Group.kinds %>
+      <% kinds -= ['official'] unless current_user.admin? %>
+      <%= f.select :kind, options_for_select(kinds.collect{|k| [k.titleize, k]}, group.kind) %>
   
-  <% if group.editor?(current_user) && group.id.present? %>
-    <%= label_tag "Owner:" %>
-    <%= text_field_tag "user", group.moderator.try(:name), data: {kind: 'typeahead', klass: 'user'} %>
-  <% end %>
+      <% if group.editor?(current_user) && group.id.present? %>
+        <%= label_tag "Owner:" %>
+        <%= text_field_tag "user", group.moderator.try(:name), data: {kind: 'typeahead', klass: 'user'} %>
+      <% end %>
   
-  <div class="game <%= (group.kind == 'guild' || group.kind == 'game' || !group.kind.present?) ? '' : 'hidden' %>">
-    <%= f.label :game %>
-    <%= f.text_field :game, :placeholder => "Mass Effect 3" %>
+      <div class="game <%= (group.kind == 'guild' || group.kind == 'game' || !group.kind.present?) ? '' : 'hidden' %>">
+        <%= f.label :game %>
+        <%= f.text_field :game, :placeholder => "Mass Effect 3" %>
+      </div>
+  
+      <div class="location <%= group.kind == 'location' ? '' : 'hide' %>">
+        <%= f.label :place %>
+        <%= link_to image_tag("geolocation.png"), "#", :class => "get-location btn" %>
+        <%= f.text_field :place, :placeholder => "San Francisco CA", :class => 'place' %>
+      </div>
+  
+      <%= f.label :header, "Header Image" %>
+      <%= f.file_field :header %>
+      <span class="help-block">
+        Image will be cropped to 785x205
+      </span>
+  
+      <%= f.label :description %>
+      <%= f.text_area :description, :size => "35x3" %>
+  
+      <div style="margin: 1em 0 2em 0;">
+        <label for="group_private">
+          <%= f.check_box :private %>
+          Private: only members will be able to see this group
+        </label>
+      </div>
+    
+      <%= f.label :site_name, "Web site name:" %>
+      <%= f.text_field :site_name, :placeholder => "Official Neverwinter DMs Site" %>
+  
+      <%= f.label :site_link, "Web site link:" %>
+      <%= f.text_field :site_link, :placeholer => "http://www.neverwinterdms.com" %>
+    </div>
+    
+    <div class="span6">
+      <h2>Add Members</h2>
+      <ul class="unstyled" id="add_users">
+        <% @add_users ||= [] %>
+        <% Rails.logger.debug @add_users %>
+        <% @add_users.each do |user| %>
+          <li><%= user.name %> <%= hidden_field_tag "add_users[]", user.id %>&nbsp;&nbsp;<a class='delete_user danger' href='#'>&times;</a></li>
+        <% end %>
+      </ul>
+      <%= text_field_tag "add_user", '', :placeholder => "user name", :id => "add_user" %>
+    </div>
   </div>
   
-  <div class="location <%= group.kind == 'location' ? '' : 'hide' %>">
-    <%= f.label :place %>
-    <%= link_to image_tag("geolocation.png"), "#", :class => "get-location btn" %>
-    <%= f.text_field :place, :placeholder => "San Francisco CA", :class => 'place' %>
+  <div class="row">
+    <div class="span12">
+      <%= f.submit "Save", :class => "btn" %>
+    </div>
   </div>
-  
-  <%= f.label :header, "Header Image" %>
-  <%= f.file_field :header %>
-  <span class="help-block">
-    Image will be cropped to 785x205
-  </span>
-  
-  <%= f.label :description %>
-  <%= f.text_area :description, :size => "35x3" %>
-  
-  <%= f.label :site_name, "Web site name:" %>
-  <%= f.text_field :site_name, :placeholder => "Official Neverwinter DMs Site" %>
-  
-  <%= f.label :site_link, "Web site link:" %>
-  <%= f.text_field :site_link, :placeholer => "http://www.neverwinterdms.com" %>
-  <br />
-  <%= f.submit "Save", :class => "btn" %>
 <% end %>

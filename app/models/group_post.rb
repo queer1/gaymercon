@@ -70,8 +70,8 @@ class GroupPost < ActiveRecord::Base
   end
   
   def grant_xp
-    return unless
     u = self.user
+    return unless u.present?
     u.update_attributes(xp: u.xp + 10)
   end
   

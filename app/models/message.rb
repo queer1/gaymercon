@@ -10,6 +10,7 @@ class Message < ActiveRecord::Base
   validate :not_sent_to_self
   
   after_create :send_email
+  after_create :grant_xp
   
   def read?
     self.read
@@ -21,5 +22,11 @@ class Message < ActiveRecord::Base
   
   def send_email
     UserMailer.new_pm(self).deliver
+  end
+  
+  def grant_xp
+    u = self.from_user
+    return unless u.present?
+    u.update_attributes(xp: u.xp + 10)
   end
 end

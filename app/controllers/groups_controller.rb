@@ -53,6 +53,10 @@ class GroupsController < ApplicationController
   end
   
   def show
+    if @group.private && !@group.visible_to?(current_user)
+      render :action => "private" and return
+    end
+    
     if @group.kind == "location"
       @nearby_users = @group.nearby_users
       @nearby_users = @nearby_users.where("id != ?", current_user.id) if current_user && @nearby_users.present?
@@ -81,15 +85,21 @@ class GroupsController < ApplicationController
   end
   
   def create
-    parms = params[:group].slice(:name, :type, :description, :kind, :header, :site_name, :site_link, :game)
+    parms = params[:group].slice(:name, :type, :description, :kind, :header, :site_name, :site_link, :game, :private)
     parms[:moderator_id] = current_user.id
     @group = Group.create(parms)
     if @group.valid?
       current_user.groups << @group
       @group.place = params[:group][:place]
+      params[:add_users] ||= []
+      params[:add_users].each do |user_id|
+        user = User.where(id: user_id).first
+        @group.users << user if user.present?
+      end
       redirect_to edit_group_path(@group), notice: "Group created!"
     else
       flash.now[:alert] = "Sorry, there was a problem: #{@group.all_errors}"
+      @add_users = User.where("id in (?)", params[:add_users]).all if params[:add_users].present?
       render :new
     end
   end
@@ -98,14 +108,20 @@ class GroupsController < ApplicationController
   end
   
   def update
-    parms = params[:group].slice(:name, :type, :description, :kind, :header, :site_name, :site_link, :game)
+    parms = params[:group].slice(:name, :type, :description, :kind, :header, :site_name, :site_link, :game, :private)
     parms[:moderator_id] = params[:user_id] if params[:user_id].present?
     @group.update_attributes(parms)
     if @group.valid?
       @group.place = params[:group][:place]
+      params[:add_users] ||= []
+      params[:add_users].each do |user_id|
+        user = User.where(id: user_id).first
+        @group.users << user if user.present?
+      end
       redirect_to edit_group_path(@group), notice: "Group updated!"
     else
       flash.now[:alert] = "Sorry, there was a problem: #{@group.all_errors}"
+      @add_users = User.where("id in (?)", params[:add_users]).all if params[:add_users].present?
       render :edit
     end
   end
