@@ -1,4 +1,10 @@
 GIT
+  remote: git@github.com:agius/bb-ruby.git
+  revision: 94b108162ccc0286ee6211ee72b8da885dd41c1f
+  specs:
+    bb-ruby (0.9.8)
+
+GIT
   remote: https://github.com/stripe/stripe-ruby
   revision: f625968bfd60a25d0c3e53403f510cf827d68a9c
   specs:
@@ -38,7 +44,6 @@ GEM
       multi_json (~> 1.0)
     arel (3.0.2)
     attr_required (0.0.5)
-    bb-ruby (0.9.5)
     bcrypt-ruby (3.0.1)
     builder (3.0.4)
     capistrano (2.12.0)
@@ -243,7 +248,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bb-ruby
+  bb-ruby!
   capistrano
   capistrano-unicorn
   coalmine

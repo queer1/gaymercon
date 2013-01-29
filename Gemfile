@@ -19,7 +19,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'high_voltage'
 gem "will_paginate"
-gem 'bb-ruby'
+gem 'bb-ruby', :git => "git@github.com:agius/bb-ruby.git"
 gem 'pony'
 gem 'hominid' # mailchimp
 gem "paperclip"
