@@ -8,10 +8,6 @@
   <% kinds = Group.kinds %>
   <% kinds -= ['official'] unless current_user.admin? %>
   <%= f.select :kind, options_for_select(kinds.collect{|k| [k.titleize, k]}, group.kind) %>
-
-  <% if group.header.present? %>
-    <%= image_tag group.header.url(:large) %>
-  <% end %>
   
   <% if group.editor?(current_user) && group.id.present? %>
     <%= label_tag "Owner:" %>

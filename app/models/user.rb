@@ -51,6 +51,7 @@ class User < ActiveRecord::Base
   validate :check_skills
   validates_uniqueness_of :name, allow_nil: true
   
+  after_create :send_welcome
   before_create :try_name
   after_save :level_up
   before_save :solr_index?
@@ -200,6 +201,10 @@ class User < ActiveRecord::Base
   end
   
   # Validationz & callbacks
+  def send_welcome
+    UserMailer.welcome(self).deliver if self.email.present?
+  end
+  
   def try_name
     return if name.present?
     self.name ||= self.email.split("@").first

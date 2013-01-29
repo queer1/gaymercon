@@ -9,11 +9,17 @@ class Message < ActiveRecord::Base
   
   validate :not_sent_to_self
   
+  after_create :send_email
+  
   def read?
     self.read
   end
   
   def not_sent_to_self
     errors.add(:base, "You can't send a message to yourself, silly!") if from_user_id == to_user_id
+  end
+  
+  def send_email
+    UserMailer.new_pm(self).deliver
   end
 end
