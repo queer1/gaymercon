@@ -75,7 +75,6 @@ class GroupComment < ActiveRecord::Base
   
   def reindex_thread
     self.post.index
-    self.post.update_attributes
   end
   
   def delete_notifications
