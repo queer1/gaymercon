@@ -38,7 +38,7 @@ class WelcomeController < ApplicationController
         subject = "[gaymercon] #{params[:reason]} - #{params[:subject]}"
         message = "New Message from #{params[:email]}\n\n#{params[:message]}"
         Pony.mail({
-          :to => 'site@gaymercon.org',
+          :to => 'site@gaymerconnect.org',
           :from => params[:email],
           :subject => subject,
           :body => message

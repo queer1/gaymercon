@@ -7,7 +7,7 @@
 Actions:
 --------
 View <%= @pm.from_user.name %>'s profile: <%= user_url(@pm.from_user, :only_path => false) %>
-Send a reply: <%= message_url(@pm, :only_path => false) %>
+Send a reply: <%= message_url(@pm.from_user.id, :only_path => false) %>
 View your inbox: <%= messages_url(:only_path => false) %>
 
-Remember, be nice! If someone is giving you trouble, don't respond, just forward this email to admin@gaymercon.org
+Remember, be nice! If someone is giving you trouble, don't respond, just forward this email to admin@gaymerconnect.com

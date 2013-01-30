@@ -6,7 +6,7 @@
   <% redeem = badge.persisted? ? (badge.price.present? ? "purchase" : "code") : "code" %>
   <select id="redeem" name="redeem">
     <option value="code" <%= redeem == "code" ? "selected='selected'" : "" %>>Enter a code</option>
-    <option value="purchase" <%= redeem == "purchase" ? "selected='selected'" : "" %>>Purchase on gaymercon.org</option>
+    <option value="purchase" <%= redeem == "purchase" ? "selected='selected'" : "" %>>Purchase on gaymerconnect.com</option>
   </select>
   
   <div id="code" class="<%= redeem == "code" ? "" : "hide" %>">

@@ -53,6 +53,10 @@ class Group < ActiveRecord::Base
     return header
   end
   
+  def private?
+    self.private
+  end
+  
   def member?(user)
     Membership.where(group_id: self.id, user_id: user.id).exists?
   end

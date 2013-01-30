@@ -1,10 +1,10 @@
 class UserMailer < ActionMailer::Base
-  default from: "admin@gaymercon.org"
+  default from: "admin@gaymerconnect.com"
   
   def welcome(user)
     @title = "Welcome to GaymerCon"
     @user = user
-    @url  = "https://www.gaymercon.org/users/edit"
+    @url  = "https://www.gaymerconnect.com/users/edit"
     @header = "email_header.png"
     headers = {:to => user.email, :subject => @title}
     headers[:delivery_method] = :test if @user.disable_emails

@@ -58,10 +58,10 @@ class Donator < ActiveRecord::Base
   
   def send_email
     UserMailer.new_donation(self).deliver
-    Pony.mail(to: "donations@gaymercon.org",
+    Pony.mail(to: "donations@gaymerconnect.com",
               from: self.email,
               subject: "New donation from #{self.first_name} #{self.last_name}",
-              body: "#{self.name} donated $#{self.amount_in_dollars.round(2)}. Check it out at http://www.gaymercon.org/admin/donators\n\nNotes:\n\n#{self.notes}"
+              body: "#{self.name} donated $#{self.amount_in_dollars.round(2)}. Check it out at http://www.gaymerconnect.com/admin/donators\n\nNotes:\n\n#{self.notes}"
               )
   end
 end

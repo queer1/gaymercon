@@ -2,6 +2,7 @@ class Notification::GroupNotification < Notification
   
   field :group_id, type: Integer
   field :post_ids, type: Array
+  field :reason, type: String
   
   def self.clear(group, user)
     group = group.id if group.is_a?(Group)
@@ -22,6 +23,12 @@ class Notification::GroupNotification < Notification
   def message
     c = self.count
     noun = c > 1 ? "posts" : "post"
+    if self.reason == "member"
+      return "#{c} new #{noun} in your group #{self.group.name}"
+    elsif reason == "follow"
+      follower = GroupPost.where(id: self.post_ids.first).first.try(:user)
+      return "Your friend #{follower.name} made a new post in #{self.group.name}" if follower.present?
+    end
     "#{c} new #{noun} in #{self.group.name}"
   end
   

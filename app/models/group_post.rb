@@ -76,12 +76,21 @@ class GroupPost < ActiveRecord::Base
   end
   
   def notify
-    self.group.users.each do |user|
-      Notification::GroupNotification.find_or_create_by(:read => false, :user_id => user.id, :group_id => self.group.id).add_to_set(:post_ids, self.id) unless user.id == self.user_id
+    group = self.group
+    group.users.each do |user|
+      next if group.private? && !group.visible_to?(user)
+      next if user.id == self.user_id
+      notif = Notification::GroupNotification.find_or_create_by(:read => false, :user_id => user.id, :group_id => group.id)
+      notif.add_to_set(:post_ids, self.id)
+      notif.update_attributes!(reason: "member")
     end
     
     self.user.followers.each do |user|
-      Notification::GroupNotification.find_or_create_by(:read => false, :user_id => user.id, :group_id => self.group.id).add_to_set(:post_ids, self.id) unless user.id == self.user_id
+      next if group.private? && !group.visible_to(user)
+      next if user.id == self.user_id
+      notif = Notification::GroupNotification.find_or_create_by(:read => false, :user_id => user.id, :group_id => group.id)
+      notif.add_to_set(:post_ids, self.id)
+      notif.update_attributes!(reason: "follow")
     end
   end
   

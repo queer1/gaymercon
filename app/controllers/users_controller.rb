@@ -124,6 +124,7 @@ class UsersController < Devise::RegistrationsController
   
   def show
     @user = User.find_by_url(params[:id])
+    Notification::FollowNotification.clear(@user, current_user) if current_user.present?
     redirect_to root_path, error: "Sorry, couldn't find that user." and return unless @user.present?
     @common = @user.game_groups & current_user.game_groups if current_user.present? && @user != current_user
   end
@@ -176,7 +177,7 @@ class UsersController < Devise::RegistrationsController
     if badge_code && @badge = Badge.where(code: badge_code).first
       session[:badge_code] = badge_code
       if @badge.user_id.present? && (current_user.nil? || @badge.user_id != current_user.id)
-        flash.now[:alert] = "Ruh roh! Somebody alredy registered that badge! If that was supposed to be you, please <a href='mailto:badges@gaymercon.org'>contact the admins</a>".html_safe
+        flash.now[:alert] = "Ruh roh! Somebody alredy registered that badge! If that was supposed to be you, please <a href='mailto:badges@gaymerconnect.com'>contact the admins</a>".html_safe
         @badge = nil
         session.delete(:badge_code)
       elsif current_user.present? && current_user.badge.present? && @badge.id != current_user.badge.id
@@ -242,7 +243,7 @@ class UsersController < Devise::RegistrationsController
     session.delete(:badge_code)
     @badge = current_user.badge
     if @badge.present? && @badge.user_id.present? && (current_user.nil? || @badge.user_id != current_user.id)
-      flash.now[:alert] = "Ruh roh! Somebody else registered that badge! If that was supposed to be you, please <a href='mailto:badges@gaymercon.org'>contact the admins</a>".html_safe
+      flash.now[:alert] = "Ruh roh! Somebody else registered that badge! If that was supposed to be you, please <a href='mailto:badges@gaymerconnect.com'>contact the admins</a>".html_safe
       @badge = nil
     end
     @groups = current_user.groups.with_posts.where(kind: "game").order("last_post_date desc").limit(5)

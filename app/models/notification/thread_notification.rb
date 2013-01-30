@@ -2,6 +2,7 @@ class Notification::ThreadNotification < Notification
   
   field :thread_id, type: Integer
   field :comment_ids, type: Array
+  field :reason, type: String
   
   def self.clear(thread, user)
     thread = thread.id if thread.is_a?(GroupPost)
@@ -22,6 +23,12 @@ class Notification::ThreadNotification < Notification
   def message
     c = self.count
     noun = c > 1 ? "replies" : "reply"
+    if self.reason == "member"
+      return "#{c} new #{noun} to \"#{self.thread.try(:title)}\" in your group #{self.thread.group.try(:name)}"
+    elsif reason == "follow"
+      poster = GroupComment.where(id: self.comment_ids.first).first.try(:user)
+      return "Your friend #{poster.name} replied to \"#{self.thread.try(:title)}\"" if poster.present?
+    end
     "#{c} new #{noun} to \"#{self.thread.try(:title)}\""
   end
   

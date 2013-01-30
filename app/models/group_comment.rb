@@ -47,12 +47,21 @@ class GroupComment < ActiveRecord::Base
   end
   
   def notify
-    self.group.users.each do |user|
-      Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id).add_to_set(:comment_ids, self.id) unless user.id == self.user_id
+    group = self.group
+    group.users.each do |user|
+      next if group.private? && !group.visible_to?(user)
+      next if user.id == self.user_id
+      notif = Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id, :reason => "member")
+      notif.add_to_set(:comment_ids, self.id)
+      notif.update_attributes!(reason: "member")
     end
     
     self.user.followers.each do |user|
-      Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id).add_to_set(:comment_ids, self.id) unless user.id == self.user_id
+      next if group.private? && !group.visible_to?(user)
+      next if user.id == self.user_id
+      notif = Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id, :reason => "follow")
+      notif.add_to_set(:comment_ids, self.id)
+      notif.update_attributes!(reason: "follow")
     end
   end
   
