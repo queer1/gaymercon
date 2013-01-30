@@ -168,7 +168,7 @@ class WelcomeController < ApplicationController
       sp[:user_id] = current_user.id if current_user.present?
       sp[:donator_id] = donator.id
       payment = StripePayment.create(sp)
-      flash.now[:notice] = "Thanks for donating! GaymerCon loves you!"
+      flash.now[:notice] = "Thanks for donating! GaymerConnect loves you!"
       
       payment
     end

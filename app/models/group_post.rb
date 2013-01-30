@@ -39,6 +39,10 @@ class GroupPost < ActiveRecord::Base
     self.comments.where("user_id IN (?)", friend_ids)
   end
   
+  def commenters
+    ([self.user] + self.comments.includes(:user).collect(&:user)).uniq
+  end
+  
   def nsfw?
     self.title =~ /nsfw/i || self.content =~ /nsfw/i
   end
@@ -77,21 +81,25 @@ class GroupPost < ActiveRecord::Base
   
   def notify
     group = self.group
+    user_ids = [self.user_id]
     group.users.each do |user|
-      next if group.private? && !group.visible_to?(user)
-      next if user.id == self.user_id
+      next if user_ids.include?(user.id)
       notif = Notification::GroupNotification.find_or_create_by(:read => false, :user_id => user.id, :group_id => group.id)
       notif.add_to_set(:post_ids, self.id)
       notif.update_attributes!(reason: "member")
+      user_ids << user.id
     end
     
     self.user.followers.each do |user|
+      next if user_ids.include?(user.id)
       next if group.private? && !group.visible_to(user)
-      next if user.id == self.user_id
       notif = Notification::GroupNotification.find_or_create_by(:read => false, :user_id => user.id, :group_id => group.id)
       notif.add_to_set(:post_ids, self.id)
       notif.update_attributes!(reason: "follow")
+      user_ids << user.id
     end
+    
+    
   end
   
   def cleanup

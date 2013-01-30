@@ -10,17 +10,15 @@
     </ul>
     <% if current_user.present? %>
       <div class="btn-group" style="position: relative; top: -6px; ">
-        <% unless @group.kind == "official" %>
-          <% if @group.member?(current_user) %>
-            <%= link_to "Leave Group", leave_group_path(@group), :method => "post", :class => "btn" %>
-          <% else %>
-            <%= link_to "Join Group", join_group_path(@group), :method => "post", :class => "btn btn-primary" %>
-          <% end %>
-          
-          <% if @group.editor?(current_user) %>
-            <%= link_to "Edit Group", edit_group_path(@group), :class => "btn" %>
-            <%= link_to "Delete Group", group_path(@group), :method => "delete", :class => "btn", :confirm => "Are you sure? This cannot be undone." %>
-          <% end %>
+        <% if @group.member?(current_user) %>
+          <%= link_to "Leave Group", leave_group_path(@group), :method => "post", :class => "btn" %>
+        <% else %>
+          <%= link_to "Join Group", join_group_path(@group), :method => "post", :class => "btn btn-primary" %>
+        <% end %>
+        
+        <% if @group.editor?(current_user) %>
+          <%= link_to "Edit Group", edit_group_path(@group), :class => "btn" %>
+          <%= link_to "Delete Group", group_path(@group), :method => "delete", :class => "btn", :confirm => "Are you sure? This cannot be undone." %>
         <% end %>
       </div>
     <% end %>

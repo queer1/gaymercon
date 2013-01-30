@@ -28,6 +28,8 @@ class Notification::ThreadNotification < Notification
     elsif reason == "follow"
       poster = GroupComment.where(id: self.comment_ids.first).first.try(:user)
       return "Your friend #{poster.name} replied to \"#{self.thread.try(:title)}\"" if poster.present?
+    elsif reason == "posted"
+      return "#{c} new #{noun} to the thread you posted in: \"#{self.thread.try(:title)}\""
     end
     "#{c} new #{noun} to \"#{self.thread.try(:title)}\""
   end

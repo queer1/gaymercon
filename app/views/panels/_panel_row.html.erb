@@ -14,7 +14,7 @@
     <% end %>
   </td>
   <td><%= link_to panel.title, panel_path(panel) %></td>
-  <td><%= panel.description.truncate(150, :separator => ' ').gsub(/\[[^\]]+\]/, '') %></td>
+  <td><%= panel.description.to_s.truncate(150, :separator => ' ').strip_bbcode %></td>
   <td><%= panel.kind %></td>
   <td><%= panel.confirmed ? "<span class='alert alert-success'>Confirmed!</span>".html_safe : '' %></td>
 </tr>

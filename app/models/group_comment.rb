@@ -1,5 +1,5 @@
 class GroupComment < ActiveRecord::Base
-  belongs_to :group_post
+  belongs_to :group_post, touch: true
   belongs_to :user
   
   validates_presence_of :group_post_id
@@ -48,17 +48,25 @@ class GroupComment < ActiveRecord::Base
   
   def notify
     group = self.group
+    user_ids = [self.user_id]
+    self.group_post.commenters.each do |user|
+      next if user_ids.include?(user.id)
+      notif = Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id, :reason => "member")
+      notif.add_to_set(:comment_ids, self.id)
+      notif.update_attributes!(reason: "posted")
+      user_ids << user.id
+    end
+    
     group.users.each do |user|
-      next if group.private? && !group.visible_to?(user)
-      next if user.id == self.user_id
+      next if user_ids.include?(user.id)
       notif = Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id, :reason => "member")
       notif.add_to_set(:comment_ids, self.id)
       notif.update_attributes!(reason: "member")
     end
     
     self.user.followers.each do |user|
+      next if user_ids.include?(user.id)
       next if group.private? && !group.visible_to?(user)
-      next if user.id == self.user_id
       notif = Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id, :reason => "follow")
       notif.add_to_set(:comment_ids, self.id)
       notif.update_attributes!(reason: "follow")
@@ -67,6 +75,7 @@ class GroupComment < ActiveRecord::Base
   
   def reindex_thread
     self.post.index
+    self.post.update_attributes
   end
   
   def delete_notifications

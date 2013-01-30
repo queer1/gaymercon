@@ -2,7 +2,7 @@ class UserMailer < ActionMailer::Base
   default from: "admin@gaymerconnect.com"
   
   def welcome(user)
-    @title = "Welcome to GaymerCon"
+    @title = "Welcome to GaymerConnect"
     @user = user
     @url  = "https://www.gaymerconnect.com/users/edit"
     @header = "email_header.png"
@@ -13,7 +13,7 @@ class UserMailer < ActionMailer::Base
   
   def new_pm(pm)
     @user = pm.to_user
-    @title = "New Private Message From #{pm.from_user.name}"
+    @title = "New GaymerConnect PM From #{pm.from_user.name}"
     @header = "email_header.png"
     @pm = pm
     headers = {:to => @user.email, :subject => @title}

@@ -25,3 +25,9 @@ module Rails
     YAML.load(File.read(Rails.root.join("config", file)))[Rails.env].with_indifferent_access
   end
 end
+
+class String
+  def strip_bbcode
+    self.gsub(/\[[^\]]+\]/, '')
+  end
+end

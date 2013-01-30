@@ -56,6 +56,7 @@ class MessagesController < ApplicationController
   
   def show
     @user = User.find_by_id(params[:id])
+    @user ||= User.find_by_url(params[:id])
     redirect_to messages_path, alert: "Sorry, couldn't find that thread" and return unless @user.present?
     @thread = MessageThread.new(current_user, @user)
     @thread.messages.each do |m| 
