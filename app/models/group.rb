@@ -68,6 +68,7 @@ class Group < ActiveRecord::Base
   end
   
   def visible_to?(user)
+    return false unless user.present?
     user.mod? || self.users.where(id: user.id).exists?
   end
   

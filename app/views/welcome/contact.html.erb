@@ -9,7 +9,7 @@
 <div class="row">
   <div class="span6">
     <form action="<%= welcome_path(:action => "contact") %>" method="post" class="well">
-      <input type="text" class="span5" placeholder="Email" id="email" name="email" value="<%= params[:email] %>" />
+      <input type="email" class="span5" placeholder="Email" id="email" name="email" value="<%= params[:email] %>" />
       <select name="reason" class="span5" id="reason">
         <option value="">Select One:</option>
         <% @reasons.each do |r, name| %>

@@ -1,5 +1,6 @@
 require "bundler/capistrano"
 require 'fileutils'
+require "coalmine/capistrano"
 
 set :stages, %w(production staging)
 set :default_stage, "production"

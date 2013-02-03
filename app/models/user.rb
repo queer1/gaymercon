@@ -249,7 +249,7 @@ class User < ActiveRecord::Base
     self.alerts.destroy_all
     self.panels.destroy_all
     self.panel_votes.destroy_all
-    self.badge.destroy
+    self.badge.destroy if self.badge.present?
     solr_remove_from_index
   end
   

@@ -11,7 +11,7 @@ class GroupPostsController < ApplicationController
   
   def show
     Notification::ThreadNotification.clear(@post, current_user) if current_user.present?
-    if @post.nsfw? && !current_user.nsfw
+    if @post.nsfw? && (current_user.nil? || !current_user.nsfw)
       render :action => "nsfw" and return
     end
     @page = params[:page] || "latest"

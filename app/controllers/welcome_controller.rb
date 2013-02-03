@@ -32,9 +32,13 @@ class WelcomeController < ApplicationController
       bug: "I want to report a bug",
       other: "Other"
     }
+    email_regex = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/
     
     if request.post? && params[:antispam]
-      if params[:email].present? && params[:reason].present? && params[:subject].present? || params[:message].present?
+      if params[:email].present? 
+        && params[:email] =~ email_regex
+        && params[:reason].present? 
+        && (params[:subject].present? || params[:message].present?)
         subject = "[gaymercon] #{params[:reason]} - #{params[:subject]}"
         message = "New Message from #{params[:email]}\n\n#{params[:message]}"
         Pony.mail({
@@ -47,6 +51,7 @@ class WelcomeController < ApplicationController
       else
         errors = []
         errors << "Please enter an email we can contact you at." unless params[:email].present?
+        errors << "Please enter a valid email address" if params[:email].present? && !(params[:email] =~ email_regex)
         errors << "Please select a reason for contacting us." unless params[:reason].present?
         errors << "Please enter a subject or message" unless params[:subject].present? || params[:message].present?
         flash.now[:alert] = errors.join("\n")
