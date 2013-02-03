@@ -35,10 +35,7 @@ class WelcomeController < ApplicationController
     email_regex = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/
     
     if request.post? && params[:antispam]
-      if params[:email].present? 
-        && params[:email] =~ email_regex
-        && params[:reason].present? 
-        && (params[:subject].present? || params[:message].present?)
+      if params[:email].present? && params[:email] =~ email_regex && params[:reason].present? && (params[:subject].present? || params[:message].present?)
         subject = "[gaymercon] #{params[:reason]} - #{params[:subject]}"
         message = "New Message from #{params[:email]}\n\n#{params[:message]}"
         Pony.mail({
