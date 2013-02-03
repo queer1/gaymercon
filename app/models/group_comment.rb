@@ -51,7 +51,7 @@ class GroupComment < ActiveRecord::Base
     user_ids = [self.user_id]
     self.group_post.commenters.each do |user|
       next if user_ids.include?(user.id)
-      notif = Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id, :reason => "member")
+      notif = Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id, :reason => "posted")
       notif.add_to_set(:comment_ids, self.id)
       notif.update_attributes!(reason: "posted")
       user_ids << user.id
