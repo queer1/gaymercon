@@ -37,7 +37,7 @@ class Group < ActiveRecord::Base
   KINDS.each do |kind|
     scope kind.pluralize.to_sym, where(kind: kind)
   end
-  scope :with_posts, select("groups.*, (COUNT(*) - 1) as post_count, group_posts.updated_at as last_post_date").joins("left join (select updated_at, group_id from group_posts order by updated_at desc) as group_posts on group_posts.group_id = groups.id").group("groups.id")
+  scope :with_posts, select("groups.*, (COUNT(*) - 1) as post_count, group_posts.updated_at as last_post_date").joins("left outer join (select updated_at, group_id from group_posts order by updated_at desc) as group_posts on group_posts.group_id = groups.id").group("groups.id")
 
   def self.kinds
     KINDS
