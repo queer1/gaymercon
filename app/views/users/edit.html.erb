@@ -56,12 +56,24 @@
             </div>
           </div>
         </div>
+        
+        <div class="row" style="margin-top: 1.5em; margin-bottom: 1.5em;">
+          <div class="span6">
+            <%= f.label :header, "Header Image for Your Profile (785x215)" %>
+            <%= f.file_field :header %>
+            <span class="help-block">
+              <small><em>Keep it classy, now. Anything 'sexy', 'risque', or 'crotch-tastic' will be removed by the admins.</em></small>
+            </span>
+          </div>
+        </div>
+        
         <div class="row-fluid">
           <div class="span6">
             <%= f.label :about, "About you" %>
             <%= f.text_area :about, :size => "53x5", :class => "bbcode", :placeholder => "Tell people why playing with you is awesome" %>
           </div>
         </div>
+        
         <div class="row">
   
           <% stat_setup = [resource.strength, resource.agility, resource.vitality, resource.mind].all?{|s| s == 1} %>

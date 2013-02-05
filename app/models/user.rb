@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
   attr_accessible :provider, :uid, :fb_token, :fb_expires, :tw_token, :tw_expires # omniauth
   attr_accessible :disable_emails, :disable_pm_emails
-  attr_accessible :name, :job_id, :username, :about, :nsfw
+  attr_accessible :name, :job_id, :username, :about, :nsfw, :header
   attr_accessible :strength, :agility, :vitality, :mind, :xp
   attr_accessor :leveled_up, :just_created
   
@@ -30,6 +30,8 @@ class User < ActiveRecord::Base
   has_many :memberships
   has_many :groups, :through => :memberships
   has_many :nicknames # names on Steam, PS3, etc
+  has_many :posts, class_name: "GroupPost"
+  has_many :comments, class_name: "GroupComment"
   
   has_many :follows, :dependent => :destroy
   has_many :followed_users, :through => :follows
@@ -56,6 +58,8 @@ class User < ActiveRecord::Base
   before_destroy :cleanup
   
   acts_as_url :name, sync_url: true
+  
+  has_attached_file :header, :styles => { :large => "800x215#" }
   
   searchable(auto_index: false) do
     text :name, :email, :username, :about, :url

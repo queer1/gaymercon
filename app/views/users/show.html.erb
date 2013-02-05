@@ -41,30 +41,58 @@
       <p><%= @user.name %> hasn't filled out their bio yet! <%= link_to "Send them a message", new_message_path(to_user_id: @user.id ) %> and give them some encouragement!</p>
     <% end %>
     
-    <% if @user.nicknames.present? %>
-        <h3>GamerTags</h3>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#gamertags" data-toggle="tab">GamerTags</a></li>
+      <li><a href="#games" data-toggle="tab">Games</a></li>
+      <li><a href="#activity" data-toggle="tab">Activity</a></li>
+    </ul>
+    
+    <div class="tab-content">
+      <div class="tab-pane active" id="gamertags">
+        <% if @user.nicknames.present? %>
+          <h3>GamerTags</h3>
+          <table class="table table-striped">
+            <tr><th>Network</th><th>Handle</th></tr>
+            <% @user.nicknames.each do |nickname| %>
+              <tr class="<%= cycle('', 'highlight') %>">
+                <td class="left"><strong><%= nickname.network.upcase %></strong></td>
+                <td class="left"><%= nickname.name %></td>
+              </tr>
+            <% end %>
+          </table>
+        <% else %>
+          <h3><%= @user.name %> hasn't listed any GamerTags. Maybe they only play single-player?</h3>
+        <% end %>
+      </div>
+      
+      <div class="tab-pane" id="games">
+        <% if @common.present? %>
+            <h3>Games You Both Play</h3>
+            <%= gridify(@common, 'users/game', col_width: 3, cols: 4) %>
+        <% end %>
+
+        <% if @user.game_groups.present? %>
+            <h3>Games</h3>
+            <%= gridify(@user.game_groups, 'users/game', col_width: 3, cols: 4) %>
+        <% else %>
+            <h3><%= @user.name %> hasn't added any games yet! <%= link_to "send them a message", new_message_path(to_user_id: @user.id ) %> and suggest a few!</h3>
+        <% end %>
+      </div>
+      
+      <div class="tab-pane" id="activity">
+        <table class="table">
+          <tr><th>Groups</th><th>Posts</th><th>Replies</th></tr>
+          <tr><td><%= @user.groups.count %></td><td><%= @user.posts.count %></td><td><%= @user.comments.count %></td></tr>
+        </table>
+        
+        <h3>Recent Discussions</h3>
         <table class="table table-striped">
-          <tr><th>Network</th><th>Handle</th></tr>
-          <% @user.nicknames.each do |nickname| %>
-            <tr class="<%= cycle('', 'highlight') %>">
-              <td class="left"><strong><%= nickname.network.upcase %></strong></td>
-              <td class="left"><%= nickname.name %></td>
-            </tr>
+          <% @discussions.each do |d| %>
+            <tr><td><%= link_to d[:title], d[:link] %></td><td><%= d[:time].strftime(TIME_FORMAT) %></td></tr>
           <% end %>
         </table>
-    <% end %>
-    
-    <% if @common.present? %>
-        <h3>Games You Both Play</h3>
-        <%= gridify(@common, 'users/game', col_width: 3, cols: 4) %>
-    <% end %>
-    
-    <% if @user.game_groups.present? %>
-        <h3>Games</h3>
-        <%= gridify(@user.game_groups, 'users/game', col_width: 3, cols: 4) %>
-    <% else %>
-        <h3><%= @user.name %> hasn't added any games yet! <%= link_to "send them a message", new_message_path(to_user_id: @user.id ) %> and suggest a few!</h3>
-    <% end %>
+      </div>
+    </div>
   </div>
 </div>
 <%= link_to "<< Back", :back %>

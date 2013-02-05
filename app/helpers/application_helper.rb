@@ -23,6 +23,8 @@ module ApplicationHelper
     elsif @group
       return @group.header.url(:large) if @group.header.present?
       return asset_path(@group.default_header)
+    elsif current_user.present? && current_user.header.present?
+      return current_user.header.url(:large)
     end
     return asset_path("main-header.png")
   end

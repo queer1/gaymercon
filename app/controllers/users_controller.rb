@@ -84,7 +84,7 @@ class UsersController < Devise::RegistrationsController
     end
   
   def update_profile
-    fields = [:name, :job_id, :username, :about]
+    fields = [:name, :job_id, :username, :about, :header]
     stats = [:strength, :agility, :vitality, :mind]
     fields += stats if current_user.free_skill_points > 0 || stats.all?{|s| current_user.send(s) == 1}
     profile = params[:user].slice(*fields)
@@ -126,7 +126,15 @@ class UsersController < Devise::RegistrationsController
     @user = User.find_by_url(params[:id])
     Notification::FollowNotification.clear(@user, current_user) if current_user.present?
     redirect_to root_path, error: "Sorry, couldn't find that user." and return unless @user.present?
+    @header_img = @user.header.url(:large) if @user.header.present?
     @common = @user.game_groups & current_user.game_groups if current_user.present? && @user != current_user
+    
+    posts = @user.posts.order("updated_at desc").limit(10)
+    comments = @user.comments.order("updated_at desc").limit(10)
+    @discussions = []
+    posts.each{|p| @discussions << {title: p.title, link: group_post_path(p.group, p), time: p.updated_at} unless @discussions.count{|d| d[:link] == group_post_path(p.group, p)} > 0 || p.group.private? }
+    comments.each{|c| @discussions << {title: c.group_post.title, link: group_post_path(c.group, c.group_post), time: c.updated_at} unless @discussions.count{|d| d[:link] == group_post_path(c.group, c.group_post)} > 0 || c.group.private? }
+    @discussions = @discussions.uniq.sort_by{|d| d[:time] }.reverse.take(10)
   end
   
   def add_tags
