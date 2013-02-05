@@ -42,9 +42,9 @@
     <% end %>
     
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#gamertags" data-toggle="tab">GamerTags</a></li>
-      <li><a href="#games" data-toggle="tab">Games</a></li>
-      <li><a href="#activity" data-toggle="tab">Activity</a></li>
+      <li class="active"><a href="#gamertags" data-toggle="tab">GamerTags (<%= @user.nicknames.count %>)</a></li>
+      <li><a href="#games" data-toggle="tab">Games (<%= @user.game_groups.count %>)</a></li>
+      <li><a href="#activity" data-toggle="tab">Activity (<%= @discussions.count %>)</a></li>
     </ul>
     
     <div class="tab-content">
