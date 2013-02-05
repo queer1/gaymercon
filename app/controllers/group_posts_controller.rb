@@ -2,7 +2,7 @@ class GroupPostsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show]
   before_filter :find_group
   before_filter :find_post, except: [:index, :new, :create]
-  before_filter :authenticate_post, except: [:index, :show, :new, :create]
+  before_filter :authenticate_post, except: [:index, :show, :new, :create, :like, :unlike]
   before_filter do @section_name = @group.name end
   
   def index
@@ -11,6 +11,7 @@ class GroupPostsController < ApplicationController
   
   def show
     Notification::ThreadNotification.clear(@post, current_user) if current_user.present?
+    Notification::RewardNotification.clear(@post, current_user) if current_user.present?
     if @post.nsfw? && (current_user.nil? || !current_user.nsfw)
       render :action => "nsfw" and return
     end
@@ -61,11 +62,13 @@ class GroupPostsController < ApplicationController
   end
   
   def like
+    redirect_to group_post_path(@group, @post), alert: "Can't reward your own post, silly!" and return if @post.user == current_user
     @post.like(current_user)
     redirect_to group_post_path(@group, @post), notice: "Granted 15xp!"
   end
   
   def unlike
+    redirect_to group_post_path(@group, @post), alert: "Can't unreward your own post, silly!" and return if @post.user == current_user
     @post.unlike(current_user)
     redirect_to group_post_path(@group, @post), notice: "Cancelled :("
   end

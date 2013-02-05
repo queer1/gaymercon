@@ -48,11 +48,13 @@ class GroupCommentsController < ApplicationController
   end
   
   def like
+    redirect_to group_post_path(@group, @post), alert: "Can't reward your own post, silly!" and return if @comment.user == current_user
     @comment.like(current_user)
     redirect_to group_post_path(@group, @post), notice: "Granted 15xp!"
   end
   
   def unlike
+    redirect_to group_post_path(@group, @post), alert: "Can't unreward your own post, silly!" and return if @comment.user == current_user
     @comment.unlike(current_user)
     redirect_to group_post_path(@group, @post), notice: "Cancelled :("
   end
