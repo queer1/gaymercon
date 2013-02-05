@@ -228,7 +228,8 @@ class UsersController < Devise::RegistrationsController
     if current_user.present?
       @user = current_user
       @jobs = Job.for_user(current_user)
-      @job = current_user.job || @jobs.sample
+      @job = current_user.job
+      @job ||= @jobs.sample
       @user.job = @job
       @games = current_user.games || []
     end

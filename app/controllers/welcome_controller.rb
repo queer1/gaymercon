@@ -99,7 +99,7 @@ class WelcomeController < ApplicationController
         row(:group) do
           with(:klass, "Group")
           without(:kind, "game")
-          with :private, false unless current_user.mod?
+          with :private, false unless current_user && current_user.mod?
         end
         
         row(:thread) do
@@ -109,7 +109,7 @@ class WelcomeController < ApplicationController
         row(:game) do
           with(:klass, "Group")
           with(:kind, "game")
-          with :private, false unless current_user.mod?
+          with :private, false unless current_user && current_user.mod?
         end
         
         row(:panel) do

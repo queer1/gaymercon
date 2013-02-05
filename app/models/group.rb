@@ -77,7 +77,7 @@ class Group < ActiveRecord::Base
   end
   
   def last_post_date
-    posts.order("created_at desc").first.try(:created_at)
+    posts.order("updated_at desc").first.try(:created_at)
   end
   
   def latest_posts(num = 10)
