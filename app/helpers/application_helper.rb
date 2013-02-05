@@ -50,7 +50,8 @@ module ApplicationHelper
       next unless l.user.present? 
       link_to(l.user.name, user_path(l.user)) 
     }.join(", ").gsub(/\"/, "'")
-    link_to "#{likes} #{noun} rewarded this", '#', rel: "popover", data: {html: true, placement: 'top', title: "#{likes} #{noun} rewarded this", content: like_links }
+    # error in bootstrap causes href to continue normally after popover appears :/
+    link_to "#{likes} #{noun} rewarded this", 'javascript:void(0);', rel: "popover", data: {html: true, placement: 'top', title: "#{likes} #{noun} rewarded this", content: like_links }
   end
   
   def gridify(collection, partial, opts = {})
