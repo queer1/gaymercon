@@ -56,7 +56,6 @@ class GroupComment < ActiveRecord::Base
       next if user_ids.include?(user.id)
       notif = Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id, :reason => "posted")
       notif.add_to_set(:comment_ids, self.id)
-      notif.update_attributes!(reason: "posted")
       user_ids << user.id
     end
     
@@ -64,7 +63,6 @@ class GroupComment < ActiveRecord::Base
       next if user_ids.include?(user.id)
       notif = Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id, :reason => "member")
       notif.add_to_set(:comment_ids, self.id)
-      notif.update_attributes!(reason: "member")
     end
     
     self.user.followers.compact.each do |user|
@@ -72,7 +70,6 @@ class GroupComment < ActiveRecord::Base
       next if group.private? && !group.visible_to?(user)
       notif = Notification::ThreadNotification.find_or_create_by(:read => false, :user_id => user.id, :thread_id => self.group_post.id, :reason => "follow")
       notif.add_to_set(:comment_ids, self.id)
-      notif.update_attributes!(reason: "follow")
     end
   end
   
