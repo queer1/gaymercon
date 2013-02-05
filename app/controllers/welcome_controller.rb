@@ -32,7 +32,7 @@ class WelcomeController < ApplicationController
       bug: "I want to report a bug",
       other: "Other"
     }
-    email_regex = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/
+    email_regex = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i
     
     if request.post? && params[:antispam]
       if params[:email].present? && params[:email] =~ email_regex && params[:reason].present? && (params[:subject].present? || params[:message].present?)
