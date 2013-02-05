@@ -1,4 +1,7 @@
 class GroupComment < ActiveRecord::Base
+  
+  include Likeable
+  
   belongs_to :group_post, touch: true
   belongs_to :user
   

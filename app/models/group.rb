@@ -68,6 +68,7 @@ class Group < ActiveRecord::Base
   end
   
   def visible_to?(user)
+    return true unless self.private?
     return false unless user.present?
     user.mod? || self.users.where(id: user.id).exists?
   end
@@ -77,7 +78,7 @@ class Group < ActiveRecord::Base
   end
   
   def last_post_date
-    posts.order("updated_at desc").first.try(:created_at)
+    posts.order("updated_at desc").first.try(:updated_at)
   end
   
   def latest_posts(num = 10)

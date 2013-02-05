@@ -4,7 +4,12 @@ Gc2::Application.routes.draw do
   
   resources :groups do
     resources :posts, :controller => "group_posts" do
-      resources :comments, :controller => "group_comments"
+      resources :comments, :controller => "group_comments" do
+        post :like, :on => :member
+        post :unlike, :on => :member
+      end
+      post :like, :on => :member
+      post :unlike, :on => :member
     end
     resources :comments, :controller => "gorup_comments"
     get :forums, :on => :collection

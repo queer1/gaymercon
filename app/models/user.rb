@@ -20,19 +20,16 @@ class User < ActiveRecord::Base
   attr_accessible :strength, :agility, :vitality, :mind, :xp
   attr_accessor :leveled_up, :just_created
   
-  has_many :forum_threads
-  has_many :forum_posts
+  has_many :likes
   has_many :panels
   has_many :panel_votes
-  has_many :graffitis
-  has_many :tags, :through => :graffitis
   has_many :messages, foreign_key: 'to_user_id', class_name: "Message"
   has_many :sent_messages, foreign_key: 'from_user_id', class_name: "Message"
   has_many :alerts, class_name: "UserAlert"
   has_many :admin_badges, foreign_key: "admin_id", class_name: "Badge"
   has_many :memberships
   has_many :groups, :through => :memberships
-  has_many :nicknames
+  has_many :nicknames # names on Steam, PS3, etc
   
   has_many :follows, :dependent => :destroy
   has_many :followed_users, :through => :follows
@@ -101,6 +98,11 @@ class User < ActiveRecord::Base
   
   def followed_by?(user)
     self.followers.where(id: user.id).exists?
+  end
+  
+  def likes?(obj)
+    return false unless obj.present?
+    self.likes.where(klass: obj.class.name, like_id: obj.id, revoked: false).exists?
   end
   
   def unread_message_count

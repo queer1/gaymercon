@@ -60,11 +60,22 @@ class GroupPostsController < ApplicationController
     redirect_to group_path(@group), notice: "Post deleted"
   end
   
+  def like
+    @post.like(current_user)
+    redirect_to group_post_path(@group, @post), notice: "Granted 15xp!"
+  end
+  
+  def unlike
+    @post.unlike(current_user)
+    redirect_to group_post_path(@group, @post), notice: "Cancelled :("
+  end
+  
   private
     def find_group
       @group = Group.find_by_id params[:group_id]
       @group ||= Group.find_by_url params[:group_id]
-      redirect_to groups_path, alert: "Sorry, couldn't find that group" unless @group.present?
+      redirect_to groups_path, alert: "Sorry, couldn't find that group" and return unless @group.present?
+      render :action => "groups/private" and return unless @group.visible_to?(current_user)
     end
     
     def find_post

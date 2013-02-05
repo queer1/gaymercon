@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130129032542) do
+ActiveRecord::Schema.define(:version => 20130205073003) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -143,6 +143,15 @@ ActiveRecord::Schema.define(:version => 20130129032542) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.integer  "level_requirement"
+  end
+
+  create_table "likes", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "klass"
+    t.integer  "like_id"
+    t.boolean  "revoked"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "mail_batch_drafts", :force => true do |t|

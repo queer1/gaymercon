@@ -1,6 +1,7 @@
 class GroupPost < ActiveRecord::Base
   
   include Locatable
+  include Likeable
   
   belongs_to :user
   belongs_to :group
@@ -98,8 +99,6 @@ class GroupPost < ActiveRecord::Base
       notif.update_attributes!(reason: "follow")
       user_ids << user.id
     end
-    
-    
   end
   
   def cleanup

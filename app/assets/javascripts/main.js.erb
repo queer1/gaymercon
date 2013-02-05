@@ -35,6 +35,7 @@ $(document).ready(function(){
   $("head").append("<link href='http://fonts.googleapis.com/css?family=VT323|Press+Start+2P' rel='stylesheet' type='text/css'>");
   
   $("textarea.bbcode").bbcode();
+  $("a[rel=popover]").popover();
   
   $("a.toggle").on("click", function(e){
     e.preventDefault();
