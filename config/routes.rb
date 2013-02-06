@@ -30,6 +30,7 @@ Gc2::Application.routes.draw do
     get "/signup", to: "users#new", as: 'signup'
     get "/login", to: "devise/sessions#new", as: 'login'
     get '/logout', to: "devise/sessions#destroy", as: 'logout'
+    get '/map', to: "users#map", as: 'users_map'
     get "/users/get_location", to: "users#get_location", as: 'get_location'
     match "users/notifications", to: "users#notifications", as: 'notifications'
     get '/home', to: "welcome#home", as: "home"

@@ -49,11 +49,11 @@
               <% end %>
               
               <% if cols['common_games'] && current_user.present? %>
-                <td><%= (user.game_groups & current_user.game_groups).collect{|g| link_to(g.name, group_path(g))}.join(", ") %></td>
+                <td><%= common_games(user, current_user) %></td>
               <% end %>
               
               <% if cols['common_networks'] && current_user.present? %>
-                <td><%= (networks & user.network_names).collect(&:humanize).join(", ") %></td>
+                <td><%= common_networks(user, current_user) %></td>
               <% end %>
               
               <% if cols['networks'] %>

@@ -8,6 +8,10 @@ class Location
   field :item_id, type: Integer
   field :item_class, type: String
   
+  def set?
+    !(self.coords.nil? || self.coords == [199.9, 199.9])
+  end
+  
   def self.nearby(coords, max_miles_away = 50, item_class = "user")
     # convert to lat/lng coord distance, as per http://www.mongodb.org/display/DOCS/Geospatial+Indexing
     max_miles_away = 50 unless max_miles_away.present?
@@ -18,7 +22,7 @@ class Location
   end
   
   def nearby(max_miles_away = 50, item_class = "user")
-    return [] if self.coords.nil? || self.coords == [199.9, 199.9]
+    return [] if !self.set?
     self.class.nearby(self.coords, max_miles_away, item_class)
   end
   

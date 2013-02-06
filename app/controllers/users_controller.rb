@@ -59,6 +59,37 @@ class UsersController < Devise::RegistrationsController
     end
   end
   
+  def map
+    if request.xhr?
+      @users = User.nearby([params[:lat].to_f, params[:lng].to_f]).all
+      ret = @users.collect do |user|
+        games = []
+        common_games = []
+        networks = []
+        common_networks = []
+        if current_user.present?
+          common_games += user.game_groups & current_user.game_groups
+          games += user.game_groups.take(4) unless common_games.present?
+          common_networks += user.network_names & current_user.network_names
+          networks += user.networks unless common_networks.present?
+        else
+          games += user.games.take(4)
+          networks += user.networks
+        end
+        
+        { lat: user.coords.first, lng: user.coords.last, title: user.name,
+          link: user_path(user), avatar: user.avatar, username: user.name, user_class: user.job.try(:name), level: user.level,
+          common_games: common_games.collect{|g| {name: g.name, link: group_path(g) } },
+          games: games.collect{|g| {name: g.name, link: group_path(g) } },
+          common_networks: common_networks.collect{|n| n.humanize },
+          networks: networks.collect{|n| n.humanize }
+        }
+      end
+      Rails.logger.debug ret.to_json
+      render :json => ret
+    end
+  end
+  
   def create
     session[:user_return_to] ||= join_path
     super
@@ -72,23 +103,23 @@ class UsersController < Devise::RegistrationsController
   end
   
   def update
-      # required for settings form to submit when password is left blank
-      if params[:user][:password].blank?
-        params[:user].delete("password")
-        params[:user].delete("password_confirmation")
-      end
-
-      @user = User.where(id: current_user.id).first
-      if @user.update_attributes(params[:user])
-        set_flash_message :notice, :updated
-        # Sign in the user bypassing validation in case his password changed
-        sign_in @user, :bypass => true
-        redirect_to after_update_path_for(@user)
-      else
-        flash.now[:alert] = @user.all_errors
-        render "edit"
-      end
+    # required for settings form to submit when password is left blank
+    if params[:user][:password].blank?
+      params[:user].delete("password")
+      params[:user].delete("password_confirmation")
     end
+
+    @user = User.where(id: current_user.id).first
+    if @user.update_attributes(params[:user])
+      set_flash_message :notice, :updated
+      # Sign in the user bypassing validation in case his password changed
+      sign_in @user, :bypass => true
+      redirect_to after_update_path_for(@user)
+    else
+      flash.now[:alert] = @user.all_errors
+      render "edit"
+    end
+  end
   
   def update_profile
     fields = [:name, :job_id, :username, :about, :header]
