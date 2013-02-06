@@ -71,7 +71,7 @@ class UsersController < Devise::RegistrationsController
           common_games += user.game_groups & current_user.game_groups
           games += user.game_groups.take(4) unless common_games.present?
           common_networks += user.network_names & current_user.network_names
-          networks += user.networks unless common_networks.present?
+          networks += user.network_names unless common_networks.present?
         else
           games += user.games.take(4)
           networks += user.networks
