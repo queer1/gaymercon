@@ -23,9 +23,25 @@
           </ul>
         </li>
 
-        <li><%= link_to "Forums", forums_groups_path %></li>
-        <li><%= link_to "Groups", groups_path %></li>
-        <li><%= link_to "Games", games_groups_path %></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><b class="caret"></b> Forums</a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Official", forums_groups_path %></li>
+            <li><%= link_to "Groups", groups_path %></li>
+            <li><%= link_to "Games", games_groups_path %></li>
+          </ul>
+        </li>
+        
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><b class="caret"></b> People</a>
+          <ul class="dropdown-menu">
+            <% if current_user.present? %>
+              <li><%= link_to "SuperScope", users_path(tab: 'superscope') %></li>
+            <% end %>
+            <li><%= link_to "Nearby", users_path(tab: 'nearby') %></li>
+            <li><%= link_to "Browse", users_path(tab: 'cool') %></li>
+          </ul>
+        </li>
 
         <% if current_user.present? %>
           <% if current_user.admin? %>

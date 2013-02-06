@@ -39,7 +39,7 @@ class GroupsController < ApplicationController
   
   def games
     if current_user.present?
-      @your_games = current_user.game_groups
+      @your_games = current_user.game_groups_with_posts
     end
     @games = Group.with_posts.where(kind: "game").order("last_post_date desc").page(params[:page])
     @section_name = "Games"

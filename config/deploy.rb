@@ -103,7 +103,6 @@ end
 
 before 'deploy:update', 'sudo_ls'
 before 'deploy:finalize_update', 'deploy:upload_assets'
-after "deploy:finalize_update", "deploy:build_missing_paperclip_styles"
 after 'deploy:finalize_update', 'deploy:symlink'
 after 'deploy:finalize_update', 'deploy:restart_solr'
 

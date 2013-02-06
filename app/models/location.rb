@@ -12,7 +12,6 @@ class Location
     # convert to lat/lng coord distance, as per http://www.mongodb.org/display/DOCS/Geospatial+Indexing
     max_miles_away = 50 unless max_miles_away.present?
     item_ids = self.where(:coords => {"$near" => coords , '$maxDistance' => max_miles_away.fdiv(69)}, :item_class => item_class).to_a
-    Rails.logger.debug(item_ids.inspect)
     item_ids.collect!(&:item_id)
     klass = item_class.classify.constantize
     klass.where("#{item_class.pluralize}.id IN (?)", item_ids)

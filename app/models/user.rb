@@ -117,6 +117,10 @@ class User < ActiveRecord::Base
     url
   end
   
+  def network_names
+    self.nicknames.collect(&:network)
+  end
+  
   # Level Stuff
   def level
     LevelCalculator.level(self.xp)
@@ -152,8 +156,12 @@ class User < ActiveRecord::Base
   end
   
   # Tag shenanigans
-  def game_groups
+  def game_groups_with_posts
     self.groups.with_posts.where(kind: "game").order("last_post_date desc").all
+  end
+  
+  def game_groups
+    self.groups.where(kind: 'game')
   end
   
   def games=(games = [])

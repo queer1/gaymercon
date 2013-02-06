@@ -2,6 +2,7 @@
 
 <ul class="nav nav-tabs">
   <% if current_user.present? %>
+    <li <%= @tab == "superscope" ? "class='active'" : '' %>><%= link_to "SuperScope", users_path(tab: 'superscope') %></li>
     <li <%= @tab == "following" ? "class='active'" : '' %>><%= link_to "Following", users_path(tab: 'following') %></li>
     <li <%= @tab == "followers" ? "class='active'" : '' %>><%= link_to "Followers", users_path(tab: 'followers') %></li>
   <% end %>
@@ -14,4 +15,19 @@
   <li <%= @tab == "cool" ? "class='active'" : '' %>><%= link_to "All Users", users_path(tab: "cool") %></li>
 </ul>
 
-<%= render partial: "table" %>
+<%
+cols = nil 
+case @tab 
+when 'nearby'
+  cols = ['pic', 'name', 'location', 'xp', 'actions']
+when 'superscope'
+  cols = ['pic', 'name', 'common_games', 'common_networks']
+when 'network'
+  cols = ['pic', 'name', 'xp', 'actions']
+  cols << 'networks' if @network == "other"
+else
+  cols = ['pic', 'name', 'xp', 'actions']
+end
+%>
+
+<%= render partial: "table", locals: {cols: cols} %>

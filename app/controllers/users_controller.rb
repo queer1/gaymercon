@@ -10,15 +10,21 @@ class UsersController < Devise::RegistrationsController
   def index
     @tab = params[:tab] if params[:tab].present?
     @tab ||= "network" if params[:network].present?
-    @tab ||= "following" if current_user.present?
+    @tab ||= "superscope" if current_user.present?
     @tab ||= "cool"
     
-    if ["following", "followers"].include?(@tab) && current_user.nil?
+    if ["following", "followers", "superscope"].include?(@tab) && current_user.nil?
       session[:return_to] = users_path(tab: @tab)
       redirect_to login_path, alert: "You must sign in to see that" and return
     end
     
     case @tab
+    when "superscope"
+      group_ids = current_user.game_groups.collect(&:id)
+      group_users = Membership.where(group_id: group_ids).collect(&:user_id) - [current_user.id]
+      network_names = current_user.nicknames.collect(&:network)
+      network_users = Nickname.where(network: network_names).collect(&:user_id) - [current_user.id]
+      @users = User.where(id: group_users & network_users).page(params[:page])
     when "nearby"
       @section_name = "Nearby People"
       @coords = current_user.coords if current_user.present?
@@ -26,6 +32,7 @@ class UsersController < Devise::RegistrationsController
       if @coords.present?
         @users = User.nearby(@coords)
         @users -= [current_user] if current_user.present?
+        # arrays have to use #paginate, only relations can use #page
         @users = @users.paginate(page: params[:page])
       else
         flash.now[:alert] = "Sorry, we couldn't find your location."
@@ -124,9 +131,10 @@ class UsersController < Devise::RegistrationsController
   
   def show
     @user = User.find_by_url(params[:id])
-    Notification::FollowNotification.clear(@user, current_user) if current_user.present?
     redirect_to root_path, error: "Sorry, couldn't find that user." and return unless @user.present?
+    Notification::FollowNotification.clear(@user, current_user) if current_user.present?
     @header_img = @user.header.url(:large) if @user.header.present?
+    @section_name = @user.name
     @common = @user.game_groups & current_user.game_groups if current_user.present? && @user != current_user
     
     posts = @user.posts.order("updated_at desc").limit(10)

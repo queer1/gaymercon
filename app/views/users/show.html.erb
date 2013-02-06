@@ -70,10 +70,11 @@
             <h3>Games You Both Play</h3>
             <%= gridify(@common, 'users/game', col_width: 3, cols: 4) %>
         <% end %>
-
-        <% if @user.game_groups.present? %>
+        
+        <% game_groups = @user.game_groups_with_posts %>
+        <% if game_groups %>
             <h3>Games</h3>
-            <%= gridify(@user.game_groups, 'users/game', col_width: 3, cols: 4) %>
+            <%= gridify(game_groups, 'users/game', col_width: 3, cols: 4) %>
         <% else %>
             <h3><%= @user.name %> hasn't added any games yet! <%= link_to "send them a message", new_message_path(to_user_id: @user.id ) %> and suggest a few!</h3>
         <% end %>

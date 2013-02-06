@@ -1,6 +1,10 @@
 <% users = table %>
 <% users ||= local_assigns[:users] %>
 <% users ||= @users %>
+<% cols = local_assigns[:cols] || ['pic', 'name', 'location', 'xp', 'actions'] %>
+<% trues = cols.collect{|c| true } %>
+<% cols = Hash[cols.zip(trues)] %>
+<% Rails.logger.debug "cols: #{cols.inspect}"%>
 <div class='tab-content'>
   <div class="row">
     <div class="span12">
@@ -10,38 +14,72 @@
         <%= bootstrap_paginate users %>
         <table class="table table-striped">
           <tr>
-            <th>Pic</th>
-            <th>Name</th>
-            <th>Location</th>
-            <% if current_user.present? %>
+            <% if cols['pic'] %><th>Pic</th><% end %>
+            <% if cols['name'] %><th>Name</th><% end %>
+            <% if cols['location'] %><th>Location</th><% end %>
+            <% if cols['coplays'] && current_user.present? %>
               <th>Games in Common</th>
             <% end %>
-            <th>XP</th>
-            <th>Actions</th>
+            <% if cols['common_games'] && current_user.present? %>
+              <th>You both play:</th>
+            <% end %>
+            <% if cols['common_networks'] && current_user.present? %>
+              <th>You're both on:</th>
+            <% end %>
+            <% if cols['networks'] %><th>Plays on:</th><% end %>
+            <% if cols['xp'] %><th>XP</th><% end %>
+            <% if cols['actions']%><th>Actions</th><% end %>
           </tr>
           <% users.each do |user| %>
             <tr>
-              <td><%= link_to image_tag(user.avatar, width: 75, height: 75, style: "width: 75px;"), user_path(user) %></td>
-              <td><%= link_to user.name, user_path(user) %></td>
-              <td><%= user.place %></td>
-              <% if current_user.present? %>
+              <% if cols['pic'] %>
+                <td><%= link_to image_tag(user.avatar, width: 75, height: 75, style: "width: 75px;"), user_path(user) %></td>
+              <% end %>
+              
+              <% if cols['name'] %>
+                <td><%= link_to user.name, user_path(user) %></td>
+              <% end %>
+              
+              <% if cols['location'] %>
+                <td><%= user.place %></td>
+              <% end %>
+              
+              <% if cols['coplays'] && current_user.present? %>
                 <td><%= user.games_in_common(current_user).count %></td>
               <% end %>
-              <td><%= strfnum(user.xp) %></td>
-              <td>
-                <% if current_user.present? %>
-                  <%= link_to "Message", new_message_path(to_user: user.url), :class => "btn" %>
-                  <% if current_user.following?(user) %>
-                    <%= link_to "Unfollow", unfollow_path(user), :method => "post", :class => "btn" %>
-                  <% else %>
-                    <%= link_to "Follow", follow_path(user), :method => "post", :class => "btn btn-primary" %>
+              
+              <% if cols['common_games'] && current_user.present? %>
+                <td><%= (user.game_groups & current_user.game_groups).collect{|g| link_to(g.name, group_path(g))}.join(", ") %></td>
+              <% end %>
+              
+              <% if cols['common_networks'] && current_user.present? %>
+                <td><%= (networks & user.network_names).collect(&:humanize).join(", ") %></td>
+              <% end %>
+              
+              <% if cols['networks'] %>
+                <td><%= user.network_names.collect(&:humanize).join(", ") %></td>
+              <% end %>
+              
+              <% if cols['xp'] %>
+                <td><%= strfnum(user.xp) %></td>
+              <% end %>
+              
+              <% if cols['actions'] %>
+                <td>
+                  <% if current_user.present? %>
+                    <%= link_to "Message", new_message_path(to_user: user.url), :class => "btn" %>
+                    <% if current_user.following?(user) %>
+                      <%= link_to "Unfollow", unfollow_path(user), :method => "post", :class => "btn" %>
+                    <% else %>
+                      <%= link_to "Follow", follow_path(user), :method => "post", :class => "btn btn-primary" %>
+                    <% end %>
+                    <%= link_to "View", user_path(user), :class => "btn" %>
+                    <% if current_user.admin? %>
+                      <%= link_to "Edit", halo_path("edit_user", user.id), :class => "btn" %>
+                    <% end %>
                   <% end %>
-                  <%= link_to "View", user_path(user), :class => "btn" %>
-                  <% if current_user.admin? %>
-                    <%= link_to "Edit", halo_path("edit_user", user.id), :class => "btn" %>
-                  <% end %>
-                <% end %>
-              </td>
+                </td>
+              <% end %>
             </tr>
           <% end %>
         </table>
