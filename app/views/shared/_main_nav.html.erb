@@ -38,6 +38,7 @@
             <% if current_user.present? %>
               <li><%= link_to "SuperScope", users_path(tab: 'superscope') %></li>
             <% end %>
+            <li><%= link_to "Map", users_map_path %></li>
             <li><%= link_to "Nearby", users_path(tab: 'nearby') %></li>
             <li><%= link_to "Browse", users_path(tab: 'cool') %></li>
           </ul>
