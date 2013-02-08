@@ -30,7 +30,9 @@ class UsersController < Devise::RegistrationsController
       network_names = current_user.nicknames.collect(&:network)
       network_users = Nickname.where(network: network_names).collect(&:user_id) - [current_user.id]
       
-      @users = User.where(id: network_users).joins("left join (SELECT memberships.user_id, count(*) as common_count FROM `memberships` WHERE `memberships`.`group_id` IN (#{group_ids.join(', ')}) GROUP BY user_id ORDER BY common_count) as m on users.id = m.user_id").order("common_count desc").page(params[:page])
+      @users = [].paginate(page: params[:page]) unless group_ids.present? && network_users.present?
+      @users ||= User.where(id: network_users).joins("left join (SELECT memberships.user_id, count(*) as common_count FROM `memberships` WHERE `memberships`.`group_id` IN (#{group_ids.join(', ')}) GROUP BY user_id ORDER BY common_count) as m on users.id = m.user_id").order("common_count desc").page(params[:page])
+      
     when "nearby"
       @section_name = "Nearby People"
       @coords = current_user.coords if current_user.present?
