@@ -97,7 +97,7 @@ class Group < ActiveRecord::Base
   end
   
   def to_param
-    url
+    url || name.to_url
   end
   
   def game_group
