@@ -24,7 +24,7 @@ class Notification::ThreadNotification < Notification
     c = self.count
     noun = c > 1 ? "replies" : "reply"
     if self.reason == "member"
-      return "#{c} new #{noun} to \"#{self.thread.try(:title)}\" in your group #{self.thread.group.try(:name)}"
+      return "#{c} new #{noun} to \"#{self.thread.try(:title)}\" in your group #{self.thread.try(:group).try(:name)}"
     elsif reason == "follow"
       poster = GroupComment.where(id: self.comment_ids.first).first.try(:user)
       return "Your friend #{poster.name} replied to \"#{self.thread.try(:title)}\"" if poster.present?

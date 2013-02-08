@@ -80,7 +80,7 @@ class UsersController < Devise::RegistrationsController
           networks += user.network_names unless common_networks.present?
         else
           games += user.games.take(4)
-          networks += user.networks
+          networks += user.network_names
         end
         
         user_json = { lat: user.coords.first, lng: user.coords.last, title: user.name,
