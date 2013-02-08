@@ -4,13 +4,16 @@
 <% cols = local_assigns[:cols] || ['pic', 'name', 'location', 'xp', 'actions'] %>
 <% trues = cols.collect{|c| true } %>
 <% cols = Hash[cols.zip(trues)] %>
-<% Rails.logger.debug "cols: #{cols.inspect}"%>
 <div class='tab-content'>
   <div class="row">
     <div class="span12">
       <% if users.empty? %>
         <h2>Sorry, no one here yet</h2>
       <% else %>
+        <% if local_assigns[:heading] %>
+          <h4><%= heading %></h4>
+        <% end %>
+        
         <%= bootstrap_paginate users %>
         <table class="table table-striped">
           <tr>

@@ -17,17 +17,22 @@
 
 <%
 cols = nil 
+heading = nil
 case @tab 
 when 'nearby'
   cols = ['pic', 'name', 'location', 'xp', 'actions']
+  heading = "Players who are near your location"
 when 'superscope'
   cols = ['pic', 'name', 'common_games', 'common_networks']
+  heading = "Players who play the same games as you, and are on the same networks"
 when 'network'
   cols = ['pic', 'name', 'xp', 'actions']
   cols << 'networks' if @network == "other"
+  heading = "Players who are on #{@network}"
+  heading = "Players who are on other networks" if @network == "other"
 else
   cols = ['pic', 'name', 'xp', 'actions']
 end
 %>
 
-<%= render partial: "table", locals: {cols: cols} %>
+<%= render partial: "table", locals: {cols: cols, heading: heading} %>
