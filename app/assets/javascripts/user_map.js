@@ -14,49 +14,106 @@ $(function(){
   };
   var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
   
+  var createUserWindow = function(user){
+    var html = $("#marker_template").clone().removeClass("hide").html();
+    html = html.replace(/:avatar:/, user['avatar']);
+    html = html.replace(/:link:/g, user['link']);
+    html = html.replace(/:username:/, user['username']);
+    html = html.replace(/:user_class:/, user['user_class']);
+    html = html.replace(/:level:/, user['level']);
+    
+    if(user['common_games'].length > 0){
+      games = "<strong>Games you both play: </strong>";
+      arr = []
+      $.each(user['common_games'], function(){ arr.push("<a href='" + user['link'] + "'>" + user['name'] + "</a>") })
+      games += arr.join(", ")
+    } else {
+      games = "<strong>Games: </strong>";
+      arr = []
+      $.each(user['games'], function(){ arr << "<a href='" + user['link'] + "'>" + user['name'] + "</a>" })
+      games += arr.join(", ")
+    }
+    html = html.replace(/:games:/, games);
+    
+    if(user['common_networks'].length > 0){
+      networks = "<strong>You're both on: </strong>" + user['common_networks'].join(", ");
+    } else {
+      networks = "<strong>Networks: </strong>" + user['networks'].join(", ");
+    }
+    html = html.replace(/:networks:/, networks);
+    
+    return html;
+  }
+  
   var placeMarkers = function(data){
-    console.log(data);
-    $.each(data, function(){
-      var html = $("#marker_template").clone().removeClass("hide").html();
-      html = html.replace(/:avatar:/, this['avatar']);
-      html = html.replace(/:link:/g, this['link']);
-      html = html.replace(/:username:/, this['username']);
-      html = html.replace(/:user_class:/, this['user_class']);
-      html = html.replace(/:level:/, this['level']);
+    if(typeof($.gmaps_markers) == "undefined")
+      $.gmaps_markers = [];
+    else{
+      $.each($.gmaps_markers, function(idx, marker){ marker.setMap(null); });
+      $.gmaps_markers = [];
+    }
+    
+    if(typeof($.gmaps_oms) == "undefined")
+      $.gmaps_oms = [];
+    else{
+      $.each($.gmaps_oms, function(idx, oms){ 
+        $.each(oms.getMarkers(), function(idx, marker){ marker.setMap(null); });
+        oms.clearMarkers();
+      });
+      $.gmaps_oms = [];
+    }
       
-      if(this['common_games'].length > 0){
-        games = "<strong>Games you both play: </strong>";
-        arr = []
-        $.each(this['common_games'], function(){ arr.push("<a href='" + this['link'] + "'>" + this['name'] + "</a>") })
-        games += arr.join(", ")
-      } else {
-        games = "<strong>Games: </strong>";
-        arr = []
-        $.each(this['games'], function(){ arr << "<a href='" + this['link'] + "'>" + this['name'] + "</a>" })
-        games += arr.join(", ")
+    $.each(data, function(key, val){
+      
+      if(val.length == 1){
+        user = val.pop();
+        html = createUserWindow(user);
+        var latlng = new google.maps.LatLng(user['lat'], user['lng']);
+        var infowindow = new google.maps.InfoWindow({
+            content: html,
+            maxWidth: 300
+        });
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            title: user['title']
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+          if(typeof($.gmaps_infowindow) != "undefined")
+            $.gmaps_infowindow.close();
+          infowindow.open(map,marker);
+          $.gmaps_infowindow = infowindow;
+        });
+
+        $.gmaps_markers.push(marker);
+        
+      }else{
+        var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied: true});
+        var infoWindow = new google.maps.InfoWindow();
+        oms.addListener('click', function(marker) {
+          if(typeof($.gmaps_infowindow) != "undefined")
+            $.gmaps_infowindow.close();
+          infoWindow.setContent(marker.desc);
+          infoWindow.open(map, marker);
+          $.gmaps_infowindow = infowindow;
+        });
+        oms.addListener('spiderfy', function(markers) {
+          infoWindow.close();
+        });
+        
+        $.each(val, function(idx, user){
+          html = createUserWindow(user);
+          var latlng = new google.maps.LatLng(user['lat'], user['lng']);
+          var marker = new google.maps.Marker({
+              position: latlng,
+              map: map,
+              title: user['title']
+          });
+          marker.desc = html;
+          oms.addMarker(marker);
+        });
+        $.gmaps_oms.push(oms);
       }
-      html = html.replace(/:games:/, games);
-      
-      if(this['common_networks'].length > 0){
-        networks = "<strong>You're both on: </strong>" + this['common_networks'].join(", ");
-      } else {
-        networks = "<strong>Networks: </strong>" + this['networks'].join(", ");
-      }
-      html = html.replace(/:networks:/, networks);
-      
-      var latlng = new google.maps.LatLng(this['lat'], this['lng']);
-      var infowindow = new google.maps.InfoWindow({
-          content: html,
-          maxWidth: 300
-      });
-      var marker = new google.maps.Marker({
-          position: latlng,
-          map: map,
-          title: this['title']
-      });
-      google.maps.event.addListener(marker, 'click', function() {
-        infowindow.open(map,marker);
-      });
       
     });
   };
@@ -71,6 +128,6 @@ $(function(){
     );
   };
   
-  google.maps.event.addListener(map, 'center_changed', updateMap);
+  google.maps.event.addListener(map, 'dragend', updateMap);
   updateMap();
 });

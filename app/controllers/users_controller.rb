@@ -62,7 +62,8 @@ class UsersController < Devise::RegistrationsController
   def map
     if request.xhr?
       @users = User.nearby([params[:lat].to_f, params[:lng].to_f]).all
-      ret = @users.collect do |user|
+      ret = {}
+      @users.collect do |user|
         games = []
         common_games = []
         networks = []
@@ -77,13 +78,16 @@ class UsersController < Devise::RegistrationsController
           networks += user.networks
         end
         
-        { lat: user.coords.first, lng: user.coords.last, title: user.name,
+        user_json = { lat: user.coords.first, lng: user.coords.last, title: user.name,
           link: user_path(user), avatar: user.avatar, username: user.name, user_class: user.job.try(:name), level: user.level,
           common_games: common_games.collect{|g| {name: g.name, link: group_path(g) } },
           games: games.collect{|g| {name: g.name, link: group_path(g) } },
           common_networks: common_networks.collect{|n| n.humanize },
           networks: networks.collect{|n| n.humanize }
         }
+        key = "#{user.coords.first}:#{user.coords.last}"
+        ret[key] ||= []
+        ret[key] << user_json
       end
       Rails.logger.debug ret.to_json
       render :json => ret

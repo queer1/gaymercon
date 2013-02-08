@@ -104,6 +104,8 @@ class BadgesController < ApplicationController
   # process code entry
   def register
     code = params[:code] || params[:badge].try(:[], :code)
+    render action: 'konami' and return if code =~ /b a start/
+    
     @badge = Badge.find_by_code(code)
     redirect_to new_badge_path, alert: "Sorry, invalid code" and return unless @badge.present?
     redirect_to new_badge_path, alert: "Sorry, that badge is already taken" and return if @badge.user_id.present?

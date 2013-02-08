@@ -165,7 +165,7 @@ GEM
     pony (1.4)
       mail (> 2.0)
     pr_geohash (1.0.0)
-    rack (1.4.4)
+    rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
     rack-oauth2 (0.14.4)
