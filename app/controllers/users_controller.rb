@@ -26,10 +26,11 @@ class UsersController < Devise::RegistrationsController
         flash.now[:alert] = "You need to add some gamertags to your profile to use SuperScope! <a href='#{edit_user_registration_path(tab: 'nicknames')}'>Do that here</a>".html_safe
       end
       group_ids = current_user.game_groups.collect(&:id)
-      group_users = Membership.where(group_id: group_ids).collect(&:user_id) - [current_user.id]
+      
       network_names = current_user.nicknames.collect(&:network)
       network_users = Nickname.where(network: network_names).collect(&:user_id) - [current_user.id]
-      @users = User.where(id: group_users & network_users).page(params[:page])
+      
+      @users = User.where(id: network_users).joins("left join (SELECT memberships.user_id, count(*) as common_count FROM `memberships` WHERE `memberships`.`group_id` IN (#{group_ids.join(', ')}) GROUP BY user_id ORDER BY common_count) as m on users.id = m.user_id").order("common_count desc").page(params[:page])
     when "nearby"
       @section_name = "Nearby People"
       @coords = current_user.coords if current_user.present?
