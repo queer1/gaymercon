@@ -128,6 +128,22 @@ $(function(){
     );
   };
   
+  $("#address_form").on("submit", function(e){
+    e.preventDefault();
+    $("#address_form_alert").remove();
+    var address = $("#address").val();
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        map.setCenter(results[0].geometry.location);
+        updateMap();
+      } else {
+        $("#address_form").prepend("<div id=\"address_form_alert\" class='alert alert-error><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>Geocode was not successful for the following reason: " + status + "</div>");
+      }
+    });
+    return false;
+  });
+  
   google.maps.event.addListener(map, 'dragend', updateMap);
   updateMap();
 });

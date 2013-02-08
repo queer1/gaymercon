@@ -20,6 +20,11 @@ class UsersController < Devise::RegistrationsController
     
     case @tab
     when "superscope"
+      if current_user.game_groups.count == 0
+        flash.now[:alert] = "You need to add some games to your profile to use SuperScope! <a href='#{edit_user_registration_path(tab: 'games')}'>Do that here</a>".html_safe
+      elsif current_user.network_names.count == 0
+        flash.now[:alert] = "You need to add some gamertags to your profile to use SuperScope! <a href='#{edit_user_registration_path(tab: 'nicknames')}'>Do that here</a>".html_safe
+      end
       group_ids = current_user.game_groups.collect(&:id)
       group_users = Membership.where(group_id: group_ids).collect(&:user_id) - [current_user.id]
       network_names = current_user.nicknames.collect(&:network)

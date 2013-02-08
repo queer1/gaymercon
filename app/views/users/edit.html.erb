@@ -88,7 +88,7 @@
                 <span class="stat-points-remaining" data-remaining="<%= resource.free_skill_points %>"><%= resource.free_skill_points %></span>
               </h4>
               <h4 class="points-complete-message hidden">
-                Points assigned. Hit 'update!'
+                Points assigned. Hit 'save!'
               </h4>
             <% end %>
             <table class="table table-bordered stat-table">
@@ -179,7 +179,7 @@
             <%= link_to '+ More', '#', :id => "more-nicknames", :class => "btn" %>
           
             <br /><br />
-            <%= f.submit "Update", :class => "btn btn-large btn-primary" %>
+            <%= f.submit "Save", :class => "btn btn-large btn-primary" %>
           <% end %>
         </div>
       </div>
