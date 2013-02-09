@@ -109,7 +109,8 @@ class UsersController < Devise::RegistrationsController
   
   def edit
     user_games = resource.games || []
-    @games = (["Rock Band", "Smash Bros", "Tekken", "Street Fighter", "Starcraft", "Armored Core", "IIDX", "DDR"] + user_games).compact.uniq
+    
+    @games = (["Rock Band", "Smash Bros", "Tekken", "Street Fighter", "Starcraft", "Armored Core", "IIDX", "DDR", 'Magic The Gathering', 'Persona 4', 'Phoenix Wright', 'Mass Effect', 'Dungeons & Dragons', 'Dark Souls', 'Settlers of Catan', 'Madden', 'Halo', 'Team Fortress 2', 'Dragon Age'] + user_games).compact.uniq
     @nicknames = resource.nicknames + [Nickname.new(user_id: current_user.id)]
     super
   end
