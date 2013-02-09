@@ -178,6 +178,7 @@ class UsersController < Devise::RegistrationsController
     redirect_to root_path, error: "Sorry, couldn't find that user." and return unless @user.present?
     Notification::FollowNotification.clear(@user, current_user) if current_user.present?
     @header_img = @user.header.url(:large) if @user.header.present?
+    @header_img ||= 'main-header.png'
     @section_name = @user.name
     @common = @user.game_groups & current_user.game_groups if current_user.present? && @user != current_user
     
