@@ -57,14 +57,6 @@ $(document).ready(function(){
   $(".date").datepicker();
   $("body").on("click", ".close", function(e){ e.preventDefault(); $(this).parent().parent().hide(); return false;});
   
-  $("input[type='submit']").each(function(elem){
-    var submitButton = $("<button type='submit'>" + $(this).val() + "</button>");
-    submitButton.attr("style", $(this).attr('style'));
-    submitButton.attr("class", $(this).attr('class'));
-    submitButton.attr("id", $(this).attr('id'));
-    $(this).replaceWith(submitButton);
-  });
-  
   $("input[data-kind='typeahead']").each(function(elem){
     var input = $(this);
     var klass = input.data('klass');
