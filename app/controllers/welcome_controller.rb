@@ -130,7 +130,7 @@ class WelcomeController < ApplicationController
       results = User.where("url LIKE ?", query).limit(limit).all
       results = Hash[results.collect{|r| [r.name, r.id]}]
     when "group"
-      results = Group.where("kind != 'game' and url LIKE ?", query).limit(limit).all
+      results = Group.where("url LIKE ?", query).limit(limit).all
       results = Hash[results.collect{|r| [r.name, r.id]}]
     when "game"
       results = Group.where("kind = 'game' and url LIKE ?", query).limit(limit).all

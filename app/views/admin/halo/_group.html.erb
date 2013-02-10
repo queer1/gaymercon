@@ -1,0 +1,28 @@
+<% group ||= local_assigns[:group] || @group %>
+<% Rails.logger.debug group %>
+
+<h1><%= group.name %></h1>
+
+<% if local_assigns[:message] %>
+  <span class="danger mono"><%= message %></span>
+<% end %>
+
+<% header = group.header.present? ? group.header.url(:large) : asset_path(group.default_header) %>
+<%= image_tag header %>
+<dl class="dl-horizontal">
+  <dt>Members</dt>
+  <dd><%= group.users.count %></dd>
+  
+  <dt>Threads</dt>
+  <dd><%= group.posts.count %></dd>
+</dl>
+
+<table class='table table-striped'>
+  <tr><th>Thread</th><th>Replies</th></tr>
+  <% group.latest_posts.each do |post| %>
+    <tr>
+      <td><%= link_to post.title, group_post_path(group, post) %></td>
+      <td><%= post.comments.count %></td>
+    </tr>
+  <% end %>
+</table>

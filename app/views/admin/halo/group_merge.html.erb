@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="span12">
+    <h1>Merge groups</h1>
+  </div>
+</div>
+
+<% if @group %>
+  <div class="row" style="min-height: 400px;">
+    <div class="span6">
+      <%= render partial: "group", object: @group, locals: {message: "This group will be kept"} %>
+    </div>
+    <% if @merge_group.present? %>
+      <div class="span6">
+        <%= render partial: "group", object: @merge_group, locals: {message: "This group will be destroyed; all threads & memberships will be transferred to #{@group.name}"} %>
+      </div>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <% if @group.present? && @merge_group.present? %>
+        <h4>Users in common: <%= @common %></h4>
+        <%= form_tag do %>
+          <%= hidden_field_tag :group_id, @group.id %>
+          <%= hidden_field_tag :merge_group_id, @merge_group.id %>
+          <%= submit_tag "Merge", :class => "btn btn-large btn-primary" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <%= form_tag do %>
+    <div class="row" style="min-height: 400px;">
+      <div class="span6">
+        <%= label_tag "Group to Keep" %>
+        <%= text_field_tag :group, "", data: { relevance: "allgroups", kind: "typeahead", klass: "group" }, :autocomplete => "off" %>
+      </div>
+      <div class="span6">
+        <%= label_tag "Group to Merge" %>
+        <%= text_field_tag :merge_group, "", data: { relevance: "allgroups", kind: "typeahead", klass: "group" }, :autocomplete => "off" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span12">
+        <%= submit_tag "Find Groups", :class => "btn btn-large btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

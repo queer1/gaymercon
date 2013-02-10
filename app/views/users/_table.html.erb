@@ -30,6 +30,7 @@
               <th>You're both on:</th>
             <% end %>
             <% if cols['networks'] %><th>Plays on:</th><% end %>
+            <% if cols['distance'] && local_assigns[:origin] %><th>Distance:</th><% end %>
             <% if cols['xp'] %><th>XP</th><% end %>
             <% if cols['actions']%><th>Actions</th><% end %>
           </tr>
@@ -61,6 +62,15 @@
               
               <% if cols['networks'] %>
                 <td><%= user.network_names.collect(&:humanize).join(", ") %></td>
+              <% end %>
+              
+              <% if cols['distance'] && local_assigns[:origin] %>
+                <% dist = Geocalc.distance_between(origin, user.coords) %>
+                <% if dist <= 3 %>
+                  <td>Walking Distance</td>
+                <% else %>
+                  <td><%= strfnum(dist) %> miles</td>
+                <% end %>
               <% end %>
               
               <% if cols['xp'] %>

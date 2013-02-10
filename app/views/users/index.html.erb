@@ -16,23 +16,20 @@
 </ul>
 
 <%
-cols = nil 
-heading = nil
+locals = {cols: ['pic', 'name', 'xp', 'actions'], heading: "Cool People"}
 case @tab 
 when 'nearby'
-  cols = ['pic', 'name', 'location', 'xp', 'actions']
-  heading = "Players who are near your location"
+  locals[:cols] = ['pic', 'name', 'location', 'distance', 'actions']
+  locals[:heading] = "Players who are near your location"
+  locals[:origin] = current_user.coords
 when 'superscope'
-  cols = ['pic', 'name', 'common_games', 'common_networks']
-  heading = "Players who play the same games as you, and are on the same networks"
+  locals[:cols] = ['pic', 'name', 'common_games', 'common_networks']
+  locals[:heading] = "Players who play the same games as you, and are on the same networks"
 when 'network'
-  cols = ['pic', 'name', 'xp', 'actions']
-  cols << 'networks' if @network == "other"
-  heading = "Players who are on #{@network}"
-  heading = "Players who are on other networks" if @network == "other"
-else
-  cols = ['pic', 'name', 'xp', 'actions']
+  locals[:cols] << 'networks' if @network == "other"
+  locals[:heading] = "Players who are on #{@network}"
+  locals[:heading] = "Players who are on other networks" if @network == "other"
 end
 %>
 
-<%= render partial: "table", locals: {cols: cols, heading: heading} %>
+<%= render partial: "table", locals: locals %>

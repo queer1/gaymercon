@@ -143,6 +143,8 @@ class GroupsController < ApplicationController
   
   private
     def find_group
+      ga = GroupAlias.where(url: params[:id]).first
+      redirect_to group_path(ga.group), notice: "This group has been merged into #{ga.group.name}" and return false if ga.present?
       @group = Group.find_by_id(params[:id])
       @group ||= Group.find_by_url(params[:id])
       redirect_to groups_path, alert: "Sorry, couldn't find that group" unless @group.present?

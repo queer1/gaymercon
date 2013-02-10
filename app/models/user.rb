@@ -180,7 +180,9 @@ class User < ActiveRecord::Base
   
   def add_game(game)
     return unless game.present?
-    group = Group.where(game_key: game.to_url).first
+    ga = GroupAlias.where(url: game.to_url).first
+    group = ga.present? ? ga.group : nil
+    group ||= Group.where(game_key: game.to_url).first
     group ||= Group.create(name: game, game: game, game_key: game.to_url, kind: 'game')
     Membership.where(user_id: self.id, group_id: group.id).first_or_create
     group

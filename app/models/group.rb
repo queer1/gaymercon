@@ -12,6 +12,7 @@ class Group < ActiveRecord::Base
   has_many :posts, :class_name => "GroupPost"
   has_many :memberships
   has_many :users, :through => :memberships
+  has_many :aliases, :class_name => "GroupAlias"
   
   has_attached_file :header, :styles => { :large => "800x215#" }
   
@@ -22,6 +23,7 @@ class Group < ActiveRecord::Base
   validate :game_unique
   validates_presence_of :name
   validates_uniqueness_of :name
+  validate :unique_with_aliases
   
   acts_as_url :name, sync_url: true
   
@@ -45,6 +47,25 @@ class Group < ActiveRecord::Base
   
   def self.header_defaults
     HEADER_DEFAULTS.with_indifferent_access
+  end
+  
+  def self.lookup_by_name(name)
+    ga = GroupAlias.where(name: name).first
+    return ga.group if ga.present?
+    g = self.where(name: name).first
+    return g if g.present?
+  end
+  
+  def self.lookup_by_url(url)
+    ga = GroupAlias.where(url: url).first
+    return ga.group if ga.present?
+    g = self.where(url: url).first
+    return g if g.present?
+  end
+  
+  def unique_with_aliases
+    ga = GroupAlias.where(name: self.name).first
+    errors.add(name: "is already taken") if ga.present?
   end
   
   def default_header

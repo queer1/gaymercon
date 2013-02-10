@@ -61,6 +61,8 @@ class GroupCommentsController < ApplicationController
   
   private
     def find_group
+      ga = GroupAlias.where(url: params[:group_id]).first
+      redirect_to group_path(ga.group), notice: "This group has been merged into #{ga.group.name}" and return false if ga.present?
       @group = Group.find_by_id(params[:group_id])
       @group ||= Group.find_by_url(params[:group_id])
       render :action => "groups/private" and return unless @group.visible_to?(current_user)
