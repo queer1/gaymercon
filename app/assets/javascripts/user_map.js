@@ -25,12 +25,12 @@ $(function(){
     if(user['common_games'].length > 0){
       games = "<strong>Games you both play: </strong>";
       arr = []
-      $.each(user['common_games'], function(){ arr.push("<a href='" + user['link'] + "'>" + user['name'] + "</a>") })
+      $.each(user['common_games'], function(){ arr.push("<a href='" + this['link'] + "'>" + this['name'] + "</a>") })
       games += arr.join(", ")
     } else {
       games = "<strong>Games: </strong>";
       arr = []
-      $.each(user['games'], function(){ arr << "<a href='" + user['link'] + "'>" + user['name'] + "</a>" })
+      $.each(user['games'], function(){ arr << "<a href='" + this['link'] + "'>" + this['name'] + "</a>" })
       games += arr.join(", ")
     }
     html = html.replace(/:games:/, games);
