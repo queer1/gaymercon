@@ -12,7 +12,7 @@ $(function(){
     
     alert_container.find(".alert").remove();
     $.post(btn.attr('href'), function(data, status){
-      alert_container.prepend($("<span class='alert alert-info' >" + data['message'] + "</span>"))
+      alert_container.prepend($("<div class='alert alert-info' >" + data['message'] + "</div>"))
       if(btn.hasClass("btn-primary")){
         btn.removeClass("btn-primary");
         btn.html("NVM")
