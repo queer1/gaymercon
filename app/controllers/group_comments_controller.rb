@@ -50,12 +50,14 @@ class GroupCommentsController < ApplicationController
   def like
     redirect_to group_post_path(@group, @post), alert: "Can't reward your own post, silly!" and return if @comment.user == current_user
     @comment.like(current_user)
+    render json: {message: "You 1UP'd #{@post.user.try(:name) || 'this user'}'s post"} and return if request.xhr?
     redirect_to group_post_path(@group, @post), notice: "Granted 15xp!"
   end
   
   def unlike
     redirect_to group_post_path(@group, @post), alert: "Can't unreward your own post, silly!" and return if @comment.user == current_user
     @comment.unlike(current_user)
+    render json: {message: "Un-up'd #{@post.user.try(:name) || 'this user'}'s post"} and return if request.xhr?
     redirect_to group_post_path(@group, @post), notice: "Cancelled :("
   end
   

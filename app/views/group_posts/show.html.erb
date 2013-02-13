@@ -31,18 +31,18 @@
     </small>
     
     <% if current_user.present? %>
-    <div class="actions">
-      <% if current_user.likes?(@post) %>
-        <%= link_to "-XP", unlike_group_post_path(@group, @post), :method => "post", :class => "btn" %>
-      <% else %>
-        <%= link_to "+XP", like_group_post_path(@group, @post), :method => "post", :class => "btn btn-primary" %>
-      <% end %>
+      <div class="actions">
+        <% if !(@post.user == current_user) && current_user.likes?(@post) %>
+          <%= link_to "NVM", unlike_group_post_path(@group, @post), :method => "post", :class => "btn like", :title => "Oops, nevermind. No congrats for this post." %>
+        <% elsif !(@post.user == current_user) %>
+          <%= link_to "1UP", like_group_post_path(@group, @post), :method => "post", :class => "btn btn-primary like", :title => "Grants the user who made this post 15xp" %>
+        <% end %>
       
-      <% if @post.editor?(current_user) %>
-          <%= link_to "Edit", edit_group_post_path(@post.group_id, @post), :class => "btn" %>
-          <%= link_to "Delete", group_post_path(@post.group_id, @post), :method => "delete", :confirm => "Are you sure? This cannot be undone.", :class => "btn btn-danger" %>
-      <% end %>
-    </div>
+        <% if @post.editor?(current_user) %>
+            <%= link_to "Edit", edit_group_post_path(@post.group_id, @post), :class => "btn" %>
+            <%= link_to "Delete", group_post_path(@post.group_id, @post), :method => "delete", :confirm => "Are you sure? This cannot be undone.", :class => "btn btn-danger" %>
+        <% end %>
+      </div>
     <% end %>
   </div>
 </div>
@@ -71,10 +71,10 @@
           </td>
           <td class="span2">
             <% if current_user.present? %>
-              <% if current_user.likes?(comment) %>
-                <%= link_to "-XP", unlike_group_post_comment_path(comment.group, comment.post, comment), :method => "post", :class => "btn" %>
-              <% else %>
-                <%= link_to "+XP", like_group_post_comment_path(comment.group, comment.post, comment), :method => "post", :class => "btn btn-primary" %>
+              <% if !(comment.user == current_user) && current_user.likes?(comment) %>
+                <%= link_to "NVM", unlike_group_post_comment_path(comment.group, comment.post, comment), :method => "post", :class => "btn like", :title => "Oops, nevermind. No congrats for this post." %>
+              <% elsif !(comment.user == current_user) %>
+                <%= link_to "1UP", like_group_post_comment_path(comment.group, comment.post, comment), :method => "post", :class => "btn btn-primary like", :title => "Grants the user who made this post 15xp" %>
               <% end %>
             
             

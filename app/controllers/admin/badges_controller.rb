@@ -27,6 +27,9 @@ class Admin::BadgesController < AdminController
     end
     
     @badges ||= Badge.order(@order).page(params[:page])
+    sales = Hash[StripePayment.connection.select_rows("SELECT DATE(created_at) as day, COALESCE(SUM(amount) / 100, 0) as sales FROM stripe_payments WHERE paid = 1 AND badge_id IS NOT NULL AND created_at > '#{(Time.now.beginning_of_day - 10.days).strftime('%Y-%m-%d')}' GROUP BY DATE(created_at)")]
+    @chart = []
+    0.upto(10) {|n| s = sales[Date.today - n.days].present? ? sales[Date.today - n.days] : 0; @chart << s; }
   end
   
   def show

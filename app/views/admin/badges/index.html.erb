@@ -1,6 +1,6 @@
 <div class="row">
   <div class="span12">
-    <h1>Badges</h1>
+    <h1>Badges <small>Last 10 days sales $: &nbsp;&nbsp;<span id="sales-sparkline"><%= @chart.join(', ') %></span></small></h1>
 
     <div>Badges redeemed: <span class="danger"><%= Badge.redeemed_count %></span> / <%= Badge.count %></div>
 

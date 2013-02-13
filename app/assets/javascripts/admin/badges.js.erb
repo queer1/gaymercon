@@ -15,4 +15,6 @@ $(function(){
     $("#purchase").addClass("hide");
     $("#" + div).removeClass("hide");
   });
+  
+  $("#sales-sparkline").sparkline('html', {type: 'bar', barColor: '#00ade5', barWidth: 5, barSpacing: 3, chartRangeMin: 0, height: '1.5em'});
 });

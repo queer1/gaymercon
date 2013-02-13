@@ -18,6 +18,7 @@
 //= require jquery.query_string
 //= require require
 //= require jquery.bbcode
+//= require jquery.sparklines.min
 //= require bootstrap.min
 //= require main
 
