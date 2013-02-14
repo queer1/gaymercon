@@ -1,0 +1,5 @@
+<% comments = comment_table || local_assigns[:comments] || @comments %>
+<table class="table table-striped">
+  <tr><th>From</th><th>Message</th><th>On</th><th>&nbsp;</th></tr>
+  <%= render partial: 'group_posts/comment_row', collection: comments %>
+</table>

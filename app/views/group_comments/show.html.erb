@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="span12">
+    <ul class="breadcrumb">
+      <% if @post.group.kind == "official" %>
+        <li><%= link_to "Forums", forums_groups_path %> <span class="divider">/</span></li>
+      <% else %>
+        <li><%= link_to "Groups", groups_path %> <span class="divider">/</span></li>
+      <% end %>
+      <li><%= link_to @post.group.name, group_path(@post.group) %> <span class="divider">/</span></li>
+      <% post_title = (@post.user.try(:name) || "Deleted User").to_s + "'s Post" %>
+      <li><%= link_to post_title, group_post_path(@comment.group, @comment.post) %> <span class="divider">/</span></li>
+      <li class="active"><%= @comment.user.try(:name) || "Deleted User" %>'s Comment</li>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <%= render partial: 'group_posts/comment_table', object: [@comment] %>
+  </div>
+</div>

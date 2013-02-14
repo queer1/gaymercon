@@ -1,5 +1,7 @@
 class Like < ActiveRecord::Base
   
+  include Rails.application.routes.url_helpers
+  
   LIKEABLE = ['GroupPost', 'GroupComment']
   
   belongs_to :user
@@ -13,6 +15,8 @@ class Like < ActiveRecord::Base
   
   after_create :grant_xp
   after_create :notify
+  after_create :fb_publish
+  after_destroy :fb_unpublish
   
   def obj
     self.klass.constantize.where(id: self.like_id).first
@@ -37,6 +41,19 @@ class Like < ActiveRecord::Base
   def liked_user
     return nil unless obj.respond_to?(:user)
     return obj.user
+  end
+  
+  def fb_publish
+    return unless self.user.present? && self.user.fb_token.present?
+    og = OpenGraph.new(self.user.fb_token)
+    response = og.publish('like', self.obj)
+    self.update_attributes(og_id: response["id"]) if response.present?
+  end
+  
+  def fb_unpublish
+    return unless self.user.present? && self.user.fb_token.present? && self.og_id.present?
+    og = OpenGraph.new(self.user.fb_token)
+    og.unpublish(self.og_id)
   end
   
 end

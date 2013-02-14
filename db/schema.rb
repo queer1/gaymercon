@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130210201835) do
+ActiveRecord::Schema.define(:version => 20130213032625) do
 
   create_table "badges", :force => true do |t|
     t.string   "code"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20130210201835) do
     t.string   "last_name"
     t.string   "badge_name"
     t.integer  "purchaser_id"
+    t.string   "og_id"
   end
 
   add_index "badges", ["code"], :name => "index_badges_on_code", :unique => true
@@ -54,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20130210201835) do
     t.integer  "followed_user_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.string   "og_id"
   end
 
   create_table "forum_posts", :force => true do |t|
@@ -106,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20130210201835) do
     t.text     "content"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.string   "og_id"
   end
 
   create_table "group_posts", :force => true do |t|
@@ -122,6 +125,7 @@ ActiveRecord::Schema.define(:version => 20130210201835) do
     t.time     "end_time"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.string   "og_id"
   end
 
   create_table "groups", :force => true do |t|
@@ -141,6 +145,7 @@ ActiveRecord::Schema.define(:version => 20130210201835) do
     t.string   "game_key"
     t.string   "url"
     t.boolean  "private"
+    t.string   "og_id"
   end
 
   add_index "groups", ["url"], :name => "index_groups_on_url", :unique => true
@@ -160,6 +165,7 @@ ActiveRecord::Schema.define(:version => 20130210201835) do
     t.boolean  "revoked"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "og_id"
   end
 
   create_table "mail_batch_drafts", :force => true do |t|
@@ -192,6 +198,7 @@ ActiveRecord::Schema.define(:version => 20130210201835) do
     t.integer  "group_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "og_id"
   end
 
   create_table "messages", :force => true do |t|
@@ -220,6 +227,7 @@ ActiveRecord::Schema.define(:version => 20130210201835) do
     t.integer  "value"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "og_id"
   end
 
   create_table "panelists", :force => true do |t|
@@ -246,6 +254,7 @@ ActiveRecord::Schema.define(:version => 20130210201835) do
     t.datetime "updated_at",  :null => false
     t.string   "kind"
     t.boolean  "confirmed"
+    t.string   "og_id"
   end
 
   create_table "stripe_payments", :force => true do |t|
@@ -320,6 +329,8 @@ ActiveRecord::Schema.define(:version => 20130210201835) do
     t.string   "header_content_type"
     t.integer  "header_file_size"
     t.datetime "header_updated_at"
+    t.string   "og_id"
+    t.boolean  "og_broadcast",           :default => true
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

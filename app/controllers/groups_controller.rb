@@ -155,7 +155,10 @@ class GroupsController < ApplicationController
     end
     
     def section_name
-      @section_name = @group.name if @group.present?
+      if @group.present?
+        @og_object = @group
+        @section_name = @group.name
+      end
       @section_name ||= "Groups"
     end
 end

@@ -17,6 +17,7 @@ class Group < ActiveRecord::Base
   has_attached_file :header, :styles => { :large => "800x215#" }
   
   before_validation :set_game_key
+  after_create :publish_og
   before_destroy :cleanup
   
   validates_inclusion_of :kind, :in => KINDS, :message => "is not a valid group type."
@@ -47,6 +48,11 @@ class Group < ActiveRecord::Base
   
   def self.header_defaults
     HEADER_DEFAULTS.with_indifferent_access
+  end
+  
+  def get_header
+    return self.header.url(:large) if self.header.present?
+    return self.class.header_defaults[self.kind]
   end
   
   def self.lookup_by_name(name)
@@ -124,6 +130,10 @@ class Group < ActiveRecord::Base
   def game_group
     return nil unless self.kind != "game" && self.game_key.present?
     Group.where(kind: "game", game_key: self.game_key).first
+  end
+  
+  def og_publish
+    return unless self.user.present? && self.user.fb_token.present?
   end
   
   def cleanup

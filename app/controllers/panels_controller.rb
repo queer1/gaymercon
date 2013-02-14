@@ -12,6 +12,7 @@ class PanelsController < ApplicationController
   end
   
   def show
+    @og_object = @panel
   end
   
   def new

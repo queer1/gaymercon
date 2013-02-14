@@ -15,6 +15,7 @@ class GroupPostsController < ApplicationController
     if @post.nsfw? && (current_user.nil? || !current_user.nsfw)
       render :action => "nsfw" and return
     end
+    @og_object = @post
     @page = params[:page] || "latest"
     @page = @post.comments.page(1).total_pages if @page == "latest"
     @comments = @post.comments.page(@page)

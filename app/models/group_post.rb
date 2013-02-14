@@ -10,6 +10,9 @@ class GroupPost < ActiveRecord::Base
   after_create :grant_xp
   after_create :notify
   
+  after_create :fb_publish
+  after_destroy :fb_unpublish
+  
   before_destroy :cleanup
   
   validates_presence_of :group_id
@@ -99,6 +102,19 @@ class GroupPost < ActiveRecord::Base
       notif.update_attributes!(reason: "follow")
       user_ids << user.id
     end
+  end
+  
+  def fb_publish
+    return unless self.user.present? && self.user.fb_token.present?
+    og = OpenGraph.new(self.user.fb_token)
+    response = og.publish('publish', self)
+    self.update_attributes(og_id: response["id"]) if response.present?
+  end
+  
+  def fb_unpublish
+    return unless self.user.present? && self.user.fb_token.present? && self.og_id.present?
+    og = OpenGraph.new(self.user.fb_token)
+    og.unpublish(self.og_id)
   end
   
   def cleanup

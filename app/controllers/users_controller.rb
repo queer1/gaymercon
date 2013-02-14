@@ -180,6 +180,8 @@ class UsersController < Devise::RegistrationsController
     @header_img = @user.header.url(:large) if @user.header.present?
     @header_img ||= 'main-header.png'
     @section_name = @user.name
+    @og_object = @user
+    
     @common = @user.game_groups & current_user.game_groups if current_user.present? && @user != current_user
     
     posts = @user.posts.order("updated_at desc").limit(10)

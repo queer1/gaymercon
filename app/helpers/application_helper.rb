@@ -31,6 +31,67 @@ module ApplicationHelper
     return asset_path("main-header.png")
   end
   
+  def open_graph_tags(og_obj)
+    og_tags = <<-OG
+      <meta property="fb:admins" content="13703260" />
+      <meta property="fb:admins" content="32403342" />
+      <meta property="fb:admins" content="1324818416" />
+      <meta property="fb:app_id" content="316905641729064" />
+    OG
+    
+    if og_obj.is_a?(Group)
+      og_tags += <<-OG
+        <meta property="og:type" content="gaymerx:group" />
+        <meta property="og:image" content="http://www.gaymerconnect.com#{ og_obj.get_header }" />
+        <meta property="og:title" content="#{ og_obj.name }" />
+        <meta property="og:url" content="#{ group_url(og_obj) }" />
+        <meta property="og:description" content="#{ og_obj.description.present? ? og_obj.description : "#{og_obj.name} is a group on GaymerConnect, the cool place to find fellow Gaymers" }" />
+      OG
+    elsif og_obj.is_a?(GroupPost)
+      og_tags += <<-OG
+        <meta property="og:type" content="gaymerx:post" />
+        <meta property="og:image" content="http://www.gaymerconnect.com#{ og_obj.user.try(:avatar) }" />
+        <meta property="og:title" content="#{ og_obj.title }" />
+        <meta property="og:url" content="#{ group_post_url(og_obj.group, og_obj) }" />
+        <meta property="og:description" content="#{ og_obj.content }" />
+      OG
+    elsif og_obj.is_a?(GroupComment)
+      og_tags += <<-OG
+        <meta property="og:type" content="gaymerx:comment" />
+        <meta property="og:image" content="http://www.gaymerconnect.com#{ og_obj.user.try(:avatar) }" />
+        <meta property="og:title" content=" #{og_obj.user.try(:name)}'s comment" />
+        <meta property="og:url" content="#{ group_post_comment_url(og_obj.group, og_obj.post, og_obj) }" />
+        <meta property="og:description" content="#{ og_obj.content }" />
+      OG
+    elsif og_obj.is_a?(User)
+      og_tags += <<-OG
+        <meta property="og:type" content="gaymerx:profile" />
+        <meta property="og:image" content="http://www.gaymerconnect.com#{ og_obj.avatar }" />
+        <meta property="og:title" content="#{ og_obj.name }" />
+        <meta property="og:url" content="#{ user_url(og_obj) }" />
+        <meta property="og:description" content="#{ og_obj.about }" />
+      OG
+    elsif og_obj.is_a?(Panel)
+      og_tags += <<-OG
+        <meta property="og:type" content="gaymerx:panel" />
+        <meta property="og:image" content="http://www.gaymerconnect.com#{ og_obj.user.try(:avatar) }" />
+        <meta property="og:title" content="#{ og_obj.title }" />
+        <meta property="og:url" content="#{ panel_url(og_obj) }" />
+        <meta property="og:description" content="#{ og_obj.description }" />
+      OG
+    else
+      og_tags += <<-OG
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="http://www.gaymerconnect.com#{ asset_path('gaymercon_300_256.png') }" />
+        <meta property="og:title" content="GaymerConnect" />
+        <meta property="og:url" content="http://www.gaymerconnect.com" />
+        <meta property="og:description" content="GaymerConnect lets you connect with thousands of gaymers online." />
+      OG
+    end
+    
+    return og_tags.html_safe
+  end
+  
   def section_name
     return @section_name if @section_name.present?
     return "GaymerConnect"

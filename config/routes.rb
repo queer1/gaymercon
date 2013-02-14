@@ -11,7 +11,6 @@ Gc2::Application.routes.draw do
       post :like, :on => :member
       post :unlike, :on => :member
     end
-    resources :comments, :controller => "gorup_comments"
     get :forums, :on => :collection
     get :games, :on => :collection
     get :events, :on => :collection

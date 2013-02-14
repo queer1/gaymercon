@@ -12,6 +12,9 @@ class GroupComment < ActiveRecord::Base
   after_create :notify
   after_create :reindex_thread
   
+  after_create :fb_publish
+  after_destroy :fb_unpublish
+  
   before_destroy :delete_notifications
   
   def post
@@ -79,5 +82,18 @@ class GroupComment < ActiveRecord::Base
   
   def delete_notifications
     Notification.where(thread_id: self.group_post.id).destroy
+  end
+  
+  def fb_publish
+    return unless self.user.present? && self.user.fb_token.present?
+    og = OpenGraph.new(self.user.fb_token)
+    response = og.publish('publish', self)
+    self.update_attributes(og_id: response["id"]) if response.present?
+  end
+  
+  def fb_unpublish
+    return unless self.user.present? && self.user.fb_token.present? && self.og_id.present?
+    og = OpenGraph.new(self.user.fb_token)
+    og.unpublish(self.og_id)
   end
 end

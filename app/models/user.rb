@@ -305,6 +305,14 @@ class User < ActiveRecord::Base
                            job_id: 1,
                            xp: 1000
                            )
+      # pull in facebook friends
+      fb_user = FbGraph::User.me(user.fb_token)
+      friends = fb_user.friends.collect(&:identifier)
+      User.where(uid: friends).each do |friend|
+        Follow.create(user: user, followed_user: friend)
+        Follow.create(user: friend, followed_user: user)
+      end
+      
       # pull games from facebook
       user.just_created = true
       fb_user = FbGraph::User.me(user.fb_token)

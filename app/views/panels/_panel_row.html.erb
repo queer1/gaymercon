@@ -5,8 +5,8 @@
   <td style="text-align: right;">
     <% if current_user.present? %>
       <% vote = panel.vote(current_user) %>
-      <% upvoted = (vote.present? && vote.value > 0) ? "upvote_green.png" : "upvote_gray.png" %>
-      <% downvoted = (vote.present? && vote.value < 0) ? "downvote_red.png" : "downvote_gray.png" %>
+      <% upvoted = (vote.present? && vote.value.to_f > 0) ? "upvote_green.png" : "upvote_gray.png" %>
+      <% downvoted = (vote.present? && vote.value.to_f < 0) ? "downvote_red.png" : "downvote_gray.png" %>
       <div class="voting">
         <%= link_to image_tag(upvoted, alt: "Upvote"), panel_upvote_path(panel), :title => "Upvote", :class => "upvote" %>
         <%= link_to image_tag(downvoted, alt: "Downvote"), panel_downvote_path(panel), :title => "Downvote", :class => "downvote" %>

@@ -9,6 +9,10 @@ class GroupCommentsController < ApplicationController
     redirect_to group_post_path(@group, @post.id) and return
   end
   
+  def show
+    @og_object = @comment
+  end
+  
   def new
     redirect_to Group.find_by_id(params[:group_id]) and return if params[:group_id].present?
     redirect_to group_post_path(@comment.group_post_id)
@@ -69,6 +73,7 @@ class GroupCommentsController < ApplicationController
       @group ||= Group.find_by_url(params[:group_id])
       render :action => "groups/private" and return unless @group.visible_to?(current_user)
       redirect_to groups_path, alert: "Sorry, couldn't find that group" unless @group.present?
+      @section_name = @group.name
     end
     
     def find_post

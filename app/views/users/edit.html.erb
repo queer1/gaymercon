@@ -195,25 +195,35 @@
               <%= f.email_field :email %>
               
               <div>
-                <label for="user_nsfw">
+                <label for="user_nsfw" class="checkbox">
                   <%= f.check_box :nsfw %>
                   Show me adult content (I am over 18)
                 </label>
               </div>
   
               <div>
-                <label for="user_disable_emails">
+                <label for="user_disable_emails" class="checkbox">
                   <%= f.check_box :disable_emails %>
                   Never send me any emails
                 </label>
               </div>
-  
+
               <div>
-                <label for="user_disable_pm_emails">
+                <label for="user_disable_pm_emails" class="checkbox">
                   <%= f.check_box :disable_pm_emails %>
                   Do not email me about new private messages
                 </label>
               </div>
+              
+              <% if resource.fb_token.present? %>
+                <div>
+                  <label for="user_og_broadcast" class="checkbox">
+                    <%= f.check_box :og_broadcast %>
+                    Post actions I take on GaymerConnect to Facebook Ticker
+                  </label>
+                </div>
+              <% end %>
+              
               <br />
               <%= f.label :password, "New Password" %>
               <%= f.password_field :password, :autocomplete => "off" %>
