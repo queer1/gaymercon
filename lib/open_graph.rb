@@ -10,11 +10,11 @@ class OpenGraph
   end
   
   def publish(action, obj)
-    Rails.logger.debug "OpenGraph: Publishing #{action} #{obj} #{@token}"
+    Rails.logger.info "OpenGraph: Publishing #{action} #{obj} #{@token}"
     kind = self.class.determine_kind(obj)
     opts = {access_token: @token, kind => self.class.determine_url(obj)}
     response = self.class.post("/me/gaymerx:#{kind.to_s.underscore}", opts)
-    Rails.logger.debug response.parsed_response
+    Rails.logger.info response.parsed_response
     return response.parsed_response
   rescue Exception => e
     Rails.logger.error(e)
@@ -23,10 +23,10 @@ class OpenGraph
   end
   
   def update(og_id, opts = {})
-    Rails.logger.debug "OpenGraph: Updating #{og_id} #{opts.inspect}"
+    Rails.logger.info "OpenGraph: Updating #{og_id} #{opts.inspect}"
     opts = {access_token: @token}.merge(opts)
     response = self.class.post("/#{og_id}", opts)
-    Rails.logger.debug response.parsed_response
+    Rails.logger.info response.parsed_response
     return !!response.parsed_response
   rescue Exception => e
     Rails.logger.error(e)
@@ -35,10 +35,10 @@ class OpenGraph
   end
   
   def unpublish(og_id)
-    Rails.logger.debug "OpenGraph: Deleting #{og_id}"
+    Rails.logger.info "OpenGraph: Deleting #{og_id}"
     opts = {access_token: @token}
     response = self.class.post("/#{og_id}", opts)
-    Rails.logger.debug response.parsed_response
+    Rails.logger.info response.parsed_response
     return !!response.parsed_response
   rescue Exception => e
     Rails.logger.error(e)
