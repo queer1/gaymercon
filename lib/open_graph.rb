@@ -2,9 +2,6 @@ require 'timeout'
 class OpenGraph
   
   include Rails.application.routes.url_helpers
-  include HTTParty
-  base_uri 'https://graph.facebook.com'
-  debug_output $stderr
   
   def initialize(new_token)
     @fbgraph = FbGraph::User.me(new_token)
@@ -12,6 +9,7 @@ class OpenGraph
   end
   
   def publish(action, obj)
+    return {}
     Rails.logger.info "[OpenGraph] Publishing #{action} #{obj} #{@token}"
     kind = self.class.determine_kind(obj)
     opts = {access_token: @token, kind => self.class.determine_url(obj)}
@@ -28,6 +26,7 @@ class OpenGraph
   end
   
   def update(og_id, opts = {})
+    return {}
     Rails.logger.info "OpenGraph: Updating #{og_id} #{opts.inspect}"
     kind = self.class.determine_kind(obj)
     opts = {access_token: @token, kind => self.class.determine_url(obj)}
@@ -44,6 +43,7 @@ class OpenGraph
   end
   
   def unpublish(og_id)
+    return {}
     Rails.logger.info "OpenGraph: Deleting #{og_id}"
     kind = self.class.determine_kind(obj)
     opts = {access_token: @token, kind => self.class.determine_url(obj)}
@@ -77,6 +77,7 @@ class OpenGraph
   end
   
   def self.determine_url(obj)
+    return obj.og_url if obj.respond_to?(:og_url)
     host = "http://www.gaymerconnect.com"
     url = nil
     case obj.class
