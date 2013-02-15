@@ -45,9 +45,10 @@ class Like < ActiveRecord::Base
   
   def fb_publish
     return unless self.user.present? && self.user.fb_token.present?
-    og = OpenGraph.new(self.user.fb_token)
-    response = og.publish('like', self.obj)
-    self.update_attributes(og_id: response["id"]) if response.present?
+    app = FbGraph::Application.new(FACEBOOK['key'])
+    me = FbGraph::User.me(self.user.fb_token)
+    action = me.og_action!(app.og_action(:like), custom_object: obj.try(:og_url) )
+    Rails.logge.info(action)
   end
   
   def fb_unpublish

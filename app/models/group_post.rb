@@ -104,6 +104,11 @@ class GroupPost < ActiveRecord::Base
     end
   end
   
+  # this sucks only slightly less than trying to include route helpers
+  def og_url
+    "http://gaymerconnect.com/groups/#{group.url}/posts/#{self.id}"
+  end
+  
   def fb_publish
     return unless self.user.present? && self.user.fb_token.present?
     og = OpenGraph.new(self.user.fb_token)

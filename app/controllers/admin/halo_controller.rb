@@ -92,19 +92,23 @@ class Admin::HaloController < AdminController
     if params[:group_id] && params[:merge_group_id]
       @group = Group.where(id: params[:group_id]).first
       @merge_group = Group.where(id: params[:merge_group_id]).first
-      @common = (@group.users.select('users.id').all.collect(&:id) & @merge_group.users.select('users.id').all.collect(&:id)).count
-      if params[:commit] == "Merge"
-        @merge_group.users.each {|u| @group.users << u }
-        @merge_group.posts.each {|p| Rails.logger.debug "merging thread: #{p}"; p.update_attributes(group_id: @group.id) }
-        group_alias = GroupAlias.create(group_id: @group.id, name: @merge_group.name )
-        if group_alias.persisted?
-          flash.now[:notice] = "Groups merged"
-          # must reload to refresh which threads this group has... I think
-          @merge_group.reload.destroy
-          @merge_group = nil
-        else
-          flash.now[:errors] = "Problem creating GroupAlias: #{group_alias.all_errors}"
+      if @group.present? && @merge_group.present?
+        @common = (@group.users.select('users.id').all.collect(&:id) & @merge_group.users.select('users.id').all.collect(&:id)).count
+        if params[:commit] == "Merge"
+          @merge_group.users.each {|u| @group.users << u }
+          @merge_group.posts.each {|p| Rails.logger.debug "merging thread: #{p}"; p.update_attributes(group_id: @group.id) }
+          group_alias = GroupAlias.create(group_id: @group.id, name: @merge_group.name )
+          if group_alias.persisted?
+            flash.now[:notice] = "Groups merged"
+            # must reload to refresh which threads this group has... I think
+            @merge_group.reload.destroy
+            @merge_group = nil
+          else
+            flash.now[:errors] = "Problem creating GroupAlias: #{group_alias.all_errors}"
+          end
         end
+      else
+        flash.now[:alert] = "Sorry, one of the groups didn't load: #{@group.try(:name)} or #{@merge_group.try(:name)}"
       end
     end
   end

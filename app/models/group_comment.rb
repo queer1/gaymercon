@@ -30,11 +30,11 @@ class GroupComment < ActiveRecord::Base
   end
   
   def group
-    self.group_post.group
+    self.group_post.try(:group)
   end
   
   def group_id
-    self.group_post.group_id
+    self.group_post.try(:group_id)
   end
   
   def editor?(other_user)
@@ -82,6 +82,11 @@ class GroupComment < ActiveRecord::Base
   
   def delete_notifications
     Notification.where(thread_id: self.group_post.id).destroy
+  end
+  
+  # this sucks only slightly less than trying to include route helpers
+  def og_url
+    "http://gaymerconnect.com/groups/#{self.group.url}/posts/#{self.post.id}/comments/#{self.id}"
   end
   
   def fb_publish

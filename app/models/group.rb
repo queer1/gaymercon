@@ -17,7 +17,7 @@ class Group < ActiveRecord::Base
   has_attached_file :header, :styles => { :large => "800x215#" }
   
   before_validation :set_game_key
-  after_create :publish_og
+  after_create :fb_publish
   before_destroy :cleanup
   
   validates_inclusion_of :kind, :in => KINDS, :message => "is not a valid group type."
@@ -132,13 +132,24 @@ class Group < ActiveRecord::Base
     Group.where(kind: "game", game_key: self.game_key).first
   end
   
-  def og_publish
-    return unless self.user.present? && self.user.fb_token.present?
+  # this sucks only slightly less than trying to include route helpers
+  def og_url
+    "http://gaymerconnect.com/groups/#{url}"
+  end
+  
+  def fb_publish
+    return unless self.moderator.present? && self.moderator.fb_token.present?
+    og = OpenGraph.new(self.moderator.fb_token)
+    fbid = og.publish('group', self)
+    self.update_attributes(og_id: fbid) if fbid.present?
   end
   
   def cleanup
     self.posts.destroy_all
     self.memberships.destroy_all
     Notification::GroupNotification.where(group_id: self.id).destroy
+    return unless self.user.present? && self.user.fb_token.present? && self.og_id.present?
+    og = OpenGraph.new(self.user.fb_token)
+    og.unpublish(self.og_id)
   end
 end

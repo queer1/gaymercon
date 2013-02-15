@@ -1,3 +1,4 @@
+require 'timeout'
 class OpenGraph
   
   include Rails.application.routes.url_helpers
@@ -6,28 +7,36 @@ class OpenGraph
   debug_output $stderr
   
   def initialize(new_token)
+    @fbgraph = FbGraph::User.me(new_token)
     @token = new_token
   end
   
   def publish(action, obj)
-    Rails.logger.info "OpenGraph: Publishing #{action} #{obj} #{@token}"
+    Rails.logger.info "[OpenGraph] Publishing #{action} #{obj} #{@token}"
     kind = self.class.determine_kind(obj)
     opts = {access_token: @token, kind => self.class.determine_url(obj)}
-    response = self.class.post("/me/gaymerx:#{kind.to_s.underscore}", opts)
-    Rails.logger.info response.parsed_response
-    return response.parsed_response
+    Timeout.timeout(2) do |t|
+      me = FbGraph::User.me(@token)
+      action = me.og_action!("gaymerx:#{kind}", :custom_object => self.class.determine_url(obj))
+      Rails.logger.info "[OpenGraph] " + action.inspect
+      return action
+    end
   rescue Exception => e
-    Rails.logger.error(e)
+    Rails.logger.error("[OpenGraph] " + e.inspect)
     Coalmine.notify(e) if Rails.env == "production"
     return nil
   end
   
   def update(og_id, opts = {})
     Rails.logger.info "OpenGraph: Updating #{og_id} #{opts.inspect}"
-    opts = {access_token: @token}.merge(opts)
-    response = self.class.post("/#{og_id}", opts)
-    Rails.logger.info response.parsed_response
-    return !!response.parsed_response
+    kind = self.class.determine_kind(obj)
+    opts = {access_token: @token, kind => self.class.determine_url(obj)}
+    Timeout.timeout(2) do |t|
+      me = FbGraph::User.me(@token)
+      action = me.og_action!("gaymerx:#{kind}", :custom_object => self.class.determine_url(obj))
+      Rails.logger.info "[OpenGraph] " + action.inspect
+      return action
+    end
   rescue Exception => e
     Rails.logger.error(e)
     Coalmine.notify(e) if Rails.env == "production"
@@ -36,10 +45,14 @@ class OpenGraph
   
   def unpublish(og_id)
     Rails.logger.info "OpenGraph: Deleting #{og_id}"
-    opts = {access_token: @token}
-    response = self.class.post("/#{og_id}", opts)
-    Rails.logger.info response.parsed_response
-    return !!response.parsed_response
+    kind = self.class.determine_kind(obj)
+    opts = {access_token: @token, kind => self.class.determine_url(obj)}
+    Timeout.timeout(2) do |t|
+      action = FbGraph::OpenGraph::Action.new(og_id, access_token: @token)
+      action.destroy
+      Rails.logger.info "[OpenGraph] " + action.inspect
+      return action
+    end
   rescue Exception => e
     Rails.logger.error(e)
     Coalmine.notify(e) if Rails.env == "production"

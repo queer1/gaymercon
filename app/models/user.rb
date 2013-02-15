@@ -117,6 +117,11 @@ class User < ActiveRecord::Base
     url
   end
   
+  # this sucks only slightly less than trying to include route helpers
+  def og_url
+    "http://gaymerconnect.com/users/#{url}"
+  end
+  
   def network_names
     self.nicknames.collect(&:network)
   end
