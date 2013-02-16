@@ -9,7 +9,6 @@ class OpenGraph
   end
   
   def publish(action, obj)
-    return {}
     Rails.logger.info "[OpenGraph] Publishing #{action} #{obj} #{@token}"
     kind = self.class.determine_kind(obj)
     opts = {access_token: @token, kind => self.class.determine_url(obj)}
@@ -26,7 +25,6 @@ class OpenGraph
   end
   
   def update(og_id, opts = {})
-    return {}
     Rails.logger.info "OpenGraph: Updating #{og_id} #{opts.inspect}"
     kind = self.class.determine_kind(obj)
     opts = {access_token: @token, kind => self.class.determine_url(obj)}
@@ -43,7 +41,6 @@ class OpenGraph
   end
   
   def unpublish(og_id)
-    return {}
     Rails.logger.info "OpenGraph: Deleting #{og_id}"
     kind = self.class.determine_kind(obj)
     opts = {access_token: @token, kind => self.class.determine_url(obj)}
@@ -72,7 +69,7 @@ class OpenGraph
     when Panel
       return :panel
     else
-      return ''
+      return 'unknown'
     end
   end
   
