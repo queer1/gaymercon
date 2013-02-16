@@ -10,11 +10,9 @@ class OpenGraph
   
   def publish(action, obj)
     Rails.logger.info "[OpenGraph] Publishing #{action} #{obj} #{@token}"
-    kind = self.class.determine_kind(obj)
-    opts = {access_token: @token, kind => self.class.determine_url(obj)}
     Timeout.timeout(2) do |t|
       me = FbGraph::User.me(@token)
-      action = me.og_action!("gaymerx:#{kind}", :custom_object => self.class.determine_url(obj))
+      action = me.og_action!("gaymerx:#{action}", :custom_object => self.class.determine_url(obj))
       Rails.logger.info "[OpenGraph] " + action.inspect
       return action
     end
@@ -24,13 +22,11 @@ class OpenGraph
     return nil
   end
   
-  def update(og_id, opts = {})
+  def update(og_id, obj)
     Rails.logger.info "OpenGraph: Updating #{og_id} #{opts.inspect}"
-    kind = self.class.determine_kind(obj)
-    opts = {access_token: @token, kind => self.class.determine_url(obj)}
     Timeout.timeout(2) do |t|
       me = FbGraph::User.me(@token)
-      action = me.og_action!("gaymerx:#{kind}", :custom_object => self.class.determine_url(obj))
+      action = me.og_action!("gaymerx:#{action}", :custom_object => self.class.determine_url(obj))
       Rails.logger.info "[OpenGraph] " + action.inspect
       return action
     end
@@ -42,8 +38,6 @@ class OpenGraph
   
   def unpublish(og_id)
     Rails.logger.info "OpenGraph: Deleting #{og_id}"
-    kind = self.class.determine_kind(obj)
-    opts = {access_token: @token, kind => self.class.determine_url(obj)}
     Timeout.timeout(2) do |t|
       action = FbGraph::OpenGraph::Action.new(og_id, access_token: @token)
       action.destroy

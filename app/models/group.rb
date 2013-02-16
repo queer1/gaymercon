@@ -140,7 +140,7 @@ class Group < ActiveRecord::Base
   def fb_publish
     return unless self.moderator.present? && self.moderator.fb_token.present?
     og = OpenGraph.new(self.moderator.fb_token)
-    fbid = og.publish('group', self)
+    fbid = og.publish('start', self)
     self.update_attributes(og_id: fbid) if fbid.present?
   end
   
