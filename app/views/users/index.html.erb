@@ -21,7 +21,7 @@ case @tab
 when 'nearby'
   locals[:cols] = ['pic', 'name', 'location', 'distance', 'actions']
   locals[:heading] = "Players who are near your location"
-  locals[:origin] = current_user.coords
+  locals[:origin] = @coords
 when 'superscope'
   locals[:cols] = ['pic', 'name', 'common_games', 'common_networks']
   locals[:heading] = "Players who play the same games as you, and are on the same networks"
