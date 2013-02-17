@@ -1,11 +1,11 @@
 development:
-  key: '12345'
+  key: '123-45'
   donators_list: '12345'
 
 test:
-  key: '12345'
+  key: '123-45'
   donators_list: '12345'
   
 production:
-  key: '12345'
+  key: '123-45'
   donators_list: '12345'

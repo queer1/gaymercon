@@ -17,9 +17,10 @@ Mac OS X
 5. Make sure you have MySQL and MongoDB installed. These can both be installed via Homebrew.
 6. Go into the /config directory and copy each of the .yml.dist files to a regular .yml file. Make sure database.yml points to your MySQL installation, and that mongoid.yml points to your MongoDB installation. 
 7. (optional) If you want to enable Facebook authentication, geolocation via Yahoo! geocoding APIs, you will need to create your own apps for those. The URLs to do so are in the config files.
-8. Run `rake db:schema:load` to bootstrap your MySQL database.
-9. Run `rake db:mongoid:create_indexes` to create the necessary mongo collections & indexes.
-10. Run `rails s` to start up a rails server. If it starts up correctly, go to it in your favorite web browser. If it works, you're set!
+8. Run `rake db:create` to create your MySQL database.
+9. Run `rake db:schema:load` to bootstrap your MySQL database.
+10. Run `rake db:mongoid:create_indexes` to create the necessary mongo collections & indexes.
+11. Run `rails s` to start up a rails server. If it starts up correctly, go to it in your favorite web browser. If it works, you're set!
 
 That should be it. If you have any issues, feel free to ping me on [our facebook group](https://www.facebook.com/groups/gaymerconnect/) or on [my Twitter](http://twitter.com/agius), or email me at <admin@gaymercon.org>.
 
