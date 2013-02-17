@@ -59,9 +59,36 @@ gem 'capistrano'
 
 # To use debugger
 group :development do
-  # gem "thin"
   gem "lorem"
   gem "debugger"
   gem "thin"
+  gem "guard"
 end
 
+gem "rspec-rails", "~> 2.0", :groups => [:development, :test]
+
+group :test do
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+
+  gem 'shoulda-matchers'
+
+  gem 'capybara'        # Browser testing
+
+  gem 'guard-rspec'     # Watches rspec test
+  gem 'guard-cucumber'  # Watches cucumber features
+  gem 'guard-spork'     # Manages Spork for guard
+
+  gem 'rb-fsevent'      # Watches the file system for changes for Guard
+
+  gem 'spork-rails'     # Enables spork for RSpec and Cucumber
+
+  gem 'growl'           # System notifications for guard
+
+  gem 'factory_girl_rails'  # Use factories instead of fixtures
+  gem 'factory_girl_rspec', :git => "git@github.com:chendrix/factory_girl_rspec"
+
+  gem 'faker'           # Generate fake data for tests
+
+  gem 'capybara-screenshot'
+end

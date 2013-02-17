@@ -22,3 +22,6 @@
 solr/data
 solr/pids
 log/*
+
+# Ignore project specific test configurations
+.rspec

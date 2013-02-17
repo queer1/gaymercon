@@ -24,6 +24,14 @@ Mac OS X
 12. Run `bundle exec rake sunspot:solr:start` to start up the Solr server.
 13. Run `rails s` to start up a rails server. If it starts up correctly, go to it in your favorite web browser. If it works, you're set!
 
+Testing
+-------
+Rspec is used for unit testing and cucumber is used for feature/acceptance testing (no Test::Unit)
+
+1. Run `rake db:test:prepare` to create the test database and load the fixtures.
+2. If you would like to use guard with growl (as it's set up), purchase [Growl](http://growl.info/) or install the [Growl Fork](http://www.macupdate.com/app/mac/41038/growl-fork) (make sure to install growlnotify from the fork as well)
+3. Run `bundle exec guard` to start up your guard server, which will watch for changes and re-run your tests accordingly.
+
 That should be it. If you have any issues, feel free to ping me on [our facebook group](https://www.facebook.com/groups/gaymerconnect/) or on [my Twitter](http://twitter.com/agius), or email me at <admin@gaymercon.org>.
 
 ![GaymerCon](http://gaymercon.org/img/gaymercon-feature-bg.png)
