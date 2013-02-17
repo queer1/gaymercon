@@ -84,7 +84,9 @@
   
         <div class="span8">
             <div class="input-prepend user-name">
-              <span class="add-on"><%= link_to image_tag(@job.icon_path, width: 45, height: 45, id: "mini-job-image"), "#job-select", "data-toggle" => "modal" %></span>
+              <% unless @job.nil? %>
+                <span class="add-on"><%= link_to image_tag(@job.icon_path, width: 45, height: 45, id: "mini-job-image"), "#job-select", "data-toggle" => "modal" %></span>
+              <% end %>
               <%= f.text_field :name, :placeholder => "GaymerCon Handle", :class => "name-with-job", :'data-path' => find_by_name_path %>
             </div>
       
